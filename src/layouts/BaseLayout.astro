@@ -85,11 +85,21 @@ const graph: JsonLdNode[] = [sitewideSchema(), ...(breadcrumbs ? [breadcrumbSche
     <link rel="preload" as="font" type="font/woff2" href={syneBold} crossorigin />
     <link rel="preload" as="font" type="font/woff2" href={geistRegular} crossorigin />
 
-    <!-- Hidden start states exist only when JS runs and motion is allowed. "rm" marks reduced motion. -->
+    <!--
+      Hidden start states exist only when JS runs and motion is allowed. "rm" marks reduced motion.
+      With motion on, a reload starts at the top: the scroll-driven scenes are built from the top of
+      the page, so a restored mid-page position would open the hero halfway through its transition.
+      Links to an #anchor still land on their target.
+    -->
     <script is:inline>
-      document.documentElement.classList.add(
-        window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'rm' : 'js',
-      );
+      (function () {
+        var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        document.documentElement.classList.add(reduced ? 'rm' : 'js');
+        if (!reduced && 'scrollRestoration' in history) {
+          history.scrollRestoration = 'manual';
+          if (!location.hash) window.scrollTo(0, 0);
+        }
+      })();
     </script>
 
     <JsonLd data={graph} />
