@@ -10,3 +10,4 @@ dist/
 
 # Private working notes (old-site audit, spam URLs) — never publish
 research/
+.claude/
