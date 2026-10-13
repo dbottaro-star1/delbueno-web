@@ -6,6 +6,7 @@ import { satteri } from '@astrojs/markdown-satteri';
 import { readFileSync, readdirSync } from 'node:fs';
 import { contentGuard, contentGuardBuild } from './plugins/satteri-content-guard.mjs';
 import { baseLinks } from './plugins/satteri-base-links.mjs';
+import { legacyRedirects } from './redirects/legacy.mjs';
 import { externalLinks } from './plugins/satteri-external-links.mjs';
 
 /**
@@ -52,6 +53,8 @@ export default defineConfig({
   site: SITE_URL,
   base: BASE_PATH,
   output: 'static',
+  // Old WordPress URLs (redirects/redirects.csv). See redirects/legacy.mjs.
+  redirects: legacyRedirects(),
   // Optional overrides so parallel local builds don't share one output or cache folder.
   ...(process.env.OUT_DIR ? { outDir: process.env.OUT_DIR } : {}),
   ...(process.env.CACHE_DIR ? { cacheDir: process.env.CACHE_DIR } : {}),

@@ -72,6 +72,8 @@ const descriptions = new Map();
 const rows = [];
 let jsonLdBlocks = 0;
 
+/** Legacy-URL redirect stubs from redirects/legacy.mjs: a meta refresh and a link, nothing else. */
+const isRedirectStub = (html) => /<meta http-equiv="refresh"/i.test(html) && !/<script\b|<main\b/i.test(html);
 const fail = (page, message) => problems.push(`${page}: ${message}`);
 
 for (const file of files) {
@@ -81,6 +83,7 @@ for (const file of files) {
       .replace(/index\.html$/, '')
       .replace(/\\/g, '/');
   const html = await readFile(file, 'utf8');
+  if (isRedirectStub(html)) continue;
   const head = html.match(/<head[\s\S]*?<\/head>/i)?.[0] ?? '';
 
   const title = decode(head.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1]?.trim() ?? '');

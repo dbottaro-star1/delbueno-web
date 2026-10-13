@@ -50,6 +50,8 @@ const attr = (tag, name) => {
 };
 const isForeign = (value) => /^(?:[a-z][a-z0-9+.-]*:)?\/\//i.test(value ?? '');
 
+/** Legacy-URL redirect stubs from redirects/legacy.mjs: a meta refresh and a link, nothing else. */
+const isRedirectStub = (html) => /<meta http-equiv="refresh"/i.test(html) && !/<script\b|<main\b/i.test(html);
 const problems = [];
 const seenHashes = new Map();
 const unknownScripts = new Map();
@@ -60,6 +62,10 @@ for await (const file of walk(dist)) {
   pages++;
   const name = relative(dist, file);
   const html = await readFile(file, 'utf8');
+  if (isRedirectStub(html)) {
+    pages--;
+    continue;
+  }
   const fail = (message) => problems.push(`${name}: ${message}`);
 
   // Inline scripts: hash them, then blank the script bodies so later regexes only see markup.
