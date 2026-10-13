@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.astro/
+.next/
+.netlify/
+.env
+.env.*
+!.env.example
+.DS_Store
+
+# Private working notes (old-site audit, spam URLs) — never publish
+research/
