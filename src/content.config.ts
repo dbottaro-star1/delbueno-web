@@ -64,7 +64,13 @@ const shots = defineCollection({
       url: z.url(),
       image: image(),
       imageAlt: z.string(),
-      video: z.url().optional(),
+      /**
+       * A looping clip: either a local file in public/ ("shots/<id>.mp4", added with
+       * `npm run shot:video`) or a file on Dribbble's CDN. Nothing else passes the CSP.
+       */
+      video: z
+        .union([z.string().regex(/^shots\/\d+\.(mp4|webm)$/), z.url().regex(/^https:\/\/cdn\.dribbble\.com\//)])
+        .optional(),
       width: z.number(),
       height: z.number(),
       publishedAt: z.coerce.date().optional(),

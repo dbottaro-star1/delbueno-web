@@ -4,7 +4,7 @@
  * to a lightbox trigger and loads the optional mp4 only when the visitor shows intent.
  */
 import { Image, getImage } from 'astro:assets';
-import type { ShotEntry } from '../../lib/content';
+import { shotVideoSrc, type ShotEntry } from '../../lib/content';
 
 interface Props {
   shot: ShotEntry;
@@ -35,7 +35,7 @@ const sizes =
     data-title={data.title}
     data-alt={data.imageAlt}
     data-full={full.src}
-    data-video={data.video}
+    data-video={shotVideoSrc(data.video)}
     data-tags={data.tags.join('|')}
     data-w={data.width}
     data-h={data.height}
@@ -52,7 +52,7 @@ const sizes =
       />
       {
         data.video && (
-          <video muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" data-src={data.video} />
+          <video muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" data-src={shotVideoSrc(data.video)} />
         )
       }
     </span>

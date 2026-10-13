@@ -6,7 +6,7 @@ import ShotCard from '../components/playground/ShotCard.astro';
 import ShotLightbox from '../components/playground/ShotLightbox.astro';
 import '../components/playground/shots.css';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { getShots } from '../lib/content';
+import { getShots, shotVideoSrc } from '../lib/content';
 import { crumbs, playgroundSchema } from '../lib/schema';
 import { LINKS } from '../lib/site';
 
@@ -35,7 +35,10 @@ const items = await Promise.all(
       alt: s.data.imageAlt,
       width: s.data.width,
       height: s.data.height,
-      video: s.data.video,
+      video: (() => {
+        const src = shotVideoSrc(s.data.video);
+        return src ? new URL(src, Astro.site).toString() : undefined;
+      })(),
       publishedAt: s.data.publishedAt,
       tags: s.data.tags,
     };

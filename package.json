@@ -14,7 +14,8 @@
     "lint:copy": "node scripts/lint-copy.mjs",
     "verify": "npm run check && npm run build && npm run lint:copy",
     "check:redirects": "node scripts/check-redirects.mjs",
-    "sync:dribbble": "node scripts/sync-dribbble.mjs"
+    "sync:dribbble": "node scripts/sync-dribbble.mjs",
+    "shot:video": "node scripts/add-shot-video.mjs"
   },
   "dependencies": {
     "@astrojs/markdown-satteri": "^0.4.3",

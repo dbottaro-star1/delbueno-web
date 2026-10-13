@@ -101,7 +101,15 @@ The Playground section reads the `shots` collection. Each shot is one file, `src
 
 The `video` field is a hotlinked mp4 on `cdn.dribbble.com` for animated shots. The video is not downloaded. If a shot has no `video`, show the still.
 
-The current 23 shots came from the public profile, https://dribbble.com/delbueno-studio. Dribbble blocks scripted access to the shot pages, so no `video` links are set yet. To add one, open the shot in your browser, copy the mp4 address from the player, and add it as `video` in the shot file.
+The current 23 shots came from the public profile, https://dribbble.com/delbueno-studio.
+
+### Adding motion to a shot
+
+Dribbble's API only returns still images, even for animated shots, so the motion comes from your original exports. Run:
+
+`npm run shot:video -- <dribbble-shot-id> "<path to your .mp4 or .mov export>"`
+
+It re-encodes the clip into a small silent MP4 (at most 1600 px wide) at `public/shots/<id>.mp4` and sets `"video": "shots/<id>.mp4"` in the shot file. Keep loops short (5 to 15 seconds). It needs ffmpeg (`brew install ffmpeg`). The shot id is the number in the Dribbble URL.
 
 ### Automatic sync
 

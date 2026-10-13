@@ -1,3 +1,4 @@
+import { url } from './url';
 import { getCollection, type CollectionEntry } from 'astro:content';
 
 export type WorkEntry = CollectionEntry<'work'>;
@@ -50,4 +51,10 @@ export function plainBody(body: string | undefined): string {
     .replace(/!\[[^\]]*\]\([^)]*\)/g, '')
     .replace(/\n{3,}/g, '\n\n')
     .trim();
+}
+
+/** Public URL for a shot video: local files get the base path, CDN links pass through. */
+export function shotVideoSrc(video: string | undefined): string | undefined {
+  if (!video) return undefined;
+  return /^https:\/\//.test(video) ? video : url(`/${video}`);
 }
