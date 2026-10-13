@@ -166,7 +166,12 @@ for (const [index, shot] of shots.entries()) {
     const hosts = Object.values(v)
       .filter((u) => typeof u === 'string' && u.startsWith('http'))
       .map((u) => `${new URL(u).host}${path.extname(new URL(u).pathname)}`);
-    console.log(`no usable video for ${id}: animated=${Boolean(shot.animated)} video keys=[${Object.keys(v).join(', ')}] files=[${hosts.join(', ')}]`);
+    const imgs = Object.entries(shot.images ?? {})
+      .filter(([, u]) => typeof u === 'string' && u.startsWith('http'))
+      .map(([k, u]) => `${k}:${new URL(u).host}${path.extname(new URL(u).pathname)}`);
+    console.log(
+      `no usable video for ${id}: animated=${Boolean(shot.animated)} video keys=[${Object.keys(v).join(', ')}] files=[${hosts.join(', ')}] images=[${imgs.join(', ')}]`,
+    );
   }
 
   if (existing.has(id)) {
