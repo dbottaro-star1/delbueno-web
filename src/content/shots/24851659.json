@@ -1,0 +1,16 @@
+{
+  "title": "Buzz Bunny Hybrid App Design & Dev",
+  "url": "https://dribbble.com/shots/24851659-Buzz-Bunny-Hybrid-App-Design-Dev",
+  "image": "../../assets/shots/24851659.jpg",
+  "imageAlt": "Four dark mode screens of the Buzz Bunny hybrid investing app: recommendations, an AAPL forecast, a ranked stocks table and a portfolio donut with holdings.",
+  "width": 1600,
+  "height": 1200,
+  "tags": [
+    "Fintech",
+    "Mobile app",
+    "Flutter",
+    "Hybrid app"
+  ],
+  "featured": false,
+  "order": 23
+}

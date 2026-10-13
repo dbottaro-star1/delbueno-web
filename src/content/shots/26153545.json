@@ -1,0 +1,16 @@
+{
+  "title": "Cloud Monitoring Dashboard",
+  "url": "https://dribbble.com/shots/26153545-Cloud-Monitoring-Dashboard",
+  "image": "../../assets/shots/26153545.jpg",
+  "imageAlt": "Dark cloud monitoring dashboard for a platform called Constellation with uptime and error rate cards, traffic and response time charts, an error log and resource usage donuts.",
+  "width": 1600,
+  "height": 900,
+  "tags": [
+    "Cloud",
+    "DevOps",
+    "Dashboard",
+    "Dark UI"
+  ],
+  "featured": true,
+  "order": 18
+}

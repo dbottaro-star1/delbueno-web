@@ -1,0 +1,27 @@
+---
+import { Image } from 'astro:assets';
+import type { WorkEntry } from '../lib/content';
+import { url } from '../lib/url';
+
+interface Props {
+  entry: WorkEntry;
+}
+const { entry } = Astro.props;
+const { data } = entry;
+---
+
+<a class="card work" href={url(`/work/${entry.id}/`)}>
+  <Image src={data.cover} alt={data.coverAlt} widths={[400, 800, 1200]} sizes="(min-width: 900px) 33vw, 100vw" />
+  <p class="label">{data.client}</p>
+  <h3>{data.title}</h3>
+  <p>{data.summary}</p>
+</a>
+
+<style>
+  .work img {
+    width: 100%;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: calc(var(--radius) - 4px);
+  }
+</style>

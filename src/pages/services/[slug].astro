@@ -1,0 +1,88 @@
+---
+import type { GetStaticPaths } from 'astro';
+import BookCta from '../../components/BookCta.astro';
+import Faq from '../../components/Faq.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { services, type Service } from '../../data/services';
+import { crumbs, serviceSchema } from '../../lib/schema';
+import { metaDescription } from '../../lib/text';
+import { url } from '../../lib/url';
+
+export const getStaticPaths = (() =>
+  services.map((service) => ({ params: { slug: service.slug }, props: { service } }))) satisfies GetStaticPaths;
+
+interface Props {
+  service: Service;
+}
+const { service } = Astro.props;
+const path = `/services/${service.slug}/`;
+const trail = crumbs({ name: 'Services', path: '/services/' }, { name: service.name, path });
+---
+
+<BaseLayout
+  title={service.name}
+  description={metaDescription(service.answer)}
+  breadcrumbs={trail}
+  jsonLd={[serviceSchema({ path, name: service.name, description: service.answer })]}
+>
+  <PageHeader title={service.name} eyebrow="Service" lede={service.headline} crumbs={trail} />
+
+  <section class="section" aria-labelledby="answer-heading">
+    <div class="wrap stack">
+      <h2 id="answer-heading" class="sr-only">Overview</h2>
+      <p class="lede">{service.answer}</p>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="covers-heading">
+    <div class="wrap two">
+      <div class="stack">
+        <h2 id="covers-heading">What we cover</h2>
+        <ul class="list-check">{service.covers.map((item) => <li>{item}</li>)}</ul>
+      </div>
+      <div class="stack">
+        <h2>What you get</h2>
+        <ul class="list-check">{service.deliverables.map((item) => <li>{item}</li>)}</ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap">
+      <Faq items={service.faqs} />
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="wrap stack">
+      <h2>Other services</h2>
+      <ul class="tags">
+        {
+          services
+            .filter((s) => s.slug !== service.slug)
+            .map((s) => (
+              <li>
+                <a class="tag" href={url(`/services/${s.slug}/`)}>{s.name}</a>
+              </li>
+            ))
+        }
+        <li><a class="tag" href={url('/engagements/')}>Engagements</a></li>
+      </ul>
+    </div>
+  </section>
+
+  <BookCta />
+</BaseLayout>
+
+<style>
+  .two {
+    display: grid;
+    gap: var(--space-8);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  }
+
+  .two h2 {
+    font-size: var(--fs-lg);
+  }
+</style>

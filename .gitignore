@@ -8,6 +8,6 @@ dist/
 !.env.example
 .DS_Store
 
-# Private working notes (old-site audit, spam URLs) — never publish
+# Private working notes (old-site audit, spam URLs). Never publish.
 research/
 .claude/

@@ -1,0 +1,12 @@
+---
+/** Renders one or more JSON-LD nodes as a script tag. */
+interface Props {
+  data: Record<string, unknown> | Record<string, unknown>[];
+}
+const { data } = Astro.props;
+const nodes = Array.isArray(data) ? data : [data];
+// Escape "<" so content can never close the script tag.
+const json = (node: unknown) => JSON.stringify(node).replace(/</g, '\\u003c');
+---
+
+{nodes.map((node) => <script type="application/ld+json" set:html={json(node)} />)}

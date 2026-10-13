@@ -1,0 +1,164 @@
+---
+import { BRAND, LINKS } from '../../lib/site';
+---
+
+<section class="hero" id="top" aria-label="Introduction">
+  <div class="hero-inner">
+    <div class="hero-copy">
+      <h1 class="eyebrow hero-fade">Product design &amp; development studio for B2B SaaS and startups.</h1>
+      <p class="hero-display">
+        <span class="hl"><span class="hl-i">Software</span></span>
+        <span class="hl"><span class="hl-i">that feels</span></span>
+        <span class="hl"><span class="hl-i"><span class="grad">obvious.</span></span></span>
+      </p>
+      <div class="hero-foot">
+        <p class="hero-sub hero-fade">
+          <strong>{BRAND.name}</strong> designs and builds products, websites and design systems for B2B SaaS teams and
+          ambitious startups. {BRAND.speed}
+        </p>
+        <div class="hero-cta hero-fade">
+          <a class="btn btn-primary" data-magnetic href={LINKS.book} rel="noopener">
+            Book a call <svg class="arr" aria-hidden="true"><use href="#i-arr"></use></svg>
+          </a>
+          <a class="btn btn-ghost" data-magnetic href="#work">See the work</a>
+        </div>
+      </div>
+    </div>
+    <div class="hero-stage" id="stage" aria-hidden="true"></div>
+  </div>
+</section>
+
+<style is:global>
+  .eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 0.8em;
+    font: 400 clamp(0.8125rem, 1.05vw, 0.9375rem) / 1.35 var(--sans);
+    color: var(--mute);
+    letter-spacing: 0;
+    max-width: 44ch;
+    text-wrap: initial;
+  }
+
+  .eyebrow::before {
+    content: '';
+    flex: none;
+    width: 28px;
+    height: 1px;
+    background: var(--ink);
+    opacity: 0.7;
+  }
+
+  .hero {
+    display: flex;
+    min-height: max(100svh, 700px);
+    padding: calc(var(--nav-h) + clamp(12px, 3.4vh, 40px)) 0 clamp(24px, 5vh, 52px);
+  }
+
+  .hero-inner {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--gap);
+    padding-inline: var(--pad);
+  }
+
+  .hero-copy {
+    grid-column: 1 / 8;
+    grid-row: 1;
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: clamp(24px, 5vh, 56px);
+  }
+
+  .hero-display {
+    margin: auto 0;
+    margin-left: -0.04em;
+    font: 800 clamp(2.6rem, 6.2vw, 8.4rem) / 0.88 var(--display);
+    letter-spacing: -0.052em;
+  }
+
+  .hero-display .hl:nth-child(2) {
+    padding-left: 0.42em;
+  }
+
+  .hero-display .hl:nth-child(3) {
+    padding-left: 0.86em;
+  }
+
+  .hero-foot {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(20px, 3vh, 32px);
+  }
+
+  .hero-sub {
+    font-size: clamp(1rem, 1.2vw, 1.1875rem);
+    line-height: 1.5;
+    color: var(--mute);
+    max-width: 46ch;
+  }
+
+  .hero-sub strong {
+    font-weight: 400;
+    color: var(--ink);
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .hero-stage {
+    grid-column: 7 / 13;
+    grid-row: 1;
+    position: relative;
+    min-height: 440px;
+  }
+
+  @media (max-width: 1023px) {
+    .hero {
+      display: block;
+      min-height: 0;
+    }
+
+    .hero-inner {
+      row-gap: 8px;
+    }
+
+    .hero-copy {
+      grid-column: 1 / -1;
+      gap: clamp(28px, 5vh, 44px);
+    }
+
+    .hero-display {
+      margin: clamp(24px, 5vh, 44px) 0 0 -0.04em;
+      font-size: clamp(2.6rem, 12.2vw, 8rem);
+    }
+
+    .hero-display .hl:nth-child(2) {
+      padding-left: 0.28em;
+    }
+
+    .hero-display .hl:nth-child(3) {
+      padding-left: 0.62em;
+    }
+
+    .hero-stage {
+      grid-column: 1 / -1;
+      grid-row: 2;
+      min-height: clamp(300px, 64vw, 520px);
+      margin-top: 12px;
+    }
+  }
+
+  @media (max-width: 760px) {
+    .hero-cta .btn {
+      flex: 1 1 auto;
+    }
+  }
+</style>

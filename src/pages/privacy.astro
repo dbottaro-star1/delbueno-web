@@ -1,0 +1,24 @@
+---
+import PageHeader from '../components/PageHeader.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { crumbs } from '../lib/schema';
+import { BRAND } from '../lib/site';
+
+const trail = crumbs({ name: 'Privacy', path: '/privacy/' });
+---
+
+<BaseLayout
+  title="Privacy policy"
+  description="How delbueno™ Studio handles personal data on this website."
+  breadcrumbs={trail}
+>
+  <PageHeader title="Privacy policy" eyebrow="Legal" crumbs={trail} />
+  <section class="section">
+    <div class="wrap prose">
+      <p>
+        The full text of this page is being moved to the new website. Until then, write to
+        <a href={`mailto:${BRAND.email}`}>{BRAND.email}</a> with any question.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

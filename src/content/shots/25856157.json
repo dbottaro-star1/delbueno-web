@@ -1,0 +1,15 @@
+{
+  "title": "Medidash - Interactive Medical Dashboard",
+  "url": "https://dribbble.com/shots/25856157-Medidash-Interactive-Medical-Dashboard",
+  "image": "../../assets/shots/25856157.jpg",
+  "imageAlt": "Medidash medical dashboard with critical alerts, a patient overview, blood pressure and heart rate cards, an AI risk alert, recovery charts and an upcoming schedule.",
+  "width": 1600,
+  "height": 1037,
+  "tags": [
+    "Healthcare",
+    "Dashboard",
+    "Web app"
+  ],
+  "featured": false,
+  "order": 12
+}

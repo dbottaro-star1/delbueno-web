@@ -1,0 +1,42 @@
+---
+import BookCta from '../../components/BookCta.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import { industries } from '../../data/industries';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { crumbs } from '../../lib/schema';
+import { url } from '../../lib/url';
+
+const trail = crumbs({ name: 'Industries', path: '/industries/' });
+---
+
+<BaseLayout
+  title="Industries: cloud, cybersecurity, DevOps, AI and fintech"
+  description="delbueno™ Studio designs complex B2B software for cloud, cybersecurity, DevOps, AI and fintech teams."
+  breadcrumbs={trail}
+>
+  <PageHeader title="Industries" eyebrow="Where we specialise" lede="We work on software where the interface carries real complexity." crumbs={trail} />
+  <section class="section">
+    <div class="wrap">
+      <ul class="grid">
+        {
+          industries.map((i) => (
+            <li>
+              <a class="card" href={url(`/industries/${i.slug}/`)}>
+                <h2>{i.name}</h2>
+                <p>{i.summary}</p>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+  <BookCta />
+</BaseLayout>
+
+<style>
+  .card h2 {
+    font: 600 var(--fs-md) / 1.25 var(--sans);
+    letter-spacing: -0.02em;
+  }
+</style>

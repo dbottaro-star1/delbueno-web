@@ -1,0 +1,79 @@
+name: Sync Dribbble shots
+
+on:
+  schedule:
+    - cron: '17 6 * * 1' # Mondays 06:17 UTC
+  workflow_dispatch:
+
+# No permissions by default. The job asks for what it needs.
+permissions: {}
+
+concurrency:
+  group: sync-dribbble
+  cancel-in-progress: false
+
+# GitHub Actions is not allowed to create pull requests in this repository, so this workflow
+# only pushes the synced files to the dribbble-sync branch. Dani opens the pull request by hand
+# from the link in the job summary.
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write # push the dribbble-sync branch (never main)
+    steps:
+      - name: Check for the DRIBBBLE_TOKEN secret
+        id: token
+        env:
+          DRIBBBLE_TOKEN: ${{ secrets.DRIBBBLE_TOKEN }}
+        run: |
+          if [ -n "$DRIBBBLE_TOKEN" ]; then
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::The DRIBBBLE_TOKEN secret is not set. Skipping the sync. See README.md, section Playground shots."
+          fi
+
+      - if: steps.token.outputs.present == 'true'
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - if: steps.token.outputs.present == 'true'
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version-file: .nvmrc
+
+      # The script only uses Node built-ins, so there is no npm install step.
+      - if: steps.token.outputs.present == 'true'
+        name: Sync shots
+        env:
+          DRIBBBLE_TOKEN: ${{ secrets.DRIBBBLE_TOKEN }}
+        run: npm run sync:dribbble
+
+      - if: steps.token.outputs.present == 'true'
+        name: Push changes to the dribbble-sync branch
+        env:
+          GITHUB_TOKEN_FOR_PUSH: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          git add -A -- src/content/shots src/assets/shots
+          if git diff --cached --quiet; then
+            echo "No new or changed shots." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b dribbble-sync
+          git commit -m "Sync Dribbble shots"
+          git push --force "https://x-access-token:${GITHUB_TOKEN_FOR_PUSH}@github.com/${REPOSITORY}.git" dribbble-sync
+          {
+            echo "## Dribbble shots synced"
+            echo
+            echo "New or reordered shots were pushed to the \`dribbble-sync\` branch. Nothing is published yet."
+            echo
+            echo "1. Open the pull request: https://github.com/${REPOSITORY}/compare/main...dribbble-sync?expand=1"
+            echo "2. Check each new shot in \`src/content/shots/\` and rewrite \`imageAlt\` so it describes what the UI shows."
+            echo "3. Set \`featured: true\` on the shots that should lead the Playground section."
+            echo "4. Merge the pull request once CI is green. Merging publishes the shots on the next deploy."
+          } >> "$GITHUB_STEP_SUMMARY"

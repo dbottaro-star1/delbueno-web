@@ -1,0 +1,86 @@
+/* Homepage shared primitives. Section styles live next to their components in src/components/home. */
+
+main > section,
+main > .band {
+  position: relative;
+  z-index: 1;
+}
+
+.hl {
+  display: block;
+  overflow: clip;
+  padding: 0.07em 0.06em 0.15em;
+  margin: -0.07em -0.06em -0.15em;
+}
+
+.hl-i {
+  display: block;
+  will-change: transform;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chips li {
+  font: 400 0.8125rem / 1 var(--sans);
+  padding: 10px 14px;
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  color: var(--mute);
+}
+
+.sec-head {
+  padding: clamp(88px, 14vw, 200px) var(--pad) clamp(40px, 6vw, 88px);
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  column-gap: var(--gap);
+  align-items: end;
+}
+
+.sec-head .h2 {
+  grid-column: 1 / 10;
+  margin-top: 18px;
+}
+
+.sec-head .label {
+  grid-column: 1 / -1;
+}
+
+.sec-head p.sub {
+  grid-column: 10 / 13;
+  color: var(--mute);
+  align-self: end;
+}
+
+/* reduced motion: nav stays readable over content */
+.rm .nav {
+  background: rgb(10 10 15 / 0.88);
+}
+
+/* JS hidden states: only exist when scripts run and motion is allowed */
+.js .hl-i,
+.js .hero-fade,
+.js [data-rv],
+.js [data-split] {
+  opacity: 0;
+}
+
+@media (max-width: 1100px) {
+  .sec-head p.sub {
+    grid-column: 1 / 9;
+    margin-top: 24px;
+  }
+
+  .sec-head .h2 {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 760px) {
+  .sec-head p.sub {
+    grid-column: 1 / -1;
+  }
+}

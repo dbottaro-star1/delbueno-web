@@ -1,0 +1,141 @@
+---
+import '../styles/global.css';
+import syneBold from '@fontsource/syne/files/syne-latin-800-normal.woff2?url';
+import geistRegular from '@fontsource/geist/files/geist-latin-400-normal.woff2?url';
+
+import Footer from '../components/Footer.astro';
+import JsonLd from '../components/JsonLd.astro';
+import Nav from '../components/Nav.astro';
+import Seo from '../components/Seo.astro';
+import Sprite from '../components/Sprite.astro';
+import { breadcrumbSchema, sitewideSchema, type Crumb, type JsonLdNode } from '../lib/schema';
+import { BRAND, IS_PREVIEW } from '../lib/site';
+import { absoluteUrl, stripBase, url } from '../lib/url';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Absolute image URL for social previews. Defaults to the site card. */
+  image?: string;
+  imageAlt?: string;
+  type?: 'website' | 'article';
+  noindex?: boolean;
+  /** Breadcrumb trail including Home. Adds BreadcrumbList JSON-LD. */
+  breadcrumbs?: Crumb[];
+  /** Extra JSON-LD nodes for the page. */
+  jsonLd?: JsonLdNode[];
+  publishedTime?: Date;
+  modifiedTime?: Date;
+  author?: string;
+  section?: string;
+}
+
+const {
+  title,
+  description,
+  image,
+  imageAlt,
+  type,
+  noindex,
+  breadcrumbs,
+  jsonLd = [],
+  publishedTime,
+  modifiedTime,
+  author,
+  section,
+} = Astro.props;
+
+const path = stripBase(Astro.url.pathname);
+const fullTitle = title.includes(BRAND.name) ? title : `${title} | ${BRAND.name}`;
+const ogImage = image ?? absoluteUrl('/og-default.png', Astro.site);
+const ogAlt = image ? imageAlt : (imageAlt ?? `${BRAND.name}: ${BRAND.tagline}`);
+
+const graph: JsonLdNode[] = [sitewideSchema(), ...(breadcrumbs ? [breadcrumbSchema(breadcrumbs)] : []), ...jsonLd];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content={BRAND.themeColor} />
+    <meta name="color-scheme" content="dark" />
+    <meta name="generator" content={Astro.generator} />
+
+    <Seo
+      title={fullTitle}
+      description={description}
+      path={path}
+      image={ogImage}
+      imageAlt={ogAlt}
+      type={type}
+      noindex={noindex}
+      publishedTime={publishedTime}
+      modifiedTime={modifiedTime}
+      author={author}
+      section={section}
+    />
+
+    <!-- Placeholder icons: replace public/favicon.svg and the PNGs with the final brand marks. -->
+    <link rel="icon" href={url('/favicon.svg')} type="image/svg+xml" />
+    <link rel="apple-touch-icon" href={url('/apple-touch-icon.png')} />
+    <link rel="alternate" type="application/rss+xml" title={`${BRAND.name} journal`} href={url('/journal/rss.xml')} />
+    {!IS_PREVIEW && <link rel="sitemap" href={url('/sitemap-index.xml')} />}
+
+    <link rel="preload" as="font" type="font/woff2" href={syneBold} crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href={geistRegular} crossorigin />
+
+    <!-- Hidden start states exist only when JS runs and motion is allowed. "rm" marks reduced motion. -->
+    <script is:inline>
+      document.documentElement.classList.add(
+        window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'rm' : 'js',
+      );
+    </script>
+
+    <JsonLd data={graph} />
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <Sprite />
+    <div class="grain" aria-hidden="true"></div>
+    <div class="progress" aria-hidden="true"><i></i></div>
+    <div class="cursor" aria-hidden="true">
+      <div class="c-dot"></div>
+      <div class="c-ring"><div class="c-bg"></div><div class="c-label"></div></div>
+    </div>
+    <Nav />
+    <main id="main" tabindex="-1">
+      <slot />
+    </main>
+    <Footer />
+
+    <script>
+      import { initMotion } from '../scripts/motion';
+      import { initShell } from '../scripts/shell';
+      void initMotion();
+      initShell();
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  .skip {
+    position: fixed;
+    left: 12px;
+    top: -60px;
+    z-index: var(--z-skip);
+    background: var(--ink);
+    color: #0a0a0f;
+    padding: 10px 16px;
+    border-radius: 999px;
+    transition: top var(--dur-fast) var(--out);
+  }
+
+  .skip:focus {
+    top: 12px;
+  }
+
+  main:focus {
+    outline: none;
+  }
+</style>

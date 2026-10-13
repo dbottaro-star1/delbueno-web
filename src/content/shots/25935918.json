@@ -1,0 +1,16 @@
+{
+  "title": "Dashboard for a SaaS Cloud Start up",
+  "url": "https://dribbble.com/shots/25935918-Dashboard-for-a-SaaS-Cloud-Start-up",
+  "image": "../../assets/shots/25935918.jpg",
+  "imageAlt": "Compute Explorer cloud cost dashboard on a tablet with cost and savings cards, an insights panel with optimization tips and a table of accounts with coverage bars.",
+  "width": 1600,
+  "height": 900,
+  "tags": [
+    "Cloud",
+    "SaaS",
+    "Dashboard",
+    "FinOps"
+  ],
+  "featured": true,
+  "order": 10
+}

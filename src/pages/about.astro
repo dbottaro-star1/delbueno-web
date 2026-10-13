@@ -1,0 +1,38 @@
+---
+import BookCta from '../components/BookCta.astro';
+import PageHeader from '../components/PageHeader.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { BRAND, SOCIALS } from '../lib/site';
+import { crumbs } from '../lib/schema';
+
+const trail = crumbs({ name: 'About', path: '/about/' });
+---
+
+<BaseLayout
+  title="About"
+  description="delbueno™ Studio is a product design and development studio in Punta del Este, Uruguay, working remote with US hours for B2B SaaS teams and startups."
+  breadcrumbs={trail}
+>
+  <PageHeader
+    title="About the studio"
+    eyebrow="About"
+    lede="A small senior team that designs and builds software for B2B SaaS companies and startups."
+    crumbs={trail}
+  />
+
+  <section class="section">
+    <div class="wrap prose">
+      <p>
+        {BRAND.name} is based in {BRAND.locality}, {BRAND.country}, and works remote with US hours. The studio is led by
+        {BRAND.founder}.
+      </p>
+      <p>{BRAND.speed}</p>
+      <h2>Find us elsewhere</h2>
+      <ul>
+        {SOCIALS.map((s) => <li><a href={s.href} rel="noopener me" target="_blank">{s.label}</a></li>)}
+      </ul>
+    </div>
+  </section>
+
+  <BookCta />
+</BaseLayout>

@@ -1,0 +1,72 @@
+---
+/** Velocity band: speed, direction and skew follow scroll velocity (see scripts/home/marquee.ts). */
+import { BRAND } from '../../lib/site';
+---
+
+<section class="band" aria-label={BRAND.speed}>
+  <div class="marquee" id="band">
+    <div class="marquee__track">
+      <div class="marquee__group">
+        <span class="m-w">Kickoff today</span><svg class="m-i" aria-hidden="true"><use href="#bolt"></use></svg>
+        <span class="m-w m-o">First concepts in 48h</span><svg class="m-i" aria-hidden="true"><use href="#bolt"></use></svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  .band {
+    overflow: hidden;
+    border-block: 1px solid var(--line);
+    padding: clamp(14px, 2.2vw, 30px) 0;
+  }
+
+  .marquee {
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .marquee__track {
+    display: flex;
+    width: max-content;
+    will-change: transform;
+  }
+
+  .marquee__group {
+    display: flex;
+    align-items: center;
+    flex: none;
+  }
+
+  .m-w {
+    flex: none;
+    font: 800 clamp(3.3rem, 9.4vw, 9.6rem) / 1.12 var(--display);
+    letter-spacing: -0.045em;
+    text-transform: uppercase;
+    color: var(--lime);
+    padding-right: 0.2em;
+  }
+
+  .m-o {
+    color: transparent;
+    -webkit-text-stroke: clamp(1.2px, 0.14vw, 2px) rgb(242 242 245 / 0.82);
+  }
+
+  .m-i {
+    flex: none;
+    width: clamp(28px, 5vw, 72px);
+    height: auto;
+    aspect-ratio: 24 / 32;
+    fill: url(#gBolt);
+    margin-right: 0.5em;
+  }
+
+  html:not(.js) .marquee__track {
+    width: auto;
+    flex-wrap: wrap;
+  }
+
+  html:not(.js) .marquee {
+    white-space: normal;
+  }
+</style>

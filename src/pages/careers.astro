@@ -1,0 +1,24 @@
+---
+import PageHeader from '../components/PageHeader.astro';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { crumbs } from '../lib/schema';
+import { BRAND } from '../lib/site';
+
+const trail = crumbs({ name: 'Careers', path: '/careers/' });
+---
+
+<BaseLayout
+  title="Careers"
+  description="Work with delbueno™ Studio. We are a small remote team and always glad to hear from senior designers and developers."
+  breadcrumbs={trail}
+>
+  <PageHeader title="Careers" eyebrow="Join us" lede="We are a small remote team and we like meeting good people." crumbs={trail} />
+  <section class="section">
+    <div class="wrap prose">
+      <p>
+        There are no open roles listed right now. If you design or build software for B2B products, write to
+        <a href={`mailto:${BRAND.email}?subject=Careers`}>{BRAND.email}</a> with a link to your work.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

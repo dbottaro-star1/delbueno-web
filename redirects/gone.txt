@@ -1,0 +1,10 @@
+# Paths that should return 410 Gone, one per line (for example /some-spam-url/).
+#
+# Spam URLs left behind by the hacked WordPress site belong here. Serving 410 instead of 404
+# tells search engines to drop them from the index quickly. GitHub Pages cannot send a 410,
+# so Cloudflare does it: create a Custom Rule (WAF) or a Redirect/Response rule that matches
+# these paths and responds with status 410. See redirects/README.md.
+#
+# Lines that start with # and blank lines are ignored.
+# The real list is kept privately and is intentionally not committed here. Paste it below
+# when you create the Cloudflare rule.

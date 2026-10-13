@@ -1,0 +1,174 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { Image, getImage } from 'astro:assets';
+import { render } from 'astro:content';
+import BookCta from '../../components/BookCta.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getWork, type WorkEntry } from '../../lib/content';
+import { caseStudySchema, crumbs } from '../../lib/schema';
+import { url } from '../../lib/url';
+
+export const getStaticPaths = (async () => {
+  const entries = await getWork();
+  return entries.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}) satisfies GetStaticPaths;
+
+interface Props {
+  entry: WorkEntry;
+}
+const { entry } = Astro.props;
+const { data } = entry;
+const { Content } = await render(entry);
+
+const path = `/work/${entry.id}/`;
+const trail = crumbs({ name: 'Work', path: '/work/' }, { name: data.title, path });
+
+const og = await getImage({ src: data.cover, width: 1200, height: 630, fit: 'cover', format: 'jpg' });
+const ogImage = new URL(og.src, Astro.site).toString();
+---
+
+<BaseLayout
+  title={data.title}
+  description={data.summary}
+  image={ogImage}
+  imageAlt={data.coverAlt}
+  breadcrumbs={trail}
+  jsonLd={[
+    caseStudySchema({
+      path,
+      title: data.title,
+      description: data.summary,
+      client: data.client,
+      year: data.year,
+      industry: data.industry,
+      services: data.services,
+      image: ogImage,
+    }),
+  ]}
+>
+  <PageHeader title={data.title} eyebrow={`${data.client}, ${data.year}`} lede={data.summary} crumbs={trail}>
+    <ul class="tags">
+      <li class="tag">{data.industry}</li>
+      {data.services.map((s) => <li class="tag">{s}</li>)}
+    </ul>
+  </PageHeader>
+
+  <section class="wrap">
+    <Image src={data.cover} alt={data.coverAlt} widths={[800, 1200, 1800]} sizes="100vw" loading="eager" class="cover" />
+  </section>
+
+  {
+    data.metrics.length > 0 && (
+      <section class="section" aria-labelledby="results-heading">
+        <div class="wrap stack">
+          <h2 id="results-heading">Results</h2>
+          <dl class="metrics">
+            {data.metrics.map((m) => (
+              <div>
+                <dt>{m.label}</dt>
+                <dd class="display grad">{m.value}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      </section>
+    )
+  }
+
+  <section class="section">
+    <div class="wrap">
+      <div class="prose">
+        <Content />
+      </div>
+    </div>
+  </section>
+
+  {
+    data.gallery && data.gallery.length > 0 && (
+      <section class="section" aria-label="Gallery">
+        <div class="wrap gallery">
+          {data.gallery.map((g) => (
+            <Image src={g.src} alt={g.alt} widths={[600, 1000, 1600]} sizes="(min-width: 900px) 50vw, 100vw" />
+          ))}
+        </div>
+      </section>
+    )
+  }
+
+  {
+    data.testimonial && (
+      <section class="section" aria-label="Testimonial">
+        <div class="wrap">
+          <figure>
+            <blockquote class="display quote">{data.testimonial.quote}</blockquote>
+            <figcaption>
+              {data.testimonial.name}, {data.testimonial.role}
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+    )
+  }
+
+  <section class="section">
+    <div class="wrap">
+      <a class="link" href={url('/work/')}>All case studies</a>
+    </div>
+  </section>
+
+  <BookCta />
+</BaseLayout>
+
+<style>
+  .cover {
+    width: 100%;
+    max-height: 80vh;
+    object-fit: cover;
+    border-radius: var(--radius);
+  }
+
+  .metrics {
+    display: grid;
+    gap: var(--gap);
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  }
+
+  .metrics dt {
+    color: var(--mute);
+    order: 2;
+  }
+
+  .metrics div {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .metrics dd {
+    font-size: var(--fs-xl);
+    line-height: 1;
+  }
+
+  .gallery {
+    display: grid;
+    gap: var(--gap);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+  }
+
+  .gallery img {
+    border-radius: var(--radius);
+    width: 100%;
+  }
+
+  .quote {
+    font-size: var(--fs-lg);
+    max-width: 28ch;
+    line-height: 1.05;
+  }
+
+  figcaption {
+    margin-top: var(--space-4);
+    color: var(--mute);
+  }
+</style>

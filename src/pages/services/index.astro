@@ -1,0 +1,47 @@
+---
+import BookCta from '../../components/BookCta.astro';
+import PageHeader from '../../components/PageHeader.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { services } from '../../data/services';
+import { crumbs } from '../../lib/schema';
+import { url } from '../../lib/url';
+
+const trail = crumbs({ name: 'Services', path: '/services/' });
+---
+
+<BaseLayout
+  title="Services: product strategy, design, web and build"
+  description="delbueno™ Studio offers product strategy, product design, web design and no-code build services for B2B SaaS teams and startups."
+  breadcrumbs={trail}
+>
+  <PageHeader
+    title="Services"
+    eyebrow="What we do"
+    lede="Four ways to work with us, from deciding what to build to shipping it."
+    crumbs={trail}
+  />
+  <section class="section">
+    <div class="wrap">
+      <ul class="grid">
+        {
+          services.map((s) => (
+            <li>
+              <a class="card" href={url(`/services/${s.slug}/`)}>
+                <h2>{s.name}</h2>
+                <p>{s.summary}</p>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+  <BookCta />
+</BaseLayout>
+
+<style>
+  .card h2 {
+    font: 600 var(--fs-md) / 1.25 var(--sans);
+    letter-spacing: -0.02em;
+  }
+</style>

@@ -1,0 +1,183 @@
+---
+import { Image } from 'astro:assets';
+import { testimonials } from '../../data/testimonials';
+
+const featured = testimonials.find((t) => t.name === 'Yaron S.') ?? testimonials[0];
+const others = testimonials.filter((t) => t !== featured);
+---
+
+<section class="quote" aria-labelledby="quote-h">
+  <h2 class="label" id="quote-h">Client words</h2>
+  <div class="quote-grid">
+    <figure class="q-main">
+      <span class="q-mark" aria-hidden="true">“</span>
+      <blockquote><p id="quoteText">{featured.quote}</p></blockquote>
+      <figcaption class="who">
+        <Image
+          class="avatar avatar--lg"
+          src={featured.photo}
+          width={144}
+          height={144}
+          fit="cover"
+          alt={`Portrait of ${featured.name}`}
+          loading="lazy"
+          decoding="async"
+        />
+        <div>
+          <b>{featured.name}</b>
+          <span>{featured.role}, {featured.company}</span>
+        </div>
+      </figcaption>
+    </figure>
+  </div>
+
+  <ul class="q-others">
+    {
+      others.map((t) => (
+        <li>
+          <figure>
+            <blockquote>
+              <p>{t.quote}</p>
+            </blockquote>
+            <figcaption class="who who--sm">
+              <Image
+                class="avatar"
+                src={t.photo}
+                width={112}
+                height={112}
+                fit="cover"
+                alt={`Portrait of ${t.name}`}
+                loading="lazy"
+                decoding="async"
+              />
+              <div>
+                <b>{t.name}</b>
+                <span>{t.role}, {t.company}</span>
+              </div>
+            </figcaption>
+          </figure>
+        </li>
+      ))
+    }
+  </ul>
+</section>
+
+<style is:global>
+  .quote {
+    position: relative;
+    padding: clamp(96px, 14vw, 220px) var(--pad) clamp(72px, 9vw, 140px);
+  }
+
+  .quote-grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--gap);
+    margin-top: clamp(32px, 4vw, 64px);
+  }
+
+  .q-main {
+    grid-column: 1 / 12;
+  }
+
+  .q-mark {
+    font: 800 clamp(6rem, 14vw, 16rem) / 0.6 var(--display);
+    color: rgb(255 255 255 / 0.08);
+    display: block;
+    height: 0.5em;
+    margin-bottom: 0.05em;
+    letter-spacing: -0.05em;
+  }
+
+  .q-main blockquote p {
+    font: 700 clamp(1.7rem, 3.55vw, 3.9rem) / 1.1 var(--display);
+    letter-spacing: -0.03em;
+  }
+
+  .q-main .w {
+    display: inline-block;
+  }
+
+  .who {
+    margin-top: clamp(28px, 3.4vw, 52px);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .who b {
+    font-weight: 500;
+    display: block;
+    line-height: 1.2;
+  }
+
+  .who span {
+    color: var(--mute);
+    font-size: 0.9375rem;
+  }
+
+  .avatar {
+    flex: none;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    object-fit: cover;
+    background: var(--bg-3);
+    box-shadow: 0 0 0 1px var(--line-2);
+  }
+
+  .avatar--lg {
+    width: 72px;
+    height: 72px;
+  }
+
+  .q-others {
+    margin-top: clamp(56px, 7vw, 110px);
+    padding-top: clamp(28px, 3vw, 44px);
+    border-top: 1px solid var(--line);
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--gap);
+  }
+
+  .q-others figure {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 24px;
+    padding: clamp(20px, 2vw, 28px);
+    border: 1px solid var(--line);
+    border-radius: clamp(14px, 1.5vw, 22px);
+    background: var(--bg-1);
+  }
+
+  .q-others p {
+    font-size: clamp(1rem, 1.15vw, 1.125rem);
+    line-height: 1.5;
+    color: var(--mute);
+  }
+
+  .q-others .who {
+    margin-top: 0;
+  }
+
+  @media (max-width: 1023px) {
+    .q-others {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .q-others li:last-child {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 760px) {
+    .q-main {
+      grid-column: 1 / -1;
+    }
+
+    .q-others {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
