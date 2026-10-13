@@ -147,11 +147,25 @@ function cursor({ gsap }: Motion): void {
   root.addEventListener('mouseleave', () => gsap.to([dot, ring], { opacity: 0, duration: 0.4 }));
   root.addEventListener('mouseenter', () => shown && gsap.to([dot, ring], { opacity: 1, duration: 0.4 }));
 
+  // A modal <dialog> renders in the browser's top layer, above any z-index, so the cursor would sit
+  // under it with the native pointer hidden. While a dialog is open the cursor moves inside it.
+  const cursorEl = dot.closest<HTMLElement>('.cursor');
+  const home = cursorEl?.parentElement;
+  if (cursorEl && home) {
+    const follow = () => {
+      const open = document.querySelector<HTMLDialogElement>('dialog[open]');
+      const target = open ?? home;
+      if (cursorEl.parentElement !== target) target.appendChild(cursorEl);
+    };
+    new MutationObserver(follow).observe(document.body, { subtree: true, attributes: true, attributeFilter: ['open'] });
+  }
+
   let state = '';
   const setState = (s: string, text?: string) => {
     if (s === state && (s !== 'view' || label.textContent === text)) return;
     state = s;
     ring.classList.toggle('is-view', s === 'view');
+    cursorEl?.classList.toggle('is-view', s === 'view');
     ring.classList.toggle('is-link', s === 'link');
     gsap.to(bg, { scale: s === 'view' ? 2 : s === 'link' ? 1.5 : 1, duration: 0.7, ease: 'expo.out' });
     gsap.to(dot, { scale: s === 'view' ? 0 : 1, duration: 0.4 });

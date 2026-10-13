@@ -585,6 +585,13 @@ a:hover > .roll span,
   z-index: var(--z-cursor);
   pointer-events: none;
   display: none;
+  /* Inverts against whatever is behind it, so the light cursor stays visible over light UI shots. */
+  mix-blend-mode: difference;
+}
+
+/* The lime View lens keeps its brand color. */
+.cursor.is-view {
+  mix-blend-mode: normal;
 }
 
 .has-cursor .cursor {
