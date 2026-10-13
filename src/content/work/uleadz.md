@@ -11,8 +11,8 @@ metrics:
     label: "conversion rate"
   - value: "+18%"
     label: "new users"
-cover: "../../assets/work/uleadz/Uleadz-Homepage-Bot-closed-800.png"
-coverAlt: "Uleadz home page with the headline Together we will make your growth look easy and a phone showing the jobs overview"
+cover: "../../assets/work/uleadz/uleadz-app-screens.png"
+coverAlt: "Four Uleadz mobile app screens: sign up, a daily overview of calls, jobs and profit, creating a new ticket, and a monthly job calendar"
 gallery:
   - src: "../../assets/work/uleadz/Uleadz-Markering-Page.png"
     alt: "Uleadz marketing page hero reading There is a better way to grow, with three phone screens below"
