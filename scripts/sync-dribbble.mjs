@@ -160,6 +160,14 @@ for (const [index, shot] of shots.entries()) {
   const order = index + 1;
   const file = path.join(contentDir, `${id}.json`);
   const video = videoUrlFor(shot);
+  if (!video && (shot.animated || shot.video)) {
+    // Field names and hosts only, so the log shows the API shape without dumping the payload.
+    const v = shot.video && typeof shot.video === 'object' ? shot.video : {};
+    const hosts = Object.values(v)
+      .filter((u) => typeof u === 'string' && u.startsWith('http'))
+      .map((u) => `${new URL(u).host}${path.extname(new URL(u).pathname)}`);
+    console.log(`no usable video for ${id}: animated=${Boolean(shot.animated)} video keys=[${Object.keys(v).join(', ')}] files=[${hosts.join(', ')}]`);
+  }
 
   if (existing.has(id)) {
     const entry = await readJson(file);
