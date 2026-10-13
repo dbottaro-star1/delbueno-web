@@ -1,24 +1,200 @@
 ---
-import PageHeader from '../components/PageHeader.astro';
+import InfoHero from '../components/info/InfoHero.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { crumbs } from '../lib/schema';
 import { BRAND } from '../lib/site';
 
 const trail = crumbs({ name: 'Careers', path: '/careers/' });
+
+const mailto = `mailto:${BRAND.email}?subject=${encodeURIComponent('Portfolio')}&body=${encodeURIComponent(
+  [
+    'Hi delbueno team,',
+    '',
+    'Link to my work:',
+    '',
+    'What I do (design, front end, product, other):',
+    '',
+    'Where I am based:',
+    '',
+  ].join('\n'),
+)}`;
+
+const culture = [
+  {
+    t: 'Remote first, on GMT-3',
+    d: 'We work from Latin America and overlap with US hours, so the people we work with are awake when we are.',
+  },
+  {
+    t: 'Short loops',
+    d: 'Kickoff today, first concepts in 48 hours. We like small steps, fast feedback and shipping before we over-polish.',
+  },
+  {
+    t: 'Close to the client',
+    d: 'Every client gets a dedicated project leader and a shared Slack channel. You talk to the people doing the work, and so do we.',
+  },
+  {
+    t: 'Craft and growth',
+    d: 'Pixel-perfect work, a Playground where we explore ideas outside client briefs, and mentorship that helps people get better at the job.',
+  },
+];
 ---
 
 <BaseLayout
-  title="Careers"
-  description="Work with delbueno™ Studio. We are a small remote team and always glad to hear from senior designers and developers."
+  title="Careers: Send Us Your Portfolio"
+  description="delbueno™ Studio is not hiring right now, but we read every portfolio. Send a link to your work to hello@delbuenostudio.com and tell us what you want to build."
   breadcrumbs={trail}
 >
-  <PageHeader title="Careers" eyebrow="Join us" lede="We are a small remote team and we like meeting good people." crumbs={trail} />
-  <section class="section">
-    <div class="wrap prose">
-      <p>
-        There are no open roles listed right now. If you design or build software for B2B products, write to
-        <a href={`mailto:${BRAND.email}?subject=Careers`}>{BRAND.email}</a> with a link to your work.
+  <InfoHero
+    eyebrow="Careers / No open roles"
+    title="We are not hiring right now,"
+    accent="but we read every portfolio."
+    lede="We are a small remote team and no roles are open at the moment. If you design or build software for B2B products, send us a link to your work anyway."
+    crumbs={trail}
+    size="clamp(2.2rem, 6.8vw, 7.6rem)"
+    maxWidth="100%"
+  >
+    <div class="cr-cta" data-reveal>
+      <a class="btn btn-primary ip-cta-btn" data-magnetic href={mailto}>
+        Send your portfolio{' '}
+        <svg class="arr" aria-hidden="true">
+          <use href="#i-arr"></use>
+        </svg>
+      </a>
+      <p class="cr-mail">
+        to <a href={mailto}>{BRAND.email}</a>
       </p>
     </div>
+  </InfoHero>
+
+  <section class="ip-sec" aria-labelledby="cr-h">
+    <div class="wrap">
+      <div class="ip-head">
+        <p class="label">How it is to work here</p>
+        <h2 class="ip-h2" id="cr-h" data-lines>
+          Small team, fast rhythm, direct line.
+        </h2>
+      </div>
+      <ol class="cr-list">
+        {culture.map((c, i) => (
+          <li data-reveal>
+            <span class="ip-no">{String(i + 1).padStart(2, '0')} / 04</span>
+            <h3>{c.t}</h3>
+            <p>{c.d}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
   </section>
+
+  <section class="ip-sec" aria-labelledby="cr-send-h">
+    <div class="wrap cr-send">
+      <div>
+        <p class="label">What to send</p>
+        <h2 class="ip-h2 cr-send-h" id="cr-send-h" data-lines>
+          Show us the work.
+        </h2>
+      </div>
+      <ul class="list-check cr-points" data-reveal>
+        <li>A link to your portfolio, site or repository.</li>
+        <li>One line on what you do and what you want to do next.</li>
+        <li>Where you are based, so we can check the time zone overlap.</li>
+      </ul>
+    </div>
+  </section>
+
+  <script>
+    import { initInfoReveals } from '../scripts/info/reveal';
+    initInfoReveals();
+  </script>
 </BaseLayout>
+
+<style>
+  .cr-cta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px clamp(20px, 3vw, 40px);
+    margin-top: clamp(32px, 4.4vw, 64px);
+  }
+
+  .cr-mail {
+    color: var(--mute);
+  }
+
+  .cr-mail a {
+    color: var(--ink);
+    border-bottom: 1px solid var(--line-2);
+  }
+
+  .cr-list {
+    border-top: 1px solid var(--line);
+  }
+
+  .cr-list li {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--gap);
+    row-gap: 12px;
+    align-items: baseline;
+    padding-block: clamp(26px, 3.4vw, 52px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .cr-list .ip-no {
+    grid-column: 1 / 3;
+  }
+
+  .cr-list h3 {
+    grid-column: 3 / 9;
+    font: 800 clamp(1.7rem, 1rem + 2.8vw, 3.6rem) / 1 var(--display);
+    letter-spacing: -0.045em;
+    text-wrap: balance;
+    overflow-wrap: anywhere;
+  }
+
+  .cr-list p {
+    grid-column: 9 / 13;
+    color: var(--mute);
+    font-size: var(--fs-sm);
+    line-height: 1.6;
+  }
+
+  .cr-send {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--gap);
+    row-gap: 40px;
+    align-items: end;
+  }
+
+  .cr-send > div {
+    grid-column: 1 / 8;
+  }
+
+  .cr-send-h {
+    grid-column: auto;
+  }
+
+  .cr-points {
+    grid-column: 8 / 13;
+    display: grid;
+    gap: 14px;
+    font-size: var(--fs-md);
+  }
+
+  @media (max-width: 1000px) {
+    .cr-list .ip-no {
+      grid-column: 1 / -1;
+    }
+
+    .cr-list h3,
+    .cr-list p {
+      grid-column: 1 / -1;
+    }
+
+    .cr-send > div,
+    .cr-points {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

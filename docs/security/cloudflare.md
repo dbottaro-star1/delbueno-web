@@ -57,14 +57,14 @@ GitHub Pages cannot set custom headers, so Cloudflare adds them.
    `(http.host eq "delbuenostudio.com") or (http.host eq "www.delbuenostudio.com")`
 5. Under Then, choose Set static for each of the headers below, one row each, using Add to get more rows. Use the header name and value exactly as shown.
 
-| Header name | Value |
-| --- | --- |
-| `Content-Security-Policy-Report-Only` | the CSP from the next section (start here, see "Test in Report-Only mode") |
-| `X-Content-Type-Options` | `nosniff` (skip if you already turned on No-Sniff in the HSTS panel) |
-| `Referrer-Policy` | `strict-origin-when-cross-origin` |
-| `Permissions-Policy` | `accelerometer=(), bluetooth=(), camera=(), display-capture=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), serial=(), usb=()` |
-| `X-Frame-Options` | `DENY` |
-| `Cross-Origin-Opener-Policy` | `same-origin` |
+| Header name                           | Value                                                                                                                                                                 |
+| ------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `Content-Security-Policy-Report-Only` | the CSP from the next section (start here, see "Test in Report-Only mode")                                                                                            |
+| `X-Content-Type-Options`              | `nosniff` (skip if you already turned on No-Sniff in the HSTS panel)                                                                                                  |
+| `Referrer-Policy`                     | `strict-origin-when-cross-origin`                                                                                                                                     |
+| `Permissions-Policy`                  | `accelerometer=(), bluetooth=(), camera=(), display-capture=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), serial=(), usb=()` |
+| `X-Frame-Options`                     | `DENY`                                                                                                                                                                |
+| `Cross-Origin-Opener-Policy`          | `same-origin`                                                                                                                                                         |
 
 6. Choose Deploy. The rule applies within seconds.
 7. Check it: `curl -sI https://delbuenostudio.com/ | grep -i -E "content-security|nosniff|referrer|permissions|x-frame|cross-origin"`.
@@ -73,21 +73,34 @@ GitHub Pages cannot set custom headers, so Cloudflare adds them.
 
 ### The Content-Security-Policy value
 
-Paste this as one line:
+Paste this as one line. It is generated from `security/csp.json`, and `npm run check:csp` fails if this line and that file ever differ, so do not edit it by hand here. Change the file, then copy the new line.
 
 ```
-default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; media-src 'self' https://cdn.dribbble.com; font-src 'self'; connect-src 'self'; form-action 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; upgrade-insecure-requests
+default-src 'self'; script-src 'self' 'sha256-kSaX0iOryjpCQSkOMxVYvdTnp6BAnJysgVbj9wm/ERw='; style-src 'self'; style-src-attr 'unsafe-inline'; img-src 'self' data:; media-src 'self' https://cdn.dribbble.com; font-src 'self'; connect-src 'self'; manifest-src 'self'; frame-src 'none'; worker-src 'none'; form-action 'self'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'; upgrade-insecure-requests
 ```
 
 What each part does:
 
 - `default-src 'self'` blocks everything that is not listed from any other origin. The site loads nothing from third parties except the Dribbble videos.
-- `script-src 'self' 'unsafe-inline'` and `style-src 'self' 'unsafe-inline'` are needed because Astro writes some small scripts and styles directly into the HTML (the menu script and page styles are inline today). A header cannot list the hashes of those, because they change with each build.
-- `img-src 'self' data:`, `font-src 'self'`, `connect-src 'self'`, `form-action 'self'` and `base-uri 'self'` keep images, fonts, network calls, form posts and the base URL on the site itself.
-- `media-src 'self' https://cdn.dribbble.com` allows the playground videos that are hotlinked from Dribbble. If the playground also shows images or poster frames from Dribbble, add `https://cdn.dribbble.com` to `img-src` too (the Report-Only test will show it).
-- `object-src 'none'` disables plugins. `frame-ancestors 'none'` stops other sites from framing ours. `upgrade-insecure-requests` upgrades any stray http:// link to https://.
+- `script-src 'self' 'sha256-...'` allows the site's own script files and exactly one inline script: the small boot script in `src/layouts/BaseLayout.astro` that adds the `js` class. The hash is the same on every page, because that script never changes between builds. There is no `'unsafe-inline'` for scripts, so an injected `<script>` or `onclick=` attribute does not run. The JSON-LD blocks are data, not scripts, and are not affected.
+- `style-src 'self'` allows stylesheet files only. The build writes every stylesheet to a file (`build.inlineStylesheets: 'never'` in `astro.config.mjs`), so there are no inline `<style>` blocks.
+- `style-src-attr 'unsafe-inline'` is the one deliberate exception. A few elements carry a `style="..."` attribute (shot and case study cover aspect ratios, a few SVG labels). CSS in an attribute cannot run script, and the exception covers attributes only, not `<style>` elements.
+- `img-src 'self' data:` allows the site's images and the small inline SVG used for the film grain. `font-src 'self'`, `connect-src 'self'`, `manifest-src 'self'` and `form-action 'self'` keep fonts, network calls and form posts on the site itself.
+- `media-src 'self' https://cdn.dribbble.com` allows the playground videos that are hotlinked from Dribbble. If the playground ever shows images or poster frames from Dribbble, add `https://cdn.dribbble.com` to `img-src` too (the Report-Only test will show it).
+- `frame-src 'none'` and `worker-src 'none'` block embedded pages and workers. `object-src 'none'` disables plugins. `base-uri 'none'` stops an injected `<base>` tag from redirecting relative links.
+- `frame-ancestors 'none'` stops other sites from framing ours. `upgrade-insecure-requests` upgrades any stray http:// link to https://.
 
-How this works with the hash-based CSP that Astro can generate: Astro 7 can emit a `<meta http-equiv="content-security-policy">` tag with hashes for exactly the inline scripts and styles of each page (this will be wired into the site separately). Browsers enforce every policy they receive, and a page must satisfy all of them. So with both in place, the header gives the base rules and `frame-ancestors`, and the meta tag's hashes make inline code stricter than `'unsafe-inline'` alone. The header stays compatible and does not need to change when the meta tag arrives. Do not remove `'unsafe-inline'` from the header on your own: the header cannot carry per-page hashes, so removing it would block the site's own inline code.
+The same policy is also written into every page as a `<meta http-equiv="Content-Security-Policy">` tag, as a second layer that works even where this header is missing (for example the GitHub Pages preview). A meta tag cannot carry `frame-ancestors`, and the site leaves `upgrade-insecure-requests` out of it so the local http preview keeps working, so those two are header only. The meta tag is the first thing in `<head>`, before the inline script, because a meta policy only covers what comes after it. Browsers enforce every policy they receive, and a page must satisfy all of them, so the header and the meta tag are identical and never conflict.
+
+### When the boot script changes
+
+The allowed hash belongs to the exact text of the inline script in `src/layouts/BaseLayout.astro`. If anybody edits that script, even a space, the hash changes and the browser would block it (the site then loses its `js` class and the reduced motion handling). That is why CI runs `npm run check:csp` after the build: it hashes every inline script in `dist/` and fails when a hash is not in `security/csp.json`, and it prints the new hash. To update:
+
+1. Run `npm run build && npm run check:csp`. Copy the hash from the failure message.
+2. Replace the `sha256-...` value in `security/csp.json` (under `script-src`).
+3. Run `npm run build && npm run check:csp` again. It now fails only if the line in this document differs, and shows the line to paste into the code block above and into the Cloudflare rule.
+
+The same check also fails the build for any inline `<style>`, any `on*=` event attribute, any `javascript:` URL, any script or stylesheet from another origin, and a missing or misplaced meta tag.
 
 ### Test in Report-Only mode first
 

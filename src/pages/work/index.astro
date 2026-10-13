@@ -1,31 +1,303 @@
 ---
-import BookCta from '../../components/BookCta.astro';
-import PageHeader from '../../components/PageHeader.astro';
-import WorkCard from '../../components/WorkCard.astro';
+import Breadcrumbs from '../../components/Breadcrumbs.astro';
+import Closer from '../../components/work/Closer.astro';
+import WorkCard from '../../components/work/WorkCard.astro';
+import '../../components/work/work.css';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getWork } from '../../lib/content';
-import { crumbs } from '../../lib/schema';
+import { WEBSITE_ID, crumbs } from '../../lib/schema';
+import { canonicalUrl } from '../../lib/url';
 
 const work = await getWork();
 const trail = crumbs({ name: 'Work', path: '/work/' });
+const total = work.length;
+const pad = (n: number) => String(n).padStart(2, '0');
+const years = work.map((w) => w.data.year);
+const span = `${Math.min(...years)} to ${Math.max(...years)}`;
+
+const title = 'Work: case studies in B2B SaaS and product design';
+const description =
+  'Case studies from delbueno™ Studio: product design for cloud security, AI, fintech and consumer brands, with the results behind each project.';
+
+const collectionSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  name: title,
+  description,
+  url: canonicalUrl('/work/'),
+  isPartOf: { '@id': WEBSITE_ID },
+  inLanguage: 'en',
+  mainEntity: {
+    '@type': 'ItemList',
+    numberOfItems: total,
+    itemListElement: work.map((e, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      url: canonicalUrl(`/work/${e.id}/`),
+      name: e.data.title,
+    })),
+  },
+};
 ---
 
-<BaseLayout
-  title="Work: case studies in B2B SaaS and product design"
-  description="Case studies from delbueno™ Studio: product design for cloud security, AI, marketplaces and consumer brands, with the results behind each."
-  breadcrumbs={trail}
->
-  <PageHeader title="Work" eyebrow="Case studies" lede="Selected projects and what changed for the teams behind them." crumbs={trail} />
-  <section class="section">
-    <div class="wrap">
-      {
-        work.length > 0 ? (
-          <div class="grid">{work.map((entry) => <WorkCard entry={entry} />)}</div>
-        ) : (
-          <p class="lede">Case studies are on the way.</p>
-        )
-      }
+<BaseLayout title={title} description={description} breadcrumbs={trail} jsonLd={[collectionSchema]}>
+  <header class="wk-head">
+    <span class="wk-glow" aria-hidden="true"></span>
+    <div class="wk-wrap">
+      <Breadcrumbs items={trail} />
+      <div class="wk-head__grid">
+        <div class="wk-head__main">
+          <p class="wk-tag" data-rv>
+            Work
+          </p>
+          <h1 class="wk-head__h" data-split>
+            Case studies
+          </h1>
+        </div>
+        <div class="wk-head__side">
+          <p class="wk-head__lede" data-rv>
+            delbueno™ Studio has published {total} case studies across cloud security, fintech, proptech, field service
+            software, private aviation, retail, e-commerce and automotive. Each one covers the problem, what we designed
+            and built, and the result, from a 42% satisfaction lift to onboarding completion rising from 62% to 91%.
+          </p>
+          <dl class="wk-head__facts" data-rv>
+            <div>
+              <dt>Case studies</dt>
+              <dd>{pad(total)}</dd>
+            </div>
+            <div>
+              <dt>Years</dt>
+              <dd>{span}</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </div>
+
+    <div class="wk-ticker" aria-hidden="true" data-ticker>
+      <div class="wk-ticker__track" data-ticker-track>
+        {[0, 1].map(() =>
+          work.map((e) => (
+            <span class="wk-ticker__item">
+              {e.data.client}
+              <i></i>
+            </span>
+          )),
+        )}
+      </div>
+    </div>
+  </header>
+
+  <section class="wk-list" aria-label="Case studies">
+    <div class="wk-wrap">
+      {total > 0 ? (
+        <ul class="wk-grid">
+          {work.map((entry, i) => (
+            <WorkCard entry={entry} index={i} total={total} />
+          ))}
+        </ul>
+      ) : (
+        <p class="lede">Case studies are on the way.</p>
+      )}
     </div>
   </section>
-  <BookCta />
+
+  <Closer heading="Have a product that needs to feel obvious?" />
+
+  <script>
+    import '../../scripts/work/list';
+  </script>
 </BaseLayout>
+
+<style is:global>
+  .wk-head {
+    position: relative;
+    isolation: isolate;
+    padding-top: calc(var(--nav-h) + clamp(28px, 4vw, 56px));
+    overflow: clip;
+  }
+
+  .wk-head__grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--gap);
+    row-gap: clamp(28px, 4vw, 56px);
+    align-items: end;
+    margin-top: clamp(32px, 6vw, 80px);
+  }
+
+  .wk-head__main {
+    grid-column: 1 / -1;
+  }
+
+  .wk-head__h {
+    margin-top: 22px;
+    font: 800 clamp(3.2rem, 13vw, 14rem) / 0.86 var(--display);
+    letter-spacing: -0.055em;
+    overflow-wrap: normal;
+  }
+
+  .wk-head__side {
+    display: contents;
+  }
+
+  .wk-head__lede {
+    grid-column: 7 / 13;
+    grid-row: 2;
+    color: var(--mute);
+    font-size: clamp(1rem, 0.95rem + 0.3vw, 1.1875rem);
+    line-height: 1.5;
+  }
+
+  .wk-head__facts {
+    grid-column: 1 / 6;
+    grid-row: 2;
+    align-self: end;
+    display: flex;
+    gap: clamp(28px, 4vw, 56px);
+  }
+
+  .wk-head__facts dt {
+    color: var(--dim);
+    font: 400 var(--fs-xs) / 1 var(--mono);
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+  }
+
+  .wk-head__facts dd {
+    margin-top: 10px;
+    font: 800 clamp(1.4rem, 2vw, 2rem) / 1 var(--display);
+    letter-spacing: -0.04em;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  /* Client names drift sideways as the page scrolls */
+  .wk-ticker {
+    margin-top: clamp(48px, 8vw, 120px);
+    padding-block: clamp(14px, 2vw, 24px);
+    border-block: 1px solid var(--line);
+    overflow: clip;
+  }
+
+  .wk-ticker__track {
+    display: flex;
+    width: max-content;
+    will-change: transform;
+  }
+
+  .wk-ticker__item {
+    display: inline-flex;
+    align-items: center;
+    gap: clamp(20px, 3vw, 44px);
+    padding-right: clamp(20px, 3vw, 44px);
+    font: 800 clamp(2.4rem, 6vw, 6.5rem) / 1 var(--display);
+    letter-spacing: -0.045em;
+    white-space: nowrap;
+    color: transparent;
+    -webkit-text-stroke: 1px rgb(255 255 255 / 0.4);
+  }
+
+  .wk-ticker__item i {
+    width: 0.16em;
+    height: 0.16em;
+    border-radius: 50%;
+    background: var(--grad-fill);
+    flex: none;
+  }
+
+  .wk-list {
+    padding-block: clamp(64px, 9vw, 140px) clamp(72px, 10vw, 150px);
+  }
+
+  .wk-grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--gap);
+    row-gap: clamp(56px, 7vw, 120px);
+  }
+
+  .wk-card {
+    grid-column: span 12;
+  }
+
+  /* Reveal states: the clip-path opens and the picture settles when the card scrolls in (scripts/work/list.ts) */
+  .js .wk-card:not(.is-in) .wk-card__media {
+    clip-path: inset(100% 0 0 0 round 12px);
+  }
+
+  .js .wk-card:not(.is-in) .wk-card__cap {
+    opacity: 0;
+  }
+
+  @media (min-width: 700px) and (max-width: 1099px) {
+    .wk-card {
+      grid-column: span 6;
+    }
+
+    .wk-card:first-child,
+    .wk-card:last-child:nth-child(even) {
+      grid-column: span 12;
+    }
+
+    .wk-card:nth-child(even):not(:last-child) {
+      margin-top: clamp(40px, 6vw, 80px);
+    }
+  }
+
+  @media (min-width: 1100px) {
+    .wk-card:nth-child(8n + 1) {
+      grid-column: 1 / 9;
+    }
+
+    .wk-card:nth-child(8n + 2) {
+      grid-column: 9 / 13;
+      align-self: end;
+    }
+
+    .wk-card:nth-child(8n + 3) {
+      grid-column: 1 / 6;
+      align-self: start;
+    }
+
+    .wk-card:nth-child(8n + 4) {
+      grid-column: 6 / 13;
+    }
+
+    .wk-card:nth-child(8n + 5) {
+      grid-column: 1 / 8;
+    }
+
+    .wk-card:nth-child(8n + 6) {
+      grid-column: 8 / 13;
+      align-self: end;
+    }
+
+    .wk-card:nth-child(8n + 7) {
+      grid-column: 1 / 5;
+      align-self: start;
+    }
+
+    .wk-card:nth-child(8n + 8) {
+      grid-column: 5 / 13;
+    }
+  }
+
+  @media (max-width: 1099px) {
+    .wk-head__lede {
+      grid-column: 1 / 10;
+      grid-row: 2;
+    }
+
+    .wk-head__facts {
+      grid-column: 1 / -1;
+      grid-row: 3;
+    }
+  }
+
+  @media (max-width: 699px) {
+    .wk-head__lede {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

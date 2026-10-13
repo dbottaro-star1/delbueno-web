@@ -5,6 +5,9 @@ on:
   pull_request:
   push:
     branches-ignore: [main]
+  # Pushes made with the built-in GITHUB_TOKEN (the Dribbble sync bot) do not start workflows. Run this one by hand
+  # on such a branch: Actions, CI, Run workflow, pick the branch. See README.md, section Playground shots.
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -30,7 +33,13 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
 
-      - run: npm ci
+      # Install scripts are off. Only fsevents (optional, macOS only) has one, and sharp ships prebuilt binaries as
+      # optional packages, so nothing needs `npm rebuild`. If a future dependency needs a build step, add
+      # `npm rebuild <package>` for that package only, right after this step.
+      - run: npm ci --ignore-scripts
+
+      - name: Verify registry signatures
+        run: npm audit signatures
 
       - name: Audit production dependencies (fails on high or critical)
         run: npm audit --audit-level=high --omit=dev
@@ -47,3 +56,34 @@ jobs:
 
       - name: Redirect targets exist
         run: npm run check:redirects
+
+      - name: Content Security Policy (inline script hashes, no inline styles, meta tag, docs in sync)
+        run: npm run check:csp
+
+      - name: SEO (title and description length, unique, canonical, absolute og:image, one h1, JSON-LD parses)
+        run: npm run check:seo
+
+  lint:
+    name: lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - run: npm ci --ignore-scripts
+
+      # ESLint with the Astro, TypeScript and accessibility rules. Also bans innerHTML and set:html.
+      - name: Lint
+        run: npm run lint
+
+      - name: Formatting (Prettier)
+        run: npm run format:check

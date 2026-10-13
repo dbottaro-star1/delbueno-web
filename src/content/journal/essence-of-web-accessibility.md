@@ -1,6 +1,7 @@
 ---
 title: "Navigating the Web: The Essence of Web Accessibility"
-description: "Digital Presence: The Essence of Web Accessibility by delbueno™ Studio. Learn essential practices to make your site accessible to all users."
+seoTitle: "The Essence of Web Accessibility"
+description: "The essence of web accessibility, from delbueno™ Studio: essential practices that make your site and digital presence usable by all of your users."
 pubDate: 2023-05-12
 updatedDate: 2025-05-16
 author: "Dani Bottaro"

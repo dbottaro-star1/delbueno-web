@@ -1,5 +1,6 @@
 ---
 title: "The Value of Redesigning a Website: How It Can Fuel Business Growth in the United States"
+seoTitle: "The Value of Redesigning a Website"
 description: "Discover how a fresh, modern website redesign can enhance SEO, increase traffic, improve conversion rates, and build credibility for your business."
 pubDate: 2024-09-02
 updatedDate: 2025-05-15

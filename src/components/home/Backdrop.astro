@@ -4,8 +4,15 @@
 
 <canvas id="field" aria-hidden="true"></canvas>
 <div class="clarity" id="clarityRail" aria-hidden="true">
-  <span class="mono"><span>Clarity</span><b><span id="clarity">000</span>%</b></span>
-  <span class="bar"><i id="clarityBar"></i></span>
+  <span class="mono">
+    <span>Clarity</span>
+    <b>
+      <span id="clarity">000</span>%
+    </b>
+  </span>
+  <span class="bar">
+    <i id="clarityBar"></i>
+  </span>
 </div>
 <div class="fly-layer" id="flyLayer" aria-hidden="true"></div>
 
@@ -111,7 +118,9 @@
     position: absolute;
     inset: 0;
     border-radius: var(--r);
-    box-shadow: 0 50px 70px -26px rgb(0 0 0 / 0.85), 0 0 90px -24px rgb(63 41 216 / 0.5);
+    box-shadow:
+      0 50px 70px -26px rgb(0 0 0 / 0.85),
+      0 0 90px -24px rgb(63 41 216 / 0.5);
   }
 
   .fly__im {

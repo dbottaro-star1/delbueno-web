@@ -5,18 +5,36 @@ import { BRAND, LINKS } from '../../lib/site';
 <section class="final" aria-labelledby="final-h">
   <p class="label">Next</p>
   <h2 class="h2" id="final-h">
-    <span class="hl"><span class="hl-i">Let’s build</span></span>
-    <span class="hl"><span class="hl-i">something</span></span>
-    <span class="hl"><span class="hl-i">people get</span></span>
-    <span class="hl"
-      ><span class="hl-i"><span class="gw">instantly.<span class="gw-fx" aria-hidden="true">instantly.</span></span></span></span
-    >
+    <span class="hl">
+      <span class="hl-i">Let’s build</span>
+    </span>{' '}
+    <span class="hl">
+      <span class="hl-i">something</span>
+    </span>{' '}
+    <span class="hl">
+      <span class="hl-i">people get</span>
+    </span>{' '}
+    <span class="hl">
+      <span class="hl-i">
+        <span class="gw">
+          instantly.
+          <span class="gw-fx" aria-hidden="true">
+            instantly.
+          </span>
+        </span>
+      </span>
+    </span>
   </h2>
   <div class="final-row" data-rv>
     <a class="btn btn-primary btn-cta" data-magnetic href={LINKS.book} rel="noopener">
-      Book a call <svg class="arr" aria-hidden="true"><use href="#i-arr"></use></svg>
+      Book a call{' '}
+      <svg class="arr" aria-hidden="true">
+        <use href="#i-arr"></use>
+      </svg>
     </a>
-    <p class="final-mail">or <a href={`mailto:${BRAND.email}`}>{BRAND.email}</a></p>
+    <p class="final-mail">
+      or <a href={`mailto:${BRAND.email}`}>{BRAND.email}</a>
+    </p>
   </div>
 </section>
 

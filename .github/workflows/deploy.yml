@@ -8,9 +8,10 @@ on:
 # No permissions by default. Each job below asks for only what it needs.
 permissions: {}
 
+# A deploy that is already running is never cut off halfway; a newer push waits its turn.
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 # Deployment target. Today the site is a noindex preview on GitHub Pages.
 #
@@ -41,7 +42,11 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
 
-      - run: npm ci
+      # See ci.yml for why install scripts are off and no `npm rebuild` is needed.
+      - run: npm ci --ignore-scripts
+
+      - name: Verify registry signatures
+        run: npm audit signatures
 
       - name: Audit production dependencies (fails on high or critical)
         run: npm audit --audit-level=high --omit=dev
@@ -54,6 +59,12 @@ jobs:
 
       - name: Copy lint (no em dashes, en dashes or middle dots)
         run: npm run lint:copy
+
+      - name: Content Security Policy (inline script hashes, no inline styles, meta tag, docs in sync)
+        run: npm run check:csp
+
+      - name: SEO (title and description length, unique, canonical, absolute og:image, one h1, JSON-LD parses)
+        run: npm run check:seo
 
       - uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6
 

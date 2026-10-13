@@ -90,7 +90,9 @@ if (!existsSync(dist)) {
 }
 
 const files = await walk(dist);
-const targets = files.filter((f) => /\.html$/.test(f) || /\/llms(-full)?\.txt$/.test(f) || /\.xml$/.test(f) && /rss/.test(f));
+const targets = files.filter(
+  (f) => /\.html$/.test(f) || /\/llms(-full)?\.txt$/.test(f) || (/\.xml$/.test(f) && /rss/.test(f)),
+);
 const problems = [];
 
 for (const file of targets) {

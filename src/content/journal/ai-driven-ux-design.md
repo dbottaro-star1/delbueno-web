@@ -1,5 +1,6 @@
 ---
 title: "AI-Driven UX Design: How Modern SaaS Teams Ship Faster Without Sacrificing Quality"
+seoTitle: "AI-Driven UX Design for SaaS Teams"
 description: "AI-driven UX helps SaaS teams ship faster while maintaining quality, through smarter workflows, better decisions, and consistent user experiences."
 pubDate: 2026-01-26
 updatedDate: 2026-07-22
@@ -169,7 +170,7 @@ You do not always need a huge research project. Even a lightweight usability ses
 
 AI can help draft specs, acceptance criteria, and edge case notes. This alone can cut days from delivery cycles because engineers get clarity earlier.
 
-If you want support building a workflow like this across your product, our [**product design services**](/product-design/) are built for SaaS teams that want speed without messy or confusing UX.
+If you want support building a workflow like this across your product, our [**product design services**](/services/product-design/) are built for SaaS teams that want speed without messy or confusing UX.
 
 ## **What kinds of features benefit the most from AI-assisted UX?**
 
@@ -200,7 +201,7 @@ Does the language sound like a helpful person?
 
 If an AI feature feels unpredictable, users stop trusting the product. Trust is not a nice extra in AI products. Trust is the product.
 
-For teams building subscription platforms, our [**UX design for SaaS**](/ux-design/) work focuses on onboarding, activation, and keeping complex workflows clear as products scale.
+For teams building subscription platforms, our [**UX design for SaaS**](/services/product-design/) work focuses on onboarding, activation, and keeping complex workflows clear as products scale.
 
 ## **What about mobile UX? Does AI help there too?**
 
@@ -210,7 +211,7 @@ On mobile, space is tight, attention is short, and the cost of confusion is high
 
 If your SaaS has a companion app, or even mobile-only screens like authentication, billing, or approvals, you want mobile checks early, not at the end.
 
-And if your platform includes a companion app or mobile-first experience, our [**mobile app design**](/solutions/app-design-and-development/) approach helps maintain consistency and usability across devices.
+And if your platform includes a companion app or mobile-first experience, our [**mobile app design**](/services/product-design/) approach helps maintain consistency and usability across devices.
 
 ## **How can we measure whether AI-driven UX is actually working?**
 

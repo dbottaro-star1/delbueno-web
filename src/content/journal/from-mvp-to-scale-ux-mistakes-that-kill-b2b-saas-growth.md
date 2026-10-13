@@ -1,6 +1,7 @@
 ---
 title: "From MVP to Scale: UX Mistakes That Kill B2B SaaS Growth (And How to Avoid Them)"
-description: "Avoid common B2B SaaS UX mistakes from MVP to scale: improve onboarding, usability, and retention without losing users."
+seoTitle: "From MVP to Scale: UX Mistakes in B2B SaaS"
+description: "Common UX mistakes that hold back B2B SaaS growth from MVP to scale, and how to improve onboarding, usability and retention without losing users."
 pubDate: 2026-02-09
 author: "Dani Bottaro"
 category: "B2B SaaS"
@@ -87,7 +88,7 @@ Design role-based experiences intentionally. Each role should have:
 -   Clear boundaries, with explanations when access is restricted
 -   Actions that make sense for their responsibility level
 
-This is not an edge case in B2B. This is the product. If you want a consistent approach, our [**UX design for SaaS**](/ux-design/) work often starts by mapping roles and workflows so the interface supports real permissions cleanly.
+This is not an edge case in B2B. This is the product. If you want a consistent approach, our [**UX design for SaaS**](/services/product-design/) work often starts by mapping roles and workflows so the interface supports real permissions cleanly.
 
 ## **Mistake 4: Your navigation grows, but your information architecture does not**
 
@@ -123,7 +124,7 @@ Standardize components and interaction patterns. When users know what to expect,
 
 Consistency is not cosmetic. It is cognitive efficiency. It is also a direct driver of retention in B2B tools.
 
-If you need help building consistency across a growing product, our [**product design services**](/product-design/) are designed to support teams that are scaling features without wanting the UX to fall apart.
+If you need help building consistency across a growing product, our [**product design services**](/services/product-design/) are designed to support teams that are scaling features without wanting the UX to fall apart.
 
 ## **Mistake 6: Your product does not handle “real life” states**
 
@@ -204,7 +205,7 @@ Pick the area most tied to growth, usually onboarding, a core workflow, or the d
 -   Test quickly
 -   Ship and measure
 
-If your growth includes multiple surfaces, such as marketing site, in-app experience, and a companion portal, it helps to keep your brand and UX consistent across all of them. Our [**web design**](/web-design/) work supports SaaS teams that want lead capture and product experience to feel like one connected story.
+If your growth includes multiple surfaces, such as marketing site, in-app experience, and a companion portal, it helps to keep your brand and UX consistent across all of them. Our [**web design**](/services/web-design/) work supports SaaS teams that want lead capture and product experience to feel like one connected story.
 
 ## **Final question: what is the real cost of ignoring UX at scale?**
 

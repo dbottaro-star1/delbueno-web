@@ -13,7 +13,12 @@ const work = defineCollection({
   loader: glob({ base: './src/content/work', pattern: '**/[^_]*.{md,mdx}', generateId }),
   schema: ({ image }) =>
     z.object({
+      /** The headline shown as the page H1. */
       title: z.string(),
+      /** Title for the browser tab, search results and social cards. 60 characters or fewer with the brand. */
+      seoTitle: z.string().optional(),
+      /** Meta description, 140 to 155 characters. Falls back to `summary`, which is usually too long. */
+      description: z.string().optional(),
       client: z.string(),
       summary: z.string(),
       industry: z.string(),
@@ -22,9 +27,7 @@ const work = defineCollection({
       cover: image(),
       coverAlt: z.string(),
       gallery: z.array(z.object({ src: image(), alt: z.string() })).optional(),
-      testimonial: z
-        .object({ quote: z.string(), name: z.string(), role: z.string() })
-        .optional(),
+      testimonial: z.object({ quote: z.string(), name: z.string(), role: z.string() }).optional(),
       year: z.number(),
       order: z.number(),
       legacyPath: z.string(),
@@ -36,7 +39,11 @@ const journal = defineCollection({
   loader: glob({ base: './src/content/journal', pattern: '**/[^_]*.{md,mdx}', generateId }),
   schema: ({ image }) =>
     z.object({
+      /** The headline shown as the page H1. */
       title: z.string(),
+      /** Title for the browser tab, search results and social cards. 60 characters or fewer with the brand. */
+      seoTitle: z.string().optional(),
+      /** Meta description, 140 to 155 characters. */
       description: z.string(),
       pubDate: z.coerce.date(),
       updatedDate: z.coerce.date().optional(),
@@ -61,7 +68,10 @@ const shots = defineCollection({
   schema: ({ image }) =>
     z.object({
       title: z.string(),
-      url: z.url(),
+      // Rendered as an href, so only real Dribbble shot pages are allowed (no javascript:, data: or other hosts).
+      url: z
+        .url({ protocol: /^https$/, hostname: /^dribbble\.com$/ })
+        .regex(/^https:\/\/dribbble\.com\/shots\/[^\s]+$/),
       image: image(),
       imageAlt: z.string(),
       /**

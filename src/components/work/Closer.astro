@@ -1,0 +1,110 @@
+---
+/** Closing call to action: huge headline, magnetic book button and the studio email. */
+import { BRAND, LINKS } from '../../lib/site';
+import { url } from '../../lib/url';
+
+interface Props {
+  label?: string;
+  heading: string;
+  id?: string;
+}
+const { label = 'Your project', heading, id = 'wk-end-h' } = Astro.props;
+---
+
+<section class="wk-end" aria-labelledby={id}>
+  <div class="wk-wrap">
+    <p class="wk-tag">{label}</p>
+    <h2 class="wk-end__h" id={id} data-split>
+      {heading}
+    </h2>
+    <div class="wk-end__row" data-rv>
+      <a class="btn btn-primary wk-end__btn" data-magnetic href={LINKS.book} rel="noopener noreferrer">
+        Book a call{' '}
+        <svg class="arr" aria-hidden="true">
+          <use href="#i-arr"></use>
+        </svg>
+      </a>
+      <p class="wk-end__mail">
+        or <a href={`mailto:${BRAND.email}`}>{BRAND.email}</a>
+      </p>
+      <a class="wk-end__audit" href={url('/free-ux-audit/')}>
+        Get a free UX audit
+      </a>
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  .wk-end {
+    position: relative;
+    overflow: hidden;
+    padding: clamp(96px, 15vw, 220px) 0 clamp(72px, 10vw, 140px);
+    border-top: 1px solid var(--line);
+  }
+
+  .wk-end::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: radial-gradient(rgb(255 255 255 / 0.2) 1px, transparent 1.2px);
+    background-size: 28px 28px;
+    -webkit-mask-image: radial-gradient(ellipse 60% 70% at 50% 100%, #000, transparent 75%);
+    mask-image: radial-gradient(ellipse 60% 70% at 50% 100%, #000, transparent 75%);
+    opacity: 0.5;
+  }
+
+  .wk-end .wk-wrap {
+    position: relative;
+  }
+
+  .wk-end__h {
+    max-width: 13ch;
+    margin-top: 22px;
+    font: 800 clamp(2.6rem, 8.2vw, 9rem) / 0.92 var(--display);
+    letter-spacing: -0.045em;
+    text-wrap: balance;
+  }
+
+  .wk-end__row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px clamp(20px, 3vw, 48px);
+    margin-top: clamp(40px, 6vw, 96px);
+  }
+
+  .wk-end__btn {
+    height: clamp(64px, 7vw, 96px);
+    padding: 0 clamp(32px, 4vw, 64px);
+    font-size: clamp(1.0625rem, 1.5vw, 1.5rem);
+    gap: 0.9em;
+  }
+
+  .wk-end__mail {
+    color: var(--mute);
+    font-size: clamp(1rem, 1.3vw, 1.25rem);
+  }
+
+  .wk-end__mail a,
+  .wk-end__audit {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: var(--line-2);
+    text-underline-offset: 0.3em;
+    transition: text-decoration-color 0.4s;
+  }
+
+  .wk-end__audit {
+    color: var(--mute);
+    font-size: clamp(1rem, 1.3vw, 1.25rem);
+  }
+
+  .wk-end__mail a:hover,
+  .wk-end__audit:hover {
+    text-decoration-color: var(--ink);
+  }
+</style>

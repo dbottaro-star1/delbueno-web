@@ -24,6 +24,22 @@ If the Cloudflare dashboard asks for a header row in your account, add one as th
 
 Blog posts keep their exact URLs, so they have no redirect. `/careers/` and `/contact/` also keep their URLs.
 
+What the file covers:
+
+- Pages: every legitimate page in the old site's URL inventory, mapped to the closest new page.
+- Landing pages: `/delbueno-nocode-landing/`, `/design-speed-for-startups/`, `/ux-product-design-landing/` and `/product-design-for-ai-tools/`.
+- Categories: `/category/stories/` goes to `/work/`, `/category/blog/marketing/` to its journal category, the other blog
+  categories to `/journal/`.
+- Author archives: the three real authors go to `/about/`.
+- Feeds: `/feed/`, `/comments/feed/` and every category feed go to `/journal/rss.xml`.
+- Sitemaps: `/sitemap.xml`, `/sitemap_index.xml`, `/post-sitemap.xml`, `/page-sitemap.xml` and `/category-sitemap.xml`
+  go to `/sitemap-index.xml`. These sources are files, so they have no trailing slash.
+
+Not in the file on purpose: junk test pages and URLs that should return 410. Those belong in the private 410 list (see
+below), together with any author archive that is not one of the real authors. Per-post comment feeds
+(`/<post-slug>/feed/`) are not redirected. If Search Console shows requests for them, add rows that point to
+`/journal/rss.xml`.
+
 ## How to import
 
 1. In the Cloudflare dashboard open the delbuenostudio.com account, then Manage Account, Bulk Redirects.
@@ -59,3 +75,43 @@ If you see traffic for slashless versions, add rows for them.
 Cloudflare rule (Rules, Custom rules or Response rules, depending on the plan) that matches the paths in the list
 with an expression such as `http.request.uri.path in {"/spam-one/" "/spam-two/"}` and answers with status 410.
 For long lists, use a Cloudflare List of type URL path and reference it from the expression.
+
+## The Spanish subdomain (es.delbuenostudio.com)
+
+`es.delbuenostudio.com` is a DNS CNAME to GTranslate (`gtranslate.net`). GTranslate fetches the English site,
+translates it on its own servers and serves the result from that host. It is not part of this repository, so nothing
+in this repository redirects it. It still receives traffic: in Search Console (April to October 2026) its home page had
+19 clicks from 111 impressions, a 17% click rate. Paths seen there: `/`, `/our-work/`,
+`/solutions/web-design-and-development/`, `/contact/`, `/changing-the-role-of-product-designers/`,
+`/how-ai-is-transforming-design/`, `/-E-commerce/auditor%C3%ADa-de-producto/`, `/-E-commerce/desarrollo-web/`,
+`/EdTech/` and `/HealthTech/`. At the time of the snapshot the host was not responding.
+
+The decision is open. The options, without a recommendation:
+
+**(a) A native Spanish version later.** Translate the pages into Spanish inside this site (for example under `/es/`),
+with `hreflang` links between the two languages. The subdomain would then redirect to the matching `/es/` pages. This
+keeps one codebase and one CSP, and the Spanish copy can be written rather than machine translated. It is the most work,
+and until it exists the subdomain has no destination.
+
+**(b) A Cloudflare redirect from es.\* to the English pages.** Keep the host, point every path at its English
+equivalent with a 301. Visitors and Google land on the real site and the third-party proxy goes away. The Spanish
+experience goes away with it. The host must be handled by Cloudflare (a proxied DNS record) for the rule to run, which
+is a DNS change that has not been made. A starting map for the paths above:
+
+| es.delbuenostudio.com                                                                      | Target                        |
+| ------------------------------------------------------------------------------------------ | ----------------------------- |
+| `/`                                                                                        | `/`                           |
+| `/our-work/`                                                                               | `/work/`                      |
+| `/solutions/web-design-and-development/`                                                   | `/services/web-design/`       |
+| `/-E-commerce/desarrollo-web/`                                                             | `/services/web-design/`       |
+| `/-E-commerce/auditor%C3%ADa-de-producto/`                                                 | `/services/product-strategy/` |
+| `/EdTech/`, `/HealthTech/`                                                                 | `/services/`                  |
+| `/contact/`, `/changing-the-role-of-product-designers/`, `/how-ai-is-transforming-design/` | the same path                 |
+
+**(c) Keep GTranslate.** The Spanish pages keep working as they do today. Two things to weigh. GTranslate injects its
+own scripts and widgets into the pages it serves, and the content security policy of this site (`script-src 'self'`, see
+`security/csp.json`) blocks third-party scripts. If the proxy passes the policy through, its scripts break. If the
+policy is loosened for it, the site loses the protection the policy gives. The proxy also serves a copy of every page
+from another host, so the canonical tags on the new site (which point at delbuenostudio.com) matter more.
+
+Whichever option is chosen, do not change the DNS record until the decision is made.

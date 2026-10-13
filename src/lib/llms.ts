@@ -13,6 +13,9 @@ const SUMMARY =
   'Engagement models: Launch Sprint, Design Partner and Designer on Demand. ' +
   `Kickoff is the same day and first concepts arrive in 48 hours. Contact: ${BRAND.email}.`;
 
+/** Push Markdown headings in an entry body below the entry's own `###` title, so the document outline stays valid. */
+const demote = (body: string): string => body.replace(/^(#{1,4}) /gm, '$1## ');
+
 const link = (title: string, href: string, note?: string) => `- [${title}](${href})${note ? `: ${note}` : ''}`;
 
 export async function buildLlmsTxt(site: URL | undefined): Promise<string> {
@@ -55,15 +58,15 @@ export async function buildLlmsTxt(site: URL | undefined): Promise<string> {
   }
 
   if (journal.length) {
-    lines.push(
-      '## Journal',
-      ...journal.map((p) => link(p.data.title, u(`/${p.id}/`), p.data.description)),
-      '',
-    );
+    lines.push('## Journal', ...journal.map((p) => link(p.data.title, u(`/${p.id}/`), p.data.description)), '');
   }
 
   lines.push(
     '## Company',
+    link('Work', u('/work/'), 'Case studies with the results behind each'),
+    link('Industries', u('/industries/'), 'Cloud, cybersecurity, DevOps, AI and fintech'),
+    link('Engagements', u('/engagements/'), 'Launch Sprint, Design Partner and Designer on Demand, compared'),
+    link('Journal', u('/journal/'), 'Articles on UX for complex software'),
     link('About', u('/about/'), 'Who we are and how we work'),
     link('Contact', u('/contact/'), `Book a call or email ${BRAND.email}`),
     link('Free UX audit', u('/free-ux-audit/'), 'A short, ranked list of what to fix first'),
@@ -79,7 +82,7 @@ export async function buildLlmsTxt(site: URL | undefined): Promise<string> {
 
 export async function buildLlmsFullTxt(site: URL | undefined): Promise<string> {
   const u = (path: string) => absoluteUrl(path, site);
-  const [work, journal] = await Promise.all([getWork(), getJournal()]);
+  const [work, journal, shots] = await Promise.all([getWork(), getJournal(), getShots()]);
 
   const out: string[] = [
     `# ${BRAND.name}`,
@@ -175,9 +178,25 @@ export async function buildLlmsFullTxt(site: URL | undefined): Promise<string> {
       if (d.testimonial) {
         out.push(`Testimonial: "${d.testimonial.quote}" (${d.testimonial.name}, ${d.testimonial.role})`, '');
       }
-      const body = plainBody(w.body);
+      const body = demote(plainBody(w.body));
       if (body) out.push(body, '');
     }
+  }
+
+  if (shots.length) {
+    out.push(
+      '## Playground',
+      '',
+      `URL: ${u('/playground/')}`,
+      '',
+      'Short UI explorations and motion studies made between client projects, also published on Dribbble.',
+      '',
+    );
+    for (const s of shots) {
+      const d = s.data;
+      out.push(`- ${d.title}: ${d.imageAlt} (${d.url}${d.tags.length ? `; tags: ${d.tags.join(', ')}` : ''})`);
+    }
+    out.push('');
   }
 
   if (journal.length) {
@@ -194,7 +213,7 @@ export async function buildLlmsFullTxt(site: URL | undefined): Promise<string> {
         d.description,
         '',
       );
-      const body = plainBody(p.body);
+      const body = demote(plainBody(p.body));
       if (body) out.push(body, '');
     }
   }

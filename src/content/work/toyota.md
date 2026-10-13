@@ -1,5 +1,7 @@
 ---
 title: "A cinematic launch page concept for Toyota's RAV4 Hybrid"
+seoTitle: "Toyota RAV4 Hybrid: Cinematic Landing Page Concept"
+description: "Concept project: a landing page for the Toyota RAV4 Hybrid launch in Uruguay, with 2D animation and a fuel map. We project 64%+ higher engagement."
 client: "Toyota"
 summary: "We designed a concept landing page for the Toyota RAV4 Hybrid launch in Uruguay, with 2D animations and an interactive fuel consumption map. We project 64%+ higher engagement from its interactive elements."
 industry: "Automotive"

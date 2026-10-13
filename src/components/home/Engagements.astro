@@ -7,51 +7,70 @@ import { url } from '../../lib/url';
 <section class="eng" id="engagements" aria-labelledby="eng-h">
   <div class="eng-head">
     <p class="label">Engagements</p>
-    <h2 class="h2" id="eng-h" data-split>Three ways to work with us</h2>
+    <h2 class="h2" id="eng-h" data-split>
+      Three ways to work with us
+    </h2>
   </div>
   <div class="flip-grid" id="flipGrid">
-    {
-      engagements.map((e, i) => {
-        const no = String(i + 1).padStart(2, '0');
-        return (
-          <article class="flip" data-flip>
-            <div class="flip__in">
-              <div class="flip__f flip__front">
-                <span class="flip__no">{no}</span>
-                <div>
-                  <h3>{e.name}</h3>
-                  <ul class="chips">{e.chips.map((c) => <li>{c}</li>)}</ul>
-                  <p class="flip__hint" aria-hidden="true">
-                    <svg class="arr"><use href="#i-arr" /></svg>
-                    <span class="flip__hint-hover">Hover for detail</span>
-                    <span class="flip__hint-tap">Tap for detail</span>
-                  </p>
-                </div>
-              </div>
-              <div class="flip__f flip__back">
-                <div>
-                  <span class="flip__no">{no}</span>
-                  <p class="flip__name">{e.name}</p>
-                  <p class="flip__d">{e.summary}</p>
-                </div>
-                <a class="btn btn-primary btn-sm" href={LINKS.book} rel="noopener">
-                  Book a call <svg class="arr" aria-hidden="true"><use href="#i-arr" /></svg>
-                </a>
+    {engagements.map((e, i) => {
+      const no = String(i + 1).padStart(2, '0');
+      return (
+        <article class="flip" data-flip>
+          <div class="flip__in">
+            <div class="flip__f flip__front">
+              <span class="flip__no">{no}</span>
+              <div>
+                <h3>{e.name}</h3>
+                <ul class="chips">
+                  {e.chips.map((c) => (
+                    <li>{c}</li>
+                  ))}
+                </ul>
+                <p class="flip__hint" aria-hidden="true">
+                  <svg class="arr">
+                    <use href="#i-arr" />
+                  </svg>
+                  <span class="flip__hint-hover">Hover for detail</span>
+                  <span class="flip__hint-tap">Tap for detail</span>
+                </p>
               </div>
             </div>
-          </article>
-        );
-      })
-    }
+            <div class="flip__f flip__back">
+              <div>
+                <span class="flip__no">{no}</span>
+                <p class="flip__name">{e.name}</p>
+                <p class="flip__d">{e.summary}</p>
+              </div>
+              <a class="btn btn-primary btn-sm" href={LINKS.book} rel="noopener">
+                Book a call{' '}
+                <svg class="arr" aria-hidden="true">
+                  <use href="#i-arr" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </article>
+      );
+    })}
   </div>
   <p class="eng-note" data-rv>
-    <svg viewBox="0 0 100 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <svg
+      viewBox="0 0 100 24"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
       <circle cx="5" cy="12" r="3.5" fill="currentColor" stroke="none"></circle>
       <path d="M12 12h80M85 5l7 7-7 7"></path>
     </svg>
     <span>
       Many clients ship an MVP in a Launch Sprint, then roll into Design Partner.
-      <a class="eng-link" href={url('/engagements/')}>Compare the models</a>
+      <a class="eng-link" href={url('/engagements/')}>
+        Compare the models
+      </a>
     </span>
   </p>
 </section>

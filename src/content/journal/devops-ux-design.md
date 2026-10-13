@@ -1,6 +1,7 @@
 ---
 title: "The UX Pitfalls of DevOps Platforms and How to Fix Them"
-description: "Improve developer tool UX, technical user experience, and DevOps UX Design usability testing to make DevOps platforms faster and clearer for real engineering work."
+seoTitle: "UX Pitfalls of DevOps Platforms and How to Fix Them"
+description: "Common UX pitfalls in DevOps platforms and developer tools, and how usability testing and clearer technical UX make them faster for real engineering work."
 pubDate: 2025-12-22
 updatedDate: 2026-01-03
 author: "Dani Bottaro"

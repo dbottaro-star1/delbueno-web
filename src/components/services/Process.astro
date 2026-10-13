@@ -1,0 +1,216 @@
+---
+/**
+ * Scroll-drawn diagram of the first 48 hours: a ruler that fills as you scroll (Today, 24h, 48h), then branches
+ * into the deliverables. Content is plain HTML in an ordered list, the SVG is decoration.
+ */
+import { processSteps, type Service } from '../../data/services';
+
+interface Props {
+  service: Service;
+}
+const { service } = Astro.props;
+
+const nodes = [
+  ...processSteps.map((s, i) => ({ no: `0${i + 1}`, when: s.when, title: s.title, text: s.text })),
+  { no: '04', when: 'Delivered', title: service.timing.title, text: service.timing.text },
+];
+
+// ruler: ticks every 31.25 units over 0 to 750 (24 intervals, one per hour block of three)
+const ticks = Array.from({ length: 25 }, (_, i) => i * 31.25);
+const major = new Set([0, 8, 16, 24]);
+const tickPath = ticks.map((x, i) => `M${x} ${major.has(i) ? 34 : 42}V${major.has(i) ? 62 : 54}`).join('');
+---
+
+<section class="in-sec proc" id="process" aria-labelledby="proc-h" data-process>
+  <div class="in-head">
+    <p class="label">Process</p>
+    <h2 class="in-h2" id="proc-h" data-split>
+      Kickoff today. Concepts in 48 hours.
+    </h2>
+  </div>
+
+  <div class="proc-body">
+    <svg class="proc-svg" viewBox="0 0 1000 96" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+      <defs>
+        <linearGradient id="procGrad" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1000" y2="0">
+          <stop offset="0" stop-color="#3f29d8"></stop>
+          <stop offset="0.45" stop-color="#7b6bff"></stop>
+          <stop offset="1" stop-color="#bafb44"></stop>
+        </linearGradient>
+        <clipPath id="procClip">
+          <rect id="procClipRect" x="0" y="0" width="1000" height="96"></rect>
+        </clipPath>
+      </defs>
+      <g class="proc-base">
+        <path d="M0 48H750" vector-effect="non-scaling-stroke"></path>
+        <path d={tickPath} vector-effect="non-scaling-stroke"></path>
+        <path
+          d="M750 48C830 48 860 16 1000 16M750 48H1000M750 48C830 48 860 80 1000 80"
+          vector-effect="non-scaling-stroke"
+        ></path>
+      </g>
+      <g class="proc-lit" clip-path="url(#procClip)" stroke="url(#procGrad)">
+        <path d="M0 48H750" vector-effect="non-scaling-stroke"></path>
+        <path d={tickPath} vector-effect="non-scaling-stroke"></path>
+        <path
+          d="M750 48C830 48 860 16 1000 16M750 48H1000M750 48C830 48 860 80 1000 80"
+          vector-effect="non-scaling-stroke"
+        ></path>
+      </g>
+    </svg>
+    <span class="proc-rail" aria-hidden="true">
+      <i id="procFill"></i>
+    </span>
+
+    <ol class="proc-list">
+      {nodes.map((n, i) => (
+        <li class="proc-step" data-step={i} data-rv>
+          <span class="proc-dot" aria-hidden="true"></span>
+          <span class="proc-no">Step {n.no}</span>
+          <p class="proc-when">{n.when}</p>
+          <h3>{n.title}</h3>
+          <p class="proc-text">{n.text}</p>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style is:global>
+  .proc-body {
+    position: relative;
+  }
+
+  .proc-svg {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 96px;
+    overflow: visible;
+  }
+
+  .proc-svg path {
+    fill: none;
+    stroke-width: 1;
+  }
+
+  .proc-base {
+    stroke: rgb(255 255 255 / 0.16);
+  }
+
+  .proc-lit {
+    stroke-width: 1.4;
+  }
+
+  .proc-lit path {
+    stroke-width: 1.4;
+  }
+
+  .proc-rail {
+    display: none;
+  }
+
+  .proc-list {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .proc-step {
+    position: relative;
+    padding: 112px clamp(0px, 2vw, 36px) 0 0;
+  }
+
+  .proc-dot {
+    position: absolute;
+    left: 0;
+    top: 42px;
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    border: 1px solid var(--lime);
+    background: var(--lime);
+    transition:
+      background 0.7s var(--out),
+      border-color 0.7s var(--out),
+      transform 0.7s var(--out);
+  }
+
+  .js .proc-dot {
+    background: var(--bg);
+    border-color: var(--line-2);
+  }
+
+  .js .proc-step.is-on .proc-dot {
+    background: var(--lime);
+    border-color: var(--lime);
+    transform: scale(1.25);
+  }
+
+  .proc-no {
+    display: block;
+    margin-bottom: 14px;
+    font: 400 0.75rem / 1 var(--mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--dim);
+  }
+
+  .proc-when {
+    font: 500 clamp(1.5rem, 2.6vw, 2.6rem) / 1 var(--mono);
+    letter-spacing: -0.04em;
+    color: var(--ink);
+  }
+
+  .proc-step h3 {
+    margin: clamp(20px, 2.6vw, 36px) 0 12px;
+    font: 700 clamp(1.3rem, 1.9vw, 1.9rem) / 1.08 var(--display);
+    letter-spacing: -0.03em;
+  }
+
+  .proc-text {
+    max-width: 30ch;
+    color: var(--mute);
+  }
+
+  @media (max-width: 760px) {
+    .proc-svg {
+      display: none;
+    }
+
+    .proc-rail {
+      position: absolute;
+      display: block;
+      left: 6px;
+      top: 6px;
+      bottom: 6px;
+      width: 1px;
+      background: var(--line-2);
+    }
+
+    .proc-rail i {
+      position: absolute;
+      inset: 0;
+      background: var(--grad);
+      transform-origin: top center;
+    }
+
+    .js .proc-rail i {
+      transform: scaleY(0);
+    }
+
+    .proc-list {
+      grid-template-columns: 1fr;
+      row-gap: 44px;
+    }
+
+    .proc-step {
+      padding: 0 0 0 36px;
+    }
+
+    .proc-dot {
+      left: 0;
+      top: 0;
+    }
+  }
+</style>

@@ -1,0 +1,156 @@
+---
+/** How "unlimited requests, one at a time" works: four steps and a loop that draws back to the queue. */
+import { requestFlow } from '../../data/engagements';
+---
+
+<div class="rf" data-flow>
+  <p class="in-lead" data-rv>
+    {requestFlow.intro}
+  </p>
+  <div class="rf-body">
+    <ol class="rf-list">
+      {requestFlow.steps.map((s, i) => (
+        <li class="rf-step" data-rv>
+          <span class="rf-no">{String(i + 1).padStart(2, '0')}</span>
+          <h3>{s.title}</h3>
+          <p>{s.text}</p>
+        </li>
+      ))}
+    </ol>
+    <svg class="rf-loop" viewBox="0 0 1000 70" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+      <defs>
+        <linearGradient id="rfGrad" gradientUnits="userSpaceOnUse" x1="880" y1="0" x2="370" y2="0">
+          <stop offset="0" stop-color="#7b6bff"></stop>
+          <stop offset="1" stop-color="#bafb44"></stop>
+        </linearGradient>
+        <clipPath id="rfClip">
+          <rect id="rfClipRect" x="1000" y="0" width="0" height="70"></rect>
+        </clipPath>
+      </defs>
+      <path class="rf-loop-base" d="M875 6C875 70 375 70 375 12" vector-effect="non-scaling-stroke"></path>
+      <g clip-path="url(#rfClip)">
+        <path
+          class="rf-loop-lit"
+          d="M875 6C875 70 375 70 375 12"
+          stroke="url(#rfGrad)"
+          vector-effect="non-scaling-stroke"
+        ></path>
+      </g>
+      <path class="rf-loop-head" id="rfHead" d="M369 22L375 10L381 22" vector-effect="non-scaling-stroke"></path>
+    </svg>
+    <p class="rf-repeat" aria-hidden="true">
+      repeat
+    </p>
+  </div>
+  <p class="rf-outro" data-rv>
+    {requestFlow.outro}
+  </p>
+</div>
+
+<style is:global>
+  .rf-body {
+    position: relative;
+    margin-top: clamp(40px, 5vw, 72px);
+    padding-bottom: 96px;
+  }
+
+  .rf-list {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: var(--gap);
+  }
+
+  .rf-step {
+    padding-top: 20px;
+    border-top: 1px solid var(--line-2);
+  }
+
+  .rf-no {
+    display: block;
+    margin-bottom: 40px;
+    font: 500 clamp(1.75rem, 3vw, 3rem) / 1 var(--mono);
+    letter-spacing: -0.04em;
+    color: var(--dim);
+  }
+
+  .rf-step h3 {
+    font: 700 clamp(1.25rem, 1.8vw, 1.75rem) / 1.08 var(--display);
+    letter-spacing: -0.03em;
+    margin-bottom: 12px;
+  }
+
+  .rf-step p {
+    color: var(--mute);
+    max-width: 28ch;
+  }
+
+  .rf-loop {
+    position: absolute;
+    left: 0;
+    bottom: 12px;
+    width: 100%;
+    height: 70px;
+    overflow: visible;
+  }
+
+  .rf-loop path {
+    fill: none;
+    stroke-width: 1.2;
+  }
+
+  .rf-loop-base {
+    stroke: var(--line-2);
+  }
+
+  .rf-loop-head {
+    stroke: var(--lime);
+  }
+
+  .rf-loop-lit {
+    stroke-width: 1.6;
+  }
+
+  .js .rf-loop-head {
+    opacity: 0;
+  }
+
+  .rf-repeat {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    font: 400 0.75rem / 1 var(--mono);
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--dim);
+  }
+
+  .rf-outro {
+    margin-top: 8px;
+    max-width: 56ch;
+    color: var(--mute);
+    font-size: clamp(1rem, 1.3vw, 1.25rem);
+  }
+
+  @media (max-width: 860px) {
+    .rf-list {
+      grid-template-columns: 1fr 1fr;
+      row-gap: 36px;
+    }
+
+    .rf-body {
+      padding-bottom: 0;
+    }
+
+    .rf-loop,
+    .rf-repeat {
+      display: none;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .rf-list {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

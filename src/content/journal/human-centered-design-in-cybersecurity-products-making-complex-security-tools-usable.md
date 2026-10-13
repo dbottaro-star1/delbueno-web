@@ -1,6 +1,7 @@
 ---
 title: "Human-Centered Design in Cybersecurity Products: Making Complex Security Tools Usable"
-description: "Feeling UI inconsistency as you scale? This startup design systems guide cuts design debt, speeds delivery, and keeps SaaS UX consistent."
+seoTitle: "Cybersecurity UX Design: Human-Centered Security Tools"
+description: "Security tools combine high stakes, complexity and urgency. How human-centered cybersecurity UX helps analysts prioritize alerts and act with confidence."
 pubDate: 2026-03-16
 author: "Dani Bottaro"
 category: "DevOps & Security"
@@ -155,7 +156,7 @@ Grouping can be based on:
 
 This is a major driver of **enterprise security UX** improvement because it reduces alert noise and helps teams focus.
 
-If you want a structured way to implement these patterns across the platform, our [**product design services**](/product-design/) focus on system-level UX, not just individual screens.
+If you want a structured way to implement these patterns across the platform, our [**product design services**](/services/product-design/) focus on system-level UX, not just individual screens.
 
 ## **How do you design a dashboard for security that people actually trust?**
 
@@ -195,7 +196,7 @@ If your UX forces them to open multiple tabs, lose their place, or reapply filte
 
 This is why **usability in cybersecurity** depends heavily on navigation and context. Every step should feel like part of one coherent investigation journey.
 
-For SaaS security platforms, our [UX design](/ux-design/) often focuses on exactly this: building investigation journeys that remain clear under pressure.
+For SaaS security platforms, our [UX design](/services/product-design/) often focuses on exactly this: building investigation journeys that remain clear under pressure.
 
 ## **What about configuration and policy design? Why is it always so painful?**
 

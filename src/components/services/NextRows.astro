@@ -1,0 +1,35 @@
+---
+/** Link rows to sibling pages, in the homepage's big-type style. */
+interface Item {
+  name: string;
+  summary: string;
+  href: string;
+}
+interface Props {
+  items: Item[];
+  label?: string;
+  heading: string;
+}
+const { items, label = 'Keep going', heading } = Astro.props;
+import { url } from '../../lib/url';
+---
+
+<section class="in-sec" aria-labelledby="next-h">
+  <div class="in-head">
+    <p class="label">{label}</p>
+    <h2 class="in-h2" id="next-h" data-split>
+      {heading}
+    </h2>
+  </div>
+  <div class="in-next">
+    {items.map((item) => (
+      <a class="in-next__row" href={url(item.href)} data-rv>
+        <h3 class="in-next__name">{item.name}</h3>
+        <p class="in-next__sum">{item.summary}</p>
+        <svg class="arr" aria-hidden="true">
+          <use href="#i-arr" />
+        </svg>
+      </a>
+    ))}
+  </div>
+</section>

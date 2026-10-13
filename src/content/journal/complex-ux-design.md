@@ -1,6 +1,7 @@
 ---
-title: "Designing Clarity: UX Principles for Complex SaaS Dashboards (2026 Best Guide)"
-description: "Practical complex UX design principles that simplify SaaS dashboard UX for technical users and make data heavy interfaces faster to read and act on."
+title: "Designing Clarity: UX Principles for Complex SaaS Dashboards"
+seoTitle: "Clarity in SaaS UX Design: Dashboard Principles"
+description: "Clarity in SaaS UX design starts with the dashboard. Cut cognitive load, set a clear hierarchy and tie every metric to an action, even in dense data."
 pubDate: 2025-11-11
 author: "Dani Bottaro"
 category: "UX Strategy"

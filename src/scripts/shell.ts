@@ -17,15 +17,40 @@ export function initShell(): void {
   const menu = document.querySelector<HTMLElement>('[data-menu]');
   if (!nav || !toggle || !menu) return;
 
-  /* ---- menu ---- */
+  /* ---- menu: a modal dialog while open ---- */
+  // Everything behind the menu is inert (no focus, no pointer, hidden from assistive technology) except the burger,
+  // which stays in the header so the menu can be closed. Whatever was already inert is left alone on close.
+  let inerted: HTMLElement[] = [];
+  const backdrop = (): HTMLElement[] => {
+    const outside = Array.from(document.body.children).filter(
+      (el): el is HTMLElement =>
+        el instanceof HTMLElement &&
+        !['SCRIPT', 'STYLE'].includes(el.tagName) &&
+        el !== nav &&
+        el !== menu &&
+        !el.matches('.cursor'),
+    );
+    const inHeader = Array.from(
+      nav.querySelectorAll<HTMLElement>(':scope > *:not(.nav-right), .nav-right > :not([data-nav-toggle])'),
+    );
+    return [...outside, ...inHeader].filter((el) => !el.inert);
+  };
   const setOpen = (open: boolean) => {
     if (menu.classList.contains('is-open') === open) return;
     menu.classList.toggle('is-open', open);
     toggle.setAttribute('aria-expanded', String(open));
     toggle.setAttribute('aria-label', open ? 'Close menu' : 'Menu');
     document.documentElement.classList.toggle('menu-open', open);
+    if (open) {
+      inerted = backdrop();
+      inerted.forEach((el) => (el.inert = true));
+    } else {
+      inerted.forEach((el) => (el.inert = false));
+      inerted = [];
+    }
     const lenis = getMotion()?.lenis;
-    if (lenis) open ? lenis.stop() : lenis.start();
+    if (open) lenis?.stop();
+    else lenis?.start();
     if (open) menu.querySelector<HTMLElement>('a')?.focus({ preventScroll: true });
   };
   toggle.addEventListener('click', () => setOpen(!menu.classList.contains('is-open')));
@@ -46,6 +71,9 @@ export function initShell(): void {
       e.preventDefault();
       last.focus();
     } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault();
+      first.focus();
+    } else if (!items.includes(document.activeElement as HTMLElement)) {
       e.preventDefault();
       first.focus();
     }
@@ -121,7 +149,8 @@ function cursor({ gsap }: Motion): void {
   const label = document.querySelector<HTMLElement>('.c-label');
   if (!dot || !ring || !bg || !label) return;
 
-  root.classList.add('has-cursor');
+  // The native cursor is hidden only after a real mouse has moved, so it is never hidden before ours can be seen.
+  // Touch or pen input, or motion being switched off, brings the native cursor back (see motion.ts).
   gsap.set([dot, ring], { xPercent: -50, yPercent: -50 });
   const dx = gsap.quickTo(dot, 'x', { duration: 0.12, ease: 'power3' });
   const dy = gsap.quickTo(dot, 'y', { duration: 0.12, ease: 'power3' });
@@ -131,7 +160,12 @@ function cursor({ gsap }: Motion): void {
   window.addEventListener(
     'pointermove',
     (e) => {
-      if (e.pointerType === 'touch') return;
+      if (e.pointerType !== 'mouse') {
+        root.classList.remove('has-cursor');
+        return;
+      }
+      if (!getMotion()) return;
+      root.classList.add('has-cursor');
       if (!shown) {
         shown = true;
         gsap.set([dot, ring], { x: e.clientX, y: e.clientY });
@@ -157,7 +191,10 @@ function cursor({ gsap }: Motion): void {
       const target = open ?? home;
       if (cursorEl.parentElement !== target) target.appendChild(cursorEl);
     };
-    new MutationObserver(follow).observe(document.body, { subtree: true, attributes: true, attributeFilter: ['open'] });
+    const watcher = new MutationObserver(follow);
+    document
+      .querySelectorAll('dialog')
+      .forEach((d) => watcher.observe(d, { attributes: true, attributeFilter: ['open'] }));
   }
 
   let state = '';

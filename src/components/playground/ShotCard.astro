@@ -22,7 +22,12 @@ const sizes =
     : '(min-width: 1500px) 25vw, (min-width: 1000px) 33vw, (min-width: 600px) 50vw, 100vw';
 ---
 
-<li class={`shot shot--${variant}`} data-shot-item data-tags={data.tags.join('|')} style={`--ar:${data.width} / ${data.height};--ar-n:${(data.width / data.height).toFixed(4)}`}>
+<li
+  class={`shot shot--${variant}`}
+  data-shot-item
+  data-tags={data.tags.join('|')}
+  style={`--ar:${data.width} / ${data.height};--ar-n:${(data.width / data.height).toFixed(4)}`}
+>
   <a
     class="shot__link"
     href={data.url}
@@ -50,11 +55,17 @@ const sizes =
         decoding="async"
         draggable="false"
       />
-      {
-        data.video && (
-          <video muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" data-src={shotVideoSrc(data.video)} />
-        )
-      }
+      {data.video && (
+        <video
+          muted
+          loop
+          playsinline
+          preload="none"
+          aria-hidden="true"
+          tabindex="-1"
+          data-src={shotVideoSrc(data.video)}
+        />
+      )}
     </span>
     <span class="shot__chip" aria-hidden="true">
       <span class="shot__chip-t">{data.title}</span>

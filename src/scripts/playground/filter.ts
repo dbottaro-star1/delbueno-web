@@ -20,7 +20,9 @@ export function initFilter(root: ParentNode = document): void {
       }
     });
     chips.forEach((c) => c.setAttribute('aria-pressed', String(c.dataset.filter === tag)));
-    if (status) status.textContent = tag === 'all' ? `Showing all ${n} shots` : `Showing ${n} ${n === 1 ? 'shot' : 'shots'} tagged ${tag}`;
+    if (status)
+      status.textContent =
+        tag === 'all' ? `Showing all ${n} shots` : `Showing ${n} ${n === 1 ? 'shot' : 'shots'} tagged ${tag}`;
   };
   chips.forEach((c) => c.addEventListener('click', () => apply(c.dataset.filter ?? 'all')));
 }

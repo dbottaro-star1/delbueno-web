@@ -90,9 +90,16 @@ export function createFlight(opts: { reduce: boolean; fine: boolean; field: Fiel
     const sImg = slot.querySelector('img') as HTMLImageElement;
     const el = document.createElement('div');
     el.className = 'fly';
-    el.innerHTML =
-      '<span class="fly__sh"></span><span class="fly__im"><img alt="" decoding="async" draggable="false"></span>';
-    const img = el.querySelector('img') as HTMLImageElement;
+    const shadow = document.createElement('span');
+    shadow.className = 'fly__sh';
+    const frame = document.createElement('span');
+    frame.className = 'fly__im';
+    const img = document.createElement('img');
+    img.alt = '';
+    img.decoding = 'async';
+    img.draggable = false;
+    frame.appendChild(img);
+    el.append(shadow, frame);
     // Same generated URL as the grid image, so the browser serves one download for both.
     img.src = sImg.currentSrc || sImg.src;
     layer.appendChild(el);
@@ -204,7 +211,7 @@ export function createFlight(opts: { reduce: boolean; fine: boolean; field: Fiel
       const A = f.fan;
       const calm = 1 - e;
       const arc = Math.sin(Math.PI * e);
-      let x = A.x * it + mx * (18 + i * 9) * u * calm;
+      const x = A.x * it + mx * (18 + i * 9) * u * calm;
       let y = A.y * it + my * (12 + i * 6) * u * calm + (1 - it) * 50 * u;
       y += Math.sin(t * 0.9 + i * 1.1) * 9 * u * calm * it;
       const z = A.z * it;

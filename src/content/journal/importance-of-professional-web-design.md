@@ -1,6 +1,7 @@
 ---
 title: "Elevate Your Online Presence: The Importance of Professional Web Design"
-description: "Grow your online presence with professional web design. Learn why a website made by an expert in design increases credibility, improves user experience, and help in search engine rankings."
+seoTitle: "Why Professional Web Design Matters"
+description: "Why a professionally designed website builds credibility, improves user experience and supports search rankings, and what an expert adds to the work."
 pubDate: 2023-11-25
 updatedDate: 2024-08-05
 author: "Dani Bottaro"

@@ -1,0 +1,324 @@
+---
+/**
+ * The four disciplines as a pinned index. Markup is four stacked blocks that read well on their own; on wide screens
+ * the script adds .idx-on and the blocks overlay, so the active one swaps its illustration and description.
+ */
+import { services } from '../../data/services';
+import { url } from '../../lib/url';
+import Art from './Art.astro';
+
+const total = String(services.length).padStart(2, '0');
+---
+
+<section class="idx" data-idx aria-labelledby="idx-h">
+  <h2 class="sr-only" id="idx-h">
+    The four services
+  </h2>
+  <div class="idx-stage">
+    <p class="idx-top">
+      <span class="label">Four disciplines</span>
+      <span class="idx-count" id="idxCount" aria-hidden="true">
+        01 / {total}
+      </span>
+    </p>
+    {services.map((s, i) => (
+      <article class="idx-item" style={`--i:${i}`} aria-labelledby={`idx-${s.slug}`}>
+        <h3 class="idx-name" id={`idx-${s.slug}`}>
+          <a href={url(`/services/${s.slug}/`)}>
+            <span class="idx-n">{String(i + 1).padStart(2, '0')}</span>
+            <span class="idx-t">{s.name}</span>
+          </a>
+        </h3>
+        <div class="idx-art">
+          <Art slug={s.slug} />
+        </div>
+        <div class="idx-det">
+          <p class="idx-kicker">{s.home.kicker}</p>
+          <p class="idx-desc">{s.summary}</p>
+          <ul class="in-chips">
+            {s.home.chips.map((c) => (
+              <li>{c}</li>
+            ))}
+          </ul>
+          <a class="in-more" href={url(`/services/${s.slug}/`)}>
+            About {s.name}
+            <svg class="arr" aria-hidden="true">
+              <use href="#i-arr" />
+            </svg>
+          </a>
+        </div>
+      </article>
+    ))}
+    <div class="idx-bar" aria-hidden="true">
+      <i></i>
+    </div>
+  </div>
+</section>
+
+<style is:global>
+  /* ----- stacked (phones, tablets, reduced motion, no script) ----- */
+  .idx-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: clamp(40px, 6vw, 72px) var(--pad) clamp(24px, 3vw, 40px);
+    border-top: 1px solid var(--line);
+  }
+
+  .idx-count {
+    font: 500 0.8125rem / 1 var(--mono);
+    letter-spacing: 0.08em;
+    color: var(--mute);
+  }
+
+  .idx-bar {
+    display: none;
+  }
+
+  .idx-item {
+    display: grid;
+    gap: clamp(20px, 3vw, 32px);
+    padding: clamp(36px, 6vw, 72px) var(--pad);
+    border-top: 1px solid var(--line);
+  }
+
+  .idx-name a {
+    display: block;
+  }
+
+  .idx-n {
+    display: block;
+    margin-bottom: 14px;
+    font: 500 0.8125rem / 1 var(--mono);
+    letter-spacing: 0.08em;
+    color: var(--dim);
+  }
+
+  .idx-t {
+    display: block;
+    font: 800 clamp(2.4rem, 11vw, 5.6rem) / 0.92 var(--display);
+    letter-spacing: -0.05em;
+    text-wrap: balance;
+  }
+
+  .idx-art {
+    width: min(100%, 340px);
+  }
+
+  .idx-art .in-hero-art {
+    width: 100%;
+    height: auto;
+  }
+
+  .idx-kicker {
+    margin-bottom: 12px;
+    font: 400 var(--fs-xs) / 1 var(--mono);
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--dim);
+  }
+
+  .idx-desc {
+    max-width: 38ch;
+    margin-bottom: 20px;
+    font-size: clamp(1.0625rem, 1.5vw, 1.375rem);
+    line-height: 1.45;
+  }
+
+  .idx-det .in-chips {
+    margin-bottom: 8px;
+  }
+
+  @media (min-width: 700px) and (max-width: 1023px) {
+    .idx-t {
+      font-size: clamp(2.4rem, 5.8vw, 4.4rem);
+    }
+
+    .idx-item {
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+      grid-template-areas:
+        'name art'
+        'det art';
+      align-items: start;
+    }
+
+    .idx-name {
+      grid-area: name;
+    }
+
+    .idx-art {
+      grid-area: art;
+      justify-self: end;
+      align-self: center;
+      width: min(100%, 320px);
+    }
+
+    .idx-det {
+      grid-area: det;
+    }
+  }
+
+  /* ----- pinned (set by the script on wide, tall screens) ----- */
+  .idx-on {
+    height: calc(100svh + 4 * 62svh);
+  }
+
+  .idx-on .idx-stage {
+    position: sticky;
+    top: 0;
+    height: 100svh;
+    min-height: 600px;
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    grid-template-rows: auto repeat(4, minmax(0, 1fr)) auto;
+    column-gap: var(--gap);
+    padding: calc(var(--nav-h) + 8px) var(--pad) clamp(28px, 5vh, 56px);
+    overflow: clip;
+  }
+
+  .idx-on .idx-stage::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image: radial-gradient(rgb(255 255 255 / 0.22) 1px, transparent 1.2px);
+    background-size: 26px 26px;
+    -webkit-mask-image: radial-gradient(ellipse 36% 50% at 78% 36%, #000, transparent 72%);
+    mask-image: radial-gradient(ellipse 36% 50% at 78% 36%, #000, transparent 72%);
+    opacity: 0.5;
+  }
+
+  .idx-on .idx-top {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    padding: 0 0 clamp(8px, 2vh, 24px);
+    border: 0;
+    position: relative;
+  }
+
+  .idx-on .idx-item {
+    display: contents;
+  }
+
+  .idx-on .idx-name {
+    grid-column: 1 / 9;
+    grid-row: calc(var(--i) + 2);
+    align-self: center;
+    position: relative;
+  }
+
+  .idx-on .idx-name a {
+    display: flex;
+    align-items: baseline;
+    gap: clamp(14px, 2vw, 28px);
+    min-height: 44px;
+    color: var(--dim);
+    transition:
+      color 0.7s var(--out),
+      transform 0.9s var(--out);
+  }
+
+  .idx-on .idx-n {
+    margin: 0;
+    flex: none;
+    min-width: 2.2em;
+  }
+
+  .idx-on .idx-t {
+    font-size: clamp(2rem, 3.6vw, 4.8rem);
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .idx-on .is-active .idx-name a {
+    color: var(--ink);
+    transform: translateX(clamp(12px, 1.6vw, 28px));
+  }
+
+  .idx-on .is-active .idx-n {
+    color: var(--lime);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .idx-on .idx-name a:hover {
+      color: var(--ink);
+    }
+  }
+
+  .idx-on .idx-art {
+    grid-column: 9 / 13;
+    grid-row: 2 / 4;
+    align-self: stretch;
+    justify-self: end;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    position: relative;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(18px);
+    transition:
+      opacity 0.7s var(--out),
+      transform 1s var(--out),
+      visibility 0s 0.7s;
+  }
+
+  .idx-on .idx-art .in-hero-art {
+    width: auto;
+    height: 100%;
+    max-width: 100%;
+    max-height: 480px;
+    aspect-ratio: 6 / 5;
+  }
+
+  .idx-on .idx-det {
+    grid-column: 9 / 13;
+    grid-row: 4 / 6;
+    align-self: start;
+    position: relative;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(18px);
+    transition:
+      opacity 0.6s var(--out),
+      transform 0.9s var(--out),
+      visibility 0s 0.6s;
+  }
+
+  .idx-on .is-active .idx-art,
+  .idx-on .is-active .idx-det {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition-delay: 0.12s, 0.12s, 0s;
+  }
+
+  .idx-on .idx-bar {
+    display: block;
+    grid-column: 1 / -1;
+    grid-row: 6;
+    position: relative;
+    height: 2px;
+    margin-top: clamp(8px, 2vh, 20px);
+    background: var(--line-2);
+  }
+
+  .idx-on .idx-bar i {
+    position: absolute;
+    inset: 0;
+    background: var(--grad);
+    transform: scaleX(0);
+    transform-origin: left center;
+  }
+
+  @media (max-height: 700px) {
+    .idx-on .idx-det .idx-kicker {
+      margin-bottom: 8px;
+    }
+
+    .idx-on .idx-desc {
+      margin-bottom: 12px;
+    }
+  }
+</style>

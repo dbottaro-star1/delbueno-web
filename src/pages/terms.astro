@@ -1,24 +1,153 @@
 ---
-import PageHeader from '../components/PageHeader.astro';
+import LegalLayout from '../components/info/LegalLayout.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { crumbs } from '../lib/schema';
-import { BRAND } from '../lib/site';
+import { BRAND, LINKS } from '../lib/site';
+import { url } from '../lib/url';
 
 const trail = crumbs({ name: 'Terms', path: '/terms/' });
+const sections = [
+  { id: 'agreement', title: 'Agreement' },
+  { id: 'ip', title: 'Intellectual property' },
+  { id: 'use', title: 'Acceptable use' },
+  { id: 'booking', title: 'Booking and email' },
+  { id: 'audit', title: 'The free UX audit' },
+  { id: 'journal', title: 'Journal and content' },
+  { id: 'links', title: 'Third party links' },
+  { id: 'warranty', title: 'Disclaimer of warranties' },
+  { id: 'liability', title: 'Limitation of liability' },
+  { id: 'law', title: 'Governing law' },
+  { id: 'changes', title: 'Changes' },
+  { id: 'contact', title: 'Contact' },
+];
 ---
 
 <BaseLayout
   title="Terms and conditions"
-  description="The terms that apply when you use this website and work with delbueno™ Studio."
+  description="The terms that apply when you use delbuenostudio.com, book a call or request a free UX audit from delbueno™ Studio, including liability and governing law."
   breadcrumbs={trail}
 >
-  <PageHeader title="Terms and conditions" eyebrow="Legal" crumbs={trail} />
-  <section class="section">
-    <div class="wrap prose">
+  <LegalLayout
+    title="Terms and conditions"
+    lede={`These terms govern your use of delbuenostudio.com, operated by ${BRAND.name}.`}
+    updated="Last updated: October 13, 2026"
+    crumbs={trail}
+    sections={sections}
+  >
+    <section id="agreement">
+      <h2>Agreement</h2>
       <p>
-        The full text of this page is being moved to the new website. Until then, write to
-        <a href={`mailto:${BRAND.email}`}>{BRAND.email}</a> with any question.
+        These Terms and Conditions (“Terms”) govern your use of the website delbuenostudio.com (“Website”), operated by{' '}
+        {BRAND.name} (“we”, “us” or “our”). By accessing or using the Website you agree to be bound by these Terms. If
+        you do not agree, please do not use the Website.
       </p>
-    </div>
-  </section>
+    </section>
+
+    <section id="ip">
+      <h2>Intellectual property</h2>
+      <p>
+        The content of the Website, including text, graphics, logos, images, case studies, journal articles and code,
+        belongs to {BRAND.name} or its licensors and is protected by copyright, trademark and other intellectual
+        property laws. You may not use, reproduce, modify or distribute it without our prior written consent.
+      </p>
+      <p>
+        Case studies and shots show work made by {BRAND.name}. Client names and product names belong to their respective
+        owners. Concept projects shown on the Website are self-initiated and are not commissioned by, or affiliated
+        with, the brands they mention.
+      </p>
+    </section>
+
+    <section id="use">
+      <h2>Acceptable use</h2>
+      <p>
+        You agree to use the Website for lawful purposes only and to follow all applicable laws and regulations. You may
+        not infringe the rights of others, harass or defame anyone, or try to disrupt or gain unauthorized access to the
+        Website.
+      </p>
+    </section>
+
+    <section id="booking">
+      <h2>Booking and email</h2>
+      <p>
+        The Website has no forms. You can book a call through Lemcal, a third party service with its own terms and
+        privacy policy, or write to us at <a href={`mailto:${BRAND.email}`}>{BRAND.email}</a>.
+      </p>
+      <p>
+        Booking a call or sending an email does not by itself create a client relationship or any obligation for either
+        side. Project work is agreed separately.
+      </p>
+    </section>
+
+    <section id="audit">
+      <h2>The free UX audit</h2>
+      <p>
+        The <a href={url('/free-ux-audit/')}>free UX audit</a> is offered at our discretion and in limited numbers per
+        week. It is advice based on the information you share and on what we can see of your product. We may decline
+        requests that do not fit our current capacity, and the audit is not a guarantee of any result.
+      </p>
+    </section>
+
+    <section id="journal">
+      <h2>Journal and content</h2>
+      <p>
+        Articles in the <a href={url('/journal/')}>journal</a> are general information about design and product work.
+        They are not professional, legal or financial advice, and you should not rely on them as such.
+      </p>
+    </section>
+
+    <section id="links">
+      <h2>Third party links</h2>
+      <p>
+        The Website links to services we do not own or control, including Lemcal for booking,{' '}
+        <a href={LINKS.dribbble} rel="noopener noreferrer">
+          Dribbble
+        </a>{' '}
+        for the Playground, and our profiles on LinkedIn, Instagram and Clutch. We are not responsible for their
+        content, policies or practices. Your use of them is governed by their own terms and privacy policies.
+      </p>
+    </section>
+
+    <section id="warranty">
+      <h2>Disclaimer of warranties</h2>
+      <p>
+        The Website is provided on an “as is” and “as available” basis, without warranties of any kind, express or
+        implied. We make no representations about the accuracy, completeness, reliability or suitability of the content
+        on the Website.
+      </p>
+    </section>
+
+    <section id="liability">
+      <h2>Limitation of liability</h2>
+      <p>
+        To the extent permitted by law, in no event shall {BRAND.name} or its officers, employees, agents or affiliates
+        be liable for any indirect, incidental, special, consequential or punitive damages arising out of or in
+        connection with your use of the Website or these Terms.
+      </p>
+    </section>
+
+    <section id="law">
+      <h2>Governing law</h2>
+      <p>
+        These Terms are governed by and construed in accordance with the laws of Uruguay, without regard to its conflict
+        of law provisions.
+      </p>
+    </section>
+
+    <section id="changes">
+      <h2>Changes</h2>
+      <p>
+        We may modify these Terms at any time. Changes take effect when the revised Terms are posted on the Website, and
+        your continued use of the Website afterward means you accept them. The date at the top of this page shows the
+        latest update.
+      </p>
+    </section>
+
+    <section id="contact">
+      <h2>Contact</h2>
+      <p>
+        If you have questions about these Terms, write to <a href={`mailto:${BRAND.email}`}>{BRAND.email}</a>. See also
+        our <a href={url('/privacy/')}>privacy policy</a>.
+      </p>
+    </section>
+  </LegalLayout>
 </BaseLayout>

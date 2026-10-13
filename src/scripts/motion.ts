@@ -71,6 +71,8 @@ async function start(): Promise<Motion> {
   revealOnScroll(motion);
   waiting.forEach((cb) => cb(motion as Motion));
   waiting.clear();
+  // From here scripts own the hidden start states, so the CSS failsafe (see global.css) stands down.
+  document.documentElement.classList.add('js-live');
   return motion;
 }
 
@@ -90,7 +92,7 @@ export function destroyMotion(): void {
   motion = null;
   starting = null;
   tickerFn = null;
-  document.documentElement.classList.remove('js');
+  document.documentElement.classList.remove('js', 'js-live', 'has-cursor');
   document.querySelectorAll<HTMLElement>('[data-reveal]').forEach((el) => {
     el.style.opacity = '';
     el.style.transform = '';

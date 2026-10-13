@@ -14,34 +14,52 @@ const year = new Date().getFullYear();
 
     <nav class="foot-col" aria-label="Explore">
       <h2>Explore</h2>
-      {NAV_LINKS.map((l) => <a href={url(l.href)}>{l.label}</a>)}
+      {NAV_LINKS.map((l) => (
+        <a href={url(l.href)}>{l.label}</a>
+      ))}
     </nav>
 
     <nav class="foot-col" aria-label="Studio">
       <h2>Studio</h2>
-      {FOOTER_LINKS.studio.map((l) => <a href={url(l.href)}>{l.label}</a>)}
+      {FOOTER_LINKS.studio.map((l) => (
+        <a href={url(l.href)}>{l.label}</a>
+      ))}
     </nav>
 
     <div class="foot-col foot-col--wide">
       <h2>Contact</h2>
       <a href={`mailto:${BRAND.email}`}>{BRAND.email}</a>
-      <a href={LINKS.book} rel="noopener">Book a call</a>
+      <a href={LINKS.book} rel="noopener">
+        Book a call
+      </a>
     </div>
 
     <div class="foot-col">
       <h2>Elsewhere</h2>
-      {SOCIALS.map((s) => <a href={s.href} rel="noopener me" target="_blank">{s.label}</a>)}
+      {SOCIALS.map((s) => (
+        <a href={s.href} rel="noopener me" target="_blank">
+          {s.label}
+        </a>
+      ))}
     </div>
   </div>
 
   <div class="foot-legal">
-    <span>© {year} {BRAND.name}</span>
+    <span>
+      © {year} {BRAND.name}
+    </span>
     <ul>
-      {FOOTER_LINKS.legal.map((l) => <li><a href={url(l.href)}>{l.label}</a></li>)}
+      {FOOTER_LINKS.legal.map((l) => (
+        <li>
+          <a href={url(l.href)}>{l.label}</a>
+        </li>
+      ))}
     </ul>
   </div>
 
-  <p class="foot-big" id="footBig" aria-hidden="true">delbueno<sup>™</sup></p>
+  <p class="foot-big" id="footBig" aria-hidden="true">
+    delbueno<sup>™</sup>
+  </p>
 </footer>
 
 <style>

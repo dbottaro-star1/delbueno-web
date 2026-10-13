@@ -14,6 +14,12 @@
  *
  * Without DRIBBBLE_TOKEN it prints setup help and exits 0, so it is safe to run anywhere.
  * Only Node built-ins are used (Node 24 has fetch).
+ *
+ * The API response is untrusted input, so the script checks it before using it:
+ *   - the shot page URL must be https://dribbble.com/shots/<id>... (it becomes a link on the site)
+ *   - images are downloaded only from https://cdn.dribbble.com (also across redirects), with a 30 second
+ *     timeout, a 15 MB size limit, and a check that the bytes are really a PNG, JPEG, GIF or WebP
+ *   - the bearer token is only ever sent to https://api.dribbble.com
  */
 import { mkdir, readFile, readdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
@@ -24,8 +30,20 @@ const contentDir = path.join(root, 'src/content/shots');
 const assetsDir = path.join(root, 'src/assets/shots');
 const API = process.env.DRIBBBLE_API_URL ?? 'https://api.dribbble.com/v2/user/shots';
 const PER_PAGE = 100;
+const MAX_PAGES = 50;
+const TIMEOUT_MS = 30_000;
+const MAX_IMAGE_BYTES = 15 * 1024 * 1024;
+const IMAGE_HOST = 'cdn.dribbble.com';
+const MAX_REDIRECTS = 3;
+const SHOT_PAGE = /^https:\/\/dribbble\.com\/shots\/\d+(?:[-/][^\s]*)?$/;
 
 const token = process.env.DRIBBBLE_TOKEN;
+
+// The token goes to whatever host API points at, so the override may only name Dribbble's own API.
+if (!API.startsWith('https://api.dribbble.com/')) {
+  console.error('DRIBBBLE_API_URL must start with https://api.dribbble.com/ . Refusing to send the token elsewhere.');
+  process.exit(1);
+}
 
 if (!token) {
   console.log(`DRIBBBLE_TOKEN is not set, so there is nothing to sync.
@@ -43,7 +61,11 @@ See the "Playground shots" section of README.md for the full steps.`);
 }
 
 /** Replace dashes and middots in copied text, per the site copy rules. */
-const cleanCopy = (text) => text.replace(/\s*[\u2014\u2013\u2015\u00b7]\s*/g, ': ').replace(/\s+/g, ' ').trim();
+const cleanCopy = (text) =>
+  text
+    .replace(/\s*[\u2014\u2013\u2015\u00b7]\s*/g, ': ')
+    .replace(/\s+/g, ' ')
+    .trim();
 
 const stripHtml = (html) =>
   cleanCopy(
@@ -97,9 +119,62 @@ function extensionFor(contentType, url) {
   return ['png', 'jpg', 'webp', 'gif'].includes(fromUrl) ? fromUrl : null;
 }
 
+/** True when the bytes start like a PNG, JPEG, GIF or WebP file. */
+function hasImageSignature(buf) {
+  if (buf.length < 12) return false;
+  const isPng = buf.readUInt32BE(0) === 0x89504e47;
+  const isJpeg = buf[0] === 0xff && buf[1] === 0xd8 && buf[2] === 0xff;
+  const isGif = buf.toString('ascii', 0, 3) === 'GIF';
+  const isWebp = buf.toString('ascii', 0, 4) === 'RIFF' && buf.toString('ascii', 8, 12) === 'WEBP';
+  return isPng || isJpeg || isGif || isWebp;
+}
+
+/** Parse a URL and accept it only if it is https on the allowed image host. */
+function allowedImageUrl(value) {
+  try {
+    const url = new URL(value);
+    return url.protocol === 'https:' && url.hostname === IMAGE_HOST && !url.username && !url.password ? url : null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Download an image from the Dribbble CDN. Returns { bytes, contentType, finalUrl }, or throws a short Error.
+ * Redirects are followed by hand so that every hop is checked against the host allowlist.
+ */
+async function downloadImage(imageUrl) {
+  let url = allowedImageUrl(imageUrl);
+  if (!url) throw new Error(`image URL is not https://${IMAGE_HOST}`);
+  for (let hop = 0; hop <= MAX_REDIRECTS; hop += 1) {
+    const res = await fetch(url, { redirect: 'manual', signal: AbortSignal.timeout(TIMEOUT_MS) });
+    if (res.status >= 300 && res.status < 400) {
+      const next = allowedImageUrl(new URL(res.headers.get('location') ?? '', url).href);
+      if (!next) throw new Error('image redirected to a host that is not allowed');
+      url = next;
+      continue;
+    }
+    if (!res.ok) throw new Error(`image download answered ${res.status}`);
+    const declared = Number(res.headers.get('content-length') ?? 0);
+    if (declared > MAX_IMAGE_BYTES) throw new Error(`image is larger than ${MAX_IMAGE_BYTES / 1024 / 1024} MB`);
+    // Read the body in pieces so a missing or false content-length cannot get past the limit.
+    const chunks = [];
+    let total = 0;
+    for await (const chunk of res.body) {
+      total += chunk.length;
+      if (total > MAX_IMAGE_BYTES) throw new Error(`image is larger than ${MAX_IMAGE_BYTES / 1024 / 1024} MB`);
+      chunks.push(chunk);
+    }
+    return { bytes: Buffer.concat(chunks), contentType: res.headers.get('content-type'), finalUrl: url.href };
+  }
+  throw new Error('image redirected too many times');
+}
+
 async function api(page) {
   const res = await fetch(`${API}?per_page=${PER_PAGE}&page=${page}`, {
     headers: { Authorization: `Bearer ${token}`, Accept: 'application/json' },
+    redirect: 'error', // never forward the token to another host
+    signal: AbortSignal.timeout(TIMEOUT_MS),
   });
   if (!res.ok) {
     const hint = res.status === 401 ? ' (the token is invalid or expired)' : '';
@@ -110,11 +185,13 @@ async function api(page) {
 
 async function fetchAllShots() {
   const shots = [];
-  for (let page = 1; ; page += 1) {
+  for (let page = 1; page <= MAX_PAGES; page += 1) {
     const batch = await api(page);
+    if (!Array.isArray(batch)) throw new Error('Dribbble API returned something other than a list');
     shots.push(...batch);
-    if (batch.length < PER_PAGE) break;
+    if (batch.length < PER_PAGE) return shots;
   }
+  console.warn(`Stopped after ${MAX_PAGES} pages (${shots.length} shots). Raise MAX_PAGES if this is expected.`);
   return shots;
 }
 
@@ -155,6 +232,10 @@ for (const [index, shot] of shots.entries()) {
   // The id becomes a file name, so refuse anything that is not a plain number.
   if (!/^\d+$/.test(id)) {
     console.warn(`Skipping a shot with an unexpected id: ${JSON.stringify(shot.id)}`);
+    continue;
+  }
+  if (!SHOT_PAGE.test(String(shot.html_url ?? ''))) {
+    console.warn(`Skipping ${id}: html_url is not a https://dribbble.com/shots/ link`);
     continue;
   }
   const order = index + 1;
@@ -198,18 +279,28 @@ for (const [index, shot] of shots.entries()) {
     console.warn(`skipped ${id}: no image in the API response`);
     continue;
   }
-  const res = await fetch(imageUrl);
-  if (!res.ok) {
-    console.warn(`skipped ${id}: image download answered ${res.status}`);
+  let download;
+  try {
+    download = await downloadImage(imageUrl);
+  } catch (error) {
+    console.warn(`skipped ${id}: ${error.message}`);
     continue;
   }
-  const ext = extensionFor(res.headers.get('content-type'), imageUrl);
+  const { bytes, contentType, finalUrl } = download;
+  if (!hasImageSignature(bytes)) {
+    console.warn(`skipped ${id}: the download is not a PNG, JPEG, GIF or WebP image`);
+    continue;
+  }
+  const ext = extensionFor(contentType, finalUrl);
   if (!ext) {
     console.warn(`skipped ${id}: unsupported image type`);
     continue;
   }
-  const bytes = Buffer.from(await res.arrayBuffer());
   const size = imageSize(bytes) ?? { width: shot.width, height: shot.height };
+  if (!Number.isFinite(size.width) || !Number.isFinite(size.height) || size.width < 1 || size.height < 1) {
+    console.warn(`skipped ${id}: could not read the image size`);
+    continue;
+  }
   await writeFile(path.join(assetsDir, `${id}.${ext}`), bytes);
 
   const title = cleanCopy(shot.title ?? `Shot ${id}`);

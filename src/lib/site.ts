@@ -6,6 +6,10 @@ export const PROD_ORIGIN = 'https://delbuenostudio.com';
 /** True when the build is a preview (env PREVIEW=true): noindex and Disallow all. */
 export const IS_PREVIEW: boolean = __PREVIEW__;
 
+/** Page titles stay within TITLE_MAX characters. The suffix is appended only when the result still fits. */
+export const TITLE_MAX = 60;
+export const TITLE_SUFFIX = ' | delbueno';
+
 export const BRAND = {
   name: 'delbueno™ Studio',
   shortName: 'delbueno',
@@ -27,8 +31,7 @@ export const FOUNDER = {
   name: BRAND.founder,
   jobTitle: 'Founder',
   linkedin: 'https://www.linkedin.com/in/danibottaro/',
-  bio:
-    'Dani Bottaro is the founder of delbueno™ Studio, a product design and development studio based in Punta del Este, Uruguay. For more than 10 years he has designed B2B SaaS products, dashboards and websites for startups and enterprise teams, including work for BigID, JFrog, NetApp and Palo Alto Networks. He writes about UX for complex software, AI products and design systems.',
+  bio: 'Dani Bottaro is the founder of delbueno™ Studio, a product design and development studio based in Punta del Este, Uruguay. For more than 10 years he has designed B2B SaaS products, dashboards and websites for startups and enterprise teams, including work for BigID, JFrog, NetApp and Palo Alto Networks. He writes about UX for complex software, AI products and design systems.',
   knowsAbout: ['Product design', 'UX design', 'B2B SaaS', 'Design systems', 'AI product design', 'Dashboard design'],
 } as const;
 
@@ -49,13 +52,7 @@ export const SOCIALS = [
 ] as const;
 
 /** Profiles used for schema.org sameAs. */
-export const SAME_AS: string[] = [
-  LINKS.linkedin,
-  LINKS.dribbble,
-  LINKS.instagram,
-  LINKS.clutch,
-  LINKS.youtube,
-];
+export const SAME_AS: string[] = [LINKS.linkedin, LINKS.dribbble, LINKS.instagram, LINKS.clutch, LINKS.youtube];
 
 export const NAV_LINKS = [
   { label: 'Work', href: '/work/' },

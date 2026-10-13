@@ -1,0 +1,95 @@
+---
+/** Where the studio works: a live clock for Punta del Este, GMT-3, synced with US hours. */
+import { BRAND } from '../../lib/site';
+---
+
+<section class="ip-sec al" aria-labelledby="al-h">
+  <div class="wrap al-grid">
+    <div>
+      <p class="label">Location</p>
+      <h2 class="ip-h2 al-h" id="al-h" data-lines>
+        Remote first. Synced with US hours.
+      </h2>
+      <p class="al-text" data-reveal>
+        A remote-first team of UX and UI designers, researchers and developers working from {BRAND.locality},{' '}
+        {BRAND.country}. We sit on Latin America time (GMT-3), so your working day and ours overlap.
+      </p>
+    </div>
+    <div class="al-clock" data-reveal>
+      <p class="al-time" aria-hidden="true">
+        <span data-clock>--:--</span>
+      </p>
+      <p class="al-cap">
+        <span class="ip-no">
+          {BRAND.locality}, {BRAND.country}
+        </span>
+        <span class="ip-no">GMT-3, local time now</span>
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .al-grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--gap);
+    row-gap: 56px;
+    align-items: end;
+  }
+
+  .al-grid > div:first-child {
+    grid-column: 1 / 8;
+    min-width: 0;
+  }
+
+  .al-h {
+    grid-column: auto;
+  }
+
+  .al-text {
+    margin-top: 28px;
+    max-width: 50ch;
+    color: var(--mute);
+    font-size: var(--fs-md);
+    line-height: 1.5;
+  }
+
+  .al-clock {
+    grid-column: 8 / 13;
+    justify-self: end;
+    min-width: 0;
+    text-align: right;
+  }
+
+  .al-time {
+    font: 800 clamp(3.6rem, 1.6rem + 6.6vw, 8.6rem) / 0.9 var(--display);
+    letter-spacing: -0.06em;
+    font-variant-numeric: tabular-nums;
+    background: var(--grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+    padding-right: 0.05em;
+  }
+
+  .al-cap {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 20px;
+  }
+
+  @media (max-width: 1000px) {
+    .al-grid > div:first-child,
+    .al-clock {
+      grid-column: 1 / -1;
+    }
+
+    .al-clock {
+      justify-self: start;
+      text-align: left;
+    }
+  }
+</style>

@@ -1,5 +1,6 @@
 ---
 title: "Designing explainable AI UX to Build Trust in Intelligent Interfaces"
+seoTitle: "Explainable AI UX: Build Trust in AI Interfaces"
 description: "Explainable AI UX design helps users understand how decisions are made. Learn strategies to build trust, transparency, and confidence in AI-driven systems."
 pubDate: 2026-01-02
 author: "Dani Bottaro"

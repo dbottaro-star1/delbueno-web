@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 import { getJournal } from '../../lib/content';
-import { BRAND } from '../../lib/site';
+import { BRAND, FOUNDER } from '../../lib/site';
 import { absoluteUrl } from '../../lib/url';
 
 const escape = (value: string) =>
@@ -19,6 +19,7 @@ export const GET: APIRoute = async ({ site }) => {
       <link>${link}</link>
       <guid isPermaLink="true">${link}</guid>
       <pubDate>${post.data.pubDate.toUTCString()}</pubDate>
+      <author>${BRAND.email} (${escape(post.data.author)})</author>
       <dc:creator>${escape(post.data.author)}</dc:creator>
       <category>${escape(post.data.category)}</category>
       <description>${escape(post.data.description)}</description>
@@ -35,6 +36,13 @@ export const GET: APIRoute = async ({ site }) => {
     <link>${home}</link>
     <description>Notes on designing complex B2B software from ${escape(BRAND.name)}.</description>
     <language>en</language>
+    <copyright>${new Date().getUTCFullYear()} ${escape(BRAND.name)}</copyright>
+    <managingEditor>${BRAND.email} (${escape(FOUNDER.name)})</managingEditor>
+    <image>
+      <url>${absoluteUrl('/logo.png', site)}</url>
+      <title>${escape(BRAND.name)} journal</title>
+      <link>${home}</link>
+    </image>
     <lastBuildDate>${lastBuild}</lastBuildDate>
     <atom:link href="${self}" rel="self" type="application/rss+xml" />
 ${items}

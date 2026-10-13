@@ -1,6 +1,7 @@
 ---
 title: "How DevOps-Centric UX Cuts MTTR and Developer Re-work by ~30 Percent"
-description: "DevOps leaders obsess over deployment velocity, error budgets and on-call fatigue. Yet one lever still hides in plain sight: product-level UX. When dashboards"
+seoTitle: "DevOps-Centric UX: Cut MTTR and Developer Re-work"
+description: "DevOps teams track deployment velocity, error budgets and on-call fatigue. Here is how product-level UX can cut MTTR and developer re-work in DevOps tools."
 pubDate: 2025-05-30
 updatedDate: 2025-10-17
 author: "Dani Bottaro"
@@ -103,4 +104,4 @@ Most agencies serve ecommerce or generic SaaS. DevOps workflows demand:
 
 #### Ready to see what a 30 percent MTTR reduction looks like?
 
-[Book a free fifteen-minute](https://calendly.com/d/crtr-wzc-d23/15-minute-meeting-with-delbueno-ux-studio?share_attribution=customize_once_and_share) dashboard teardown and get a personalised action plan.
+[Book a free fifteen-minute](https://app.lemcal.com/@delbuenostudio/15-minutes) dashboard teardown and get a personalised action plan.

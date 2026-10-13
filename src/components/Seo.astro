@@ -1,6 +1,6 @@
 ---
 /** Title, description, canonical, robots, Open Graph and Twitter tags. */
-import { BRAND, IS_PREVIEW } from '../lib/site';
+import { BRAND, IS_PREVIEW, TITLE_MAX, TITLE_SUFFIX } from '../lib/site';
 import { canonicalUrl } from '../lib/url';
 
 interface Props {
@@ -10,7 +10,10 @@ interface Props {
   path: string;
   /** Absolute image URL. */
   image: string;
-  imageAlt?: string;
+  imageAlt: string;
+  /** Pixel size of the image. Every card and hero image is cut at 1200 by 630. */
+  imageWidth?: number;
+  imageHeight?: number;
   type?: 'website' | 'article';
   noindex?: boolean;
   publishedTime?: Date;
@@ -19,8 +22,26 @@ interface Props {
   section?: string;
 }
 
-const { title, description, path, image, imageAlt, type = 'website', noindex = false, publishedTime, modifiedTime, author, section } =
-  Astro.props;
+const {
+  title: pageTitle,
+  description,
+  path,
+  image,
+  imageAlt,
+  imageWidth = 1200,
+  imageHeight = 630,
+  type = 'website',
+  noindex = false,
+  publishedTime,
+  modifiedTime,
+  author,
+  section,
+} = Astro.props;
+
+// The brand suffix is added only when the whole title still fits in TITLE_MAX characters. A title that already
+// names the brand (the home page) is left alone.
+const named = /delbueno/i.test(pageTitle);
+const title = named || pageTitle.length + TITLE_SUFFIX.length > TITLE_MAX ? pageTitle : pageTitle + TITLE_SUFFIX;
 
 const canonical = canonicalUrl(path);
 const robots =
@@ -41,15 +62,19 @@ const robots =
 <meta property="og:description" content={description} />
 <meta property="og:url" content={canonical} />
 <meta property="og:image" content={image} />
-{imageAlt && <meta property="og:image:alt" content={imageAlt} />}
+<meta property="og:image:width" content={String(imageWidth)} />
+<meta property="og:image:height" content={String(imageHeight)} />
+<meta property="og:image:alt" content={imageAlt} />
 
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={image} />
-{imageAlt && <meta name="twitter:image:alt" content={imageAlt} />}
+<meta name="twitter:image:alt" content={imageAlt} />
 
-{type === 'article' && publishedTime && <meta property="article:published_time" content={publishedTime.toISOString()} />}
+{type === 'article' && publishedTime && (
+  <meta property="article:published_time" content={publishedTime.toISOString()} />
+)}
 {type === 'article' && modifiedTime && <meta property="article:modified_time" content={modifiedTime.toISOString()} />}
 {type === 'article' && author && <meta property="article:author" content={author} />}
 {type === 'article' && section && <meta property="article:section" content={section} />}

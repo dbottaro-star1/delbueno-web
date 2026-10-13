@@ -5,13 +5,19 @@ const clients = ['BigID', 'JFrog', 'NetApp', 'Palo Alto Networks', 'Uleadz'];
 
 <section class="trust" aria-labelledby="trust-h">
   <div class="wrap trust-head">
-    <h2 class="label" id="trust-h">Trusted by</h2>
-    <span class="label" aria-hidden="true">B2B SaaS teams</span>
+    <h2 class="label" id="trust-h">
+      Trusted by
+    </h2>
+    <span class="label" aria-hidden="true">
+      B2B SaaS teams
+    </span>
   </div>
   <div class="marquee marquee--trust">
     <div class="marquee-track" id="marqueeTrack">
       <ul class="marquee-group">
-        {clients.map((c) => <li>{c}</li>)}
+        {clients.map((c) => (
+          <li>{c}</li>
+        ))}
       </ul>
     </div>
   </div>

@@ -9,8 +9,15 @@ import { Image, getImage } from 'astro:assets';
 import { render } from 'astro:content';
 import BookCta from '../components/BookCta.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
+import '../components/info/info.css';
+import AuthorBox from '../components/journal/AuthorBox.astro';
+import PostCard from '../components/journal/PostCard.astro';
+import PostToc from '../components/journal/PostToc.astro';
+import { categorySlug, getRelated, readingMinutes, wordCount } from '../components/journal/reading';
+import '../components/journal/prose.css';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { formatDate, getAllJournal, type JournalEntry } from '../lib/content';
+import { ogCardFor } from '../lib/og';
 import { assertSlugFree } from '../lib/routes';
 import { articleSchema, crumbs } from '../lib/schema';
 import { FOUNDER } from '../lib/site';
@@ -33,9 +40,13 @@ interface Props {
 }
 const { entry } = Astro.props;
 const { data } = entry;
-const { Content } = await render(entry);
+const { Content, headings } = await render(entry);
+const toc = headings.filter((h) => h.depth === 2);
+const minutes = readingMinutes(entry.body);
+const related = await getRelated(entry, 3);
 
 const path = `/${entry.id}/`;
+const categoryPath = `/journal/category/${categorySlug(data.category)}/`;
 const trail = crumbs({ name: 'Journal', path: '/journal/' }, { name: data.title, path });
 
 let ogImage: string | undefined;
@@ -43,10 +54,13 @@ if (data.heroImage) {
   const og = await getImage({ src: data.heroImage, width: 1200, height: 630, fit: 'cover', format: 'jpg' });
   ogImage = new URL(og.src, Astro.site).toString();
 }
+// Without a hero, the post gets its generated card (the same one BaseLayout uses for the social tags).
+const card = data.heroImage ? undefined : await ogCardFor(path);
+const articleImage = ogImage ?? absoluteUrl(card ? `/og/${card.name}.png` : '/og-default.png', Astro.site);
 ---
 
 <BaseLayout
-  title={data.title}
+  title={data.seoTitle ?? data.title}
   description={data.description}
   type="article"
   image={ogImage}
@@ -58,105 +72,285 @@ if (data.heroImage) {
   section={data.category}
   noindex={data.noindex}
   jsonLd={[
-    articleSchema({
-      path,
-      title: data.title,
-      description: data.description,
-      author: data.author,
-      pubDate: data.pubDate,
-      updatedDate: data.updatedDate,
-      image: ogImage ?? absoluteUrl('/og-default.png', Astro.site),
-      category: data.category,
-    }),
+    {
+      ...articleSchema({
+        path,
+        // Article headlines over 110 characters are cut by Google, so a very long H1 falls back to the short title.
+        title: data.title.length > 110 ? (data.seoTitle ?? data.title) : data.title,
+        description: data.description,
+        author: data.author,
+        pubDate: data.pubDate,
+        updatedDate: data.updatedDate,
+        image: { url: articleImage, width: 1200, height: 630 },
+        category: data.category,
+        wordCount: wordCount(entry.body),
+      }),
+      timeRequired: `PT${minutes}M`,
+    },
   ]}
 >
+  <div class="rp" aria-hidden="true">
+    <i data-read-bar></i>
+  </div>
+
   <article>
-    <header class="page-top head">
-      <div class="wrap stack">
+    <header class="ph">
+      <div class="wrap">
         <Breadcrumbs items={trail} />
-        <p class="label">{data.category}</p>
-        <h1>{data.title}</h1>
-        <p class="byline">
-          By <a class="link" href={url('/about/')}>{data.author}</a>,{' '}
-          <time datetime={data.pubDate.toISOString()}>{formatDate(data.pubDate)}</time>
-          {
-            data.updatedDate && (
-              <>
-                , updated <time datetime={data.updatedDate.toISOString()}>{formatDate(data.updatedDate)}</time>
-              </>
-            )
-          }
+        <p class="ph-cat">
+          <a class="label" href={url(categoryPath)}>
+            {data.category}
+          </a>
+        </p>
+        <h1 class="ph-title" data-lines>
+          {data.title}
+        </h1>
+        <p class="ph-meta">
+          <span>
+            By <a href={url('/about/')}>{data.author}</a>
+          </span>
+          <span>
+            <time datetime={data.pubDate.toISOString()}>{formatDate(data.pubDate)}</time>
+          </span>
+          {data.updatedDate && (
+            <span>
+              Updated <time datetime={data.updatedDate.toISOString()}>{formatDate(data.updatedDate)}</time>
+            </span>
+          )}
+          <span>{minutes} min read</span>
         </p>
       </div>
     </header>
 
-    {
-      data.heroImage && (
-        <div class="wrap hero">
-          <Image src={data.heroImage} alt={data.heroAlt ?? ''} widths={[800, 1200, 1800]} sizes="100vw" loading="eager" />
+    {data.heroImage && (
+      <div class="wrap">
+        <div class="ph-hero">
+          <Image
+            src={data.heroImage}
+            alt={data.heroAlt ?? ''}
+            widths={[800, 1200, 1800, 2400]}
+            sizes="(min-width: 1440px) 1312px, 94vw"
+            loading="eager"
+            fetchpriority="high"
+          />
         </div>
-      )
-    }
-
-    <div class="wrap body">
-      <div class="prose">
-        <Content />
       </div>
-      {
-        data.author === FOUNDER.name && (
-          <aside class="author" aria-label="About the author">
-            <p class="label">Written by</p>
-            <p class="author-name">
-              <a class="link" href={FOUNDER.linkedin} rel="author me">{FOUNDER.name}</a>
-            </p>
-            <p class="author-bio">{FOUNDER.bio}</p>
-          </aside>
-        )
-      }
+    )}
+
+    <div class="wrap pb" class:list={{ 'pb--toc': toc.length >= 2 }}>
+      <PostToc headings={toc} />
+      <div class="pb-main" data-post-body>
+        <div class="post-prose">
+          <Content />
+        </div>
+        {data.author === FOUNDER.name && <AuthorBox />}
+      </div>
     </div>
   </article>
 
+  {related.length > 0 && (
+    <section class="rel" aria-labelledby="rel-h">
+      <div class="wrap">
+        <div class="rel-head">
+          <div>
+            <p class="label">Keep reading</p>
+            <h2 class="rel-h" id="rel-h">
+              Related posts
+            </h2>
+          </div>
+          <a class="btn btn-ghost btn-sm" href={url('/journal/')}>
+            All articles
+          </a>
+        </div>
+        <div class="rel-grid">
+          {related.map((r) => (
+            <PostCard entry={r} />
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
   <BookCta heading="Designing complex software? Let us talk." />
+
+  <script>
+    import '../scripts/journal/post';
+    import { initInfoReveals } from '../scripts/info/reveal';
+    initInfoReveals();
+  </script>
 </BaseLayout>
 
 <style>
-  .head {
-    padding-bottom: var(--space-7);
+  /* The reading bar replaces the page-wide one on posts. */
+  :global(.progress) {
+    display: none;
   }
 
-  h1 {
-    font-size: var(--fs-xl);
-    max-width: 22ch;
+  .rp {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: var(--z-progress);
+    height: 3px;
+    pointer-events: none;
   }
 
-  .byline {
-    color: var(--mute);
+  .rp i {
+    display: block;
+    height: 100%;
+    background: var(--grad);
+    transform: scaleX(0);
+    transform-origin: left;
   }
 
-  .hero img {
-    width: 100%;
-    max-height: 70vh;
-    object-fit: cover;
+  .ph {
+    padding: calc(var(--nav-h) + clamp(28px, 5vw, 80px)) 0 clamp(36px, 5vw, 72px);
+  }
+
+  .ph-cat {
+    margin-top: clamp(28px, 4vw, 56px);
+  }
+
+  .ph-cat a {
+    min-height: 44px;
+    color: var(--violet-2);
+    transition: color 0.3s;
+  }
+
+  .ph-cat a::before {
+    background: var(--violet-2);
+  }
+
+  .ph-cat a:hover {
+    color: var(--ink);
+  }
+
+  .ph-title {
+    margin-top: clamp(16px, 2vw, 28px);
+    max-width: 21ch;
+    font: 800 clamp(2rem, 1rem + 4.5vw, 5.4rem) / 0.97 var(--display);
+    letter-spacing: -0.05em;
+    text-wrap: balance;
+    overflow-wrap: break-word;
+  }
+
+  .ph-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 28px;
+    margin-top: clamp(24px, 3vw, 40px);
+    font: 400 var(--fs-xs) / 1.3 var(--mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--dim);
+  }
+
+  .ph-meta a {
+    color: var(--ink);
+    border-bottom: 1px solid var(--line-2);
+    transition: border-color 0.3s;
+  }
+
+  .ph-meta a:hover {
+    border-color: var(--ink);
+  }
+
+  .ph-hero {
+    overflow: hidden;
+    aspect-ratio: 21 / 9;
+    max-height: 70svh;
     border-radius: var(--radius);
+    background: var(--bg-2);
   }
 
-  .body {
-    padding-top: var(--space-8);
+  .ph-hero img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    animation: hero-settle 1.8s var(--out) both;
   }
 
-  .author {
-    max-width: 68ch;
-    margin-top: var(--space-8);
-    padding-top: var(--space-6);
+  @keyframes hero-settle {
+    from {
+      transform: scale(1.06);
+    }
+  }
+
+  .pb {
+    padding-block: clamp(40px, 6vw, 96px) clamp(72px, 9vw, 140px);
+  }
+
+  .pb-main {
+    min-width: 0;
+  }
+
+  @media (min-width: 1100px) {
+    .pb--toc {
+      display: grid;
+      grid-template-columns: 250px minmax(0, 70ch);
+      justify-content: center;
+      column-gap: clamp(48px, 6vw, 112px);
+    }
+
+    .pb:not(.pb--toc) .pb-main {
+      margin-inline: auto;
+      max-width: 70ch;
+    }
+  }
+
+  @media (max-width: 1099px) {
+    .pb--toc {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .pb-main {
+      max-width: 70ch;
+      width: 100%;
+      margin-inline: auto;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .ph-hero {
+      aspect-ratio: 4 / 3;
+    }
+  }
+
+  .rel {
+    padding: clamp(64px, 9vw, 140px) 0;
     border-top: 1px solid var(--line);
   }
 
-  .author-name {
-    font-family: var(--display);
-    font-size: var(--fs-md);
+  .rel-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: clamp(32px, 4vw, 56px);
   }
 
-  .author-bio {
-    color: var(--mute);
+  .rel-h {
+    margin-top: 16px;
+    font: 800 clamp(2rem, 1.2rem + 3.4vw, 4.4rem) / 0.95 var(--display);
+    letter-spacing: -0.045em;
+  }
+
+  .rel-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(28px, 3vw, 48px) var(--gap);
+  }
+
+  @media (max-width: 900px) {
+    .rel-grid {
+      grid-template-columns: 1fr;
+      max-width: 560px;
+    }
+
+    .rel-head {
+      flex-direction: column;
+      align-items: flex-start;
+    }
   }
 </style>

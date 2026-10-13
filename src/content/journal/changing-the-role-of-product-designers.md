@@ -1,6 +1,7 @@
 ---
 title: "How AI Is Changing the Role of Product Designers in 2026"
-description: "Explore how AI is reshaping product designers’ role in 2026: new workflows, skills, and ways to design smarter experiences."
+seoTitle: "How AI Is Changing the Role of Product Designers"
+description: "AI is not replacing product designers, it is changing the job: less screen production, more judgment, strategy and trust. What to focus on in 2026."
 pubDate: 2026-04-02
 author: "Dani Bottaro"
 category: "AI & UX"
@@ -136,7 +137,7 @@ Strong design leadership in 2026 includes setting boundaries:
 
 A good designer protects the user experience from chaos.
 
-If your team wants a process that balances speed and quality, our [**product design services**](/product-design/) help build workflows that use AI as a multiplier while keeping standards high.
+If your team wants a process that balances speed and quality, our [**product design services**](/services/product-design/) help build workflows that use AI as a multiplier while keeping standards high.
 
 ## **What does a healthy AI-driven design workflow look like?**
 
@@ -188,7 +189,7 @@ Products that win are not always the most “beautiful.” They are the easiest 
 
 Craft in 2026 is designing experiences that feel intentional across every touchpoint. That includes microcopy, states, error handling, and system patterns, not just the hero screen.
 
-For SaaS teams, a lot of this work lives inside onboarding, activation flows, dashboard design, and core workflows. That’s a key part of our [**UX design for SaaS**](/ux-design/) work when teams want user experience that scales as the product grows.
+For SaaS teams, a lot of this work lives inside onboarding, activation flows, dashboard design, and core workflows. That’s a key part of our [**UX design for SaaS**](/services/product-design/) work when teams want user experience that scales as the product grows.
 
 ## **What should product designers do to stay relevant?**
 

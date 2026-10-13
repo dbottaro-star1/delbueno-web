@@ -1,0 +1,43 @@
+---
+/** Client names set as type. No logos on purpose: the list is the proof. */
+const clients = ['BigID', 'JFrog', 'NetApp', 'Palo Alto Networks', 'Uleadz'];
+---
+
+<section class="ip-sec" aria-labelledby="ac-h">
+  <div class="wrap">
+    <div class="ip-head">
+      <p class="label">Clients</p>
+      <h2 class="ip-h2" id="ac-h" data-lines>
+        Companies we have worked with.
+      </h2>
+    </div>
+    <ul class="ac">
+      {clients.map((c) => (
+        <li data-reveal>{c}</li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .ac {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 clamp(28px, 5vw, 84px);
+    border-top: 1px solid var(--line);
+    padding-top: clamp(24px, 3vw, 44px);
+  }
+
+  .ac li {
+    font: 800 clamp(2rem, 1rem + 4.2vw, 5.4rem) / 1.25 var(--display);
+    letter-spacing: -0.045em;
+    color: rgb(242 242 245 / 0.6);
+    transition: color 0.5s;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .ac li:hover {
+      color: var(--ink);
+    }
+  }
+</style>

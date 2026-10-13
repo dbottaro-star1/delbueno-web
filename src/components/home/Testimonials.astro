@@ -7,11 +7,17 @@ const others = testimonials.filter((t) => t !== featured);
 ---
 
 <section class="quote" aria-labelledby="quote-h">
-  <h2 class="label" id="quote-h">Client words</h2>
+  <h2 class="label" id="quote-h">
+    Client words
+  </h2>
   <div class="quote-grid">
     <figure class="q-main">
-      <span class="q-mark" aria-hidden="true">“</span>
-      <blockquote><p id="quoteText">{featured.quote}</p></blockquote>
+      <span class="q-mark" aria-hidden="true">
+        “
+      </span>
+      <blockquote>
+        <p id="quoteText">{featured.quote}</p>
+      </blockquote>
       <figcaption class="who">
         <Image
           class="avatar avatar--lg"
@@ -25,40 +31,42 @@ const others = testimonials.filter((t) => t !== featured);
         />
         <div>
           <b>{featured.name}</b>
-          <span>{featured.role}, {featured.company}</span>
+          <span>
+            {featured.role}, {featured.company}
+          </span>
         </div>
       </figcaption>
     </figure>
   </div>
 
   <ul class="q-others">
-    {
-      others.map((t) => (
-        <li>
-          <figure>
-            <blockquote>
-              <p>{t.quote}</p>
-            </blockquote>
-            <figcaption class="who who--sm">
-              <Image
-                class="avatar"
-                src={t.photo}
-                width={112}
-                height={112}
-                fit="cover"
-                alt={`Portrait of ${t.name}`}
-                loading="lazy"
-                decoding="async"
-              />
-              <div>
-                <b>{t.name}</b>
-                <span>{t.role}, {t.company}</span>
-              </div>
-            </figcaption>
-          </figure>
-        </li>
-      ))
-    }
+    {others.map((t) => (
+      <li>
+        <figure>
+          <blockquote>
+            <p>{t.quote}</p>
+          </blockquote>
+          <figcaption class="who who--sm">
+            <Image
+              class="avatar"
+              src={t.photo}
+              width={112}
+              height={112}
+              fit="cover"
+              alt={`Portrait of ${t.name}`}
+              loading="lazy"
+              decoding="async"
+            />
+            <div>
+              <b>{t.name}</b>
+              <span>
+                {t.role}, {t.company}
+              </span>
+            </div>
+          </figcaption>
+        </figure>
+      </li>
+    ))}
   </ul>
 </section>
 

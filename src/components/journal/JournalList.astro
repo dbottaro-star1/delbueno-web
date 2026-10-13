@@ -1,0 +1,50 @@
+---
+/** Category filter plus the editorial list of posts. Pagination goes in the slot. */
+import CategoryNav from './CategoryNav.astro';
+import PostRow from './PostRow.astro';
+import type { JournalEntry } from '../../lib/content';
+
+interface Props {
+  entries: JournalEntry[];
+  /** Running number of the first row. */
+  start?: number;
+  active?: string;
+  heading?: string;
+}
+const { entries, start = 1, active, heading = 'All articles' } = Astro.props;
+---
+
+<section class="jl" aria-labelledby="jl-h">
+  <div class="wrap">
+    <h2 class="sr-only" id="jl-h">
+      {heading}
+    </h2>
+    <CategoryNav active={active} />
+    {entries.length > 0 ? (
+      <ol class="jl-list">
+        {entries.map((entry, i) => (
+          <PostRow entry={entry} number={start + i} />
+        ))}
+      </ol>
+    ) : (
+      <p class="lede jl-empty">The first articles are on the way.</p>
+    )}
+    <slot />
+  </div>
+</section>
+
+<style>
+  .jl {
+    padding-block: clamp(24px, 4vw, 56px) clamp(72px, 10vw, 160px);
+    border-top: 1px solid var(--line);
+  }
+
+  .jl-list {
+    margin-top: clamp(24px, 3vw, 40px);
+    border-top: 1px solid var(--line);
+  }
+
+  .jl-empty {
+    margin-top: var(--space-7);
+  }
+</style>

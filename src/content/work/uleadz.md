@@ -1,14 +1,16 @@
 ---
 title: "Lifting conversion 27% for Uleadz's field service software"
+seoTitle: "Uleadz: Field Service Software UX and Website"
+description: "We redesigned the website and the SaaS and mobile UX for Uleadz, a field management platform, around one design system. Conversion rose 27%."
 client: "Uleadz"
 summary: "We redesigned the website and the SaaS and mobile UX for Uleadz, a field management platform for home service businesses, around one design system. Conversion rate improved 27% and new users grew 18%."
 industry: "Field service software"
 services: ["Web design", "SaaS UX/UI", "Mobile app design (iOS and Android)", "Design system", "Custom illustration", "UX audit"]
 metrics:
-  - value: "+16%"
-    label: "organic transactions"
   - value: "+27%"
     label: "conversion rate"
+  - value: "+16%"
+    label: "organic transactions"
   - value: "+18%"
     label: "new users"
 cover: "../../assets/work/uleadz/uleadz-app-screens.png"

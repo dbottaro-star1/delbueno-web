@@ -9,6 +9,18 @@ export const SERVICE_ID = `${PROD_ORIGIN}/#professionalservice`;
 export const WEBSITE_ID = `${PROD_ORIGIN}/#website`;
 export const FOUNDER_ID = `${PROD_ORIGIN}/about/#founder`;
 
+/** The brand mark (public/logo.png, built by scripts/build-icons.mjs). */
+const LOGO = {
+  '@type': 'ImageObject',
+  url: `${PROD_ORIGIN}/logo.png`,
+  contentUrl: `${PROD_ORIGIN}/logo.png`,
+  width: 512,
+  height: 512,
+};
+
+/** The publisher as search engines want it on Article and WebSite: named, with its logo, and tied to the Organization by id. */
+export const PUBLISHER = { '@type': 'Organization', '@id': ORG_ID, name: BRAND.name, logo: LOGO };
+
 const address = {
   '@type': 'PostalAddress',
   addressLocality: BRAND.locality,
@@ -26,12 +38,8 @@ export function sitewideSchema(): JsonLdNode {
         name: BRAND.name,
         alternateName: BRAND.shortName,
         url: `${PROD_ORIGIN}/`,
-        logo: {
-          '@type': 'ImageObject',
-          url: `${PROD_ORIGIN}/logo.png`,
-          width: 512,
-          height: 512,
-        },
+        logo: LOGO,
+        image: LOGO.url,
         email: BRAND.email,
         description: BRAND.description,
         address,
@@ -67,7 +75,9 @@ export function sitewideSchema(): JsonLdNode {
         '@id': WEBSITE_ID,
         url: `${PROD_ORIGIN}/`,
         name: BRAND.name,
-        publisher: { '@id': ORG_ID },
+        alternateName: BRAND.shortName,
+        description: BRAND.description,
+        publisher: PUBLISHER,
         inLanguage: 'en',
       },
     ],
@@ -123,8 +133,10 @@ export interface ArticleInput {
   author: string;
   pubDate: Date;
   updatedDate?: Date;
-  image?: string;
+  /** Absolute image URL and its size in pixels. */
+  image?: { url: string; width: number; height: number };
   category?: string;
+  wordCount?: number;
 }
 
 export function articleSchema(a: ArticleInput): JsonLdNode {
@@ -136,12 +148,13 @@ export function articleSchema(a: ArticleInput): JsonLdNode {
     datePublished: a.pubDate.toISOString(),
     dateModified: (a.updatedDate ?? a.pubDate).toISOString(),
     author: personSchema(a.author),
-    publisher: { '@id': ORG_ID },
+    publisher: PUBLISHER,
     mainEntityOfPage: { '@type': 'WebPage', '@id': canonicalUrl(a.path) },
     url: canonicalUrl(a.path),
     inLanguage: 'en',
-    ...(a.image ? { image: a.image } : {}),
+    ...(a.image ? { image: { '@type': 'ImageObject', ...a.image } } : {}),
     ...(a.category ? { articleSection: a.category } : {}),
+    ...(a.wordCount ? { wordCount: a.wordCount } : {}),
   };
 }
 

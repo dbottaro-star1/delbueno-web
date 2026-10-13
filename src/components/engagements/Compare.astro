@@ -1,0 +1,215 @@
+---
+/**
+ * Side by side comparison of the three models. A real table on desktop, stacked cards on phones (same markup,
+ * the cells are re-ordered with CSS). The recommended path, Launch Sprint then Design Partner, carries the gradient.
+ * No prices.
+ */
+import { compareRows, engagements } from '../../data/engagements';
+
+const pathSteps: Record<string, string> = { 'launch-sprint': 'Start here', 'design-partner': 'Then roll in' };
+const last = compareRows.length;
+---
+
+<div class="cmp" data-cmp>
+  <table class="cmp-table">
+    <caption class="sr-only">Launch Sprint, Design Partner and Designer on Demand compared</caption>
+    <thead>
+      <tr>
+        <td class="cmp-corner"></td>
+        {engagements.map((e, m) => (
+          <th scope="col" class:list={['cmp-col', e.slug in pathSteps && 'is-path']} style={`--o:${m * 20}`}>
+            {e.slug in pathSteps && (
+              <span class="cmp-tag">
+                <i class="cmp-bar" data-draw aria-hidden="true" />
+                Recommended path: {pathSteps[e.slug]}
+              </span>
+            )}
+            <span class="cmp-name">{e.name}</span>
+          </th>
+        ))}
+      </tr>
+    </thead>
+    <tbody>
+      {compareRows.map((row, r) => (
+        <tr class="cmp-row">
+          <th scope="row" class="cmp-label">
+            {row.label}
+          </th>
+          {row.values.map((value, m) => (
+            <td
+              class:list={['cmp-cell', engagements[m].slug in pathSteps && 'is-path', r + 1 === last && 'is-last']}
+              data-label={row.label}
+              style={`--o:${m * 20 + r + 1}`}
+            >
+              {value}
+            </td>
+          ))}
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+
+<style is:global>
+  .cmp-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    table-layout: fixed;
+  }
+
+  .cmp-corner {
+    width: 17%;
+  }
+
+  .cmp-col {
+    position: relative;
+    padding: 0 clamp(14px, 1.8vw, 28px) clamp(20px, 2vw, 28px);
+    text-align: left;
+    font-weight: 400;
+    vertical-align: bottom;
+    border-bottom: 1px solid var(--line-2);
+  }
+
+  .cmp-tag {
+    display: block;
+    min-height: 2.6em;
+    margin-bottom: 14px;
+    font: 400 0.6875rem / 1.3 var(--mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink);
+  }
+
+  .cmp-bar {
+    display: block;
+    height: 3px;
+    margin: 0 calc(clamp(14px, 1.8vw, 28px) * -1) 14px;
+    background: var(--grad);
+    background-size: 200% 100%;
+    transform-origin: left center;
+  }
+
+  .cmp-col.is-path ~ .cmp-col.is-path .cmp-bar {
+    background-position: 100% 0;
+  }
+
+  .cmp-name {
+    display: block;
+    font: 800 clamp(1.5rem, 2.7vw, 3rem) / 0.98 var(--display);
+    letter-spacing: -0.045em;
+    color: var(--ink);
+  }
+
+  .cmp-label {
+    padding: clamp(16px, 1.8vw, 24px) 12px clamp(16px, 1.8vw, 24px) 0;
+    text-align: left;
+    vertical-align: top;
+    font: 400 0.75rem / 1.3 var(--mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--dim);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .cmp-cell {
+    padding: clamp(16px, 1.8vw, 24px) clamp(14px, 1.8vw, 28px);
+    vertical-align: top;
+    font-size: clamp(1rem, 1.2vw, 1.125rem);
+    line-height: 1.4;
+    color: var(--ink);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .cmp-cell.is-path {
+    background: linear-gradient(180deg, rgb(123 107 255 / 0.07), rgb(123 107 255 / 0.03));
+  }
+
+  .cmp-col.is-path {
+    background: rgb(123 107 255 / 0.07);
+  }
+
+  @media (min-width: 861px) {
+    .js .cmp-row > * {
+      opacity: 0;
+    }
+  }
+
+  /* phones: each model becomes a card. Rows are display:contents, the --o variable orders the cells by model. */
+  @media (max-width: 860px) {
+    .cmp-table {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .cmp-table thead,
+    .cmp-table tbody,
+    .cmp-table tr {
+      display: contents;
+    }
+
+    .cmp-corner,
+    .cmp-label {
+      display: none;
+    }
+
+    .cmp-col,
+    .cmp-cell {
+      display: block;
+      order: var(--o);
+      padding-inline: clamp(18px, 5vw, 28px);
+      border-inline: 1px solid var(--line-2);
+      border-bottom: 0;
+      background: var(--bg-1);
+    }
+
+    .cmp-col {
+      padding-top: 26px;
+      padding-bottom: 12px;
+      border-top: 1px solid var(--line-2);
+      border-radius: 16px 16px 0 0;
+      margin-top: 20px;
+      overflow: hidden;
+    }
+
+    .cmp-col:first-of-type {
+      margin-top: 0;
+    }
+
+    .cmp-tag {
+      min-height: 0;
+    }
+
+    .cmp-bar {
+      margin-inline: calc(clamp(18px, 5vw, 28px) * -1);
+      margin-top: -26px;
+      margin-bottom: 18px;
+    }
+
+    .cmp-cell {
+      padding-block: 14px;
+      border-top: 1px solid var(--line);
+    }
+
+    .cmp-cell.is-path,
+    .cmp-col.is-path {
+      background: var(--bg-2);
+    }
+
+    .cmp-cell::before {
+      content: attr(data-label);
+      display: block;
+      margin-bottom: 6px;
+      font: 400 0.6875rem / 1 var(--mono);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--dim);
+    }
+
+    .cmp-cell.is-last {
+      padding-bottom: 22px;
+      border-bottom: 1px solid var(--line-2);
+      border-radius: 0 0 16px 16px;
+    }
+  }
+</style>

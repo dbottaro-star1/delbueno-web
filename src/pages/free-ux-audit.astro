@@ -1,30 +1,523 @@
 ---
-import PageHeader from '../components/PageHeader.astro';
+import InfoCta from '../components/info/InfoCta.astro';
+import InfoFaq from '../components/info/InfoFaq.astro';
+import InfoHero from '../components/info/InfoHero.astro';
+import Steps from '../components/info/Steps.astro';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { crumbs } from '../lib/schema';
+import { ORG_ID, WEBSITE_ID, crumbs } from '../lib/schema';
 import { BRAND, LINKS } from '../lib/site';
+import { canonicalUrl } from '../lib/url';
 
 const trail = crumbs({ name: 'Free UX audit', path: '/free-ux-audit/' });
+const description =
+  'Get a free UX audit from delbueno™ Studio: a personalized 3 point plan for your mobile app, desktop app or website, delivered 48 hours after you send it.';
+
+const subject = encodeURIComponent('Free UX audit request');
+const body = encodeURIComponent(
+  [
+    'Hi delbueno team,',
+    '',
+    'I would like a free UX audit.',
+    '',
+    'Product URL (or a link to a prototype):',
+    '',
+    'What it does, in one line:',
+    '',
+    'Where it hurts most (onboarding, retention, support tickets, something else):',
+    '',
+    'My name and role:',
+  ].join('\n'),
+);
+const mailto = `mailto:${BRAND.email}?subject=${subject}&body=${body}`;
+
+const pains = [
+  {
+    q: 'Are most new users gone within a week?',
+    a: 'Your onboarding flow may be too complex, and users leave before they understand the value.',
+  },
+  {
+    q: 'Is unclear UX causing costly developer rework?',
+    a: 'Every unclear interface means wasted sprints, confused users and developers rebuilding features.',
+  },
+  {
+    q: 'Are support tickets full of “How do I…?” questions?',
+    a: 'If your team spends hours explaining basic flows, the interface is not doing its job.',
+  },
+];
+
+const gets = [
+  {
+    t: 'Onboarding flow analysis',
+    d: 'We audit your current user journey from signup to first success, and show where users drop off and why.',
+  },
+  {
+    t: 'Retention friction points',
+    d: 'We pinpoint the UI and UX issues that stop people reaching their “aha moment” and becoming active users.',
+  },
+  {
+    t: 'Priority action plan',
+    d: 'Three specific, high-impact changes, ranked, each with its expected effect on retention and the dev effort it takes.',
+  },
+];
+
+const inside = [
+  {
+    t: 'Critical friction points',
+    d: 'The exact moments where users get confused, stuck or frustrated in your flow.',
+    l: ['Drop-off point identification', 'Cognitive load assessment'],
+  },
+  {
+    t: 'Priority quick wins',
+    d: 'Low-effort changes your team can ship right away.',
+    l: ['Copy and microcopy fixes', 'Visual hierarchy improvements'],
+  },
+  {
+    t: 'Strategic roadmap',
+    d: 'A phased plan for deeper improvements that compound over time.',
+    l: ['Feature prioritization framework', 'Personalization opportunities', 'Long-term retention strategies'],
+  },
+];
+
+const steps = [
+  {
+    when: 'Today',
+    title: 'You send your product',
+    text: 'Book a call or email us your product URL. It takes a minute.',
+  },
+  {
+    when: 'Within 24h',
+    title: 'We analyze it',
+    text: 'Senior UX strategists run a deep-dive audit of your onboarding flow, friction points and opportunities.',
+  },
+  {
+    when: '48h later',
+    title: 'You get a 3 point plan',
+    text: 'Delivered to your inbox, ready to share with your team and start on.',
+  },
+];
+
+const faq = [
+  {
+    q: 'Is this really free?',
+    a: 'Yes. No credit card and no hidden fees. We offer the audit to show how we work, and there is zero obligation to work with us afterward.',
+  },
+  {
+    q: 'What if my product is still in beta or stealth mode?',
+    a: 'We work with pre-launch products regularly and sign an NDA on request. Early UX decisions are cheaper to change before launch than after it.',
+  },
+  {
+    q: 'Do you only work with large companies?',
+    a: 'No. We work with teams from seed-stage startups to Series C and beyond. If you are building a complex B2B SaaS product and care about user experience, write to us.',
+  },
+  {
+    q: 'What happens after I receive the audit?',
+    a: 'That is entirely up to you. You can implement the recommendations yourself, share them with your team, or reach out if you want help executing the plan. There is no pressure either way.',
+  },
+  {
+    q: 'How detailed is the 3 point plan?',
+    a: 'It contains specific recommendations with screenshots, annotations and clear next steps, so your team can start on it right away.',
+  },
+  {
+    q: 'What industries do you focus on?',
+    a: 'B2B SaaS across cloud computing, AI and ML platforms, DevOps tools, productivity, cybersecurity, fintech, edtech and medtech or wellness. If your industry is not listed but your product involves technical workflows, write to us anyway.',
+  },
+];
 ---
 
 <BaseLayout
-  title="Free UX audit"
-  description="Get a free UX audit of your product from delbueno™ Studio. Kickoff today and first findings in 48 hours."
+  title="Free UX Audit in 48 Hours"
+  description={description}
   breadcrumbs={trail}
+  jsonLd={[
+    {
+      '@context': 'https://schema.org',
+      '@type': 'Service',
+      '@id': `${canonicalUrl('/free-ux-audit/')}#service`,
+      name: 'Free UX audit',
+      serviceType: 'UX audit',
+      description,
+      url: canonicalUrl('/free-ux-audit/'),
+      provider: { '@id': ORG_ID },
+      isPartOf: { '@id': WEBSITE_ID },
+      areaServed: 'Worldwide',
+      offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    },
+  ]}
 >
-  <PageHeader
-    title="Free UX audit"
-    eyebrow="Lead offer"
-    lede="Send us your product and get a short, ranked list of what to fix first."
+  <InfoHero
+    eyebrow="Free UX audit / Limited audits per week"
+    title="A free UX audit."
+    accent="Back in 48 hours."
+    lede="The free UX audit is a personalized 3 point plan for your product, delivered 48 hours after you send it. We analyze your onboarding flow and retention friction within 24 hours, then rank the three changes worth making first. It covers mobile apps, desktop apps and websites."
     crumbs={trail}
-  />
-  <section class="section">
-    <div class="wrap stack">
-      <p class="lede">{BRAND.speed}</p>
-      <div class="cta-row">
-        <a class="btn btn-primary" href={LINKS.book} rel="noopener">Book a 15 minute call</a>
-        <a class="btn btn-ghost" href={`mailto:${BRAND.email}?subject=Free%20UX%20audit`}>Email us</a>
+    size="clamp(2.2rem, 6.4vw, 7.4rem)"
+    maxWidth="100%"
+  >
+    <div class="fa-cta" data-reveal>
+      <a class="btn btn-primary ip-cta-btn" data-magnetic href={LINKS.book} rel="noopener noreferrer">
+        Book a call to start{' '}
+        <svg class="arr" aria-hidden="true">
+          <use href="#i-arr"></use>
+        </svg>
+      </a>
+      <a class="btn btn-ghost ip-cta-btn" href={mailto}>
+        Email your product URL
+      </a>
+    </div>
+    <ul class="tags fa-tags" data-reveal>
+      <li class="tag">Mobile apps</li>
+      <li class="tag">Desktop apps</li>
+      <li class="tag">Websites</li>
+    </ul>
+    <p class="fa-limit" data-reveal>
+      No credit card. No commitment. We take a limited number of audits per week.
+    </p>
+  </InfoHero>
+
+  <section class="ip-sec" aria-labelledby="fa-pain-h">
+    <div class="wrap">
+      <div class="ip-head">
+        <p class="label">Sound familiar?</p>
+        <h2 class="ip-h2" id="fa-pain-h" data-lines>
+          The warning signs we fix every day.
+        </h2>
+      </div>
+      <ul class="fa-pains">
+        {pains.map((p, i) => (
+          <li data-reveal>
+            <span class="ip-no">{String(i + 1).padStart(2, '0')}</span>
+            <h3>{p.q}</h3>
+            <p>{p.a}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="ip-sec" aria-labelledby="fa-get-h">
+    <div class="wrap fa-get">
+      <div>
+        <div class="ip-head fa-head">
+          <p class="label">What you get in 48 hours</p>
+          <h2 class="ip-h2" id="fa-get-h" data-lines>
+            A focused plan for your live product.
+          </h2>
+        </div>
+        <ol class="fa-gets">
+          {gets.map((g, i) => (
+            <li data-reveal>
+              <span class="ip-no">{String(i + 1).padStart(2, '0')}</span>
+              <h3>{g.t}</h3>
+              <p>{g.d}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+      <figure class="fa-card" data-reveal aria-label="Structure of the audit report">
+        <figcaption class="fa-card-top">
+          <span class="ip-no">Audit report</span>
+          <span class="fa-badge">3 point plan</span>
+        </figcaption>
+        <p class="fa-card-title">Your product</p>
+        <ol class="fa-card-list">
+          <li>
+            <span class="ip-no">01</span>Critical friction points
+          </li>
+          <li>
+            <span class="ip-no">02</span>Priority quick wins
+          </li>
+          <li>
+            <span class="ip-no">03</span>Strategic roadmap
+          </li>
+        </ol>
+        <p class="fa-card-foot ip-no">Bonus: competitive analysis, industry benchmarks, innovation opportunities</p>
+      </figure>
+    </div>
+  </section>
+
+  <section class="ip-sec" aria-labelledby="fa-in-h">
+    <div class="wrap">
+      <div class="ip-head">
+        <p class="label">What is inside</p>
+        <h2 class="ip-h2" id="fa-in-h" data-lines>
+          Personalized, and built around your onboarding.
+        </h2>
+      </div>
+      <div class="fa-inside">
+        {inside.map((c) => (
+          <div class="fa-col" data-reveal>
+            <h3>{c.t}</h3>
+            <p>{c.d}</p>
+            <ul class="list-check">
+              {c.l.map((x) => (
+                <li>{x}</li>
+              ))}
+            </ul>
+          </div>
+        ))}
       </div>
     </div>
   </section>
+
+  <section class="ip-sec" aria-labelledby="fa-how-h">
+    <div class="wrap">
+      <div class="ip-head">
+        <p class="label">How it works</p>
+        <h2 class="ip-h2" id="fa-how-h" data-lines>
+          Simple, fast and free.
+        </h2>
+      </div>
+      <Steps steps={steps} />
+    </div>
+  </section>
+
+  <section class="ip-sec" aria-labelledby="fa-faq-h">
+    <div class="wrap">
+      <div class="ip-head">
+        <p class="label">FAQ</p>
+        <h2 class="ip-h2" id="fa-faq-h" data-lines>
+          Questions, answered.
+        </h2>
+      </div>
+      <InfoFaq items={faq} />
+      <p class="fa-limit fa-disclaimer">
+        Because the work is manual, we accept a limited number of audits per week, and we may decline requests that do
+        not fit our current capacity.
+      </p>
+    </div>
+  </section>
+
+  <InfoCta
+    heading="Ready to fix your onboarding?"
+    label="Start"
+    sub="Book a call, or email your product URL. We start the clock when it arrives."
+  />
+
+  <script>
+    import { initInfoReveals } from '../scripts/info/reveal';
+    initInfoReveals();
+  </script>
 </BaseLayout>
+
+<style>
+  .fa-cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: clamp(32px, 4.4vw, 64px);
+  }
+
+  .fa-tags {
+    margin-top: 28px;
+  }
+
+  .fa-limit {
+    margin-top: 20px;
+    color: var(--dim);
+    font-size: var(--fs-sm);
+    max-width: 60ch;
+  }
+
+  .fa-pains,
+  .fa-gets {
+    border-top: 1px solid var(--line);
+  }
+
+  .fa-pains li,
+  .fa-gets li {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--gap);
+    row-gap: 12px;
+    padding-block: clamp(24px, 3vw, 44px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .fa-pains .ip-no,
+  .fa-gets .ip-no {
+    grid-column: 1 / 2;
+    padding-top: 0.5em;
+  }
+
+  .fa-pains h3,
+  .fa-gets h3 {
+    grid-column: 2 / 8;
+    font: 700 clamp(1.2rem, 1rem + 1vw, 2rem) / 1.15 var(--display);
+    letter-spacing: -0.035em;
+    text-wrap: balance;
+  }
+
+  .fa-pains p,
+  .fa-gets p {
+    grid-column: 8 / 13;
+    color: var(--mute);
+  }
+
+  .fa-get {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+    column-gap: clamp(32px, 5vw, 96px);
+    align-items: start;
+  }
+
+  .fa-head {
+    display: block;
+  }
+
+  .fa-head .ip-h2 {
+    margin-top: 18px;
+  }
+
+  .fa-gets h3 {
+    grid-column: 2 / 13;
+  }
+
+  .fa-gets p {
+    grid-column: 2 / 13;
+    max-width: 52ch;
+  }
+
+  .fa-card {
+    position: sticky;
+    top: calc(var(--nav-h) + 24px);
+    margin: 0;
+    padding: clamp(22px, 2.4vw, 32px);
+    border-radius: var(--radius);
+    background:
+      linear-gradient(var(--bg-1), var(--bg-1)) padding-box,
+      linear-gradient(140deg, var(--violet-2), var(--line) 40%, var(--lime)) border-box;
+    border: 1px solid transparent;
+    transform: rotate(1.4deg);
+    transition: transform 1s var(--out);
+  }
+
+  .fa-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .fa-badge {
+    padding: 6px 10px;
+    border-radius: var(--radius-pill);
+    background: var(--lime);
+    color: #0a0a0f;
+    font: 500 0.6875rem / 1 var(--mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .fa-card-title {
+    margin-top: 28px;
+    font: 800 clamp(1.6rem, 1.2rem + 1.2vw, 2.4rem) / 1 var(--display);
+    letter-spacing: -0.045em;
+  }
+
+  .fa-card-list {
+    margin-top: 24px;
+    border-top: 1px solid var(--line);
+  }
+
+  .fa-card-list li {
+    display: flex;
+    gap: 16px;
+    padding-block: 16px;
+    border-bottom: 1px solid var(--line);
+    font-weight: 500;
+  }
+
+  .fa-card-foot {
+    margin-top: 20px;
+    line-height: 1.5;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .fa-card:hover {
+      transform: rotate(0deg) translateY(-4px);
+    }
+  }
+
+  .fa-inside {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border-top: 1px solid var(--line);
+  }
+
+  .fa-col {
+    padding: clamp(28px, 3.4vw, 48px) clamp(16px, 2vw, 32px) 0 0;
+  }
+
+  .fa-col + .fa-col {
+    padding-left: clamp(16px, 2vw, 32px);
+    border-left: 1px solid var(--line);
+  }
+
+  .fa-col h3 {
+    font: 700 clamp(1.3rem, 1.1rem + 0.9vw, 1.9rem) / 1.15 var(--display);
+    letter-spacing: -0.035em;
+  }
+
+  .fa-col p {
+    margin-top: 12px;
+    color: var(--mute);
+  }
+
+  .fa-col .list-check {
+    margin-top: 20px;
+  }
+
+  .fa-disclaimer {
+    margin-top: 32px;
+  }
+
+  @media (max-width: 1000px) {
+    .fa-get {
+      grid-template-columns: 1fr;
+      row-gap: 56px;
+    }
+
+    .fa-card {
+      position: static;
+      max-width: 520px;
+    }
+
+    .fa-inside {
+      grid-template-columns: 1fr;
+    }
+
+    .fa-col,
+    .fa-col + .fa-col {
+      padding: 28px 0;
+      border-left: 0;
+      border-bottom: 1px solid var(--line);
+    }
+  }
+
+  @media (max-width: 760px) {
+    .fa-pains .ip-no,
+    .fa-gets .ip-no {
+      grid-column: 1 / -1;
+    }
+
+    .fa-pains h3,
+    .fa-pains p {
+      grid-column: 1 / -1;
+    }
+
+    .fa-gets h3,
+    .fa-gets p {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 1000px) and (min-width: 761px) {
+    .fa-pains h3 {
+      grid-column: 2 / 13;
+    }
+
+    .fa-pains p {
+      grid-column: 2 / 13;
+    }
+  }
+</style>

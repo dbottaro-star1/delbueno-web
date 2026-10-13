@@ -11,22 +11,20 @@ interface Props {
 const { items, heading = 'Frequently asked questions' } = Astro.props;
 ---
 
-{
-  items.length > 0 && (
-    <section class="faq" aria-labelledby="faq-heading">
-      <h2 id="faq-heading">{heading}</h2>
-      <div class="items">
-        {items.map((item) => (
-          <details>
-            <summary>{item.q}</summary>
-            <p>{item.a}</p>
-          </details>
-        ))}
-      </div>
-      <JsonLd data={faqSchema(items)} />
-    </section>
-  )
-}
+{items.length > 0 && (
+  <section class="faq" aria-labelledby="faq-heading">
+    <h2 id="faq-heading">{heading}</h2>
+    <div class="items">
+      {items.map((item) => (
+        <details>
+          <summary>{item.q}</summary>
+          <p>{item.a}</p>
+        </details>
+      ))}
+    </div>
+    <JsonLd data={faqSchema(items)} />
+  </section>
+)}
 
 <style>
   .faq h2 {

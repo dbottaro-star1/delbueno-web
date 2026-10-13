@@ -1,0 +1,56 @@
+---
+import type { GetStaticPaths } from 'astro';
+import BookCta from '../../../components/BookCta.astro';
+import InfoHero from '../../../components/info/InfoHero.astro';
+import JournalList from '../../../components/journal/JournalList.astro';
+import { getCategories } from '../../../components/journal/reading';
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { getJournal, type JournalEntry } from '../../../lib/content';
+import { crumbs } from '../../../lib/schema';
+
+export const getStaticPaths = (async () => {
+  const [categories, posts] = await Promise.all([getCategories(), getJournal()]);
+  return categories.map((category) => ({
+    params: { category: category.slug },
+    props: {
+      name: category.name,
+      slug: category.slug,
+      entries: posts.filter((p) => p.data.category === category.name),
+    },
+  }));
+}) satisfies GetStaticPaths;
+
+interface Props {
+  name: string;
+  slug: string;
+  entries: JournalEntry[];
+}
+const { name, slug, entries } = Astro.props;
+
+const trail = crumbs({ name: 'Journal', path: '/journal/' }, { name, path: `/journal/category/${slug}/` });
+const count = `${entries.length} ${entries.length === 1 ? 'article' : 'articles'}`;
+---
+
+<BaseLayout
+  title={`${name}: journal articles`}
+  description={`${count} from delbueno™ Studio on ${name}, for teams building complex B2B software. Practical guides, frameworks and field notes from our work.`}
+  breadcrumbs={trail}
+>
+  <InfoHero
+    eyebrow={`Journal / ${count}`}
+    title={name}
+    lede={`Everything we have written about ${name}, newest first.`}
+    crumbs={trail}
+    size="clamp(2.4rem, 8vw, 8.6rem)"
+    maxWidth="14ch"
+  />
+
+  <JournalList entries={entries} active={slug} heading={`${name} articles`} />
+
+  <BookCta />
+
+  <script>
+    import { initInfoReveals } from '../../../scripts/info/reveal';
+    initInfoReveals();
+  </script>
+</BaseLayout>

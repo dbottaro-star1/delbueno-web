@@ -1,6 +1,7 @@
 ---
 title: "7 Game-Changing Impacts of AI on UX Design for Cloud, DevOps & SaaS Products"
-description: "Discover how AI is transforming UX design for complex Cloud, DevOps, and SaaS products. Learn 7 data-backed ways AI boosts clarity, speed, and scalability, from personalization to explainable design."
+seoTitle: "How AI Is Changing UX for Cloud, DevOps and SaaS"
+description: "Seven ways AI is changing UX design for complex cloud, DevOps and SaaS products, from personalization to explainable design that improves clarity."
 pubDate: 2025-10-17
 author: "Dani Bottaro"
 category: "AI & UX"

@@ -1,0 +1,37 @@
+---
+import { Image } from 'astro:assets';
+import type { WorkEntry } from '../../lib/content';
+import { url } from '../../lib/url';
+
+interface Props {
+  entry: WorkEntry;
+}
+const { entry } = Astro.props;
+const { data } = entry;
+const metric = data.metrics[0];
+const concept = entry.id === 'toyota';
+---
+
+<a class="in-case" href={url(`/work/${entry.id}/`)} data-cursor="View" data-rv>
+  <div class="in-case__media">
+    <Image
+      src={data.cover}
+      alt={data.coverAlt}
+      widths={[400, 800, 1200]}
+      sizes="(min-width: 1100px) 33vw, (min-width: 700px) 50vw, 100vw"
+    />
+    {concept && <span class="in-case__flag">Concept project</span>}
+  </div>
+  <p class="in-case__meta">
+    <span>{data.client}</span>
+    <span>{data.industry}</span>
+  </p>
+  {metric && (
+    <>
+      <p class="in-case__num">{metric.value}</p>
+      <p class="in-case__lab">
+        {concept ? `${metric.label}. A projection for a concept project, not a measured result.` : metric.label}
+      </p>
+    </>
+  )}
+</a>

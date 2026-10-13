@@ -1,8 +1,9 @@
 ---
 import type { GetStaticPaths, Page } from 'astro';
 import BookCta from '../../components/BookCta.astro';
-import PageHeader from '../../components/PageHeader.astro';
-import PostCard from '../../components/PostCard.astro';
+import FeaturedPost from '../../components/journal/FeaturedPost.astro';
+import JournalList from '../../components/journal/JournalList.astro';
+import InfoHero from '../../components/info/InfoHero.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getJournal, type JournalEntry } from '../../lib/content';
 import { crumbs } from '../../lib/schema';
@@ -17,61 +18,130 @@ interface Props {
   page: Page<JournalEntry>;
 }
 const { page } = Astro.props;
+const first = page.currentPage === 1;
+const featured = first ? page.data[0] : undefined;
+const rows = first ? page.data.slice(1) : page.data;
+const start = page.start + (first ? 2 : 1);
 
 const trail = crumbs({ name: 'Journal', path: '/journal/' });
-const pageTrail = page.currentPage > 1 ? [...trail, { name: `Page ${page.currentPage}`, path: `/journal/${page.currentPage}/` }] : trail;
-const suffix = page.currentPage > 1 ? ` (page ${page.currentPage})` : '';
+const pageTrail = first
+  ? trail
+  : [...trail, { name: `Page ${page.currentPage}`, path: `/journal/${page.currentPage}/` }];
+const suffix = first ? '' : ` (page ${page.currentPage})`;
+const description =
+  'Articles from delbueno™ Studio on UX for cloud, cybersecurity, DevOps and AI products, design systems, and how to design and build B2B SaaS.';
 // Pagination links are built from the page number so they honour the base path.
 const pageUrl = (n: number) => url(n === 1 ? '/journal/' : `/journal/${n}/`);
+const numbers = Array.from({ length: page.lastPage }, (_, i) => i + 1);
 ---
 
 <BaseLayout
   title={`Journal${suffix}: notes on designing complex software`}
-  description="Articles from delbueno™ Studio on UX for cloud, cybersecurity, DevOps and AI products, design systems and building B2B SaaS."
+  description={first ? description : `Page ${page.currentPage} of ${page.lastPage}: ${description}`}
   breadcrumbs={pageTrail}
 >
-  <PageHeader title="Journal" eyebrow="Notes from the studio" lede="Practical writing on designing complex B2B software." crumbs={pageTrail} />
+  <InfoHero
+    eyebrow={`Journal / ${page.total} articles`}
+    title="Notes on designing"
+    accent="complex software."
+    lede="Practical writing on UX for cloud, cybersecurity, DevOps and AI products, and on building B2B SaaS."
+    crumbs={pageTrail}
+    size="clamp(2.3rem, 6.4vw, 7.2rem)"
+    maxWidth="100%"
+  />
 
-  <section class="section">
-    <div class="wrap stack">
-      {
-        page.data.length > 0 ? (
-          <div class="grid">{page.data.map((entry) => <PostCard entry={entry} />)}</div>
+  {first && featured && <FeaturedPost entry={featured} />}
+
+  <JournalList entries={rows} start={start}>
+    {page.lastPage > 1 && (
+      <nav class="pager" aria-label="Journal pages">
+        {page.currentPage > 1 ? (
+          <a class="btn btn-ghost btn-sm" href={pageUrl(page.currentPage - 1)} rel="prev">
+            Newer posts
+          </a>
         ) : (
-          <p class="lede">The first articles are on the way.</p>
-        )
-      }
+          <span class="pager-spacer" aria-hidden="true" />
+        )}
+        <ol class="pager-nums">
+          {numbers.map((n) => (
+            <li>
+              <a href={pageUrl(n)} aria-current={n === page.currentPage ? 'page' : undefined} aria-label={`Page ${n}`}>
+                {String(n).padStart(2, '0')}
+              </a>
+            </li>
+          ))}
+        </ol>
+        {page.currentPage < page.lastPage ? (
+          <a class="btn btn-ghost btn-sm" href={pageUrl(page.currentPage + 1)} rel="next">
+            Older posts
+          </a>
+        ) : (
+          <span class="pager-spacer" aria-hidden="true" />
+        )}
+      </nav>
+    )}
+  </JournalList>
 
-      {
-        page.lastPage > 1 && (
-          <nav class="pager" aria-label="Journal pages">
-            {page.currentPage > 1 && (
-              <a class="btn btn-ghost btn-sm" href={pageUrl(page.currentPage - 1)} rel="prev">
-                Newer posts
-              </a>
-            )}
-            <span class="label">
-              Page {page.currentPage} of {page.lastPage}
-            </span>
-            {page.currentPage < page.lastPage && (
-              <a class="btn btn-ghost btn-sm" href={pageUrl(page.currentPage + 1)} rel="next">
-                Older posts
-              </a>
-            )}
-          </nav>
-        )
-      }
-    </div>
-  </section>
   <BookCta />
+
+  <script>
+    import { initInfoReveals } from '../../scripts/info/reveal';
+    initInfoReveals();
+  </script>
 </BaseLayout>
 
 <style>
   .pager {
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: var(--space-5);
-    margin-top: var(--space-7);
+    justify-content: space-between;
+    gap: var(--space-4);
+    margin-top: clamp(40px, 5vw, 72px);
+  }
+
+  .pager-spacer {
+    width: 1px;
+  }
+
+  .pager-nums {
+    display: flex;
+    gap: 4px;
+  }
+
+  .pager-nums a {
+    display: grid;
+    place-items: center;
+    min-width: 44px;
+    height: 44px;
+    border-radius: var(--radius-pill);
+    font: 400 var(--fs-xs) / 1 var(--mono);
+    letter-spacing: 0.08em;
+    color: var(--mute);
+    transition:
+      background 0.4s,
+      color 0.4s;
+  }
+
+  .pager-nums a:hover {
+    color: var(--ink);
+    background: rgb(255 255 255 / 0.06);
+  }
+
+  .pager-nums a[aria-current='page'] {
+    background: var(--ink);
+    color: #0a0a0f;
+  }
+
+  @media (max-width: 520px) {
+    .pager {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .pager-nums {
+      order: -1;
+      width: 100%;
+      justify-content: center;
+    }
   }
 </style>

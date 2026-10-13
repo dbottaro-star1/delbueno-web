@@ -1,60 +1,224 @@
 ---
-import BookCta from '../components/BookCta.astro';
 import Faq from '../components/Faq.astro';
-import PageHeader from '../components/PageHeader.astro';
-import { engagementFaqs, engagements } from '../data/engagements';
+import Compare from '../components/engagements/Compare.astro';
+import PathBlock from '../components/engagements/PathBlock.astro';
+import RequestFlow from '../components/engagements/RequestFlow.astro';
+import InnerCta from '../components/services/InnerCta.astro';
+import InnerHero from '../components/services/InnerHero.astro';
+import '../components/services/inner.css';
+import { engagementFaqs, engagements, path } from '../data/engagements';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { crumbs } from '../lib/schema';
+import { LINKS } from '../lib/site';
+import { canonicalUrl } from '../lib/url';
 
 const trail = crumbs({ name: 'Engagements', path: '/engagements/' });
+
+const answer =
+  'delbueno™ Studio works in three engagement models: a Launch Sprint with fixed scope, a flat fee and 2 to 4 weeks of delivery; a Design Partner subscription with unlimited requests, one at a time, each delivered in 24 to 48 hours; and a Designer on Demand embedded in your Slack and Figma, part-time or full-time.';
+
+const list = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: 'delbueno™ Studio engagement models',
+  itemListElement: engagements.map((e, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    item: {
+      '@type': 'Service',
+      name: e.name,
+      description: e.description,
+      url: `${canonicalUrl('/engagements/')}#${e.slug}`,
+    },
+  })),
+};
 ---
 
 <BaseLayout
-  title="Engagements: Launch Sprint, Design Partner, Designer on Demand"
-  description="Three ways to work with delbueno™ Studio: a fixed-scope Launch Sprint, an ongoing Design Partner team or flexible Designer on Demand capacity."
+  title="Launch Sprint, Design Partner, Designer on Demand"
+  description="Three ways to work with delbueno™ Studio: a fixed-scope Launch Sprint, a Design Partner subscription with unlimited requests, or a Designer on Demand."
   breadcrumbs={trail}
+  jsonLd={[list]}
 >
-  <PageHeader
-    title="Engagements"
-    eyebrow="How we work together"
-    lede="Pick the model that fits your stage. Kickoff is the same day and first concepts arrive in 48 hours."
-    crumbs={trail}
-  />
+  <InnerHero crumbs={trail} label="Engagements" title="Three ways to work together." size="md" answer={answer} />
 
-  <section class="section">
-    <div class="wrap">
-      <ul class="grid">
-        {
-          engagements.map((e) => (
-            <li class="card" id={e.slug}>
-              <h2>{e.name}</h2>
-              <p>{e.summary}</p>
-              <p><strong>Best for:</strong> {e.bestFor}</p>
-              <p>{e.description}</p>
-              <ul class="list-check">{e.includes.map((item) => <li>{item}</li>)}</ul>
-            </li>
-          ))
-        }
-      </ul>
+  <section class="in-sec em-sec" aria-labelledby="em-h">
+    <div class="in-head">
+      <p class="label">The models</p>
+      <h2 class="in-h2" id="em-h" data-split>
+        Pick the one that fits your stage.
+      </h2>
+    </div>
+    <div class="em-list">
+      {engagements.map((e, i) => (
+        <article class="em" id={e.slug} aria-labelledby={`${e.slug}-h`}>
+          <div class="em-a">
+            <span class="em-no" data-rv>
+              {String(i + 1).padStart(2, '0')} / 0{engagements.length}
+            </span>
+            <h3 class="em-name" id={`${e.slug}-h`} data-split>
+              {e.name}
+            </h3>
+            <ul class="in-chips" data-rv>
+              {e.chips.map((c) => (
+                <li>{c}</li>
+              ))}
+            </ul>
+          </div>
+          <div class="em-b">
+            <p class="in-lead" data-rv>
+              {e.description}
+            </p>
+            <div class="em-cols" data-rv>
+              <div>
+                <h4 class="em-h4">Ideal when</h4>
+                <ul class="in-rows in-rows--mute">
+                  {e.idealFor.map((x) => (
+                    <li>{x}</li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <h4 class="em-h4">Includes</h4>
+                <ul class="in-rows in-rows--mute">
+                  {e.includes.map((x) => (
+                    <li>{x}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+            <a class="in-more" href={LINKS.book} rel="noopener noreferrer" data-rv>
+              Book a call about {e.name}
+              <svg class="arr" aria-hidden="true">
+                <use href="#i-arr" />
+              </svg>
+            </a>
+          </div>
+        </article>
+      ))}
     </div>
   </section>
 
-  <section class="section">
-    <div class="wrap">
-      <Faq items={engagementFaqs} />
+  <section class="in-sec" aria-labelledby="cmp-h">
+    <div class="in-head">
+      <p class="label">Side by side</p>
+      <h2 class="in-h2" id="cmp-h" data-split>
+        Compare the three.
+      </h2>
+      <p class="in-sub" data-rv>
+        Every model starts the same way: kickoff the same day, first concepts within 48 hours.
+      </p>
     </div>
+    <Compare />
   </section>
 
-  <BookCta />
+  <section class="in-sec" aria-labelledby="path-h">
+    <div class="in-head">
+      <p class="label">The path most clients take</p>
+      <h2 class="in-h2" id="path-h" data-split>
+        {path.heading}
+      </h2>
+      <p class="in-sub" data-rv>
+        {path.text}
+      </p>
+    </div>
+    <PathBlock />
+  </section>
+
+  <section class="in-sec" aria-labelledby="rf-h">
+    <div class="in-head">
+      <p class="label">Design Partner</p>
+      <h2 class="in-h2" id="rf-h" data-split>
+        How unlimited requests, one at a time, works.
+      </h2>
+    </div>
+    <RequestFlow />
+  </section>
+
+  <section class="in-sec in-faq">
+    <Faq items={engagementFaqs} />
+  </section>
+
+  <InnerCta heading="Which model fits? Let’s talk for 15 minutes." />
+
+  <script>
+    import '../scripts/services';
+  </script>
 </BaseLayout>
 
-<style>
-  .card h2 {
-    font-size: var(--fs-lg);
+<style is:global>
+  .em-list {
+    border-bottom: 1px solid var(--line);
   }
 
-  .card strong {
-    color: var(--ink);
-    font-weight: 500;
+  .em {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--gap);
+    row-gap: clamp(28px, 4vw, 48px);
+    padding: clamp(40px, 6vw, 88px) 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .em-a {
+    grid-column: 1 / 7;
+    min-width: 0;
+  }
+
+  .em-b {
+    grid-column: 7 / 13;
+    min-width: 0;
+    display: grid;
+    gap: clamp(24px, 3vw, 40px);
+    align-content: start;
+  }
+
+  .em-no {
+    display: block;
+    margin-bottom: clamp(18px, 2vw, 28px);
+    font: 500 0.8125rem / 1 var(--mono);
+    letter-spacing: 0.08em;
+    color: var(--dim);
+  }
+
+  .em-name {
+    margin-bottom: clamp(20px, 2.4vw, 32px);
+    font: 800 clamp(2.3rem, 5vw, 5.6rem) / 0.92 var(--display);
+    letter-spacing: -0.05em;
+    text-wrap: balance;
+  }
+
+  .em-cols {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+    gap: clamp(24px, 3vw, 40px);
+  }
+
+  .em-h4 {
+    margin-bottom: 12px;
+    font: 400 var(--fs-xs) / 1 var(--mono);
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--mute);
+  }
+
+  .em-cols .in-rows > li {
+    grid-template-columns: 36px minmax(0, 1fr);
+    font-size: 1rem;
+  }
+
+  @media (min-width: 1024px) {
+    .em-a {
+      position: sticky;
+      top: calc(var(--nav-h) + 24px);
+      align-self: start;
+    }
+  }
+
+  @media (max-width: 1023px) {
+    .em-a,
+    .em-b {
+      grid-column: 1 / -1;
+    }
   }
 </style>

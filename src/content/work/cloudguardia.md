@@ -1,5 +1,7 @@
 ---
 title: "Lifting user satisfaction 42% on CloudGuardia's cloud security platform"
+seoTitle: "CloudGuardia: Cloud Security Platform UX Case Study"
+description: "UX and UI for CloudGuardia's cloud security platform, from research and personas to a design kit and 40 custom icons. User satisfaction rose 42%."
 client: "CloudGuardia"
 summary: "We designed the UX and UI for CloudGuardia's cloud security platform, from research and personas to a design kit and 40 custom icons and illustrations. User satisfaction rose 42%."
 industry: "Cloud security"

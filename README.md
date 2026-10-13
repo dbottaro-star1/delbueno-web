@@ -10,16 +10,21 @@ Built with Astro 7 (static output), TypeScript, GSAP and Lenis. Content lives in
 
 ## Commands
 
-| Command | What it does |
-| --- | --- |
-| `npm install` | Installs dependencies |
-| `npm run dev` | Starts the dev server at http://localhost:4321 |
-| `npm run build` | Builds the static site into `dist/` |
-| `npm run preview` | Serves `dist/` locally |
-| `npm run check` | Type checks the project with `astro check` |
-| `npm run lint:copy` | Scans the built HTML, `llms.txt`, `llms-full.txt` and the RSS feed for em dashes, en dashes and middle dots |
-| `npm run check:redirects` | Confirms every redirect target in `redirects/redirects.csv` exists in `dist/` |
-| `npm run verify` | Runs check, build and lint:copy in order |
+| Command                                   | What it does                                                                                                                                                                                                                                                                                                                |
+| ----------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `npm install`                             | Installs dependencies                                                                                                                                                                                                                                                                                                       |
+| `npm run dev`                             | Starts the dev server at http://localhost:4321                                                                                                                                                                                                                                                                              |
+| `npm run build`                           | Builds the static site into `dist/`                                                                                                                                                                                                                                                                                         |
+| `npm run preview`                         | Serves `dist/` locally                                                                                                                                                                                                                                                                                                      |
+| `npm run check`                           | Type checks the project with `astro check`                                                                                                                                                                                                                                                                                  |
+| `npm run lint:copy`                       | Scans the built HTML, `llms.txt`, `llms-full.txt` and the RSS feed for em dashes, en dashes and middle dots                                                                                                                                                                                                                 |
+| `npm run check:redirects`                 | Confirms every redirect target in `redirects/redirects.csv` exists in `dist/`                                                                                                                                                                                                                                               |
+| `npm run check:csp`                       | Checks `dist/` against `security/csp.json`: inline script hashes, no inline styles, the CSP meta tag, and that `docs/security/cloudflare.md` quotes the same policy                                                                                                                                                         |
+| `npm run check:seo`                       | Parses `dist/` and fails on a title over 65 characters, a description outside 70 to 165, duplicate titles or descriptions, a missing canonical or `og:image`, a relative `og:image`, an `h1` count other than 1, or a JSON-LD block that does not parse. Add `--report` to list every title and description with its length |
+| `npm run build:icons`                     | Regenerates the favicon, app icons, manifest and logo in `public/` from `src/assets/brand/mark.svg`                                                                                                                                                                                                                         |
+| `npm run lint`                            | ESLint (Astro, TypeScript, accessibility rules; bans `innerHTML` and `set:html`)                                                                                                                                                                                                                                            |
+| `npm run format` / `npm run format:check` | Prettier, write or check only                                                                                                                                                                                                                                                                                               |
+| `npm run verify`                          | Runs lint, format:check, check, build, lint:copy, check:redirects, check:csp and check:seo in order                                                                                                                                                                                                                         |
 
 Copy rule: site copy never uses em dashes, en dashes or middle dots. Write ranges as "2 to 4 weeks" and use commas,
 colons or periods as separators. `lint:copy` runs in the deploy workflow and fails the build if it finds any.
@@ -28,11 +33,11 @@ colons or periods as separators. `lint:copy` runs in the deploy workflow and fai
 
 All optional. The defaults are the production values. See `.env.example`.
 
-| Variable | Default | Purpose |
-| --- | --- | --- |
-| `SITE_URL` | `https://delbuenostudio.com` | Origin the build is served from |
-| `BASE_PATH` | `/` | Path prefix the build is served under |
-| `PREVIEW` | `false` | When `true`: adds `noindex, nofollow` to every page, serves a `Disallow: /` robots.txt and skips the sitemap |
+| Variable    | Default                      | Purpose                                                                                                      |
+| ----------- | ---------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| `SITE_URL`  | `https://delbuenostudio.com` | Origin the build is served from                                                                              |
+| `BASE_PATH` | `/`                          | Path prefix the build is served under                                                                        |
+| `PREVIEW`   | `false`                      | When `true`: adds `noindex, nofollow` to every page, serves a `Disallow: /` robots.txt and skips the sitemap |
 
 Canonical URLs, Open Graph URLs and structured data always point at https://delbuenostudio.com, even on the preview.
 
@@ -60,7 +65,8 @@ src/
   components/home/       Homepage sections (hero, work grid, playground strip, services, engagements, ...)
   components/playground/ Shot card, lightbox and shared shot styles
   layouts/BaseLayout.astro
-  lib/                   Site constants, url() helper, JSON-LD builders, llms.txt builders
+  assets/brand/mark.svg  The source of the favicon and every app icon (see Brand icons)
+  lib/                   Site constants, url() helper, JSON-LD builders, llms.txt builders, social card renderer (og.ts, og-render.ts)
   scripts/motion.ts      Lenis and GSAP bootstrap, skipped for prefers-reduced-motion
   scripts/shell.ts       Site-wide nav, menu, progress bar, cursor and magnetic buttons
   scripts/loop.ts        The single shared gsap.ticker callback, paused while the tab is hidden
@@ -68,10 +74,11 @@ src/
   scripts/playground/    Draggable strip, hover/touch video, lightbox and tag filter
   styles/global.css      Design tokens and base styles
   pages/                 Routes
-plugins/                 Markdown plugin
+plugins/                 Markdown plugins (base-path links, content guard that fails the build on raw HTML and unsafe URLs)
+security/                csp.json: the one source for the Content-Security-Policy (meta tag, Cloudflare header, CI check)
 redirects/               Cloudflare redirects and the 410 list
-scripts/                 Quality gates (lint-copy, check-redirects)
-public/                  Static files. Icons are placeholders
+scripts/                 Node tools: quality gates (lint-copy, check-redirects, check-csp, check-seo), build-icons and the Dribbble sync
+public/                  Static files. The icons are generated by `npm run build:icons`
 ```
 
 ## Routes
@@ -83,17 +90,55 @@ public/                  Static files. Icons are placeholders
 Journal posts are served from the site root as `/[slug]/` so they keep their old WordPress URLs. The slug is the file
 name in `src/content/journal/`. The build fails if a post slug equals a built-in route such as `contact`.
 
-Generated files: `/sitemap-index.xml`, `/robots.txt`, `/llms.txt`, `/llms-full.txt`, `/journal/rss.xml`.
+Generated files: `/sitemap-index.xml`, `/robots.txt`, `/llms.txt`, `/llms-full.txt`, `/journal/rss.xml`, `/og-default.png` and one social card per page without a hero image under `/og/`.
 
 ## Adding content
 
 Journal post: add `src/content/journal/<old-wordpress-slug>.md` with `title`, `description`, `pubDate`, `category`,
-`legacyPath` and optionally `updatedDate`, `author`, `heroImage` and `heroAlt`. Put images in
+`legacyPath` and optionally `seoTitle`, `updatedDate`, `author`, `heroImage` and `heroAlt`. Put images in
 `src/assets/journal/<slug>/` and reference them relatively, for example `../../assets/journal/<slug>/hero.jpg`.
 
 Case study: add `src/content/work/<slug>.md` with the fields in `src/content.config.ts`. Set `draft: true` to hide it.
 
 A file name that starts with `_` is ignored by both collections.
+
+## Titles, descriptions and social images
+
+`title` is the headline and the page `h1`. `seoTitle` (optional, on journal posts and case studies) is what goes in the
+browser tab, search results and social cards. Write it to 60 characters or fewer, or 49 or fewer if you want the
+` | delbueno` suffix, which `Seo.astro` adds only when the whole title still fits in 60 characters. Without a
+`seoTitle`, the `title` is used. `description` is the meta description: 140 to 155 characters, unique on the site.
+Case studies fall back to `summary` when they have no `description`, but `summary` is usually too long.
+
+Static pages set their title and description where they are defined: the `title` and `description` props of
+`BaseLayout`. Services and industries keep a `seoDescription` in `src/data/`. `npm run check:seo` is the gate.
+
+Every page gets a 1200 by 630 social image. Posts and case studies use their hero or cover. Every other page gets a
+branded card (dark canvas, grain, the title in Syne 800, the wordmark, a violet to lime rule) that is drawn at build time
+by `src/lib/og-render.ts` (satori and @resvg/resvg-js, dev dependencies) and served from `/og/<name>.png`. The list of
+cards and their text is `src/lib/og.ts`. To add a card for a new page, add it to the `STATIC` list there. The fallback
+is `/og-default.png`, drawn the same way.
+
+## Brand icons
+
+The favicon, app icons, web manifest and the logo used in structured data are all generated from one file:
+`src/assets/brand/mark.svg`. It is the "db" monogram: lowercase d and b in Syne 800 sharing one stem, off-white
+`#F2F2F5` on `#0A0A0F`, with a lime `#BAFB44` dot where the ™ sits in the wordmark. The letters are outlines, so it needs
+no font.
+
+To use your own mark:
+
+1. Export a square SVG (a 512 by 512 viewBox works well) with text converted to outlines, and save it over
+   `src/assets/brand/mark.svg`. The file is copied as is to `public/favicon.svg`, so any `prefers-color-scheme`
+   rules you put inside it work in the browser tab. The current file shows a dark tile in light browsers and drops the
+   tile in dark ones.
+2. Run `npm run build:icons`. It writes `favicon.svg`, `favicon.ico` (16, 32 and 48 px), `apple-touch-icon.png`,
+   `icon-192.png`, `icon-512.png`, `icon-maskable-512.png`, `logo.png` and `site.webmanifest` into `public/`.
+3. Commit the files in `public/`.
+
+The PNGs are drawn without `prefers-color-scheme`, so they show the default styling of the SVG. The apple-touch and
+maskable icons put the mark on `#0A0A0F` (the theme color at the top of the script). Change `THEME` and `MASKABLE_SCALE`
+in `scripts/build-icons.mjs` if the new mark needs a different background or more room.
 
 ## Playground shots (Dribbble)
 
@@ -138,10 +183,17 @@ To run it by hand on your computer, use `DRIBBBLE_TOKEN=your_token npm run sync:
 
 `.github/workflows/sync-dribbble.yml` runs every Monday and can also be started from the Actions tab (Run workflow). It runs the sync, and if anything changed it pushes the files to a branch called `dribbble-sync` and puts a link in the job summary. Open the pull request from that link yourself (GitHub Actions is not allowed to open pull requests here). New shots only go live when you merge that pull request. If the `DRIBBBLE_TOKEN` secret is missing, the workflow skips itself and shows a notice.
 
+The branch is never force-pushed. If `dribbble-sync` already has commits that are not on `main` (an open review, maybe with your edits to `imageAlt` or `featured`), the next run adds a commit on top of it. If `main` cannot be merged into the branch cleanly, the run uses a new branch called `dribbble-sync-<date>` instead and the job summary says so.
+
+**Run CI on the branch.** Pushes made by a workflow with the built-in token do not start other workflows, so the pull request shows no checks until you run them: open the Actions tab, choose CI in the left list, press Run workflow, pick the `dribbble-sync` branch (or the dated one), and run it. The result attaches to the branch head, so the pull request gets its checks. Closing and reopening the pull request also starts CI.
+
 ## Structured data
 
-Every page carries Organization, ProfessionalService, founder Person and WebSite JSON-LD. Inner pages add
-BreadcrumbList. Journal posts add Article, case studies add CreativeWork, service and industry pages add Service.
+Every page carries Organization, ProfessionalService, founder Person and WebSite JSON-LD (the Organization has a logo
+and the WebSite names it as publisher). Inner pages add BreadcrumbList. Journal posts add Article (with `dateModified`,
+an `image` with width and height, `wordCount`, `inLanguage`, and the author with `sameAs`), case studies add
+CreativeWork, service and industry pages add Service. The sitemap carries a `lastmod` for every URL: the post's
+`updatedDate` or `pubDate`, and the build date for other pages.
 The `Faq` component renders a visible FAQ and the matching FAQPage JSON-LD from the same data.
 
 ## Deploy

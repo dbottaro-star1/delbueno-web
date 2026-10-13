@@ -1,0 +1,26 @@
+---
+import { BRAND, LINKS } from '../../lib/site';
+
+interface Props {
+  heading?: string;
+}
+const { heading = 'Let’s build something people get instantly.' } = Astro.props;
+---
+
+<section class="in-cta" aria-labelledby="cta-h">
+  <p class="label">Next</p>
+  <h2 class="in-h2" id="cta-h" data-split>
+    {heading}
+  </h2>
+  <div class="in-cta__row" data-rv>
+    <a class="btn btn-primary in-cta__btn" data-magnetic href={LINKS.book} rel="noopener noreferrer">
+      Book a call{' '}
+      <svg class="arr" aria-hidden="true">
+        <use href="#i-arr"></use>
+      </svg>
+    </a>
+    <p class="in-cta__mail">
+      or <a href={`mailto:${BRAND.email}`}>{BRAND.email}</a>
+    </p>
+  </div>
+</section>

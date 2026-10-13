@@ -1,6 +1,7 @@
 ---
 title: "Understanding Average ROAS by Industry and the Most Difficult Metric to Measure"
-description: "Understand the challenges of accurately measuring ROAS. Learn how these factors impact advertising success and discover what are the average ROAS by industry"
+seoTitle: "Average ROAS by Industry and How to Measure It"
+description: "Why ROAS is one of the hardest advertising metrics to measure accurately, how that affects campaign decisions, and average ROAS by industry."
 pubDate: 2024-08-22
 updatedDate: 2026-07-22
 author: "Dani Bottaro"
@@ -37,7 +38,7 @@ Real estate advertising often sees a lower ROAS due to the high-value, low-frequ
 
 **E-commerce**
 
-[E-commerce](/solutions/e-commerce/) typically sees a higher ROAS due to the direct correlation between online ads and sales. Well-optimized e-commerce campaigns can achieve ROAS figures as high as 10:1 or more, especially during peak shopping seasons. (Hi! Christmas 🙂 )
+[E-commerce](/services/web-design/) typically sees a higher ROAS due to the direct correlation between online ads and sales. Well-optimized e-commerce campaigns can achieve ROAS figures as high as 10:1 or more, especially during peak shopping seasons. (Hi! Christmas 🙂 )
 
 **Retail**
 Retail businesses often see strong ROAS, similar to e-commerce, but with some variation depending on whether the sales are online or in-store. Brick-and-mortar stores may face challenges in attributing sales directly to online ads, slightly lowering the ROAS.
@@ -89,4 +90,4 @@ To conclude, we would say that understanding the average ROAS within your indust
 
 What can be done to better plan the ROAS? By addressing these challenges that we mentioned above head-on, companies can optimize their ad spend and drive better returns from their marketing investments.
 
-We at delbueno™ Studio not only are experts in [web design](/solutions) and [usability](/solutions/product-audit/) but we can definitely help you plan your [e-commerce project](/solutions/e-commerce/) and contact you with some of our partners that have years of expertise managing ROAS for different clients in various industries. Want to know how? Drop us a line!
+We at delbueno™ Studio not only are experts in [web design](/services/) and [usability](/services/product-strategy/) but we can definitely help you plan your [e-commerce project](/services/web-design/) and contact you with some of our partners that have years of expertise managing ROAS for different clients in various industries. Want to know how? Drop us a line!

@@ -6,7 +6,9 @@ import { LINKS } from '../../lib/site';
 <dialog class="lb" id="lightbox" aria-labelledby="lb-title" data-lightbox>
   <div class="lb__panel" data-lb-panel>
     <button class="lb__close" type="button" aria-label="Close preview" data-lb-close>
-      <svg class="arr" aria-hidden="true"><use href="#i-x"></use></svg>
+      <svg class="arr" aria-hidden="true">
+        <use href="#i-x"></use>
+      </svg>
     </button>
     <div class="lb__stage" data-lb-stage>
       <img class="lb__img" alt="" draggable="false" />
@@ -14,20 +16,27 @@ import { LINKS } from '../../lib/site';
     </div>
     <div class="lb__bar">
       <div class="lb__meta">
-        <h2 class="lb__title" id="lb-title" data-lb-title></h2>
+        <p class="lb__title" id="lb-title" data-lb-title></p>
         <ul class="lb__tags" data-lb-tags></ul>
       </div>
       <div class="lb__actions">
         <a class="btn btn-primary btn-sm lb__link" href={LINKS.dribbble} target="_blank" rel="noopener" data-lb-link>
-          View on Dribbble <svg class="arr" aria-hidden="true"><use href="#i-arr"></use></svg>
+          View on Dribbble{' '}
+          <svg class="arr" aria-hidden="true">
+            <use href="#i-arr"></use>
+          </svg>
         </a>
         <div class="lb__nav">
           <button class="lb__btn" type="button" aria-label="Previous shot" data-lb-prev>
-            <svg class="arr lb__flip" aria-hidden="true"><use href="#i-arr"></use></svg>
+            <svg class="arr lb__flip" aria-hidden="true">
+              <use href="#i-arr"></use>
+            </svg>
           </button>
           <span class="lb__count" aria-live="polite" data-lb-count></span>
           <button class="lb__btn" type="button" aria-label="Next shot" data-lb-next>
-            <svg class="arr" aria-hidden="true"><use href="#i-arr"></use></svg>
+            <svg class="arr" aria-hidden="true">
+              <use href="#i-arr"></use>
+            </svg>
           </button>
         </div>
       </div>
@@ -113,7 +122,9 @@ import { LINKS } from '../../lib/site';
     overflow: hidden;
     background: var(--bg-2);
     touch-action: none;
-    box-shadow: 0 40px 80px -30px rgb(0 0 0 / 0.8), inset 0 0 0 1px rgb(255 255 255 / 0.12);
+    box-shadow:
+      0 40px 80px -30px rgb(0 0 0 / 0.8),
+      inset 0 0 0 1px rgb(255 255 255 / 0.12);
   }
 
   .lb__stage img,
@@ -208,7 +219,9 @@ import { LINKS } from '../../lib/site';
     place-items: center;
     border-radius: 50%;
     border: 1px solid var(--line-2);
-    transition: background 0.3s, border-color 0.3s;
+    transition:
+      background 0.3s,
+      border-color 0.3s;
   }
 
   .lb__btn:hover {

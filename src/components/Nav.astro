@@ -7,27 +7,29 @@ const isActive = (href: string) => current === href || current.startsWith(href);
 ---
 
 <header class="nav" id="nav" data-nav>
-  <a class="wordmark" href={url('/')} aria-label={`${BRAND.name}, home`}>delbueno<sup>™</sup></a>
+  <a class="wordmark" href={url('/')} aria-label={`${BRAND.name}, home`}>
+    delbueno<sup>™</sup>
+  </a>
 
   <nav aria-label="Primary">
     <ul class="nav-links">
-      {
-        NAV_LINKS.map((link) => (
-          <li>
-            <a href={url(link.href)} aria-current={isActive(link.href) ? 'page' : undefined}>
-              <span class="roll">
-                <span>{link.label}</span>
-                <span aria-hidden="true">{link.label}</span>
-              </span>
-            </a>
-          </li>
-        ))
-      }
+      {NAV_LINKS.map((link) => (
+        <li>
+          <a href={url(link.href)} aria-current={isActive(link.href) ? 'page' : undefined}>
+            <span class="roll">
+              <span>{link.label}</span>
+              <span aria-hidden="true">{link.label}</span>
+            </span>
+          </a>
+        </li>
+      ))}
     </ul>
   </nav>
 
   <div class="nav-right">
-    <a class="btn btn-primary btn-sm" data-magnetic href={LINKS.book} rel="noopener">Book a call</a>
+    <a class="btn btn-primary btn-sm" data-magnetic href={LINKS.book} rel="noopener">
+      Book a call
+    </a>
     <button
       class="burger"
       id="burger"
@@ -35,18 +37,29 @@ const isActive = (href: string) => current === href || current.startsWith(href);
       aria-expanded="false"
       aria-controls="menu"
       aria-label="Menu"
-      data-nav-toggle><i></i><i></i></button
+      data-nav-toggle
     >
+      <i></i>
+      <i></i>
+    </button>
   </div>
 </header>
 
-<div class="menu" id="menu" aria-label="Menu" data-menu>
+<div class="menu" id="menu" role="dialog" aria-modal="true" aria-label="Menu" data-menu>
   <nav aria-label="Mobile">
-    {NAV_LINKS.map((link) => <a class="m-link" href={url(link.href)}>{link.label}</a>)}
+    {NAV_LINKS.map((link) => (
+      <a class="m-link" href={url(link.href)} aria-current={isActive(link.href) ? 'page' : undefined}>
+        {link.label}
+      </a>
+    ))}
   </nav>
   <div class="menu-foot">
-    <a class="btn btn-primary" href={LINKS.book} rel="noopener">Book a call</a>
-    <a class="menu-mail" href={`mailto:${BRAND.email}`}>{BRAND.email}</a>
+    <a class="btn btn-primary" href={LINKS.book} rel="noopener">
+      Book a call
+    </a>
+    <a class="menu-mail" href={`mailto:${BRAND.email}`}>
+      {BRAND.email}
+    </a>
   </div>
 </div>
 
@@ -166,13 +179,17 @@ const isActive = (href: string) => current === href || current.startsWith(href);
     overscroll-behavior: contain;
     visibility: hidden;
     clip-path: inset(0 0 100% 0);
-    transition: clip-path 0.9s var(--in-out), visibility 0s 0.9s;
+    transition:
+      clip-path 0.9s var(--in-out),
+      visibility 0s 0.9s;
   }
 
   .menu.is-open {
     visibility: visible;
     clip-path: inset(0 0 0 0);
-    transition: clip-path 0.9s var(--in-out), visibility 0s;
+    transition:
+      clip-path 0.9s var(--in-out),
+      visibility 0s;
   }
 
   .m-link {

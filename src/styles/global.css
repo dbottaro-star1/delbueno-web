@@ -16,7 +16,7 @@
   --bg-3: #15151d;
   --ink: #f2f2f5;
   --mute: rgb(242 242 245 / 0.6);
-  --dim: rgb(242 242 245 / 0.38);
+  --dim: rgb(242 242 245 / 0.5); /* 4.88:1 on --bg, AA for small text */
   --line: rgb(255 255 255 / 0.08);
   --line-2: rgb(255 255 255 / 0.16);
   --violet: #3f29d8;
@@ -276,7 +276,9 @@ p {
   border: 1px solid var(--line);
   border-radius: var(--radius);
   background: var(--bg-1);
-  transition: border-color var(--dur-fast), background var(--dur-fast);
+  transition:
+    border-color var(--dur-fast),
+    background var(--dur-fast);
 }
 
 a.card:hover,
@@ -393,7 +395,9 @@ a.card:focus-visible {
 .btn-ghost {
   border: 1px solid var(--line-2);
   color: var(--ink);
-  transition: background 0.5s, border-color 0.5s;
+  transition:
+    background 0.5s,
+    border-color 0.5s;
 }
 
 .btn-ghost:hover {
@@ -604,6 +608,24 @@ a:hover > .roll span,
   cursor: none;
 }
 
+/* Text fields keep the native I-beam so the caret position is never a guess. */
+.has-cursor :is(input, textarea, select, [contenteditable]) {
+  cursor: auto;
+}
+
+/* Forced colors drop mix-blend-mode and author colors, so the custom cursor cannot be relied on there. */
+@media (forced-colors: active) {
+  .has-cursor,
+  .has-cursor a,
+  .has-cursor button {
+    cursor: auto;
+  }
+
+  .cursor {
+    display: none !important;
+  }
+}
+
 .c-dot {
   position: fixed;
   left: 0;
@@ -629,7 +651,9 @@ a:hover > .roll span,
   inset: 0;
   border-radius: 50%;
   border: 1px solid rgb(255 255 255 / 0.45);
-  transition: background 0.4s, border-color 0.4s;
+  transition:
+    background 0.4s,
+    border-color 0.4s;
 }
 
 .c-label {
@@ -659,6 +683,22 @@ a:hover > .roll span,
 .js [data-reveal] {
   opacity: 0;
   transform: translateY(24px);
+}
+
+/*
+  Failsafe: if the scripts are slow, blocked or broken, the hidden start states above and in the page styles
+  (.js [data-rv], .js [data-split], .hl-i, .hero-fade) fade in after 2s instead of staying invisible.
+  motion.ts adds .js-live once the scripts own those states, which switches this off.
+*/
+@keyframes js-failsafe {
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+html.js:not(.js-live) :is([data-reveal], [data-rv], [data-split], .hl-i, .hero-fade) {
+  animation: js-failsafe 0.5s ease-out 2s forwards;
 }
 
 /* Lenis recommended styles. */

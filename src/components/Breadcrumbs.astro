@@ -10,13 +10,11 @@ const { items } = Astro.props;
 
 <nav class="crumbs" aria-label="Breadcrumb">
   <ol>
-    {
-      items.map((item, i) => (
-        <li>
-          {i < items.length - 1 ? <a href={url(item.path)}>{item.name}</a> : <span aria-current="page">{item.name}</span>}
-        </li>
-      ))
-    }
+    {items.map((item, i) => (
+      <li>
+        {i < items.length - 1 ? <a href={url(item.path)}>{item.name}</a> : <span aria-current="page">{item.name}</span>}
+      </li>
+    ))}
   </ol>
 </nav>
 

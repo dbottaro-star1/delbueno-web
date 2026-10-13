@@ -16,7 +16,11 @@ const { title, eyebrow, lede, crumbs } = Astro.props;
     {crumbs && <Breadcrumbs items={crumbs} />}
     {eyebrow && <p class="label">{eyebrow}</p>}
     <h1 data-reveal>{title}</h1>
-    {lede && <p class="lede" data-reveal>{lede}</p>}
+    {lede && (
+      <p class="lede" data-reveal>
+        {lede}
+      </p>
+    )}
     <slot />
   </div>
 </header>

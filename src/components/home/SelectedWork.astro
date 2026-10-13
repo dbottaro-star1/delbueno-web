@@ -35,64 +35,74 @@ const total = String(cards.length).padStart(2, '0');
   <div class="work-head">
     <div>
       <p class="label">Work</p>
-      <h2 class="h2" id="work-h" data-split>Selected work</h2>
+      <h2 class="h2" id="work-h" data-split>
+        Selected work
+      </h2>
     </div>
     <div class="work-meta">
-      <p class="work-lede" data-rv>Messy in. Obvious out.</p>
-      <span class="work-count" aria-hidden="true">{total} cases</span>
+      <p class="work-lede" data-rv>
+        Messy in. Obvious out.
+      </p>
+      <span class="work-count" aria-hidden="true">
+        {total} cases
+      </span>
     </div>
   </div>
 
   <ul class="work-grid" id="workGrid">
-    {
-      cards.map((c) => (
-        <li class="wc" data-cursor="View">
-          <div class="wc__media">
-            <img
-              src={c.img.src}
-              width={c.img.attributes.width}
-              height={c.img.attributes.height}
-              alt={c.alt}
-              loading="lazy"
-              decoding="async"
-            />
-            <span class="wc__glare" aria-hidden="true" />
-            <span class="view" aria-hidden="true">
-              View case <svg class="arr"><use href="#i-arr" /></svg>
+    {cards.map((c) => (
+      <li class="wc" data-cursor="View">
+        <div class="wc__media">
+          <img
+            src={c.img.src}
+            width={c.img.attributes.width}
+            height={c.img.attributes.height}
+            alt={c.alt}
+            loading="lazy"
+            decoding="async"
+          />
+          <span class="wc__glare" aria-hidden="true" />
+          <span class="view" aria-hidden="true">
+            View case{' '}
+            <svg class="arr">
+              <use href="#i-arr" />
+            </svg>
+          </span>
+        </div>
+        <div class="wc__cap">
+          <p class="wc__no" aria-hidden="true">
+            <span>
+              <b>{c.no}</b> / {total}
             </span>
-          </div>
-          <div class="wc__cap">
-            <p class="wc__no" aria-hidden="true">
-              <span>
-                <b>{c.no}</b> / {total}
-              </span>
+          </p>
+          <div class="wc__info">
+            <h3 class="wc__name">
+              <a class="stretch" href={url(`/work/${c.slug}/`)}>
+                {c.client}
+              </a>
+            </h3>
+            <p class="wc__what">
+              <span>{c.industry}</span>
+              <span>{c.what}</span>
             </p>
-            <div class="wc__info">
-              <h3 class="wc__name">
-                <a class="stretch" href={url(`/work/${c.slug}/`)}>
-                  {c.client}
-                </a>
-              </h3>
-              <p class="wc__what">
-                <span>{c.industry}</span>
-                <span>{c.what}</span>
-              </p>
-            </div>
-            {c.metric && (
-              <p class="wc__metric">
-                <b>{c.metric.value}</b>
-                <span>{c.metric.label}</span>
-              </p>
-            )}
           </div>
-        </li>
-      ))
-    }
+          {c.metric && (
+            <p class="wc__metric">
+              <b>{c.metric.value}</b>
+              <span>{c.metric.label}</span>
+            </p>
+          )}
+        </div>
+      </li>
+    ))}
   </ul>
 
   <div class="work-more" data-rv>
     <a class="btn btn-primary" data-magnetic href={url('/work/')}>
-      All case studies <svg class="arr" aria-hidden="true"><use href="#i-arr"></use></svg>
+      All case studies{' '}
+      <svg class="arr" aria-hidden="true">
+        <use href="#i-arr"></use>
+      </svg>
     </a>
   </div>
 </section>
@@ -185,7 +195,11 @@ const total = String(cards.length).padStart(2, '0');
     opacity: 0;
     transition: opacity 0.5s;
     mix-blend-mode: overlay;
-    background: radial-gradient(circle at var(--gx, 50%) var(--gy, 50%), rgb(255 255 255 / 0.9), rgb(255 255 255 / 0) 52%);
+    background: radial-gradient(
+      circle at var(--gx, 50%) var(--gy, 50%),
+      rgb(255 255 255 / 0.9),
+      rgb(255 255 255 / 0) 52%
+    );
   }
 
   .js .wc__media img {
@@ -330,7 +344,10 @@ const total = String(cards.length).padStart(2, '0');
     margin: -0.1em -0.16em 0 0;
     border-radius: 10px;
     transform-origin: 100% 0;
-    transition: transform 0.8s var(--spring), background-color 0.4s, color 0.4s;
+    transition:
+      transform 0.8s var(--spring),
+      background-color 0.4s,
+      color 0.4s;
   }
 
   .wc:focus-within .wc__metric b {

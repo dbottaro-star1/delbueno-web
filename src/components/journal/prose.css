@@ -1,0 +1,292 @@
+/*
+ * Long-form typography for journal posts. The Markdown body is rendered by Astro, so these rules cannot be
+ * scoped to a component. Everything hangs off .post-prose, which is only used by the post template.
+ */
+.post-prose {
+  max-width: 70ch;
+  font-size: clamp(1.0625rem, 1rem + 0.28vw, 1.25rem);
+  line-height: 1.72;
+  color: rgb(242 242 245 / 0.8);
+  overflow-wrap: break-word;
+  counter-reset: sec;
+}
+
+.post-prose > * + * {
+  margin-top: 1.35em;
+}
+
+/* the opening paragraph is the standfirst */
+.post-prose > p:first-child {
+  font-size: 1.16em;
+  line-height: 1.55;
+  color: var(--ink);
+}
+
+.post-prose strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.post-prose em {
+  color: rgb(242 242 245 / 0.92);
+}
+
+/* ---------- headings ---------- */
+.post-prose h2,
+.post-prose h3,
+.post-prose h4 {
+  color: var(--ink);
+  scroll-margin-top: calc(var(--nav-h) + 24px);
+}
+
+.post-prose h2 {
+  counter-increment: sec;
+  margin-top: clamp(2.2em, 4vw, 3em);
+  font-size: clamp(1.55rem, 1.1rem + 1.5vw, 2.3rem);
+  line-height: 1.02;
+  letter-spacing: -0.045em;
+  padding-top: 1.1em;
+  border-top: 1px solid var(--line);
+}
+
+.post-prose h2::before {
+  content: counter(sec, decimal-leading-zero);
+  display: block;
+  margin-bottom: 1.1em;
+  font: 400 0.75rem / 1 var(--mono);
+  letter-spacing: 0.09em;
+  color: var(--dim);
+}
+
+.post-prose h3 {
+  margin-top: 2.2em;
+  font: 600 1.28em / 1.25 var(--sans);
+  letter-spacing: -0.02em;
+}
+
+.post-prose h4 {
+  margin-top: 1.8em;
+  font: 600 1.05em / 1.3 var(--sans);
+  letter-spacing: -0.01em;
+}
+
+.post-prose h2 + *,
+.post-prose h3 + *,
+.post-prose h4 + * {
+  margin-top: 0.9em;
+}
+
+/* ---------- links ---------- */
+.post-prose a {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-color: var(--violet-2);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+  transition:
+    text-decoration-color 0.3s,
+    color 0.3s;
+}
+
+.post-prose a:hover {
+  text-decoration-color: var(--lime);
+}
+
+.post-prose a[rel~='noreferrer'] {
+  padding-right: 0.95em;
+  background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><path d='M5 3h8v8M13 3 3 13' fill='none' stroke='%23f2f2f5' stroke-opacity='.55' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/></svg>")
+    no-repeat right 0 top 0.32em / 0.62em 0.62em;
+}
+
+/* ---------- lists ---------- */
+.post-prose ul,
+.post-prose ol {
+  padding-left: 0;
+  list-style: none;
+}
+
+.post-prose li {
+  position: relative;
+  padding-left: 1.7em;
+}
+
+.post-prose li + li {
+  margin-top: 0.55em;
+}
+
+.post-prose ul > li::before {
+  content: '';
+  position: absolute;
+  left: 0.2em;
+  top: 0.78em;
+  width: 0.4em;
+  height: 0.4em;
+  border: 1px solid var(--violet-2);
+  background: var(--violet-2);
+  transform: rotate(45deg);
+}
+
+.post-prose ol {
+  counter-reset: item;
+}
+
+.post-prose ol > li {
+  counter-increment: item;
+}
+
+.post-prose ol > li::before {
+  content: counter(item, decimal-leading-zero);
+  position: absolute;
+  left: 0;
+  top: 0.42em;
+  font: 400 0.7em / 1 var(--mono);
+  letter-spacing: 0.06em;
+  color: var(--violet-2);
+  font-variant-numeric: tabular-nums;
+}
+
+.post-prose li > ul,
+.post-prose li > ol {
+  margin-top: 0.55em;
+}
+
+.post-prose li > p + p {
+  margin-top: 0.6em;
+}
+
+/* ---------- blockquote ---------- */
+.post-prose blockquote {
+  position: relative;
+  margin-block: 2.2em;
+  padding: 1.3em 1.6em 1.3em 1.9em;
+  border-radius: var(--radius);
+  background: var(--bg-1);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  font-size: 1.06em;
+  font-weight: 500;
+  line-height: 1.6;
+}
+
+.post-prose blockquote::before {
+  content: '';
+  position: absolute;
+  left: -1px;
+  top: 14px;
+  bottom: 14px;
+  width: 3px;
+  border-radius: 3px;
+  background: linear-gradient(180deg, var(--violet-2), var(--lime));
+}
+
+.post-prose blockquote > * + * {
+  margin-top: 0.8em;
+}
+
+/* ---------- code ---------- */
+.post-prose code {
+  font: 400 0.86em / 1.5 var(--mono);
+  padding: 0.16em 0.45em;
+  border-radius: 6px;
+  background: var(--bg-3);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+
+.post-prose pre {
+  margin-block: 2em;
+  padding: 1.2em 1.4em;
+  overflow-x: auto;
+  border-radius: var(--radius);
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  font-size: 0.9rem;
+  line-height: 1.6;
+  tab-size: 2;
+  -webkit-overflow-scrolling: touch;
+}
+
+.post-prose pre code {
+  padding: 0;
+  border: 0;
+  background: none;
+  font-size: inherit;
+  overflow-wrap: normal;
+}
+
+/* ---------- tables ---------- */
+.post-prose table {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  margin-block: 2em;
+  border-collapse: collapse;
+  font-size: 0.86em;
+  line-height: 1.5;
+  -webkit-overflow-scrolling: touch;
+}
+
+.post-prose thead th {
+  font: 400 0.72rem / 1.3 var(--mono);
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--dim);
+  white-space: nowrap;
+}
+
+.post-prose th,
+.post-prose td {
+  min-width: 9em;
+  padding: 0.85em 1.1em 0.85em 0;
+  text-align: left;
+  vertical-align: top;
+  border-bottom: 1px solid var(--line);
+}
+
+.post-prose tbody th,
+.post-prose td:first-child {
+  color: var(--ink);
+  font-weight: 500;
+}
+
+/* ---------- media and rules ---------- */
+.post-prose img {
+  width: 100%;
+  height: auto;
+  margin-block: 2.2em;
+  border-radius: var(--radius);
+  background: var(--bg-2);
+}
+
+.post-prose p > img:only-child {
+  margin-block: 0;
+}
+
+.post-prose figure {
+  margin-block: 2.2em;
+}
+
+.post-prose figcaption {
+  margin-top: 0.8em;
+  font: 400 0.75rem / 1.4 var(--mono);
+  letter-spacing: 0.06em;
+  color: var(--dim);
+}
+
+.post-prose hr {
+  height: 1px;
+  margin-block: 3em;
+  border: 0;
+  background: linear-gradient(90deg, var(--line-2), transparent);
+}
+
+.post-prose iframe,
+.post-prose video {
+  max-width: 100%;
+}
+
+.post-prose p:has(> img:only-child) {
+  margin-block: 2.2em;
+}
