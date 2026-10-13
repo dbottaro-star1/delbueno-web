@@ -1,5 +1,6 @@
 ---
 import { BRAND, FOOTER_LINKS, LINKS, NAV_LINKS, SOCIALS } from '../lib/site';
+import Recognition from './Recognition.astro';
 import { url } from '../lib/url';
 
 const year = new Date().getFullYear();
@@ -10,6 +11,7 @@ const year = new Date().getFullYear();
     <div class="foot-brand">
       <b>{BRAND.name}</b>
       {BRAND.locality}, {BRAND.country}. Remote-first, synced with US hours.
+      <Recognition height={52} class="foot-badge" />
     </div>
 
     <nav class="foot-col" aria-label="Explore">
@@ -83,6 +85,10 @@ const year = new Date().getFullYear();
     grid-column: 1 / 4;
     max-width: 34ch;
     color: var(--mute);
+  }
+
+  .foot-brand :global(.foot-badge) {
+    margin-top: 24px;
   }
 
   .foot-brand b {

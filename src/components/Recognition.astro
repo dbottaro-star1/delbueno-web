@@ -1,0 +1,181 @@
+---
+/**
+ * Row of third-party recognition badges (Dribbble, Clutch, TechBehemoths) plus the Google rating.
+ * Badges keep each platform's artwork, scaled to one shared height, and link to the platform when a
+ * profile URL is known. Raster badges go through astro:assets, so they ship as small WebP files.
+ */
+import { Image } from 'astro:assets';
+import { googleRating, recognition } from '../data/recognition';
+
+interface Props {
+  /** Badge height in px. Widths follow each badge's own ratio. */
+  height?: number;
+  /** Show the Google rating card at the end of the row. */
+  withRating?: boolean;
+  class?: string;
+}
+
+const { height = 72, withRating = true, class: className } = Astro.props;
+const widthFor = (w: number, h: number) => Math.round((w / h) * height);
+const ext = { target: '_blank', rel: 'noopener noreferrer' } as const;
+const RatingTag = googleRating.url ? 'a' : 'div';
+---
+
+<ul class:list={['rec', className]} style={`--rec-h:${height}px`} aria-label="Recognition">
+  {recognition.map((r) => {
+    const Tag = r.url ? 'a' : 'span';
+    const img =
+      r.image.format === 'svg' ? (
+        <img
+          src={r.image.src}
+          width={widthFor(r.image.width, r.image.height)}
+          height={height}
+          alt={r.name}
+          loading="lazy"
+          decoding="async"
+        />
+      ) : (
+        <Image
+          src={r.image}
+          alt={r.name}
+          height={height}
+          width={widthFor(r.image.width, r.image.height)}
+          densities={[1, 2]}
+          format="webp"
+          loading="lazy"
+        />
+      );
+    return (
+      <li>
+        <Tag
+          class="rec-item"
+          {...(r.url ? { href: r.url, ...ext, 'aria-label': `${r.name} (opens in a new tab)` } : {})}
+        >
+          {img}
+        </Tag>
+      </li>
+    );
+  })}
+  {withRating && (
+    <li>
+      <RatingTag
+        class="rec-item rec-google"
+        {...(googleRating.url ? { href: googleRating.url, ...ext } : {})}
+        aria-label={`Rated ${googleRating.score} out of ${googleRating.outOf} on Google, ${googleRating.label.toLowerCase()}`}
+      >
+        <svg class="rec-g" viewBox="0 0 48 48" aria-hidden="true">
+          <path
+            fill="#FFC107"
+            d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 13 4 4 13 4 24s9 20 20 20 20-9 20-20c0-1.3-.1-2.6-.4-3.5z"
+          ></path>
+          <path
+            fill="#FF3D00"
+            d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"
+          ></path>
+          <path
+            fill="#4CAF50"
+            d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"
+          ></path>
+          <path
+            fill="#1976D2"
+            d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.6-.4-3.5z"
+          ></path>
+        </svg>
+        <span class="rec-score">
+          {googleRating.score}
+          <small>/{googleRating.outOf}</small>
+        </span>
+        <span class="rec-stars" aria-hidden="true">
+          {Array.from({ length: 5 }, () => (
+            <svg viewBox="0 0 20 20">
+              <path d="M10 1.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L10 14.9l-5.2 2.7 1-5.8L1.5 7.7l5.9-.9z"></path>
+            </svg>
+          ))}
+        </span>
+        <span class="rec-label">{googleRating.label}</span>
+      </RatingTag>
+    </li>
+  )}
+</ul>
+
+<style>
+  .rec {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: clamp(12px, 1.6vw, 22px);
+  }
+
+  .rec-item {
+    display: block;
+    line-height: 0;
+    border-radius: 12px;
+    transition: transform 0.6s var(--out);
+  }
+
+  .rec-item img {
+    height: var(--rec-h);
+    width: auto;
+  }
+
+  a.rec-item:focus-visible {
+    outline: 2px solid var(--lime);
+    outline-offset: 4px;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    a.rec-item:hover {
+      transform: translateY(-3px) rotate(-1.5deg);
+    }
+  }
+
+  /* Google rating, typeset to sit with the artwork badges. */
+  .rec-google {
+    display: grid;
+    grid-template-columns: auto auto;
+    align-items: center;
+    column-gap: calc(var(--rec-h) * 0.12);
+    height: var(--rec-h);
+    padding: 0 calc(var(--rec-h) * 0.22);
+    background: #fff;
+    color: #202124;
+    line-height: 1;
+  }
+
+  .rec-g {
+    grid-row: 1 / 4;
+    width: calc(var(--rec-h) * 0.4);
+    height: calc(var(--rec-h) * 0.4);
+  }
+
+  .rec-score {
+    font: 700 calc(var(--rec-h) * 0.24) / 1 var(--sans);
+    letter-spacing: -0.02em;
+  }
+
+  .rec-score small {
+    font-size: 0.62em;
+    font-weight: 500;
+    color: #5f6368;
+  }
+
+  .rec-stars {
+    display: flex;
+    gap: 1px;
+    grid-column: 2;
+  }
+
+  .rec-stars svg {
+    width: calc(var(--rec-h) * 0.16);
+    height: calc(var(--rec-h) * 0.16);
+    fill: #fbbc04;
+  }
+
+  .rec-label {
+    grid-column: 2;
+    margin-top: calc(var(--rec-h) * 0.05);
+    font: 500 calc(var(--rec-h) * 0.13) / 1 var(--sans);
+    color: #5f6368;
+    white-space: nowrap;
+  }
+</style>

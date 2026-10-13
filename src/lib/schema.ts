@@ -1,4 +1,5 @@
 /** schema.org JSON-LD builders. Identity URLs always use the production origin. */
+import { recognition } from '../data/recognition';
 import { BRAND, FOUNDER, PROD_ORIGIN, SAME_AS } from './site';
 import { canonicalUrl } from './url';
 
@@ -44,6 +45,7 @@ export function sitewideSchema(): JsonLdNode {
         description: BRAND.description,
         address,
         founder: { '@id': FOUNDER_ID },
+        award: recognition.map((r) => r.name),
         sameAs: SAME_AS,
       },
       {
