@@ -29,6 +29,9 @@ export default defineConfig({
   site: SITE_URL,
   base: BASE_PATH,
   output: 'static',
+  // Optional overrides so parallel local builds don't share one output or cache folder.
+  ...(process.env.OUT_DIR ? { outDir: process.env.OUT_DIR } : {}),
+  ...(process.env.CACHE_DIR ? { cacheDir: process.env.CACHE_DIR } : {}),
   trailingSlash: 'always',
   build: { format: 'directory' },
   markdown: {
