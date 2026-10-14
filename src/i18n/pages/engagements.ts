@@ -74,7 +74,7 @@ export const engagementsPageCopy: Localized<EngagementsPageCopy> = {
     includes: 'Incluye',
     compareLabel: 'Lado a lado',
     compareHeading: 'Compara los tres.',
-    compareSub: 'Todos los modelos empiezan igual: arranque el mismo día y primeros conceptos en 48 horas.',
+    compareSub: 'Todos los modelos empiezan igual: inicio el mismo día y primeros conceptos en 48 horas.',
     pathLabel: 'El camino más habitual',
     flowLabel: 'Design Partner',
     flowHeading: 'Cómo funcionan las solicitudes ilimitadas, de una en una.',

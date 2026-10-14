@@ -105,7 +105,7 @@ export const careersCopy: Localized<CareersCopy> = {
       },
       {
         t: 'Ciclos cortos',
-        d: 'Arrancamos hoy y entregamos los primeros conceptos en 48 horas. Nos gustan los pasos pequeños, el feedback rápido y lanzar antes de pulir de más.',
+        d: 'Empezamos hoy y entregamos los primeros conceptos en 48 horas. Nos gustan los pasos pequeños, el feedback rápido y lanzar antes de pulir de más.',
       },
       {
         t: 'Cerca del cliente',

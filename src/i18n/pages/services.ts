@@ -161,7 +161,7 @@ export const innerCopy: Localized<InnerCopy> = {
     next: { label: 'Sigue explorando' },
     process: {
       label: 'Proceso',
-      heading: 'Arrancamos hoy. Conceptos en 48 horas.',
+      heading: 'Empezamos hoy. Conceptos en 48 horas.',
       delivered: 'Entrega',
       stepNo: 'Paso {n}',
     },
@@ -172,7 +172,7 @@ export const innerCopy: Localized<InnerCopy> = {
           'delbueno™ Studio ofrece estrategia de producto, diseño de producto, diseño web y desarrollo no-code para equipos B2B SaaS y startups. Conceptos en 48 h.',
       },
       answer:
-        'delbueno™ Studio ofrece cuatro servicios a equipos B2B SaaS y startups: estrategia de producto, diseño de producto, diseño web y desarrollo. Los equipos usan uno o los cuatro, a través de un Launch Sprint de alcance fijo, una suscripción Design Partner o un diseñador dedicado. El arranque es el mismo día y los primeros conceptos llegan en 48 horas.',
+        'delbueno™ Studio ofrece cuatro servicios a equipos B2B SaaS y startups: estrategia de producto, diseño de producto, diseño web y desarrollo. Los equipos usan uno o los cuatro, a través de un Launch Sprint de alcance fijo, una suscripción Design Partner o un diseñador dedicado. Empezamos el mismo día y los primeros conceptos llegan en 48 horas.',
       label: 'Servicios',
       heading: 'Estrategia, diseño, web y desarrollo.',
       secondary: 'Compara los modelos de trabajo',

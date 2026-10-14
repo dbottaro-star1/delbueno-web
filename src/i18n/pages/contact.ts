@@ -67,7 +67,7 @@ export const contactCopy: Localized<ContactCopy> = {
     meta: {
       title: 'Contacto: agenda una llamada de 15 minutos',
       description:
-        'Agenda una llamada de 15 minutos con delbueno™ Studio o escribe a hello@delbuenostudio.com. Arranque el mismo día y primeros conceptos en 48 horas.',
+        'Agenda una llamada de 15 minutos con delbueno™ Studio o escribe a hello@delbuenostudio.com. Empezamos el mismo día y primeros conceptos en 48 horas.',
       schemaName: 'Contacto con {brand}',
     },
     eyebrow: 'Contacto / Habla con nosotros',
@@ -89,7 +89,7 @@ export const contactCopy: Localized<ContactCopy> = {
     expect: [
       {
         k: 'El mismo día',
-        t: 'Arranque',
+        t: 'Inicio',
         d: 'Una llamada enfocada para alinear objetivos y alcance. Empezamos en cuanto colgamos.',
       },
       {

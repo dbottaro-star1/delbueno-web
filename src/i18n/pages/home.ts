@@ -122,7 +122,7 @@ export const homeCopy: Localized<HomeCopy> = {
     meta: {
       title: 'diseño de producto B2B SaaS y startups',
       description:
-        'delbueno™ Studio diseña y desarrolla productos, sitios web y sistemas de diseño para equipos B2B SaaS y startups. Arrancamos hoy, conceptos en 48 horas.',
+        'delbueno™ Studio diseña y desarrolla productos, sitios web y sistemas de diseño para equipos B2B SaaS y startups. Empezamos hoy, conceptos en 48 horas.',
     },
     hero: {
       aria: 'Introducción',
@@ -132,7 +132,7 @@ export const homeCopy: Localized<HomeCopy> = {
         'diseña y desarrolla productos, sitios web y sistemas de diseño para equipos B2B SaaS y startups con ambición.',
       see: 'Ver el trabajo',
     },
-    band: { first: 'Arrancamos hoy', second: 'Primeros conceptos en 48 h' },
+    band: { first: 'Empezamos hoy', second: 'Primeros conceptos en 48 h' },
     clarity: 'Claridad',
     work: {
       label: 'Trabajo',
@@ -165,11 +165,11 @@ export const homeCopy: Localized<HomeCopy> = {
     numbers: { heading: 'delbueno en cifras' },
     speed: {
       label: 'Proceso',
-      heading: 'Arrancamos hoy. Conceptos en 48 horas.',
+      heading: 'Empezamos hoy. Conceptos en 48 horas.',
       steps: [
         {
           when: 'Hoy',
-          title: 'Arranque estratégico',
+          title: 'Reunión de inicio',
           text: 'Una llamada enfocada para alinear objetivos y alcance; empezamos en cuanto colgamos.',
         },
         {

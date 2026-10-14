@@ -8,7 +8,7 @@ export const engagementsEs: Record<string, EngagementText> = {
     chips: ['Alcance fijo', 'Tarifa fija', 'De 2 a 4 semanas'],
     bestFor: 'MVPs, rediseños y módulos nuevos que necesitan presupuesto y plazo garantizados.',
     description:
-      'El alcance se fija en el arranque y se cotiza como una tarifa fija, así que sabes qué se entrega, cuánto cuesta y cuándo llega. Los proyectos duran de 2 a 4 semanas.',
+      'El alcance se fija al inicio y se cotiza como una tarifa fija, así que sabes qué se entrega, cuánto cuesta y cuándo llega. Los proyectos duran de 2 a 4 semanas.',
     includes: ['Alcance fijo', 'Tarifa fija', 'De 2 a 4 semanas', 'Presupuesto y plazo garantizados'],
     idealFor: [
       'Un MVP con un conjunto de funciones bien definido',
@@ -50,7 +50,7 @@ export const engagementsEs: Record<string, EngagementText> = {
     ],
     idealFor: [
       'Un diseñador que se une a tu Slack, tus standups, tus sprints en Jira y tu Figma',
-      'Capacidad sin un proceso largo de contratación: arranque en 48 horas',
+      'Capacidad sin un proceso largo de contratación: inicio en 48 horas',
       'Un flujo constante de tarjetas de dashboard, microinteracciones, actualizaciones del sistema de diseño y presentaciones',
     ],
   },
@@ -69,7 +69,7 @@ export const compareRowsEs: EngagementsCopy['compareRows'] = [
   {
     label: 'Alcance',
     values: [
-      'Fijo desde el arranque',
+      'Fijo desde el inicio',
       'Un backlog abierto que reordenas cuando quieras',
       'Lo que tu equipo necesite después',
     ],
@@ -153,7 +153,7 @@ export const engagementFaqsEs: EngagementsCopy['faqs'] = [
   },
   {
     q: '¿Qué tan rápido podemos empezar?',
-    a: 'Arrancamos el mismo día en que acordamos el alcance, y ves los primeros conceptos en 48 horas.',
+    a: 'Empezamos el mismo día en que acordamos el alcance, y ves los primeros conceptos en 48 horas.',
   },
   {
     q: '¿Cómo se factura?',

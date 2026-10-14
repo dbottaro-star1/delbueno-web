@@ -4,7 +4,7 @@ import type { Service, ServiceText } from './services';
 export const processStepsEs = [
   {
     when: 'Hoy',
-    title: 'Arranque estratégico',
+    title: 'Reunión de inicio',
     text: 'Una llamada enfocada para alinear objetivos y alcance. Empezamos en cuanto colgamos.',
   },
   {
@@ -96,7 +96,7 @@ export const servicesEs: Record<Service['slug'], ServiceText> = {
     summary: 'Diseño UX y UI para aplicaciones web, apps móviles y sistemas de diseño.',
     headline: 'Interfaces que hacen que el software complejo se sienta obvio.',
     answer:
-      'delbueno™ Studio diseña productos web y móviles para equipos B2B SaaS, desde los primeros conceptos hasta un sistema de diseño en producción. Nos especializamos en interfaces densas y cargadas de datos, como dashboards, permisos y alertas. El arranque es el mismo día y los primeros conceptos en alta fidelidad llegan en 48 horas.',
+      'delbueno™ Studio diseña productos web y móviles para equipos B2B SaaS, desde los primeros conceptos hasta un sistema de diseño en producción. Nos especializamos en interfaces densas y cargadas de datos, como dashboards, permisos y alertas. Empezamos el mismo día y los primeros conceptos en alta fidelidad llegan en 48 horas.',
     whoFor: {
       lead: 'Equipos SaaS que lanzan un producto nuevo, un módulo nuevo o un rediseño, y equipos cuya interfaz ya superó la primera versión que armaron los ingenieros.',
       points: [
@@ -127,7 +127,7 @@ export const servicesEs: Record<Service['slug'], ServiceText> = {
     faqs: [
       {
         q: '¿Qué tan rápido pueden empezar?',
-        a: 'Arrancamos el mismo día en que acordamos el alcance, y ves los primeros conceptos en alta fidelidad en 48 horas. Después, una función suele tomar de 1 a 2 semanas en llegar a alta fidelidad.',
+        a: 'Empezamos el mismo día en que acordamos el alcance, y ves los primeros conceptos en alta fidelidad en 48 horas. Después, una función suele tomar de 1 a 2 semanas en llegar a alta fidelidad.',
       },
       {
         q: '¿Cómo hacen el handoff a nuestros desarrolladores?',

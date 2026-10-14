@@ -120,7 +120,7 @@ export const llmsCopy: Localized<LlmsCopy> = {
   },
   es: {
     summary:
-      '{brand} es un estudio de diseño y desarrollo de producto para equipos B2B SaaS y startups, con sede en {locality}, {country}, que trabaja en remoto en horario de EE. UU. Servicios: estrategia de producto, diseño de producto, diseño web y desarrollo. Modelos de trabajo: Launch Sprint, Design Partner y Designer on Demand. El arranque es el mismo día y los primeros conceptos llegan en 48 horas. Contacto: {email}.',
+      '{brand} es un estudio de diseño y desarrollo de producto para equipos B2B SaaS y startups, con sede en {locality}, {country}, que trabaja en remoto en horario de EE. UU. Servicios: estrategia de producto, diseño de producto, diseño web y desarrollo. Modelos de trabajo: Launch Sprint, Design Partner y Designer on Demand. Empezamos el mismo día y los primeros conceptos llegan en 48 horas. Contacto: {email}.',
     bookLine: 'Agenda una llamada de 15 minutos en {url}.',
     h: {
       services: 'Servicios',

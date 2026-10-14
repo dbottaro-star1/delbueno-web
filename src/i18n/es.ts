@@ -10,7 +10,7 @@ export type Shape<T> = { [K in keyof T]: T[K] extends string ? string : Shape<T[
 export const es: Shape<typeof en> = {
   brand: {
     tagline: 'Software que se explica solo.',
-    speed: 'Arrancamos hoy. Primeros conceptos en 48 horas.',
+    speed: 'Empezamos hoy. Primeros conceptos en 48 horas.',
     description:
       'delbueno™ Studio es un estudio de diseño y desarrollo de producto para equipos B2B SaaS y startups, con sede en Punta del Este, Uruguay, que trabaja en remoto en horario de EE. UU.',
     kicker: 'Estudio de diseño de producto',
@@ -93,5 +93,5 @@ export const es: Shape<typeof en> = {
     rated: 'Calificación de {score} sobre {outOf} en Google, {label}',
   },
   bookCta: { heading: '¿Tienes un producto que debería entenderse solo?' },
-  process: { label: 'Proceso', step: 'Paso {n}', heading: 'Arrancamos hoy. Conceptos en 48 horas.' },
+  process: { label: 'Proceso', step: 'Paso {n}', heading: 'Empezamos hoy. Conceptos en 48 horas.' },
 };

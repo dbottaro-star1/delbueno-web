@@ -117,11 +117,11 @@ export const aboutCopy: Localized<AboutCopy> = {
     founder: { label: 'Fundador', heading: 'Liderado por {name}.' },
     how: {
       label: 'Cómo trabajamos',
-      heading: 'Arrancamos hoy. Conceptos en 48 horas.',
+      heading: 'Empezamos hoy. Conceptos en 48 horas.',
       steps: [
         {
           when: 'Hoy',
-          title: 'Arranque estratégico',
+          title: 'Reunión de inicio',
           text: 'Una llamada enfocada para alinear objetivos y alcance. Empezamos en cuanto colgamos.',
         },
         {
