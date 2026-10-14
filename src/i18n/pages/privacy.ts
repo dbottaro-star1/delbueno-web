@@ -22,6 +22,7 @@ export const privacyCopy: Localized<LegalPage> = {
             ul: [
               'The Website is a static site. It has no forms, no accounts and no comments.',
               'It uses Hotjar to see how pages are used, through heatmaps and anonymized session recordings. Hotjar sets its own cookies.',
+              'Cloudflare Web Analytics counts visits without cookies.',
               'It has no advertising tags or tracking pixels, and we do not sell data.',
               'Calls are booked on Lemcal, a third party with its own privacy policy.',
               'Email goes to [{email}](mail).',
@@ -72,6 +73,9 @@ export const privacyCopy: Localized<LegalPage> = {
         blocks: [
           {
             p: 'We use [Hotjar](hotjar) to understand how visitors use the Website, so we can improve it. Hotjar creates heatmaps and session recordings of page visits and stores its data in the European Union. It sets first party cookies, such as _hjSessionUser and _hjSession, to tell one visit from the next. They last up to one year and are not used for advertising.',
+          },
+          {
+            p: 'We also use Cloudflare Web Analytics, which counts page views, countries, device types and referring sites without cookies and without identifying you.',
           },
           {
             p: 'The Website itself sets no other cookies and uses no advertising tags or tracking pixels. If your browser sends a Global Privacy Control signal, Hotjar is not loaded. You can also block or delete cookies at any time in your browser settings, and the Website keeps working without them.',
@@ -165,6 +169,7 @@ export const privacyCopy: Localized<LegalPage> = {
             ul: [
               'El Sitio es un sitio estático. No tiene formularios, cuentas ni comentarios.',
               'Usa Hotjar para ver cómo se usan las páginas, con mapas de calor y grabaciones de sesión anonimizadas. Hotjar establece sus propias cookies.',
+              'Cloudflare Web Analytics cuenta las visitas sin cookies.',
               'No tiene etiquetas publicitarias ni píxeles de seguimiento, y no vendemos datos.',
               'Las llamadas se agendan en Lemcal, un tercero con su propia política de privacidad.',
               'Los correos llegan a [{email}](mail).',
@@ -215,6 +220,9 @@ export const privacyCopy: Localized<LegalPage> = {
         blocks: [
           {
             p: 'Usamos [Hotjar](hotjar) para entender cómo los visitantes usan el Sitio y así mejorarlo. Hotjar crea mapas de calor y grabaciones de sesión de las visitas y guarda sus datos en la Unión Europea. Establece cookies propias, como _hjSessionUser y _hjSession, para distinguir una visita de la siguiente. Duran hasta un año y no se usan para publicidad.',
+          },
+          {
+            p: 'También usamos Cloudflare Web Analytics, que cuenta páginas vistas, países, tipos de dispositivo y sitios de origen sin cookies y sin identificarte.',
           },
           {
             p: 'El Sitio no establece otras cookies y no usa etiquetas publicitarias ni píxeles de seguimiento. Si tu navegador envía la señal Global Privacy Control, Hotjar no se carga. También puedes bloquear o borrar las cookies en cualquier momento desde la configuración de tu navegador, y el Sitio sigue funcionando sin ellas.',

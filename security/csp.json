@@ -7,6 +7,7 @@
       "'self'",
       "https://static.hotjar.com",
       "https://script.hotjar.com",
+      "https://static.cloudflareinsights.com",
       "'sha256-kSaX0iOryjpCQSkOMxVYvdTnp6BAnJysgVbj9wm/ERw='"
     ],
     "style-src": ["'self'", "https://static.hotjar.com", "https://script.hotjar.com"],
@@ -14,7 +15,13 @@
     "img-src": ["'self'", "data:", "https://static.hotjar.com", "https://script.hotjar.com"],
     "media-src": ["'self'", "https://cdn.dribbble.com"],
     "font-src": ["'self'", "https://script.hotjar.com"],
-    "connect-src": ["'self'", "https://*.hotjar.com", "https://*.hotjar.io", "wss://*.hotjar.com"],
+    "connect-src": [
+      "'self'",
+      "https://*.hotjar.com",
+      "https://*.hotjar.io",
+      "wss://*.hotjar.com",
+      "https://cloudflareinsights.com"
+    ],
     "manifest-src": ["'self'"],
     "frame-src": ["'none'"],
     "worker-src": ["'none'"],
