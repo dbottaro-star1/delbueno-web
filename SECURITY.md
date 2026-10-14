@@ -21,7 +21,7 @@ The site was rebuilt after the previous WordPress site was compromised. The new 
 - No server code. Nothing runs on the server when someone visits, so there is nothing to inject code into.
 - No database. There is no data store to dump, poison or fill with spam pages.
 - No admin panel and no login. There is no `/wp-admin` style entry point to brute force. Content changes only through reviewed commits to this repository.
-- No third-party runtime scripts. The site does not load analytics, tag managers, chat widgets or ad scripts from other domains. Fonts are bundled with the site. The only external media are a few playground videos hotlinked from Dribbble.
+- One third-party runtime script. On the production domain the site loads Hotjar (heatmaps and session recordings), disclosed in the privacy policy and limited by the CSP to Hotjar's own hosts. There are no tag managers, chat widgets or ad scripts. Fonts are bundled with the site. The only external media are a few playground videos hotlinked from Dribbble.
 - No forms that store data. Contact happens through email and an external booking link.
 - Publishing is controlled. Only the build in GitHub Actions publishes the site, with minimal token permissions, and all actions are pinned to exact commit versions. Dependencies are checked by `npm audit` on every build and updated through Dependabot.
 - Edge protection. Traffic goes through Cloudflare, which adds HTTPS, security headers and DNSSEC. The setup is documented in `docs/security/cloudflare.md`.

@@ -6,10 +6,10 @@ export const privacyCopy: Localized<LegalPage> = {
     meta: {
       title: 'Privacy policy',
       description:
-        'delbuenostudio.com is a static site with no cookies, analytics, tracking pixels or forms. Here is what little personal information we receive, and why.',
+        'delbuenostudio.com is a static site with no forms. It uses Hotjar to see how pages are used. Here is what personal information we receive, and why.',
     },
     title: 'Privacy policy',
-    lede: 'This site sets no cookies, runs no analytics and has no forms. Here is the small amount of personal information we do receive.',
+    lede: 'This site has no forms and no accounts. It uses Hotjar to understand how visitors use its pages. Here is the personal information we receive.',
     sections: [
       {
         id: 'summary',
@@ -21,8 +21,8 @@ export const privacyCopy: Localized<LegalPage> = {
           {
             ul: [
               'The Website is a static site. It has no forms, no accounts and no comments.',
-              'It sets no cookies, runs no analytics and loads no tracking pixels.',
-              'Scripts, styles and fonts are served from the Website itself.',
+              'It uses Hotjar to see how pages are used, through heatmaps and anonymized session recordings. Hotjar sets its own cookies.',
+              'It has no advertising tags or tracking pixels, and we do not sell data.',
               'Calls are booked on Lemcal, a third party with its own privacy policy.',
               'Email goes to [{email}](mail).',
             ],
@@ -40,6 +40,7 @@ export const privacyCopy: Localized<LegalPage> = {
             ul: [
               '**Email.** If you write to us, we receive your email address, your name if you include it, and whatever you put in the message.',
               '**Booking.** If you book a call, Lemcal collects the details you enter there, such as your name, email address and chosen time, and shares them with us so we can meet you.',
+              '**Usage data.** While you browse, Hotjar records how you use the pages: clicks, taps, scrolling and mouse movement, the pages you visit, your device type, browser, screen size and approximate country. Text you type is masked before it leaves your browser. Hotjar does not give us your name or contact details.',
             ],
           },
           {
@@ -61,7 +62,7 @@ export const privacyCopy: Localized<LegalPage> = {
         title: 'Sharing',
         blocks: [
           {
-            p: 'We share personal information only with service providers that help us run the studio, such as our email and calendar tools, and when the law requires it or to protect our rights, property or safety.',
+            p: 'We share personal information only with service providers that help us run the studio, such as our email, calendar and analytics tools, and when the law requires it or to protect our rights, property or safety.',
           },
         ],
       },
@@ -70,7 +71,10 @@ export const privacyCopy: Localized<LegalPage> = {
         title: 'Cookies and tracking',
         blocks: [
           {
-            p: 'The Website does not set cookies and does not use analytics, tracking pixels, advertising tags or session recording, so there is no cookie banner. Your browser may keep ordinary cached files so pages load faster. You can clear them at any time in your browser settings.',
+            p: 'We use [Hotjar](hotjar) to understand how visitors use the Website, so we can improve it. Hotjar creates heatmaps and session recordings of page visits and stores its data in the European Union. It sets first party cookies, such as _hjSessionUser and _hjSession, to tell one visit from the next. They last up to one year and are not used for advertising.',
+          },
+          {
+            p: 'The Website itself sets no other cookies and uses no advertising tags or tracking pixels. If your browser sends a Global Privacy Control signal, Hotjar is not loaded. You can also block or delete cookies at any time in your browser settings, and the Website keeps working without them.',
           },
         ],
       },
@@ -85,6 +89,7 @@ export const privacyCopy: Localized<LegalPage> = {
             ul: [
               '**Lemcal**, where you book a call ([open the booking page](book)).',
               '**Dribbble**, which the Playground links to for each shot ([our profile](dribbble)).',
+              '**Hotjar**, which measures how the Website is used ([Hotjar privacy policy](hotjar)).',
               'Our profiles on LinkedIn, Instagram, YouTube and Clutch, linked from the footer and the contact page.',
             ],
           },
@@ -144,10 +149,10 @@ export const privacyCopy: Localized<LegalPage> = {
     meta: {
       title: 'Política de privacidad',
       description:
-        'delbuenostudio.com es un sitio estático sin cookies, analítica, píxeles de seguimiento ni formularios. Esto es lo poco que recibimos, y por qué.',
+        'delbuenostudio.com es un sitio estático sin formularios. Usa Hotjar para ver cómo se usan las páginas. Esta es la información que recibimos, y por qué.',
     },
     title: 'Política de privacidad',
-    lede: 'Este sitio no usa cookies, no ejecuta analítica y no tiene formularios. Esta es la poca información personal que sí recibimos.',
+    lede: 'Este sitio no tiene formularios ni cuentas. Usa Hotjar para entender cómo los visitantes usan sus páginas. Esta es la información personal que recibimos.',
     sections: [
       {
         id: 'summary',
@@ -159,8 +164,8 @@ export const privacyCopy: Localized<LegalPage> = {
           {
             ul: [
               'El Sitio es un sitio estático. No tiene formularios, cuentas ni comentarios.',
-              'No usa cookies, no ejecuta analítica y no carga píxeles de seguimiento.',
-              'Los scripts, los estilos y las fuentes se sirven desde el propio Sitio.',
+              'Usa Hotjar para ver cómo se usan las páginas, con mapas de calor y grabaciones de sesión anonimizadas. Hotjar establece sus propias cookies.',
+              'No tiene etiquetas publicitarias ni píxeles de seguimiento, y no vendemos datos.',
               'Las llamadas se agendan en Lemcal, un tercero con su propia política de privacidad.',
               'Los correos llegan a [{email}](mail).',
             ],
@@ -178,6 +183,7 @@ export const privacyCopy: Localized<LegalPage> = {
             ul: [
               '**Correo.** Si nos escribes, recibimos tu dirección de correo, tu nombre si lo incluyes y lo que pongas en el mensaje.',
               '**Reservas.** Si agendas una llamada, Lemcal recoge los datos que ingresas allí, como tu nombre, tu correo y el horario elegido, y nos los comparte para que podamos reunirnos contigo.',
+              '**Datos de uso.** Mientras navegas, Hotjar registra cómo usas las páginas: clics, toques, desplazamiento y movimiento del mouse, las páginas que visitas, el tipo de dispositivo, el navegador, el tamaño de pantalla y el país aproximado. El texto que escribes se oculta antes de salir de tu navegador. Hotjar no nos da tu nombre ni tus datos de contacto.',
             ],
           },
           {
@@ -199,7 +205,7 @@ export const privacyCopy: Localized<LegalPage> = {
         title: 'Con quién la compartimos',
         blocks: [
           {
-            p: 'Compartimos información personal solo con proveedores de servicios que nos ayudan a operar el estudio, como nuestras herramientas de correo y calendario, y cuando la ley lo exige o para proteger nuestros derechos, nuestra propiedad o nuestra seguridad.',
+            p: 'Compartimos información personal solo con proveedores de servicios que nos ayudan a operar el estudio, como nuestras herramientas de correo, calendario y analítica, y cuando la ley lo exige o para proteger nuestros derechos, nuestra propiedad o nuestra seguridad.',
           },
         ],
       },
@@ -208,7 +214,10 @@ export const privacyCopy: Localized<LegalPage> = {
         title: 'Cookies y seguimiento',
         blocks: [
           {
-            p: 'El Sitio no establece cookies y no usa analítica, píxeles de seguimiento, etiquetas publicitarias ni grabación de sesiones, así que no hay banner de cookies. Tu navegador puede guardar archivos comunes en caché para que las páginas carguen más rápido. Puedes borrarlos en cualquier momento desde la configuración de tu navegador.',
+            p: 'Usamos [Hotjar](hotjar) para entender cómo los visitantes usan el Sitio y así mejorarlo. Hotjar crea mapas de calor y grabaciones de sesión de las visitas y guarda sus datos en la Unión Europea. Establece cookies propias, como _hjSessionUser y _hjSession, para distinguir una visita de la siguiente. Duran hasta un año y no se usan para publicidad.',
+          },
+          {
+            p: 'El Sitio no establece otras cookies y no usa etiquetas publicitarias ni píxeles de seguimiento. Si tu navegador envía la señal Global Privacy Control, Hotjar no se carga. También puedes bloquear o borrar las cookies en cualquier momento desde la configuración de tu navegador, y el Sitio sigue funcionando sin ellas.',
           },
         ],
       },
@@ -223,6 +232,7 @@ export const privacyCopy: Localized<LegalPage> = {
             ul: [
               '**Lemcal**, donde agendas una llamada ([abrir la página de reservas](book)).',
               '**Dribbble**, al que el Playground enlaza en cada shot ([nuestro perfil](dribbble)).',
+              '**Hotjar**, que mide cómo se usa el Sitio ([política de privacidad de Hotjar](hotjar)).',
               'Nuestros perfiles en LinkedIn, Instagram, YouTube y Clutch, enlazados desde el pie de página y la página de contacto.',
             ],
           },

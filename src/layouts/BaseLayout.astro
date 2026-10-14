@@ -175,9 +175,11 @@ const graph: JsonLdNode[] = [sitewideSchema(lang), ...(breadcrumbs ? [breadcrumb
       import { initMotion } from '../scripts/motion';
       import { initShell } from '../scripts/shell';
       import { initLang } from '../scripts/lang';
+      import { initAnalytics } from '../scripts/analytics';
       void initMotion();
       initShell();
       initLang();
+      initAnalytics();
     </script>
   </body>
 </html>

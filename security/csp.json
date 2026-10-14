@@ -3,13 +3,18 @@
   "headerOnly": ["frame-ancestors", "upgrade-insecure-requests"],
   "directives": {
     "default-src": ["'self'"],
-    "script-src": ["'self'", "'sha256-kSaX0iOryjpCQSkOMxVYvdTnp6BAnJysgVbj9wm/ERw='"],
-    "style-src": ["'self'"],
+    "script-src": [
+      "'self'",
+      "https://static.hotjar.com",
+      "https://script.hotjar.com",
+      "'sha256-kSaX0iOryjpCQSkOMxVYvdTnp6BAnJysgVbj9wm/ERw='"
+    ],
+    "style-src": ["'self'", "https://static.hotjar.com", "https://script.hotjar.com"],
     "style-src-attr": ["'unsafe-inline'"],
-    "img-src": ["'self'", "data:"],
+    "img-src": ["'self'", "data:", "https://static.hotjar.com", "https://script.hotjar.com"],
     "media-src": ["'self'", "https://cdn.dribbble.com"],
-    "font-src": ["'self'"],
-    "connect-src": ["'self'"],
+    "font-src": ["'self'", "https://script.hotjar.com"],
+    "connect-src": ["'self'", "https://*.hotjar.com", "https://*.hotjar.io", "wss://*.hotjar.com"],
     "manifest-src": ["'self'"],
     "frame-src": ["'none'"],
     "worker-src": ["'none'"],
