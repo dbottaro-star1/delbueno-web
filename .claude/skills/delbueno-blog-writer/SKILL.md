@@ -2,7 +2,7 @@
 name: delbueno-blog-writer
 description: >
   Writes a complete, SEO-optimized blog post for delbuenostudio.com (delbueno™ Studio),
-  picks a relevant royalty-free featured image from Pexels, and opens it as a pull request
+  picks relevant free images from Unsplash, and opens it as a pull request
   in the dbottaro-star1/delbueno-web GitHub repo for human review (merging the PR publishes
   it). Use this skill whenever the task is to write, draft, or publish a blog article for
   delbueno / delbuenostudio.com, including the weekly scheduled run, even if the user just
@@ -27,7 +27,9 @@ deploys it. There is no WordPress anymore.
   `~/Desktop/Claude/delbueno new AI website`. If it is missing, clone it with
   `gh repo clone dbottaro-star1/delbueno-web`.
 - Node 24 and `npm ci` done in the repo, so the checks can run.
-- The **Pexels** connector (`pexels`) for the featured image.
+- The Claude in Chrome tools (`mcp__claude-in-chrome__*`) to pick images on unsplash.com. If Chrome is not
+  connected, publish without images (leave heroImage and heroAlt out; the site shows its branded share card) and
+  say so in the PR body.
 
 If any of these is missing, stop and say which one, instead of guessing.
 
@@ -125,17 +127,27 @@ decision velocity and AI-augmented workflows; a design partner for B2B SaaS team
 DevOps, Cyber, AI and Fintech that ships complex product UX faster and leaner than in-house
 teams. Kickoff the same day, first concepts in 48 hours. Reflect it without reciting it.
 
-## Step 4: Featured image (Pexels)
+## Step 4: Images (Unsplash)
 
-1. Derive 1 or 2 specific queries from the article's core concept ("data dashboard dark
-   interface", "developer working laptop night").
-2. Search Pexels with `orientation: landscape`. Pick a clean, non-cliché image. No
-   handshakes, lightbulbs or suits.
-3. Download the `large2x` (or `original` if under 4 MB) file into a fresh temp folder, check
-   it with `file` (must be JPEG, PNG or WebP), then move it to
-   `src/assets/journal/{slug}/{slug}.jpg` (keep the real extension).
-4. Record the photographer name. Attribution is required by the Pexels license: add an
-   italic line at the very end of the post body, `*Cover photo by {Photographer} on Pexels.*`
+A featured image, plus one or two inline images where they help the reader (a concept the
+section explains, not decoration).
+
+1. Derive 1 or 2 specific queries per image from the article's core concept ("data
+   dashboard dark interface", "developer working laptop night").
+2. In a new Chrome tab, open `https://unsplash.com/s/photos/{query}?orientation=landscape`.
+   Pick a clean, non-cliché photo. No handshakes, lightbulbs or suits. Only free photos:
+   skip anything marked **Unsplash+** or with a lock or "Premium" badge.
+3. Open the photo page (`https://unsplash.com/photos/{id}`) and note the photographer's name
+   and the page URL. Download it with
+   `curl -fsSL "https://unsplash.com/photos/{id}/download?force=true&w=2400" -o {tmp}/{slug}.jpg`
+   into a fresh temp folder, check it with `file` (must be JPEG, PNG or WebP) and that it is
+   under 4 MB, then move it to `src/assets/journal/{slug}/` (keep the real extension). Never
+   hotlink and never use another image source. Close the tab when done.
+4. The featured image goes in `heroImage` and `heroAlt`. Inline images use relative Markdown
+   (`![{alt}](../../assets/journal/{slug}/{file})`), never raw HTML, each with a descriptive alt.
+5. Credit every photo in one italic line at the very end of the post body, for example
+   `*Photos by {Photographer} and {Photographer} on Unsplash.*` (the Unsplash license does not
+   require it, but we credit anyway).
 
 ## Step 5: Create the post file
 
@@ -189,8 +201,8 @@ Write `~/Documents/Blog/post-{YYYY-MM-DD}.md`:
 **Slug / URL:** {…} / https://delbuenostudio.com/{slug}/
 **Primary keyword:** {…} | Secondary: {…}
 **Category:** {…}
-**Featured image:** {pexels url}
-**Attribution:** Photo by {photographer} on Pexels
+**Images:** {unsplash photo page urls}
+**Attribution:** Photos by {photographers} on Unsplash
 **Internal links:** {…}
 **Checks:** {pass, or what failed and how it was fixed}
 ```
