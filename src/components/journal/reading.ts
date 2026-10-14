@@ -1,4 +1,6 @@
 /** Journal helpers: reading time, categories and related posts. */
+import type { Lang } from '../../i18n/config';
+import { formatShortDate as formatShortLocalDate } from '../../i18n';
 import { getJournal, type JournalEntry } from '../../lib/content';
 
 /** Average adult reading speed used for every "min read" figure on the site. */
@@ -55,10 +57,4 @@ export async function getRelated(entry: JournalEntry, max = 3): Promise<JournalE
   return [...same, ...rest].slice(0, max);
 }
 
-const shortDate = new Intl.DateTimeFormat('en-US', {
-  year: 'numeric',
-  month: 'short',
-  day: 'numeric',
-  timeZone: 'UTC',
-});
-export const formatShortDate = (date: Date): string => shortDate.format(date);
+export const formatShortDate = (date: Date, lang: Lang = 'en'): string => formatShortLocalDate(date, lang);

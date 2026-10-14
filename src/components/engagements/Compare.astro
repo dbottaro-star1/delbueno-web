@@ -4,15 +4,25 @@
  * the cells are re-ordered with CSS). The recommended path, Launch Sprint then Design Partner, carries the gradient.
  * No prices.
  */
-import { compareRows, engagements } from '../../data/engagements';
+import { getEngagementsCopy } from '../../data/engagements';
+import type { Lang } from '../../i18n/config';
+import { fill } from '../../i18n';
+import { engagementsPageCopy } from '../../i18n/pages/engagements';
 
-const pathSteps: Record<string, string> = { 'launch-sprint': 'Start here', 'design-partner': 'Then roll in' };
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const c = engagementsPageCopy[lang].compare;
+const { engagements, compareRows } = getEngagementsCopy(lang);
+
+const pathSteps: Record<string, string> = { 'launch-sprint': c.startHere, 'design-partner': c.thenRollIn };
 const last = compareRows.length;
 ---
 
 <div class="cmp" data-cmp>
   <table class="cmp-table">
-    <caption class="sr-only">Launch Sprint, Design Partner and Designer on Demand compared</caption>
+    <caption class="sr-only">{c.caption}</caption>
     <thead>
       <tr>
         <td class="cmp-corner"></td>
@@ -21,7 +31,7 @@ const last = compareRows.length;
             {e.slug in pathSteps && (
               <span class="cmp-tag">
                 <i class="cmp-bar" data-draw aria-hidden="true" />
-                Recommended path: {pathSteps[e.slug]}
+                {fill(c.recommended, { step: pathSteps[e.slug] })}
               </span>
             )}
             <span class="cmp-name">{e.name}</span>

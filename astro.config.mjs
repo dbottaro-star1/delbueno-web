@@ -7,6 +7,8 @@ import { readFileSync, readdirSync } from 'node:fs';
 import { contentGuard, contentGuardBuild } from './plugins/satteri-content-guard.mjs';
 import { baseLinks } from './plugins/satteri-base-links.mjs';
 import { legacyRedirects } from './redirects/legacy.mjs';
+import { LANG_META, LANGS } from './src/i18n/config.ts';
+import { alternates } from './src/i18n/routes.ts';
 import { externalLinks } from './plugins/satteri-external-links.mjs';
 
 /**
@@ -40,10 +42,26 @@ const POST_LASTMOD = new Map(
       ]);
     }),
 );
-/** @param {import('@astrojs/sitemap').SitemapItem} item */
+/**
+ * Adds lastmod, and for pages that exist in both languages the hreflang alternates. The sitemap integration's own
+ * `i18n` option pairs pages by swapping the locale prefix, which cannot work with translated slugs, so the pairs come
+ * from the one mapping table in src/i18n/routes.ts.
+ * @param {import('@astrojs/sitemap').SitemapItem} item
+ */
 const withLastmod = (item) => {
-  const slug = new URL(item.url).pathname.slice(BASE_PATH === '/' ? 0 : BASE_PATH.length).replace(/^\/|\/$/g, '');
+  const { origin, pathname } = new URL(item.url);
+  const sitePath = pathname.slice(BASE_PATH === '/' ? 0 : BASE_PATH.length) || '/';
+  const slug = sitePath.replace(/^\/|\/$/g, '');
   item.lastmod = (POST_LASTMOD.get(slug) ?? BUILD_DATE).toISOString();
+
+  const twins = alternates(sitePath);
+  if (LANGS.every((lang) => twins[lang])) {
+    const href = (/** @type {string} */ path) => `${origin}${BASE_PATH === '/' ? '' : BASE_PATH}${path}`;
+    item.links = [
+      ...LANGS.map((lang) => ({ url: href(twins[lang] ?? sitePath), lang: LANG_META[lang].tag })),
+      { url: href(twins.en ?? sitePath), lang: 'x-default' },
+    ];
+  }
   return item;
 };
 /** @param {string} page */
@@ -59,6 +77,13 @@ export default defineConfig({
   ...(process.env.OUT_DIR ? { outDir: process.env.OUT_DIR } : {}),
   ...(process.env.CACHE_DIR ? { cacheDir: process.env.CACHE_DIR } : {}),
   trailingSlash: 'always',
+  // English is served from the root and Spanish from /es/. The Spanish pages are explicit files in src/pages/es with
+  // their own slugs (see src/i18n/routes.ts), so Astro only needs to know the locales for Astro.currentLocale.
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['en', 'es'],
+    routing: { prefixDefaultLocale: false },
+  },
   build: {
     format: 'directory',
     // Every stylesheet is a file, so the CSP can say style-src 'self' with no inline styles (see security/csp.json).

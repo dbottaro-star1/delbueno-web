@@ -6,8 +6,11 @@
  */
 import { Image } from 'astro:assets';
 import { googleRating, recognition } from '../data/recognition';
+import type { Lang } from '../i18n/config';
+import { translator } from '../i18n';
 
 interface Props {
+  lang: Lang;
   /** Badge height in px. Widths follow each badge's own ratio. */
   height?: number;
   /** Show the Google rating card at the end of the row. */
@@ -15,13 +18,15 @@ interface Props {
   class?: string;
 }
 
-const { height = 72, withRating = true, class: className } = Astro.props;
+const { lang, height = 72, withRating = true, class: className } = Astro.props;
+const t = translator(lang);
+const ratingLabel = t('recognition.googleLabel');
 const widthFor = (w: number, h: number) => Math.round((w / h) * height);
 const ext = { target: '_blank', rel: 'noopener noreferrer' } as const;
 const RatingTag = googleRating.url ? 'a' : 'div';
 ---
 
-<ul class:list={['rec', className]} style={`--rec-h:${height}px`} aria-label="Recognition">
+<ul class:list={['rec', className]} style={`--rec-h:${height}px`} aria-label={t('recognition.label')}>
   {recognition.map((r) => {
     const Tag = r.url ? 'a' : 'span';
     const img =
@@ -49,7 +54,7 @@ const RatingTag = googleRating.url ? 'a' : 'div';
       <li>
         <Tag
           class="rec-item"
-          {...(r.url ? { href: r.url, ...ext, 'aria-label': `${r.name} (opens in a new tab)` } : {})}
+          {...(r.url ? { href: r.url, ...ext, 'aria-label': `${r.name} (${t('a11y.newTab')})` } : {})}
         >
           {img}
         </Tag>
@@ -61,7 +66,11 @@ const RatingTag = googleRating.url ? 'a' : 'div';
       <RatingTag
         class="rec-item rec-google"
         {...(googleRating.url ? { href: googleRating.url, ...ext } : {})}
-        aria-label={`Rated ${googleRating.score} out of ${googleRating.outOf} on Google, ${googleRating.label.toLowerCase()}`}
+        aria-label={t('recognition.rated', {
+          score: googleRating.score,
+          outOf: googleRating.outOf,
+          label: ratingLabel.toLowerCase(),
+        })}
       >
         <svg class="rec-g" viewBox="0 0 48 48" aria-hidden="true">
           <path
@@ -92,7 +101,7 @@ const RatingTag = googleRating.url ? 'a' : 'div';
             </svg>
           ))}
         </span>
-        <span class="rec-label">{googleRating.label}</span>
+        <span class="rec-label">{ratingLabel}</span>
       </RatingTag>
     </li>
   )}

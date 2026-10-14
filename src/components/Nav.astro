@@ -1,19 +1,32 @@
 ---
+import type { Lang } from '../i18n/config';
+import { translator } from '../i18n';
+import { pagePath } from '../i18n/routes';
 import { BRAND, LINKS, NAV_LINKS } from '../lib/site';
 import { stripBase, url } from '../lib/url';
+import LangSwitch from './LangSwitch.astro';
+
+interface Props {
+  lang: Lang;
+  /** Site-relative path of the equivalent page in each language, for the language switcher. */
+  switchTo: Record<Lang, string>;
+}
+const { lang, switchTo } = Astro.props;
+const t = translator(lang);
 
 const current = stripBase(Astro.url.pathname);
+const links = NAV_LINKS.map((link) => ({ label: t(link.label), href: pagePath(link.page, lang) }));
 const isActive = (href: string) => current === href || current.startsWith(href);
 ---
 
 <header class="nav" id="nav" data-nav>
-  <a class="wordmark" href={url('/')} aria-label={`${BRAND.name}, home`}>
+  <a class="wordmark" href={url(pagePath('home', lang))} aria-label={t('a11y.homeLink', { brand: BRAND.name })}>
     delbueno<sup>™</sup>
   </a>
 
-  <nav aria-label="Primary">
+  <nav aria-label={t('nav.primary')}>
     <ul class="nav-links">
-      {NAV_LINKS.map((link) => (
+      {links.map((link) => (
         <li>
           <a href={url(link.href)} aria-current={isActive(link.href) ? 'page' : undefined}>
             <span class="roll">
@@ -27,8 +40,9 @@ const isActive = (href: string) => current === href || current.startsWith(href);
   </nav>
 
   <div class="nav-right">
+    <LangSwitch lang={lang} switchTo={switchTo} />
     <a class="btn btn-primary btn-sm" data-magnetic href={LINKS.book} rel="noopener">
-      Book a call
+      {t('cta.book')}
     </a>
     <button
       class="burger"
@@ -36,7 +50,9 @@ const isActive = (href: string) => current === href || current.startsWith(href);
       type="button"
       aria-expanded="false"
       aria-controls="menu"
-      aria-label="Menu"
+      aria-label={t('nav.menu')}
+      data-label-open={t('nav.menu')}
+      data-label-close={t('nav.closeMenu')}
       data-nav-toggle
     >
       <i></i>
@@ -45,17 +61,18 @@ const isActive = (href: string) => current === href || current.startsWith(href);
   </div>
 </header>
 
-<div class="menu" id="menu" role="dialog" aria-modal="true" aria-label="Menu" data-menu>
-  <nav aria-label="Mobile">
-    {NAV_LINKS.map((link) => (
+<div class="menu" id="menu" role="dialog" aria-modal="true" aria-label={t('nav.menu')} data-menu>
+  <nav aria-label={t('nav.mobile')}>
+    {links.map((link) => (
       <a class="m-link" href={url(link.href)} aria-current={isActive(link.href) ? 'page' : undefined}>
         {link.label}
       </a>
     ))}
   </nav>
   <div class="menu-foot">
+    <LangSwitch lang={lang} switchTo={switchTo} variant="menu" />
     <a class="btn btn-primary" href={LINKS.book} rel="noopener">
-      Book a call
+      {t('cta.book')}
     </a>
     <a class="menu-mail" href={`mailto:${BRAND.email}`}>
       {BRAND.email}

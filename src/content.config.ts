@@ -1,3 +1,4 @@
+import type { ImageMetadata } from 'astro';
 import { defineCollection } from 'astro:content';
 import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
@@ -9,30 +10,41 @@ import { z } from 'astro/zod';
  */
 const generateId = ({ entry }: { entry: string }) => entry.replace(/\.(md|mdx)$/, '');
 
+/** Fields shared by the English and Spanish case studies. */
+const workFields = (image: () => z.ZodType<ImageMetadata>) => ({
+  /** The headline shown as the page H1. */
+  title: z.string(),
+  /** Title for the browser tab, search results and social cards. 60 characters or fewer with the brand. */
+  seoTitle: z.string().optional(),
+  /** Meta description, 140 to 155 characters. Falls back to `summary`, which is usually too long. */
+  description: z.string().optional(),
+  client: z.string(),
+  summary: z.string(),
+  industry: z.string(),
+  services: z.array(z.string()),
+  metrics: z.array(z.object({ value: z.coerce.string(), label: z.string() })),
+  cover: image(),
+  coverAlt: z.string(),
+  gallery: z.array(z.object({ src: image(), alt: z.string() })).optional(),
+  testimonial: z.object({ quote: z.string(), name: z.string(), role: z.string() }).optional(),
+  year: z.number(),
+  order: z.number(),
+  draft: z.boolean().default(false),
+});
+
 const work = defineCollection({
   loader: glob({ base: './src/content/work', pattern: '**/[^_]*.{md,mdx}', generateId }),
-  schema: ({ image }) =>
-    z.object({
-      /** The headline shown as the page H1. */
-      title: z.string(),
-      /** Title for the browser tab, search results and social cards. 60 characters or fewer with the brand. */
-      seoTitle: z.string().optional(),
-      /** Meta description, 140 to 155 characters. Falls back to `summary`, which is usually too long. */
-      description: z.string().optional(),
-      client: z.string(),
-      summary: z.string(),
-      industry: z.string(),
-      services: z.array(z.string()),
-      metrics: z.array(z.object({ value: z.coerce.string(), label: z.string() })),
-      cover: image(),
-      coverAlt: z.string(),
-      gallery: z.array(z.object({ src: image(), alt: z.string() })).optional(),
-      testimonial: z.object({ quote: z.string(), name: z.string(), role: z.string() }).optional(),
-      year: z.number(),
-      order: z.number(),
-      legacyPath: z.string(),
-      draft: z.boolean().default(false),
-    }),
+  schema: ({ image }) => z.object({ ...workFields(image), legacyPath: z.string() }),
+});
+
+/**
+ * Spanish case studies. Same fields as `work`, plus `translationOf`: the id (file name) of the English case study it
+ * translates. The Spanish page is served at /es/trabajo/<translationOf>/. The build fails if a published English case
+ * study has no Spanish twin or the other way round (see getWork in src/lib/content.ts).
+ */
+const workEs = defineCollection({
+  loader: glob({ base: './src/content/work-es', pattern: '**/[^_]*.{md,mdx}', generateId }),
+  schema: ({ image }) => z.object({ ...workFields(image), translationOf: z.string() }),
 });
 
 const journal = defineCollection({
@@ -90,4 +102,4 @@ const shots = defineCollection({
     }),
 });
 
-export const collections = { work, journal, shots };
+export const collections = { work, workEs, journal, shots };

@@ -1,35 +1,21 @@
 ---
 /** Four values as a ruled list of huge words. Hover (fine pointers only) sweeps the gradient through the word. */
-const values = [
-  {
-    name: 'Transparency',
-    line: 'Every step ahead clear.',
-    text: 'We track the time spent on your project and charge you only for the hours we have dedicated. No hidden fees, no last minute charges.',
-  },
-  {
-    name: 'Communication',
-    line: 'Your project, your voice.',
-    text: 'Every client gets a dedicated project leader and a shared Slack channel, so you talk to the people doing the work.',
-  },
-  {
-    name: 'Empathy',
-    line: 'The core of everything we do.',
-    text: 'We listen to understand the needs and perspectives of our clients and their users, then put ourselves in their shoes before we design anything.',
-  },
-  {
-    name: 'Excellence',
-    line: 'Every pixel counts.',
-    text: 'Our team cares about quality in design and development alike: pixel-perfect craft, then clean files and a hand-off with no guesswork.',
-  },
-];
+import type { Lang } from '../../i18n/config';
+import { aboutCopy } from '../../i18n/pages/about';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const { label, heading, items: values } = aboutCopy[lang].values;
 ---
 
 <section class="ip-sec" aria-labelledby="av-h">
   <div class="wrap">
     <div class="ip-head">
-      <p class="label">Values</p>
+      <p class="label">{label}</p>
       <h2 class="ip-h2" id="av-h" data-lines>
-        Four things we do not negotiate.
+        {heading}
       </h2>
     </div>
     <ol class="av">

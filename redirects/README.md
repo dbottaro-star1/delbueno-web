@@ -6,6 +6,7 @@ delbuenostudio.com points at the new site.
 ## Files
 
 - `redirects.csv`: one row per old URL, ready for Cloudflare Bulk Redirects.
+- `es-subdomain.csv`: the old Spanish subdomain (es.delbuenostudio.com) mapped to the new `/es/` pages. Same format as `redirects.csv`, see "The Spanish subdomain" below.
 - `gone.txt`: paths that should answer 410 Gone. Empty on purpose (see below).
 
 ## redirects.csv format
@@ -79,39 +80,50 @@ For long lists, use a Cloudflare List of type URL path and reference it from the
 ## The Spanish subdomain (es.delbuenostudio.com)
 
 `es.delbuenostudio.com` is a DNS CNAME to GTranslate (`gtranslate.net`). GTranslate fetches the English site,
-translates it on its own servers and serves the result from that host. It is not part of this repository, so nothing
-in this repository redirects it. It still receives traffic: in Search Console (April to October 2026) its home page had
-19 clicks from 111 impressions, a 17% click rate. Paths seen there: `/`, `/our-work/`,
-`/solutions/web-design-and-development/`, `/contact/`, `/changing-the-role-of-product-designers/`,
-`/how-ai-is-transforming-design/`, `/-E-commerce/auditor%C3%ADa-de-producto/`, `/-E-commerce/desarrollo-web/`,
-`/EdTech/` and `/HealthTech/`. At the time of the snapshot the host was not responding.
+translates it on its own servers and serves the result from that host. It is not part of this repository. It still
+receives traffic: in Search Console (April to October 2026) its home page had 19 clicks from 111 impressions, a 17% click
+rate. At the time of the snapshot the host was not responding.
 
-The decision is open. The options, without a recommendation:
+The site now has a native Spanish version under `/es/` (English stays at the root). Every English page has a Spanish
+twin except the journal posts, which are English only and listed from `/es/blog/`. The mapping between the two is one
+table, `src/i18n/routes.ts`, and `hreflang` links join the pairs.
 
-**(a) A native Spanish version later.** Translate the pages into Spanish inside this site (for example under `/es/`),
-with `hreflang` links between the two languages. The subdomain would then redirect to the matching `/es/` pages. This
-keeps one codebase and one CSP, and the Spanish copy can be written rather than machine translated. It is the most work,
-and until it exists the subdomain has no destination.
+So the subdomain should redirect to the matching `/es/` pages with a 301. Search engines then move the Spanish listing
+to the new URLs, and the third-party proxy and its scripts (which the site's content security policy would block anyway)
+go away.
 
-**(b) A Cloudflare redirect from es.\* to the English pages.** Keep the host, point every path at its English
-equivalent with a 301. Visitors and Google land on the real site and the third-party proxy goes away. The Spanish
-experience goes away with it. The host must be handled by Cloudflare (a proxied DNS record) for the rule to run, which
-is a DNS change that has not been made. A starting map for the paths above:
+### How to set it up in Cloudflare
 
-| es.delbuenostudio.com                                                                      | Target                        |
-| ------------------------------------------------------------------------------------------ | ----------------------------- |
-| `/`                                                                                        | `/`                           |
-| `/our-work/`                                                                               | `/work/`                      |
-| `/solutions/web-design-and-development/`                                                   | `/services/web-design/`       |
-| `/-E-commerce/desarrollo-web/`                                                             | `/services/web-design/`       |
-| `/-E-commerce/auditor%C3%ADa-de-producto/`                                                 | `/services/product-strategy/` |
-| `/EdTech/`, `/HealthTech/`                                                                 | `/services/`                  |
-| `/contact/`, `/changing-the-role-of-product-designers/`, `/how-ai-is-transforming-design/` | the same path                 |
+1. Make the host reach Cloudflare. In DNS, change the `es` record from the GTranslate CNAME to a proxied (orange cloud)
+   record. The target does not matter because the redirect answers first. A CNAME to `delbuenostudio.com` works. Do this
+   only when you are ready to switch, because it ends the GTranslate service on that host.
+2. Import the exact-match rows. In Manage Account, Bulk Redirects, create a list (for example `delbueno-es-subdomain`),
+   upload `es-subdomain.csv`, and add it to a Bulk Redirect Rule, in the same way as `redirects.csv` above. The file has
+   no header row and uses the same four columns: source URL with the full origin and a trailing slash, target URL, status
+   301, preserve query string. The source with `%C3%AD` is the percent-encoded form of `auditoría`, which is how
+   Search Console reports it.
+3. Catch everything else. GTranslate served a translation of every old page, so other paths will show up in the logs. Add
+   one Redirect Rule below the Bulk Redirect Rule: when the hostname equals `es.delbuenostudio.com`, redirect with a
+   static 301 to `https://delbuenostudio.com/es/` and do not preserve the path. A guess at a Spanish path would be a 404,
+   the Spanish home page is a better landing. Keep the order: Bulk Redirects first, the catch-all after.
+4. Test with `curl -sI https://es.delbuenostudio.com/our-work/` and confirm `301` and
+   `location: https://delbuenostudio.com/es/trabajo/`.
 
-**(c) Keep GTranslate.** The Spanish pages keep working as they do today. Two things to weigh. GTranslate injects its
-own scripts and widgets into the pages it serves, and the content security policy of this site (`script-src 'self'`, see
-`security/csp.json`) blocks third-party scripts. If the proxy passes the policy through, its scripts break. If the
-policy is loosened for it, the site loses the protection the policy gives. The proxy also serves a copy of every page
-from another host, so the canonical tags on the new site (which point at delbuenostudio.com) matter more.
+### Where the rows point
 
-Whichever option is chosen, do not change the DNS record until the decision is made.
+| es.delbuenostudio.com                                                                         | New target                                  |
+| --------------------------------------------------------------------------------------------- | ------------------------------------------- |
+| `/`                                                                                           | `/es/`                                      |
+| `/our-work/`                                                                                  | `/es/trabajo/`                              |
+| `/solutions/web-design-and-development/`, `/-E-commerce/desarrollo-web/`                      | `/es/servicios/diseno-web/`                 |
+| `/-E-commerce/auditor%C3%ADa-de-producto/`                                                    | `/es/servicios/estrategia-de-producto/`     |
+| `/EdTech/`, `/HealthTech/`                                                                    | `/es/servicios/`                            |
+| `/contact/`                                                                                   | `/es/contacto/`                             |
+| `/changing-the-role-of-product-designers/`, `/how-ai-is-transforming-design/` (journal posts) | the same English post on delbuenostudio.com |
+
+The two journal posts have no Spanish version, so they go to the English article at the same path. If a post is
+translated later, change its row to the Spanish address.
+
+`npm run check:redirects` reads both CSV files and confirms every target exists in `dist/`.
+
+Whichever way the DNS switch is timed, do not change the DNS record until the redirect rules are in place.

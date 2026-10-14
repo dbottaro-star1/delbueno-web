@@ -1,0 +1,419 @@
+---
+import InfoCta from '../components/info/InfoCta.astro';
+import InfoFaq from '../components/info/InfoFaq.astro';
+import InfoHero from '../components/info/InfoHero.astro';
+import Steps from '../components/info/Steps.astro';
+import { LANG_META, type Lang } from '../i18n/config';
+import { t } from '../i18n';
+import { auditCopy } from '../i18n/pages/audit';
+import { pagePath } from '../i18n/routes';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { ORG_ID, crumbs, websiteId } from '../lib/schema';
+import { BRAND, LINKS } from '../lib/site';
+import { canonicalUrl } from '../lib/url';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const c = auditCopy[lang];
+
+const path = pagePath('audit', lang);
+const trail = crumbs(lang, { name: t(lang, 'pageName.audit'), path });
+const { description } = c.meta;
+
+const mailto = `mailto:${BRAND.email}?subject=${encodeURIComponent(c.mail.subject)}&body=${encodeURIComponent(
+  c.mail.lines.join('\n'),
+)}`;
+---
+
+<BaseLayout
+  lang={lang}
+  title={c.meta.title}
+  description={description}
+  breadcrumbs={trail}
+  jsonLd={[
+    {
+      '@context': 'https://schema.org',
+      '@type': 'Service',
+      '@id': `${canonicalUrl(path)}#service`,
+      name: c.meta.name,
+      serviceType: c.meta.serviceType,
+      description,
+      url: canonicalUrl(path),
+      inLanguage: LANG_META[lang].tag,
+      provider: { '@id': ORG_ID },
+      isPartOf: { '@id': websiteId(lang) },
+      areaServed: 'Worldwide',
+      offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+    },
+  ]}
+>
+  <InfoHero
+    lang={lang}
+    eyebrow={c.eyebrow}
+    title={c.title}
+    accent={c.accent}
+    lede={c.lede}
+    crumbs={trail}
+    size="clamp(2.2rem, 6.4vw, 7.4rem)"
+    maxWidth="100%"
+  >
+    <div class="fa-cta" data-reveal>
+      <a class="btn btn-primary ip-cta-btn" data-magnetic href={LINKS.book} rel="noopener noreferrer">
+        {c.book}{' '}
+        <svg class="arr" aria-hidden="true">
+          <use href="#i-arr"></use>
+        </svg>
+      </a>
+      <a class="btn btn-ghost ip-cta-btn" href={mailto}>
+        {c.email}
+      </a>
+    </div>
+    <ul class="tags fa-tags" data-reveal>
+      {c.tags.map((tag) => (
+        <li class="tag">{tag}</li>
+      ))}
+    </ul>
+    <p class="fa-limit" data-reveal>
+      {c.limit}
+    </p>
+  </InfoHero>
+
+  <section class="ip-sec" aria-labelledby="fa-pain-h">
+    <div class="wrap">
+      <div class="ip-head">
+        <p class="label">{c.painLabel}</p>
+        <h2 class="ip-h2" id="fa-pain-h" data-lines>
+          {c.painHeading}
+        </h2>
+      </div>
+      <ul class="fa-pains">
+        {c.pains.map((p, i) => (
+          <li data-reveal>
+            <span class="ip-no">{String(i + 1).padStart(2, '0')}</span>
+            <h3>{p.q}</h3>
+            <p>{p.a}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="ip-sec" aria-labelledby="fa-get-h">
+    <div class="wrap fa-get">
+      <div>
+        <div class="ip-head fa-head">
+          <p class="label">{c.getLabel}</p>
+          <h2 class="ip-h2" id="fa-get-h" data-lines>
+            {c.getHeading}
+          </h2>
+        </div>
+        <ol class="fa-gets">
+          {c.gets.map((g, i) => (
+            <li data-reveal>
+              <span class="ip-no">{String(i + 1).padStart(2, '0')}</span>
+              <h3>{g.t}</h3>
+              <p>{g.d}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+      <figure class="fa-card" data-reveal aria-label={c.card.aria}>
+        <figcaption class="fa-card-top">
+          <span class="ip-no">{c.card.report}</span>
+          <span class="fa-badge">{c.card.badge}</span>
+        </figcaption>
+        <p class="fa-card-title">{c.card.title}</p>
+        <ol class="fa-card-list">
+          {c.card.items.map((item, i) => (
+            <li>
+              <span class="ip-no">{String(i + 1).padStart(2, '0')}</span>
+              {item}
+            </li>
+          ))}
+        </ol>
+        <p class="fa-card-foot ip-no">{c.card.foot}</p>
+      </figure>
+    </div>
+  </section>
+
+  <section class="ip-sec" aria-labelledby="fa-in-h">
+    <div class="wrap">
+      <div class="ip-head">
+        <p class="label">{c.insideLabel}</p>
+        <h2 class="ip-h2" id="fa-in-h" data-lines>
+          {c.insideHeading}
+        </h2>
+      </div>
+      <div class="fa-inside">
+        {c.inside.map((col) => (
+          <div class="fa-col" data-reveal>
+            <h3>{col.t}</h3>
+            <p>{col.d}</p>
+            <ul class="list-check">
+              {col.l.map((x) => (
+                <li>{x}</li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="ip-sec" aria-labelledby="fa-how-h">
+    <div class="wrap">
+      <div class="ip-head">
+        <p class="label">{c.howLabel}</p>
+        <h2 class="ip-h2" id="fa-how-h" data-lines>
+          {c.howHeading}
+        </h2>
+      </div>
+      <Steps lang={lang} steps={c.steps} />
+    </div>
+  </section>
+
+  <section class="ip-sec" aria-labelledby="fa-faq-h">
+    <div class="wrap">
+      <div class="ip-head">
+        <p class="label">{c.faqLabel}</p>
+        <h2 class="ip-h2" id="fa-faq-h" data-lines>
+          {c.faqHeading}
+        </h2>
+      </div>
+      <InfoFaq items={c.faq} />
+      <p class="fa-limit fa-disclaimer">{c.disclaimer}</p>
+    </div>
+  </section>
+
+  <InfoCta lang={lang} heading={c.cta.heading} label={c.cta.label} sub={c.cta.sub} />
+
+  <script>
+    import { initInfoReveals } from '../scripts/info/reveal';
+    initInfoReveals();
+  </script>
+</BaseLayout>
+
+<style>
+  .fa-cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+    margin-top: clamp(32px, 4.4vw, 64px);
+  }
+
+  .fa-tags {
+    margin-top: 28px;
+  }
+
+  .fa-limit {
+    margin-top: 20px;
+    color: var(--dim);
+    font-size: var(--fs-sm);
+    max-width: 60ch;
+  }
+
+  .fa-pains,
+  .fa-gets {
+    border-top: 1px solid var(--line);
+  }
+
+  .fa-pains li,
+  .fa-gets li {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--gap);
+    row-gap: 12px;
+    padding-block: clamp(24px, 3vw, 44px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .fa-pains .ip-no,
+  .fa-gets .ip-no {
+    grid-column: 1 / 2;
+    padding-top: 0.5em;
+  }
+
+  .fa-pains h3,
+  .fa-gets h3 {
+    grid-column: 2 / 8;
+    font: 700 clamp(1.2rem, 1rem + 1vw, 2rem) / 1.15 var(--display);
+    letter-spacing: -0.035em;
+    text-wrap: balance;
+  }
+
+  .fa-pains p,
+  .fa-gets p {
+    grid-column: 8 / 13;
+    color: var(--mute);
+  }
+
+  .fa-get {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+    column-gap: clamp(32px, 5vw, 96px);
+    align-items: start;
+  }
+
+  .fa-head {
+    display: block;
+  }
+
+  .fa-head .ip-h2 {
+    margin-top: 18px;
+  }
+
+  .fa-gets h3 {
+    grid-column: 2 / 13;
+  }
+
+  .fa-gets p {
+    grid-column: 2 / 13;
+    max-width: 52ch;
+  }
+
+  .fa-card {
+    position: sticky;
+    top: calc(var(--nav-h) + 24px);
+    margin: 0;
+    padding: clamp(22px, 2.4vw, 32px);
+    border-radius: var(--radius);
+    background:
+      linear-gradient(var(--bg-1), var(--bg-1)) padding-box,
+      linear-gradient(140deg, var(--violet-2), var(--line) 40%, var(--lime)) border-box;
+    border: 1px solid transparent;
+    transform: rotate(1.4deg);
+    transition: transform 1s var(--out);
+  }
+
+  .fa-card-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .fa-badge {
+    padding: 6px 10px;
+    border-radius: var(--radius-pill);
+    background: var(--lime);
+    color: #0a0a0f;
+    font: 500 0.6875rem / 1 var(--mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .fa-card-title {
+    margin-top: 28px;
+    font: 800 clamp(1.6rem, 1.2rem + 1.2vw, 2.4rem) / 1 var(--display);
+    letter-spacing: -0.045em;
+  }
+
+  .fa-card-list {
+    margin-top: 24px;
+    border-top: 1px solid var(--line);
+  }
+
+  .fa-card-list li {
+    display: flex;
+    gap: 16px;
+    padding-block: 16px;
+    border-bottom: 1px solid var(--line);
+    font-weight: 500;
+  }
+
+  .fa-card-foot {
+    margin-top: 20px;
+    line-height: 1.5;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .fa-card:hover {
+      transform: rotate(0deg) translateY(-4px);
+    }
+  }
+
+  .fa-inside {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border-top: 1px solid var(--line);
+  }
+
+  .fa-col {
+    padding: clamp(28px, 3.4vw, 48px) clamp(16px, 2vw, 32px) 0 0;
+  }
+
+  .fa-col + .fa-col {
+    padding-left: clamp(16px, 2vw, 32px);
+    border-left: 1px solid var(--line);
+  }
+
+  .fa-col h3 {
+    font: 700 clamp(1.3rem, 1.1rem + 0.9vw, 1.9rem) / 1.15 var(--display);
+    letter-spacing: -0.035em;
+  }
+
+  .fa-col p {
+    margin-top: 12px;
+    color: var(--mute);
+  }
+
+  .fa-col .list-check {
+    margin-top: 20px;
+  }
+
+  .fa-disclaimer {
+    margin-top: 32px;
+  }
+
+  @media (max-width: 1000px) {
+    .fa-get {
+      grid-template-columns: 1fr;
+      row-gap: 56px;
+    }
+
+    .fa-card {
+      position: static;
+      max-width: 520px;
+    }
+
+    .fa-inside {
+      grid-template-columns: 1fr;
+    }
+
+    .fa-col,
+    .fa-col + .fa-col {
+      padding: 28px 0;
+      border-left: 0;
+      border-bottom: 1px solid var(--line);
+    }
+  }
+
+  @media (max-width: 760px) {
+    .fa-pains .ip-no,
+    .fa-gets .ip-no {
+      grid-column: 1 / -1;
+    }
+
+    .fa-pains h3,
+    .fa-pains p {
+      grid-column: 1 / -1;
+    }
+
+    .fa-gets h3,
+    .fa-gets p {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 1000px) and (min-width: 761px) {
+    .fa-pains h3 {
+      grid-column: 2 / 13;
+    }
+
+    .fa-pains p {
+      grid-column: 2 / 13;
+    }
+  }
+</style>

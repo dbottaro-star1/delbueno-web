@@ -1,142 +1,18 @@
 ---
 import type { GetStaticPaths } from 'astro';
-import Faq from '../../components/Faq.astro';
-import Art from '../../components/services/Art.astro';
-import CaseCard from '../../components/services/CaseCard.astro';
-import InnerCta from '../../components/services/InnerCta.astro';
-import InnerHero from '../../components/services/InnerHero.astro';
-import NextRows from '../../components/services/NextRows.astro';
-import Process from '../../components/services/Process.astro';
-import { casesFor } from '../../components/services/related';
-import '../../components/services/inner.css';
-import { services, type Service } from '../../data/services';
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import { crumbs, serviceSchema } from '../../lib/schema';
+import { getServices, type Service } from '../../data/services';
+import ServiceDetail from '../../views/ServiceDetail.astro';
 
 export const getStaticPaths = (() =>
-  services.map((service) => ({ params: { slug: service.slug }, props: { service } }))) satisfies GetStaticPaths;
+  getServices('en').map((service) => ({
+    params: { slug: service.slug },
+    props: { service },
+  }))) satisfies GetStaticPaths;
 
 interface Props {
   service: Service;
 }
 const { service } = Astro.props;
-const path = `/services/${service.slug}/`;
-const trail = crumbs({ name: 'Services', path: '/services/' }, { name: service.name, path });
-const no = String(services.findIndex((s) => s.slug === service.slug) + 1).padStart(2, '0');
-const cases = await casesFor(service.cases);
-const others = services.filter((s) => s.slug !== service.slug);
 ---
 
-<BaseLayout
-  title={`${service.name} for B2B SaaS and startups`}
-  description={service.seoDescription}
-  breadcrumbs={trail}
-  jsonLd={[serviceSchema({ path, name: service.name, description: service.answer })]}
->
-  <InnerHero
-    crumbs={trail}
-    label={`Service ${no} / 0${services.length}`}
-    title={service.name}
-    headline={service.headline}
-    answer={service.answer}
-    secondary={{ label: 'See engagements', href: '/engagements/' }}
-  >
-    <div class="in-hero__art">
-      <Art slug={service.slug} />
-    </div>
-  </InnerHero>
-
-  <section class="in-sec" aria-labelledby="who-h">
-    <div class="in-split">
-      <div class="in-split__a">
-        <p class="label" data-rv>
-          Who it is for
-        </p>
-        <h2 class="in-h2" id="who-h" data-split>
-          Built for teams like yours.
-        </h2>
-        <p class="in-lead" data-rv style="margin-top: 28px">
-          {service.whoFor.lead}
-        </p>
-      </div>
-      <div class="in-split__b">
-        <ul class="in-rows in-rows--big" data-rv>
-          {service.whoFor.points.map((p) => (
-            <li>{p}</li>
-          ))}
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <section class="in-sec" aria-labelledby="inc-h">
-    <div class="in-head">
-      <p class="label">What is included</p>
-      <h2 class="in-h2" id="inc-h" data-split>
-        What we cover and what you get.
-      </h2>
-    </div>
-    <div class="in-split">
-      <div class="in-split__a">
-        <h3 class="in-h3" data-rv>
-          What we cover
-        </h3>
-        <ul class="in-rows" data-rv>
-          {service.covers.map((c) => (
-            <li>{c}</li>
-          ))}
-        </ul>
-      </div>
-      <div class="in-split__b">
-        <h3 class="in-h3" data-rv>
-          Deliverables
-        </h3>
-        <ul class="in-rows in-rows--mute" data-rv>
-          {service.deliverables.map((d) => (
-            <li>{d}</li>
-          ))}
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <Process service={service} />
-
-  {cases.length > 0 && (
-    <section class="in-sec" aria-labelledby="out-h">
-      <div class="in-head">
-        <p class="label">Outcomes</p>
-        <h2 class="in-h2" id="out-h" data-split>
-          Where this service has shipped.
-        </h2>
-        <p class="in-sub" data-rv>
-          Real projects that used {service.name.toLowerCase()}, with the results we measured.
-        </p>
-      </div>
-      <div class="in-cases">
-        {cases.map((entry) => (
-          <CaseCard entry={entry} />
-        ))}
-      </div>
-    </section>
-  )}
-
-  <section class="in-sec in-faq">
-    <Faq items={service.faqs} />
-  </section>
-
-  <NextRows
-    label="Other services"
-    heading="Keep exploring."
-    items={[
-      ...others.map((s) => ({ name: s.name, summary: s.summary, href: `/services/${s.slug}/` })),
-      { name: 'Engagements', summary: 'Launch Sprint, Design Partner or Designer on Demand.', href: '/engagements/' },
-    ]}
-  />
-
-  <InnerCta />
-
-  <script>
-    import '../../scripts/services';
-  </script>
-</BaseLayout>
+<ServiceDetail lang="en" service={service} />

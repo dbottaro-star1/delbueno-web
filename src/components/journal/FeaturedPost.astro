@@ -2,13 +2,18 @@
 /** The latest post, set large: a wide image that opens with a clip reveal, then title, summary and the read link. */
 import { Image } from 'astro:assets';
 import { formatShortDate, readingMinutes } from './reading';
+import type { Lang } from '../../i18n/config';
+import { translator } from '../../i18n';
 import type { JournalEntry } from '../../lib/content';
 import { url } from '../../lib/url';
+import LangTag from '../LangTag.astro';
 
 interface Props {
+  lang: Lang;
   entry: JournalEntry;
 }
-const { entry } = Astro.props;
+const { lang, entry } = Astro.props;
+const t = translator(lang);
 const { data } = entry;
 const href = url(`/${entry.id}/`);
 const minutes = readingMinutes(entry.body);
@@ -17,7 +22,7 @@ const minutes = readingMinutes(entry.body);
 <article class="ft" aria-labelledby="ft-title">
   <div class="wrap">
     {data.heroImage && (
-      <a class="ft-media" href={href} data-cursor="Read" data-clip tabindex="-1" aria-hidden="true">
+      <a class="ft-media" href={href} data-cursor={t('cursor.read')} data-clip tabindex="-1" aria-hidden="true">
         <Image
           src={data.heroImage}
           alt=""
@@ -30,10 +35,11 @@ const minutes = readingMinutes(entry.body);
     )}
     <div class="ft-grid">
       <p class="ft-meta">
-        <span class="label">Latest</span>
+        <span class="label">{t('journal.latest')}</span>
         <span>{data.category}</span>
-        <time datetime={data.pubDate.toISOString()}>{formatShortDate(data.pubDate)}</time>
-        <span>{minutes} min read</span>
+        <time datetime={data.pubDate.toISOString()}>{formatShortDate(data.pubDate, lang)}</time>
+        <span>{t('journal.minRead', { n: minutes })}</span>
+        {lang !== 'en' && <LangTag lang={lang} />}
       </p>
       <h2 class="ft-title" id="ft-title">
         <a href={href}>{data.title}</a>
@@ -41,7 +47,7 @@ const minutes = readingMinutes(entry.body);
       <div class="ft-side">
         <p>{data.description}</p>
         <a class="btn btn-primary" data-magnetic href={href}>
-          Read the article{' '}
+          {t('journal.read')}{' '}
           <svg class="arr" aria-hidden="true">
             <use href="#i-arr"></use>
           </svg>

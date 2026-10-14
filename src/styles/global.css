@@ -67,6 +67,7 @@
   --dur-slow: 1s;
 
   /* layers */
+  --z-banner: 80;
   --z-menu: 90;
   --z-nav: 100;
   --z-progress: 140;

@@ -1,18 +1,31 @@
 ---
 /** Client words from src/data/testimonials.ts: one large, the rest in a grid. */
 import { Image } from 'astro:assets';
-import { testimonials } from '../../data/testimonials';
+import { getTestimonials } from '../../data/testimonials';
+import type { Lang } from '../../i18n/config';
+import { fill } from '../../i18n';
+import { aboutCopy } from '../../i18n/pages/about';
+import { workCopy } from '../../i18n/pages/work';
+import TranslatedNote from '../TranslatedNote.astro';
 
-const [main, ...rest] = testimonials;
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const c = aboutCopy[lang].quotes;
+const portrait = workCopy[lang].case.portrait;
+
+const [main, ...rest] = getTestimonials(lang);
 ---
 
 <section class="ip-sec" aria-labelledby="aq-h">
   <div class="wrap">
     <div class="ip-head">
-      <p class="label">Client words</p>
+      <p class="label">{c.label}</p>
       <h2 class="ip-h2" id="aq-h" data-lines>
-        What it is like to work with us.
+        {c.heading}
       </h2>
+      <TranslatedNote lang={lang} />
     </div>
 
     <figure class="aq-main" data-reveal>
@@ -26,7 +39,7 @@ const [main, ...rest] = testimonials;
           width={112}
           height={112}
           fit="cover"
-          alt={`Portrait of ${main.name}`}
+          alt={fill(portrait, { name: main.name })}
           loading="lazy"
         />
         <span>
@@ -50,7 +63,7 @@ const [main, ...rest] = testimonials;
                 width={96}
                 height={96}
                 fit="cover"
-                alt={`Portrait of ${t.name}`}
+                alt={fill(portrait, { name: t.name })}
                 loading="lazy"
               />
               <span>

@@ -1,14 +1,20 @@
 ---
 /** Closing call to action: huge headline, magnetic book button and the studio email. */
+import type { Lang } from '../../i18n/config';
+import { translator } from '../../i18n';
+import { workCopy } from '../../i18n/pages/work';
+import { pagePath } from '../../i18n/routes';
 import { BRAND, LINKS } from '../../lib/site';
 import { url } from '../../lib/url';
 
 interface Props {
+  lang: Lang;
   label?: string;
   heading: string;
   id?: string;
 }
-const { label = 'Your project', heading, id = 'wk-end-h' } = Astro.props;
+const { lang, label = workCopy[lang].closer.label, heading, id = 'wk-end-h' } = Astro.props;
+const t = translator(lang);
 ---
 
 <section class="wk-end" aria-labelledby={id}>
@@ -19,16 +25,16 @@ const { label = 'Your project', heading, id = 'wk-end-h' } = Astro.props;
     </h2>
     <div class="wk-end__row" data-rv>
       <a class="btn btn-primary wk-end__btn" data-magnetic href={LINKS.book} rel="noopener noreferrer">
-        Book a call{' '}
+        {t('cta.book')}{' '}
         <svg class="arr" aria-hidden="true">
           <use href="#i-arr"></use>
         </svg>
       </a>
       <p class="wk-end__mail">
-        or <a href={`mailto:${BRAND.email}`}>{BRAND.email}</a>
+        {t('cta.or')} <a href={`mailto:${BRAND.email}`}>{BRAND.email}</a>
       </p>
-      <a class="wk-end__audit" href={url('/free-ux-audit/')}>
-        Get a free UX audit
+      <a class="wk-end__audit" href={url(pagePath('audit', lang))}>
+        {t('cta.audit')}
       </a>
     </div>
   </div>

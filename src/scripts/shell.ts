@@ -39,7 +39,7 @@ export function initShell(): void {
     if (menu.classList.contains('is-open') === open) return;
     menu.classList.toggle('is-open', open);
     toggle.setAttribute('aria-expanded', String(open));
-    toggle.setAttribute('aria-label', open ? 'Close menu' : 'Menu');
+    toggle.setAttribute('aria-label', (open ? toggle.dataset.labelClose : toggle.dataset.labelOpen) ?? 'Menu');
     document.documentElement.classList.toggle('menu-open', open);
     if (open) {
       inerted = backdrop();

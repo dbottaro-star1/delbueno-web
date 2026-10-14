@@ -3,11 +3,16 @@
  * One hairline illustration per industry, in the same stroke language as the homepage service art.
  * Strokes carry pathLength="1" so the script can draw them on. The lime LED pulses while the art is on screen.
  */
+import type { Lang } from '../../i18n/config';
+import { innerCopy } from '../../i18n/pages/services';
+
 interface Props {
+  lang: Lang;
   slug: 'cloud' | 'cybersecurity' | 'devops' | 'ai' | 'fintech';
   class?: string;
 }
-const { slug, class: cls } = Astro.props;
+const { lang, slug, class: cls } = Astro.props;
+const words = innerCopy[lang].industryArt;
 ---
 
 {slug === 'cloud' && (
@@ -33,7 +38,7 @@ const { slug, class: cls } = Astro.props;
     <circle class="a-fv" cx="272" cy="262" r="3" />
     <path class="a-l" pathLength="1" d="M304 262h30" />
     <text x="32" y="306">
-      regions, resources, cost
+      {words.cloud}
     </text>
   </svg>
 )}
@@ -53,7 +58,7 @@ const { slug, class: cls } = Astro.props;
     <path class="a-l" pathLength="1" d="M310 204h30" />
     <path class="a-s" pathLength="1" d="M310 232h46M310 260h38" />
     <text x="300" y="186">
-      alerts
+      {words.alerts}
     </text>
   </svg>
 )}
@@ -67,16 +72,16 @@ const { slug, class: cls } = Astro.props;
     <path class="a-v" pathLength="1" d="M320 82C320 128 50 128 50 90" />
     <path class="a-v" pathLength="1" d="m45 98 5-8 5 8" />
     <text x="34" y="30">
-      build
+      {words.build}
     </text>
     <text x="124" y="30">
-      test
+      {words.test}
     </text>
     <text x="214" y="30">
-      stage
+      {words.stage}
     </text>
     <text x="300" y="30">
-      ship
+      {words.ship}
     </text>
     <rect class="a-s" pathLength="1" x="14" y="160" width="372" height="146" rx="8" />
     <path class="a-s" pathLength="1" d="M14 186h372" />
@@ -84,16 +89,16 @@ const { slug, class: cls } = Astro.props;
     <circle class="a-s" pathLength="1" cx="42" cy="173" r="3" />
     <circle class="a-s" pathLength="1" cx="54" cy="173" r="3" />
     <text x="30" y="214">
-      &gt; deploy --env prod
+      {words.deploy}
     </text>
     <text x="30" y="236">
-      &gt; health checks .... ok
+      {words.health}
     </text>
     <text x="30" y="258">
-      &gt; rollback ready
+      {words.rollback}
     </text>
     <text x="30" y="286" style="fill:#BAFB44">
-      &#10003; live
+      ✓ {words.live}
     </text>
     <path class="a-v" pathLength="1" d="M236 280l20-18 18 8 22-26 20 12 24-30 30 16" />
     <circle class="a-fl led" cx="370" cy="232" r="4" />
@@ -132,10 +137,10 @@ const { slug, class: cls } = Astro.props;
     <rect class="a-l" pathLength="1" x="308" y="172" width="68" height="22" rx="11" />
     <path class="a-l" pathLength="1" d="m326 183 4 4 8-9" />
     <text x="296" y="72">
-      plan
+      {words.plan}
     </text>
     <text x="40" y="304">
-      review before it runs
+      {words.review}
     </text>
   </svg>
 )}
@@ -154,7 +159,7 @@ const { slug, class: cls } = Astro.props;
     <circle class="a-l" pathLength="1" cx="52" cy="288" r="14" />
     <path class="a-l" pathLength="1" d="m47 288h10m-4-4 4 4-4 4" />
     <text x="116" y="292">
-      slide to confirm
+      {words.slide}
     </text>
   </svg>
 )}

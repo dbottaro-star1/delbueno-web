@@ -15,10 +15,11 @@ export function initCopy(): void {
       try {
         await navigator.clipboard.writeText(button.dataset.copy ?? '');
         button.classList.add('is-done');
-        if (label) label.textContent = 'Copied';
-        if (status) status.textContent = 'Email address copied to the clipboard.';
+        // The sentences come from the page (data-copied, data-status-ok, data-status-fail), in the page's language.
+        if (label) label.textContent = button.dataset.copied ?? 'Copied';
+        if (status) status.textContent = button.dataset.statusOk ?? '';
       } catch {
-        if (status) status.textContent = 'Copy is not available here. Use the email link instead.';
+        if (status) status.textContent = button.dataset.statusFail ?? '';
         return;
       }
       window.clearTimeout(timer);

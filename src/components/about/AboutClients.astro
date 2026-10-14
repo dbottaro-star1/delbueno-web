@@ -1,14 +1,23 @@
 ---
 /** Client names set as type. No logos on purpose: the list is the proof. */
-const clients = ['BigID', 'JFrog', 'NetApp', 'Palo Alto Networks', 'Uleadz'];
+import type { Lang } from '../../i18n/config';
+import { aboutCopy } from '../../i18n/pages/about';
+import { CLIENT_NAMES } from '../../i18n/pages/shared';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const c = aboutCopy[lang].clients;
+const clients = CLIENT_NAMES;
 ---
 
 <section class="ip-sec" aria-labelledby="ac-h">
   <div class="wrap">
     <div class="ip-head">
-      <p class="label">Clients</p>
+      <p class="label">{c.label}</p>
       <h2 class="ip-h2" id="ac-h" data-lines>
-        Companies we have worked with.
+        {c.heading}
       </h2>
     </div>
     <ul class="ac">

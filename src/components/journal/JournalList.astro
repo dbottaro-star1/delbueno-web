@@ -2,32 +2,38 @@
 /** Category filter plus the editorial list of posts. Pagination goes in the slot. */
 import CategoryNav from './CategoryNav.astro';
 import PostRow from './PostRow.astro';
+import type { Lang } from '../../i18n/config';
+import { translator } from '../../i18n';
 import type { JournalEntry } from '../../lib/content';
 
 interface Props {
+  lang: Lang;
   entries: JournalEntry[];
+  /** Show the category filter. The Spanish blog index has none: the category pages exist in English only. */
+  categories?: boolean;
   /** Running number of the first row. */
   start?: number;
   active?: string;
   heading?: string;
 }
-const { entries, start = 1, active, heading = 'All articles' } = Astro.props;
+const { lang, entries, categories = true, start = 1, active, heading } = Astro.props;
+const t = translator(lang);
 ---
 
 <section class="jl" aria-labelledby="jl-h">
   <div class="wrap">
     <h2 class="sr-only" id="jl-h">
-      {heading}
+      {heading ?? t('journal.all')}
     </h2>
-    <CategoryNav active={active} />
+    {categories && <CategoryNav active={active} />}
     {entries.length > 0 ? (
       <ol class="jl-list">
         {entries.map((entry, i) => (
-          <PostRow entry={entry} number={start + i} />
+          <PostRow lang={lang} entry={entry} number={start + i} />
         ))}
       </ol>
     ) : (
-      <p class="lede jl-empty">The first articles are on the way.</p>
+      <p class="lede jl-empty">{t('journal.empty')}</p>
     )}
     <slot />
   </div>

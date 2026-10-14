@@ -1,11 +1,15 @@
 ---
 /** Hero shared by the services, industries and engagements pages. Exactly one h1. */
+import type { Lang } from '../../i18n/config';
+import { innerCopy } from '../../i18n/pages/services';
+import { t } from '../../i18n';
 import type { Crumb } from '../../lib/schema';
-import { BRAND, LINKS } from '../../lib/site';
+import { LINKS } from '../../lib/site';
 import { url } from '../../lib/url';
 import Breadcrumbs from '../Breadcrumbs.astro';
 
 interface Props {
+  lang: Lang;
   crumbs: Crumb[];
   label: string;
   title: string;
@@ -17,11 +21,11 @@ interface Props {
   /** Secondary button, for example the engagements link. */
   secondary?: { label: string; href: string };
 }
-const { crumbs, label, title, size = 'lg', headline, answer, secondary } = Astro.props;
+const { lang, crumbs, label, title, size = 'lg', headline, answer, secondary } = Astro.props;
 ---
 
 <header class="in-hero">
-  <Breadcrumbs items={crumbs} />
+  <Breadcrumbs lang={lang} items={crumbs} />
   <div class="in-hero__grid">
     <div class="in-hero__copy">
       <p class="label" data-rv>
@@ -40,7 +44,7 @@ const { crumbs, label, title, size = 'lg', headline, answer, secondary } = Astro
       </p>
       <div class="in-actions" data-rv>
         <a class="btn btn-primary" data-magnetic href={LINKS.book} rel="noopener noreferrer">
-          Book a 15 minute call{' '}
+          {innerCopy[lang].hero.book}{' '}
           <svg class="arr" aria-hidden="true">
             <use href="#i-arr"></use>
           </svg>
@@ -52,7 +56,7 @@ const { crumbs, label, title, size = 'lg', headline, answer, secondary } = Astro
         )}
       </div>
       <p class="in-speed" data-rv>
-        {BRAND.speed}
+        {t(lang, 'brand.speed')}
       </p>
     </div>
     <slot />

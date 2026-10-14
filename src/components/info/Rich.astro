@@ -1,0 +1,36 @@
+---
+/** Renders copy written with the inline markup of src/i18n/rich.ts: **bold** and [label](key) links. */
+import { parseRich } from '../../i18n/rich';
+import { fill, type Vars } from '../../i18n';
+
+export interface RichLink {
+  href: string;
+  /** Opens in a new context with rel="noopener noreferrer". */
+  external?: boolean;
+}
+
+interface Props {
+  text: string;
+  /** Values for {placeholders} in the text. */
+  vars?: Vars;
+  links?: Record<string, RichLink>;
+}
+const { text, vars = {}, links = {} } = Astro.props;
+const nodes = parseRich(fill(text, vars));
+---
+
+{nodes.map((node) => {
+  if (node.type === 'strong') return <strong>{node.value}</strong>;
+  if (node.type === 'link') {
+    const link = links[node.key];
+    if (!link) throw new Error(`Rich text link "${node.key}" has no target`);
+    return link.external ? (
+      <a href={link.href} rel="noopener noreferrer">
+        {node.label}
+      </a>
+    ) : (
+      <a href={link.href}>{node.label}</a>
+    );
+  }
+  return node.value;
+})}

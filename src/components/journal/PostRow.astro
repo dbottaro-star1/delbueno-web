@@ -2,21 +2,26 @@
 /** One line of the journal index: running number, thumbnail, title and summary, date and reading time. */
 import { Image } from 'astro:assets';
 import { formatShortDate, readingMinutes } from './reading';
+import type { Lang } from '../../i18n/config';
+import { translator } from '../../i18n';
 import type { JournalEntry } from '../../lib/content';
 import { url } from '../../lib/url';
+import LangTag from '../LangTag.astro';
 
 interface Props {
+  lang: Lang;
   entry: JournalEntry;
   /** Position in the whole journal, shown as 01, 02 ... */
   number: number;
 }
-const { entry, number } = Astro.props;
+const { lang, entry, number } = Astro.props;
+const t = translator(lang);
 const { data } = entry;
 const minutes = readingMinutes(entry.body);
 ---
 
 <li class="pr" data-reveal>
-  <a class="pr-link" href={url(`/${entry.id}/`)} data-cursor="Read">
+  <a class="pr-link" href={url(`/${entry.id}/`)} data-cursor={t('cursor.read')}>
     <span class="pr-no ip-no" aria-hidden="true">
       {String(number).padStart(2, '0')}
     </span>
@@ -26,13 +31,21 @@ const minutes = readingMinutes(entry.body);
       )}
     </span>
     <span class="pr-main">
-      <span class="pr-cat">{data.category}</span>
+      <span class="pr-cat">
+        {data.category}
+        {lang !== 'en' && (
+          <>
+            {' '}
+            <LangTag lang={lang} />
+          </>
+        )}
+      </span>
       <h3 class="pr-title">{data.title}</h3>
       <span class="pr-desc">{data.description}</span>
     </span>
     <span class="pr-meta">
-      <time datetime={data.pubDate.toISOString()}>{formatShortDate(data.pubDate)}</time>
-      <span>{minutes} min read</span>
+      <time datetime={data.pubDate.toISOString()}>{formatShortDate(data.pubDate, lang)}</time>
+      <span>{t('journal.minRead', { n: minutes })}</span>
     </span>
     <svg class="arr pr-arr" aria-hidden="true">
       <use href="#i-arr"></use>

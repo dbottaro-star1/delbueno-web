@@ -19,6 +19,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { formatDate, getAllJournal, type JournalEntry } from '../lib/content';
 import { ogCardFor } from '../lib/og';
 import { assertSlugFree } from '../lib/routes';
+import { pagePath } from '../i18n/routes';
 import { articleSchema, crumbs } from '../lib/schema';
 import { FOUNDER } from '../lib/site';
 import { absoluteUrl, url } from '../lib/url';
@@ -47,7 +48,7 @@ const related = await getRelated(entry, 3);
 
 const path = `/${entry.id}/`;
 const categoryPath = `/journal/category/${categorySlug(data.category)}/`;
-const trail = crumbs({ name: 'Journal', path: '/journal/' }, { name: data.title, path });
+const trail = crumbs('en', { name: 'Journal', path: '/journal/' }, { name: data.title, path });
 
 let ogImage: string | undefined;
 if (data.heroImage) {
@@ -60,6 +61,8 @@ const articleImage = ogImage ?? absoluteUrl(card ? `/og/${card.name}.png` : '/og
 ---
 
 <BaseLayout
+  lang="en"
+  switchFallback={pagePath('journal', 'es')}
   title={data.seoTitle ?? data.title}
   description={data.description}
   type="article"
@@ -96,7 +99,7 @@ const articleImage = ogImage ?? absoluteUrl(card ? `/og/${card.name}.png` : '/og
   <article>
     <header class="ph">
       <div class="wrap">
-        <Breadcrumbs items={trail} />
+        <Breadcrumbs lang="en" items={trail} />
         <p class="ph-cat">
           <a class="label" href={url(categoryPath)}>
             {data.category}
@@ -171,7 +174,7 @@ const articleImage = ogImage ?? absoluteUrl(card ? `/og/${card.name}.png` : '/og
     </section>
   )}
 
-  <BookCta heading="Designing complex software? Let us talk." />
+  <BookCta lang="en" heading="Designing complex software? Let us talk." />
 
   <script>
     import '../scripts/journal/post';

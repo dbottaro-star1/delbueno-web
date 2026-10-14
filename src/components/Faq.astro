@@ -1,14 +1,17 @@
 ---
 /** Visible FAQ with matching FAQPage JSON-LD. */
 import type { FaqItem } from '../data/types';
+import type { Lang } from '../i18n/config';
+import { t } from '../i18n';
 import { faqSchema } from '../lib/schema';
 import JsonLd from './JsonLd.astro';
 
 interface Props {
+  lang: Lang;
   items: FaqItem[];
   heading?: string;
 }
-const { items, heading = 'Frequently asked questions' } = Astro.props;
+const { lang, items, heading = t(lang, 'faq.heading') } = Astro.props;
 ---
 
 {items.length > 0 && (

@@ -10,21 +10,21 @@ Built with Astro 7 (static output), TypeScript, GSAP and Lenis. Content lives in
 
 ## Commands
 
-| Command                                   | What it does                                                                                                                                                                                                                                                                                                                |
-| ----------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `npm install`                             | Installs dependencies                                                                                                                                                                                                                                                                                                       |
-| `npm run dev`                             | Starts the dev server at http://localhost:4321                                                                                                                                                                                                                                                                              |
-| `npm run build`                           | Builds the static site into `dist/`                                                                                                                                                                                                                                                                                         |
-| `npm run preview`                         | Serves `dist/` locally                                                                                                                                                                                                                                                                                                      |
-| `npm run check`                           | Type checks the project with `astro check`                                                                                                                                                                                                                                                                                  |
-| `npm run lint:copy`                       | Scans the built HTML, `llms.txt`, `llms-full.txt` and the RSS feed for em dashes, en dashes and middle dots                                                                                                                                                                                                                 |
-| `npm run check:redirects`                 | Confirms every redirect target in `redirects/redirects.csv` exists in `dist/`                                                                                                                                                                                                                                               |
-| `npm run check:csp`                       | Checks `dist/` against `security/csp.json`: inline script hashes, no inline styles, the CSP meta tag, and that `docs/security/cloudflare.md` quotes the same policy                                                                                                                                                         |
-| `npm run check:seo`                       | Parses `dist/` and fails on a title over 65 characters, a description outside 70 to 165, duplicate titles or descriptions, a missing canonical or `og:image`, a relative `og:image`, an `h1` count other than 1, or a JSON-LD block that does not parse. Add `--report` to list every title and description with its length |
-| `npm run build:icons`                     | Regenerates the favicon, app icons, manifest and logo in `public/` from `src/assets/brand/mark.svg`                                                                                                                                                                                                                         |
-| `npm run lint`                            | ESLint (Astro, TypeScript, accessibility rules; bans `innerHTML` and `set:html`)                                                                                                                                                                                                                                            |
-| `npm run format` / `npm run format:check` | Prettier, write or check only                                                                                                                                                                                                                                                                                               |
-| `npm run verify`                          | Runs lint, format:check, check, build, lint:copy, check:redirects, check:csp and check:seo in order                                                                                                                                                                                                                         |
+| Command                                   | What it does                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  |
+| ----------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `npm install`                             | Installs dependencies                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         |
+| `npm run dev`                             | Starts the dev server at http://localhost:4321                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| `npm run build`                           | Builds the static site into `dist/`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| `npm run preview`                         | Serves `dist/` locally                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| `npm run check`                           | Type checks the project with `astro check`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| `npm run lint:copy`                       | Scans the built HTML, `llms.txt`, `llms-full.txt` and the RSS feed for em dashes, en dashes and middle dots                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
+| `npm run check:redirects`                 | Confirms every redirect target in `redirects/redirects.csv` and `redirects/es-subdomain.csv` exists in `dist/`                                                                                                                                                                                                                                                                                                                                                                                                                                                                |
+| `npm run check:csp`                       | Checks `dist/` against `security/csp.json`: inline script hashes, no inline styles, the CSP meta tag, and that `docs/security/cloudflare.md` quotes the same policy                                                                                                                                                                                                                                                                                                                                                                                                           |
+| `npm run check:seo`                       | Parses `dist/` and fails on a title over 65 characters, a description outside 70 to 165, duplicate titles or descriptions, a missing canonical or `og:image`, a relative `og:image`, an `h1` count other than 1, or a JSON-LD block that does not parse. It also checks `<html lang>` and `og:locale` against the page's language, that `hreflang` alternates are complete, reciprocal and point at real pages, and holds Spanish pages to the authoring targets (title up to 60, description 140 to 155). Add `--report` to list every title and description with its length |
+| `npm run build:icons`                     | Regenerates the favicon, app icons, manifest and logo in `public/` from `src/assets/brand/mark.svg`                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| `npm run lint`                            | ESLint (Astro, TypeScript, accessibility rules; bans `innerHTML` and `set:html`)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              |
+| `npm run format` / `npm run format:check` | Prettier, write or check only                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 |
+| `npm run verify`                          | Runs lint, format:check, check, build, lint:copy, check:redirects, check:csp and check:seo in order                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
 
 Copy rule: site copy never uses em dashes, en dashes or middle dots. Write ranges as "2 to 4 weeks" and use commas,
 colons or periods as separators. `lint:copy` runs in the deploy workflow and fails the build if it finds any.
@@ -55,12 +55,15 @@ PREVIEW=true BASE_PATH=/delbueno-web SITE_URL=https://dbottaro-star1.github.io n
 
 ```
 src/
-  content.config.ts      Collections: work and journal (glob loaders, files starting with _ are ignored)
+  content.config.ts      Collections: work, workEs, journal and shots (glob loaders, files starting with _ are ignored)
   content/work/          Case studies, one Markdown file each
+  content/work-es/       The Spanish case studies, same fields plus `translationOf`
+  i18n/                  Languages: URL map (routes.ts), UI strings (en.ts, es.ts, t() helper), per-page copy (pages/)
+  views/                 One view per page, shared by the English and Spanish routes (they take a `lang` prop)
   content/journal/       Journal posts, one Markdown file each. The file name is the URL slug
   assets/work/<slug>/    Case study images, referenced relatively from the Markdown
   assets/journal/<slug>/ Journal images, referenced relatively from the Markdown
-  data/                  Services, engagement models and industries
+  data/                  Services, engagement models, industries and testimonials, with Spanish copy in *.es.ts next to them
   components/            Nav, Footer, Seo, JsonLd, Faq, Breadcrumbs and cards
   components/home/       Homepage sections (hero, work grid, playground strip, services, engagements, ...)
   components/playground/ Shot card, lightbox and shared shot styles
@@ -73,7 +76,8 @@ src/
   scripts/home/          Homepage: particles, hero flight, marquees, tilt, flip cards, scroll reveals
   scripts/playground/    Draggable strip, hover/touch video, lightbox and tag filter
   styles/global.css      Design tokens and base styles
-  pages/                 Routes
+  styles/es.css          Type adjustments for Spanish, scoped to html[lang='es']
+  pages/                 Routes. English at the root, Spanish in pages/es/. Each page file renders a view
 plugins/                 Markdown plugins (base-path links, content guard that fails the build on raw HTML and unsafe URLs)
 security/                csp.json: the one source for the Content-Security-Policy (meta tag, Cloudflare header, CI check)
 redirects/               Cloudflare redirects and the 410 list
@@ -87,10 +91,57 @@ public/                  Static files. The icons are generated by `npm run build
 `/industries/[slug]/`, `/about/`, `/journal/` (12 per page, `/journal/2/` and so on), `/free-ux-audit/`,
 `/contact/`, `/careers/`, `/terms/`, `/privacy/`, `/accessibility/`, `404`.
 
+Spanish, under `/es/`: `/es/`, `/es/trabajo/`, `/es/trabajo/[slug]/`, `/es/playground/`, `/es/servicios/`,
+`/es/servicios/[slug]/` (`estrategia-de-producto`, `diseno-de-producto`, `diseno-web`, `desarrollo-de-mvp`),
+`/es/modelos-de-trabajo/`, `/es/industrias/`, `/es/industrias/[slug]/` (`nube`, `ciberseguridad`, `devops`, `ia`,
+`fintech`), `/es/nosotros/`, `/es/blog/`, `/es/auditoria-ux-gratis/`, `/es/contacto/`, `/es/trabaja-con-nosotros/`,
+`/es/terminos/`, `/es/privacidad/`, `/es/accesibilidad/`, `/es/404/`.
+
 Journal posts are served from the site root as `/[slug]/` so they keep their old WordPress URLs. The slug is the file
 name in `src/content/journal/`. The build fails if a post slug equals a built-in route such as `contact`.
 
-Generated files: `/sitemap-index.xml`, `/robots.txt`, `/llms.txt`, `/llms-full.txt`, `/journal/rss.xml`, `/og-default.png` and one social card per page without a hero image under `/og/`.
+Generated files: `/sitemap-index.xml` (with `hreflang` alternates), `/robots.txt`, `/llms.txt`, `/llms-full.txt`, `/es/llms.txt`, `/es/llms-full.txt`, `/journal/rss.xml`, `/og-default.png` and one social card per page without a hero image under `/og/`.
+
+## Languages
+
+The site is published in English (the root) and Spanish (`/es/`, neutral Latin American Spanish with "tú"). There is no
+automatic redirect by IP or browser language, because it hurts search and misfires. Instead:
+
+- A switcher (EN / ES) in the header, the mobile menu and the footer links to the same page in the other language, or to
+  the other language's home when the page has no twin (journal posts go to `/es/blog/`).
+- A small banner, written in the language it suggests, appears when `navigator.languages` prefers the other language.
+  The choice (accept, stay, or using the switcher) is kept in `localStorage` under `delbueno-lang`, and the banner never
+  returns. It is a bundled module (`src/scripts/lang.ts`), not an inline script, so the CSP is untouched.
+
+**URLs.** One table, `src/i18n/routes.ts`, maps every English path to its Spanish one (`/work/` to `/es/trabajo/`,
+`/services/product-design/` to `/es/servicios/diseno-de-producto/`, and so on). Links, the language switcher, `hreflang`
+alternates, the sitemap alternates and the social card names all come from it. To add a page, add it to the table and to
+`src/pages/es/`.
+
+**Strings.** Interface strings live in `src/i18n/en.ts` and `src/i18n/es.ts` with typed keys (`t(lang, 'cta.book')`, or
+`const t = translator(lang)` in a component). The Spanish file has the same shape as the English one, so a missing key
+fails `npm run check`. Long copy that belongs to one page is in `src/i18n/pages/<page>.ts` as `{ en, es }`. Services,
+industries, engagements, testimonials and shot alt text keep their Spanish next to the English (`services.es.ts`,
+`industries.es.ts`, ...). Legal pages are data written with a tiny inline markup (`**bold**` and `[label](key)`).
+
+**Components** take a `lang` prop. `BaseLayout` sets `<html lang>`, the `hreflang` alternates, `og:locale` and the
+language of the JSON-LD.
+
+**Case studies.** Add `src/content/work-es/<slug>.md` with the same fields as the English file plus
+`translationOf: "<slug>"`. The build fails if a published English case study has no Spanish twin, or the reverse.
+
+**Journal.** Posts are English only. `/es/blog/` lists them in Spanish UI with an "En inglés" tag. The author and the
+posts keep their root URLs.
+
+**Testimonials** are quotes from real people. The Spanish versions are translations and are marked "Traducido del inglés".
+
+**Machine files.** `/es/llms.txt` and `/es/llms-full.txt`. Social cards for Spanish pages are generated with the English
+ones from `src/lib/og.ts` (`/og/es-*.png`).
+
+GitHub Pages serves a single `404.html` (English). A missing address under `/es/` is handed to `/es/404/` by a small
+bundled script on that page.
+
+The old Spanish subdomain is covered in `redirects/README.md`.
 
 ## Adding content
 

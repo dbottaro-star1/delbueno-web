@@ -1,13 +1,17 @@
 ---
 /** Title, description, canonical, robots, Open Graph and Twitter tags. */
+import { DEFAULT_LANG, LANG_META, LANGS, type Lang } from '../i18n/config';
 import { BRAND, IS_PREVIEW, TITLE_MAX, TITLE_SUFFIX } from '../lib/site';
 import { canonicalUrl } from '../lib/url';
 
 interface Props {
   title: string;
   description: string;
+  lang: Lang;
   /** Site-relative path of the page, for example /services/. */
   path: string;
+  /** The same page in each language (site-relative paths). Empty when the page has no translation. */
+  alternates?: Partial<Record<Lang, string>>;
   /** Absolute image URL. */
   image: string;
   imageAlt: string;
@@ -25,7 +29,9 @@ interface Props {
 const {
   title: pageTitle,
   description,
+  lang,
   path,
+  alternates = {},
   image,
   imageAlt,
   imageWidth = 1200,
@@ -44,6 +50,14 @@ const named = /delbueno/i.test(pageTitle);
 const title = named || pageTitle.length + TITLE_SUFFIX.length > TITLE_MAX ? pageTitle : pageTitle + TITLE_SUFFIX;
 
 const canonical = canonicalUrl(path);
+// hreflang is published only for pages that exist in every language: each language, plus x-default (English).
+const versions = LANGS.flatMap((code) => {
+  const sitePath = alternates[code];
+  return sitePath ? [{ code, href: canonicalUrl(sitePath) }] : [];
+});
+const translated = versions.length === LANGS.length;
+const defaultHref = versions.find((v) => v.code === DEFAULT_LANG)?.href;
+const otherLocales = translated ? LANGS.filter((code) => code !== lang).map((code) => LANG_META[code].og) : [];
 const robots =
   noindex || IS_PREVIEW
     ? 'noindex, nofollow'
@@ -54,10 +68,15 @@ const robots =
 <meta name="description" content={description} />
 <meta name="robots" content={robots} />
 <link rel="canonical" href={canonical} />
+{translated && versions.map((v) => <link rel="alternate" hreflang={LANG_META[v.code].tag} href={v.href} />)}
+{translated && defaultHref && <link rel="alternate" hreflang="x-default" href={defaultHref} />}
 
 <meta property="og:type" content={type} />
 <meta property="og:site_name" content={BRAND.name} />
-<meta property="og:locale" content="en_US" />
+<meta property="og:locale" content={LANG_META[lang].og} />
+{otherLocales.map((locale) => (
+  <meta property="og:locale:alternate" content={locale} />
+))}
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:url" content={canonical} />

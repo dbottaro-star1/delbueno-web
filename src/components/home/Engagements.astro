@@ -1,14 +1,26 @@
 ---
-import { engagements } from '../../data/engagements';
+import { getEngagementsCopy } from '../../data/engagements';
+import type { Lang } from '../../i18n/config';
+import { translator } from '../../i18n';
+import { homeCopy } from '../../i18n/pages/home';
+import { pagePath } from '../../i18n/routes';
 import { LINKS } from '../../lib/site';
 import { url } from '../../lib/url';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const c = homeCopy[lang].engagements;
+const t = translator(lang);
+const { engagements } = getEngagementsCopy(lang);
 ---
 
 <section class="eng" id="engagements" aria-labelledby="eng-h">
   <div class="eng-head">
-    <p class="label">Engagements</p>
+    <p class="label">{c.label}</p>
     <h2 class="h2" id="eng-h" data-split>
-      Three ways to work with us
+      {c.heading}
     </h2>
   </div>
   <div class="flip-grid" id="flipGrid">
@@ -30,8 +42,8 @@ import { url } from '../../lib/url';
                   <svg class="arr">
                     <use href="#i-arr" />
                   </svg>
-                  <span class="flip__hint-hover">Hover for detail</span>
-                  <span class="flip__hint-tap">Tap for detail</span>
+                  <span class="flip__hint-hover">{c.hoverHint}</span>
+                  <span class="flip__hint-tap">{c.tapHint}</span>
                 </p>
               </div>
             </div>
@@ -42,7 +54,7 @@ import { url } from '../../lib/url';
                 <p class="flip__d">{e.summary}</p>
               </div>
               <a class="btn btn-primary btn-sm" href={LINKS.book} rel="noopener">
-                Book a call{' '}
+                {t('cta.book')}{' '}
                 <svg class="arr" aria-hidden="true">
                   <use href="#i-arr" />
                 </svg>
@@ -67,9 +79,9 @@ import { url } from '../../lib/url';
       <path d="M12 12h80M85 5l7 7-7 7"></path>
     </svg>
     <span>
-      Many clients ship an MVP in a Launch Sprint, then roll into Design Partner.
-      <a class="eng-link" href={url('/engagements/')}>
-        Compare the models
+      {c.note}
+      <a class="eng-link" href={url(pagePath('engagements', lang))}>
+        {c.compare}
       </a>
     </span>
   </p>

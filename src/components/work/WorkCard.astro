@@ -5,24 +5,32 @@
  * the inner parallax on .wk-card__media.
  */
 import { Image } from 'astro:assets';
-import type { WorkEntry } from '../../lib/content';
+import type { Lang } from '../../i18n/config';
+import { translator } from '../../i18n';
+import { workCopy } from '../../i18n/pages/work';
+import { workPath } from '../../i18n/routes';
+import { workSlug, type WorkEntry } from '../../lib/content';
 import { url } from '../../lib/url';
 import { CONCEPT_SLUGS } from './metric';
 
 interface Props {
+  lang: Lang;
   entry: WorkEntry;
   index: number;
   total: number;
 }
-const { entry, index, total } = Astro.props;
+const { lang, entry, index, total } = Astro.props;
 const { data } = entry;
+const slug = workSlug(entry);
+const c = workCopy[lang].card;
+const t = translator(lang);
 const metric = data.metrics[0];
-const concept = CONCEPT_SLUGS.has(entry.id);
+const concept = CONCEPT_SLUGS.has(slug);
 const pad = (n: number) => String(n).padStart(2, '0');
 ---
 
 <li class="wk-card" data-card>
-  <div class="wk-card__media" data-cursor="View" style={`--ar:${data.cover.width} / ${data.cover.height}`}>
+  <div class="wk-card__media" data-cursor={t('cursor.view')} style={`--ar:${data.cover.width} / ${data.cover.height}`}>
     <div class="wk-card__par" data-par>
       <Image
         class="wk-card__img"
@@ -35,7 +43,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
       />
     </div>
     <span class="wk-card__view" aria-hidden="true">
-      View case{' '}
+      {c.view}{' '}
       <svg class="arr">
         <use href="#i-arr"></use>
       </svg>
@@ -51,7 +59,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
     </p>
     <div class="wk-card__info">
       <h2 class="wk-card__h">
-        <a class="wk-card__a" href={url(`/work/${entry.id}/`)}>
+        <a class="wk-card__a" href={url(workPath(slug, lang))}>
           <span class="wk-card__client">{data.client}</span>
           <span class="sr-only">: </span>
           <span class="wk-card__title">{data.title}</span>
@@ -59,7 +67,7 @@ const pad = (n: number) => String(n).padStart(2, '0');
       </h2>
       <p class="wk-card__ind">
         <span>{data.industry}</span>
-        {concept && <span class="wk-chip">Concept</span>}
+        {concept && <span class="wk-chip">{c.concept}</span>}
       </p>
     </div>
     {metric && (

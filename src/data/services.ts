@@ -1,3 +1,5 @@
+import type { Lang } from '../i18n/config';
+import { processStepsEs, servicesEs } from './services.es';
 import type { FaqItem } from './types';
 
 export interface Service {
@@ -22,6 +24,9 @@ export interface Service {
   cases: string[];
   faqs: FaqItem[];
 }
+
+/** The words of a service. Spanish versions are in services.es.ts, the slug and the case studies are shared. */
+export type ServiceText = Omit<Service, 'slug' | 'cases'>;
 
 /** The first 48 hours, shared by every service. Used by the scroll-drawn process diagram. */
 export const processSteps = [
@@ -296,4 +301,14 @@ export const services: Service[] = [
 
 export function getService(slug: string): Service | undefined {
   return services.find((s) => s.slug === slug);
+}
+
+/** The services with their words in a language. English is the source and Spanish overlays it. */
+export function getServices(lang: Lang): Service[] {
+  return lang === 'en' ? services : services.map((s) => ({ ...s, ...servicesEs[s.slug] }));
+}
+
+/** The 48 hour process in a language. */
+export function getProcessSteps(lang: Lang): readonly { when: string; title: string; text: string }[] {
+  return lang === 'en' ? processSteps : processStepsEs;
 }

@@ -1,0 +1,19 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { getIndustries, type Industry } from '../../../data/industries';
+import { industrySlug } from '../../../i18n/routes';
+import IndustryDetail from '../../../views/IndustryDetail.astro';
+
+export const getStaticPaths = (() =>
+  getIndustries('es').map((industry) => ({
+    params: { slug: industrySlug(industry.slug, 'es') },
+    props: { industry },
+  }))) satisfies GetStaticPaths;
+
+interface Props {
+  industry: Industry;
+}
+const { industry } = Astro.props;
+---
+
+<IndustryDetail lang="es" industry={industry} />

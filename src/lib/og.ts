@@ -1,11 +1,14 @@
 /**
  * Social card registry. Every page that has no hero image of its own gets a generated card at /og/<name>.png.
- * BaseLayout asks ogCardFor(path) for the card of the page it renders and falls back to /og-default.png.
+ * BaseLayout asks ogCardFor(path) for the card of the page it renders and falls back to /og-default.png (English) or the Spanish home card.
  * The endpoint src/pages/og/[name].png.ts renders exactly the cards listed here.
  */
 import { categorySlug, getCategories } from '../components/journal/reading';
-import { industries } from '../data/industries';
-import { services } from '../data/services';
+import { getIndustries } from '../data/industries';
+import { getServices } from '../data/services';
+import { LANGS } from '../i18n/config';
+import { OG_SECTION, OG_STATIC } from '../i18n/pages/og';
+import { industryPath, pagePath, servicePath } from '../i18n/routes';
 import { BRAND } from './site';
 import { getJournal } from './content';
 import type { OgText } from './og-render';
@@ -18,33 +21,32 @@ export interface OgCard extends OgText {
   alt: string;
 }
 
-/** Card file name for a page path: "/" is "home", "/services/build/" is "services-build". */
-export const ogName = (path: string): string => path.replace(/^\/|\/$/g, '').replace(/\//g, '-') || 'home';
-
-const STATIC: { path: string; kicker: string; title: string }[] = [
-  { path: '/', kicker: 'Product design studio', title: BRAND.tagline },
-  { path: '/work/', kicker: 'Work', title: 'Case studies in B2B SaaS and product design.' },
-  { path: '/playground/', kicker: 'Playground', title: 'UI explorations and motion studies.' },
-  { path: '/services/', kicker: 'Services', title: 'Strategy, design, web and build.' },
-  { path: '/engagements/', kicker: 'Engagements', title: 'Three ways to work together.' },
-  { path: '/industries/', kicker: 'Industries', title: 'Cloud, cybersecurity, DevOps, AI and fintech.' },
-  { path: '/about/', kicker: 'About', title: 'A product design studio working in US hours.' },
-  { path: '/contact/', kicker: 'Contact', title: 'Book a call or write to us.' },
-  { path: '/journal/', kicker: 'Journal', title: 'Notes on designing complex software.' },
-  { path: '/free-ux-audit/', kicker: 'Free UX audit', title: 'A 3 point plan for your product in 48 hours.' },
-  { path: '/careers/', kicker: 'Careers', title: 'Not hiring right now, but we read every portfolio.' },
-  { path: '/terms/', kicker: 'Legal', title: 'Terms and conditions.' },
-  { path: '/privacy/', kicker: 'Legal', title: 'Privacy policy.' },
-  { path: '/accessibility/', kicker: 'Legal', title: 'Accessibility statement.' },
-];
+/**
+ * Card file name for a page path: "/" is "home", "/services/build/" is "services-build" and the Spanish home page
+ * "/es/" is "es-home".
+ */
+export const ogName = (path: string): string => {
+  const name = path.replace(/^\/|\/$/g, '').replace(/\//g, '-');
+  return name === 'es' ? 'es-home' : name || 'home';
+};
 
 let cache: Promise<OgCard[]> | undefined;
 
 async function build(): Promise<OgCard[]> {
   const cards: Omit<OgCard, 'name' | 'alt'>[] = [
-    ...STATIC,
-    ...services.map((s) => ({ path: `/services/${s.slug}/`, kicker: 'Services', title: s.name })),
-    ...industries.map((i) => ({ path: `/industries/${i.slug}/`, kicker: 'Industries', title: i.title })),
+    ...LANGS.flatMap((lang) => [
+      ...OG_STATIC.map((c) => ({ path: pagePath(c.page, lang), kicker: c.kicker[lang], title: c.title[lang] })),
+      ...getServices(lang).map((s) => ({
+        path: servicePath(s.slug, lang),
+        kicker: OG_SECTION.services[lang],
+        title: s.name,
+      })),
+      ...getIndustries(lang).map((i) => ({
+        path: industryPath(i.slug, lang),
+        kicker: OG_SECTION.industries[lang],
+        title: i.title,
+      })),
+    ]),
     ...(await getCategories()).map((c) => ({
       path: `/journal/category/${categorySlug(c.name)}/`,
       kicker: 'Journal',

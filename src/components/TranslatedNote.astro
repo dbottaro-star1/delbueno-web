@@ -1,0 +1,25 @@
+---
+/**
+ * Small mono note under a block of client quotes on the Spanish pages. The quotes are real, written in English and
+ * translated here, so the page says so. Renders nothing on the English pages.
+ */
+import type { Lang } from '../i18n/config';
+import { t } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+---
+
+{lang !== 'en' && <p class="tr-note">{t(lang, 'lang.translated')}</p>}
+
+<style>
+  .tr-note {
+    margin-top: 10px;
+    font: 400 var(--fs-xs) / 1.4 var(--mono);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--dim);
+  }
+</style>

@@ -1,12 +1,22 @@
 ---
 /** "Start with a Sprint, roll into Design Partner": two large nodes joined by an arrow that draws with scroll. */
-import { path } from '../../data/engagements';
+import { getEngagementsCopy } from '../../data/engagements';
+import type { Lang } from '../../i18n/config';
+import { fill } from '../../i18n';
+import { engagementsPageCopy } from '../../i18n/pages/engagements';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const { path } = getEngagementsCopy(lang);
+const stepLabel = engagementsPageCopy[lang].path.step;
 ---
 
 <div class="pth" data-path>
   <div class="pth-nodes">
     <div class="pth-node" data-pnode="0" data-rv>
-      <span class="pth-no">Step 01</span>
+      <span class="pth-no">{fill(stepLabel, { n: '01' })}</span>
       <p class="pth-name">{path.steps[0].name}</p>
       <p class="pth-note">{path.steps[0].note}</p>
     </div>
@@ -15,7 +25,7 @@ import { path } from '../../data/engagements';
       <b class="pth-head" id="pthHead"></b>
     </div>
     <div class="pth-node" data-pnode="1" data-rv>
-      <span class="pth-no">Step 02</span>
+      <span class="pth-no">{fill(stepLabel, { n: '02' })}</span>
       <p class="pth-name">{path.steps[1].name}</p>
       <p class="pth-note">{path.steps[1].note}</p>
     </div>

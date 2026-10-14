@@ -3,30 +3,41 @@
  * Layout for the legal pages: the shared hero, a "last updated" line, a sticky section index and a calm,
  * well-measured reading column. The page supplies <section id="..."> blocks in the slot.
  */
+import type { Lang } from '../../i18n/config';
+import { t } from '../../i18n';
 import type { Crumb } from '../../lib/schema';
 import InfoHero from './InfoHero.astro';
 
 interface Props {
+  lang: Lang;
   title: string;
   lede: string;
   updated: string;
   crumbs: Crumb[];
   sections: { id: string; title: string }[];
 }
-const { title, lede, updated, crumbs, sections } = Astro.props;
+const { lang, title, lede, updated, crumbs, sections } = Astro.props;
 ---
 
-<InfoHero eyebrow="Legal" title={title} lede={lede} crumbs={crumbs} size="clamp(2rem, 6.2vw, 6.6rem)" maxWidth="100%">
+<InfoHero
+  lang={lang}
+  eyebrow={t(lang, 'info.legal')}
+  title={title}
+  lede={lede}
+  crumbs={crumbs}
+  size="clamp(2rem, 6.2vw, 6.6rem)"
+  maxWidth="100%"
+>
   <p class="lg-updated ip-no" data-reveal>
     {updated}
   </p>
 </InfoHero>
 
 <div class="wrap lg">
-  <aside class="lg-index" aria-label="On this page">
+  <aside class="lg-index" aria-label={t(lang, 'info.onThisPage')}>
     <details class="lg-box" data-spy-box>
       <summary>
-        <span class="label">On this page</span>
+        <span class="label">{t(lang, 'info.onThisPage')}</span>
         <svg class="lg-chev" viewBox="0 0 16 16" aria-hidden="true">
           <path
             d="M3.5 6 8 10.5 12.5 6"

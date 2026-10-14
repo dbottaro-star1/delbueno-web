@@ -3,16 +3,21 @@
  * Scroll-drawn diagram of the first 48 hours: a ruler that fills as you scroll (Today, 24h, 48h), then branches
  * into the deliverables. Content is plain HTML in an ordered list, the SVG is decoration.
  */
-import { processSteps, type Service } from '../../data/services';
+import { getProcessSteps, type Service } from '../../data/services';
+import type { Lang } from '../../i18n/config';
+import { fill } from '../../i18n';
+import { innerCopy } from '../../i18n/pages/services';
 
 interface Props {
+  lang: Lang;
   service: Service;
 }
-const { service } = Astro.props;
+const { lang, service } = Astro.props;
+const c = innerCopy[lang].process;
 
 const nodes = [
-  ...processSteps.map((s, i) => ({ no: `0${i + 1}`, when: s.when, title: s.title, text: s.text })),
-  { no: '04', when: 'Delivered', title: service.timing.title, text: service.timing.text },
+  ...getProcessSteps(lang).map((s, i) => ({ no: `0${i + 1}`, when: s.when, title: s.title, text: s.text })),
+  { no: '04', when: c.delivered, title: service.timing.title, text: service.timing.text },
 ];
 
 // ruler: ticks every 31.25 units over 0 to 750 (24 intervals, one per hour block of three)
@@ -23,9 +28,9 @@ const tickPath = ticks.map((x, i) => `M${x} ${major.has(i) ? 34 : 42}V${major.ha
 
 <section class="in-sec proc" id="process" aria-labelledby="proc-h" data-process>
   <div class="in-head">
-    <p class="label">Process</p>
+    <p class="label">{c.label}</p>
     <h2 class="in-h2" id="proc-h" data-split>
-      Kickoff today. Concepts in 48 hours.
+      {c.heading}
     </h2>
   </div>
 
@@ -66,7 +71,7 @@ const tickPath = ticks.map((x, i) => `M${x} ${major.has(i) ? 34 : 42}V${major.ha
       {nodes.map((n, i) => (
         <li class="proc-step" data-step={i} data-rv>
           <span class="proc-dot" aria-hidden="true"></span>
-          <span class="proc-no">Step {n.no}</span>
+          <span class="proc-no">{fill(c.stepNo, { n: n.no })}</span>
           <p class="proc-when">{n.when}</p>
           <h3>{n.title}</h3>
           <p class="proc-text">{n.text}</p>

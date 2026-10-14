@@ -1,5 +1,9 @@
 ---
-/** Author box at the end of a post. Only shown for the founder, whose profile lives in src/lib/site.ts. */
+/**
+ * Author box at the end of a post. Only shown for the founder, whose profile lives in src/lib/site.ts and src/i18n.
+ * Posts are published in English only, so this box is English too.
+ */
+import { t } from '../../i18n';
 import { FOUNDER } from '../../lib/site';
 import { url } from '../../lib/url';
 ---
@@ -11,8 +15,8 @@ import { url } from '../../lib/url';
   <div class="au-body">
     <p class="label">Written by</p>
     <p class="au-name">{FOUNDER.name}</p>
-    <p class="au-role">{FOUNDER.jobTitle}, delbueno™ Studio</p>
-    <p class="au-bio">{FOUNDER.bio}</p>
+    <p class="au-role">{t('en', 'founder.jobTitle')}, delbueno™ Studio</p>
+    <p class="au-bio">{t('en', 'founder.bio')}</p>
     <p class="au-links">
       <a class="btn btn-ghost btn-sm" href={FOUNDER.linkedin} rel="author me noopener noreferrer">
         LinkedIn

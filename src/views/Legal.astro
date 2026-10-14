@@ -1,0 +1,70 @@
+---
+/**
+ * One view for the three legal pages (terms, privacy, accessibility). The text is data in src/i18n/pages, written
+ * with the inline markup of src/i18n/rich.ts, so both languages share this layout and the same section ids.
+ */
+import LegalLayout from '../components/info/LegalLayout.astro';
+import Rich, { type RichLink } from '../components/info/Rich.astro';
+import type { Lang } from '../i18n/config';
+import { fill, formatLongDate, t } from '../i18n';
+import { accessibilityCopy } from '../i18n/pages/accessibility';
+import { LEGAL_UPDATED } from '../i18n/pages/legal';
+import { privacyCopy } from '../i18n/pages/privacy';
+import { termsCopy } from '../i18n/pages/terms';
+import { pagePath, type PageKey } from '../i18n/routes';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { crumbs } from '../lib/schema';
+import { BRAND, LINKS } from '../lib/site';
+import { url } from '../lib/url';
+
+interface Props {
+  lang: Lang;
+  page: Extract<PageKey, 'terms' | 'privacy' | 'accessibility'>;
+}
+const { lang, page } = Astro.props;
+const c = { terms: termsCopy, privacy: privacyCopy, accessibility: accessibilityCopy }[page][lang];
+
+const trail = crumbs(lang, { name: t(lang, `pageName.${page}`), path: pagePath(page, lang) });
+const vars = { brand: BRAND.name, email: BRAND.email };
+const links: Record<string, RichLink> = {
+  mail: { href: `mailto:${BRAND.email}` },
+  book: { href: LINKS.book, external: true },
+  dribbble: { href: LINKS.dribbble, external: true },
+  audit: { href: url(pagePath('audit', lang)) },
+  journal: { href: url(pagePath('journal', lang)) },
+  terms: { href: url(pagePath('terms', lang)) },
+  privacy: { href: url(pagePath('privacy', lang)) },
+};
+---
+
+<BaseLayout lang={lang} title={c.meta.title} description={c.meta.description} breadcrumbs={trail}>
+  <LegalLayout
+    lang={lang}
+    title={c.title}
+    lede={fill(c.lede, vars)}
+    updated={t(lang, 'info.lastUpdated', { date: formatLongDate(LEGAL_UPDATED, lang) })}
+    crumbs={trail}
+    sections={c.sections.map(({ id, title }) => ({ id, title }))}
+  >
+    {c.sections.map((section) => (
+      <section id={section.id}>
+        <h2>{section.title}</h2>
+        {section.blocks.map((block) =>
+          'p' in block ? (
+            <p>
+              <Rich text={block.p} vars={vars} links={links} />
+            </p>
+          ) : (
+            <ul>
+              {block.ul.map((item) => (
+                <li>
+                  <Rich text={item} vars={vars} links={links} />
+                </li>
+              ))}
+            </ul>
+          ),
+        )}
+      </section>
+    ))}
+  </LegalLayout>
+</BaseLayout>

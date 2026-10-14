@@ -9,6 +9,11 @@
  *   - a missing og:image width, height or alt
  *   - an <h1> count other than 1
  *   - a JSON-LD block that does not parse, or an inner page without a BreadcrumbList
+ *   - a <html lang> that does not match the page's language (Spanish pages live under /es/), or an og:locale that
+ *     disagrees with it
+ *   - hreflang alternates that are incomplete (en, es and x-default are all required once any is present), that do
+ *     not include the page itself, that point at a missing page, or that are not reciprocal
+ *   - on Spanish pages only, the tighter authoring targets: a title over 60 characters, a description outside 140 to 155
  *
  * The authoring targets are tighter than the gate (titles of 60 or fewer, descriptions of 140 to 155), so a
  * page that slips a little still passes while a real regression fails.
@@ -32,6 +37,13 @@ if (!existsSync(dist)) {
 const TITLE_MAX = 65;
 const DESC_MIN = 70;
 const DESC_MAX = 165;
+// Spanish pages are held to the authoring targets, not just the gate.
+const ES_TITLE_MAX = 60;
+const ES_DESC_MIN = 140;
+const ES_DESC_MAX = 155;
+
+const LANGS = { en: 'en_US', es: 'es_LA' };
+const langOfPage = (page) => (/^\/es(\/|$)/.test(page) ? 'es' : 'en');
 
 const ENTITIES = { amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ', trade: '™' };
 
@@ -70,6 +82,7 @@ const problems = [];
 const titles = new Map();
 const descriptions = new Map();
 const rows = [];
+const alternates = new Map();
 let jsonLdBlocks = 0;
 
 /** Legacy-URL redirect stubs from redirects/legacy.mjs: a meta refresh and a link, nothing else. */
@@ -90,13 +103,23 @@ for (const file of files) {
   const description = meta(head, 'description') ?? '';
   const noindex = /noindex/i.test(meta(head, 'robots') ?? '');
   rows.push({ page, title, description });
+  const lang = langOfPage(page);
+  const spanish = lang === 'es';
 
   if (!title) fail(page, 'missing <title>');
   else if (title.length > TITLE_MAX) fail(page, `title is ${title.length} characters (max ${TITLE_MAX}): ${title}`);
+  else if (spanish && title.length > ES_TITLE_MAX) {
+    fail(page, `Spanish title is ${title.length} characters (max ${ES_TITLE_MAX}): ${title}`);
+  }
 
   if (!description) fail(page, 'missing meta description');
   else if (description.length < DESC_MIN || description.length > DESC_MAX) {
     fail(page, `description is ${description.length} characters (allowed ${DESC_MIN} to ${DESC_MAX}): ${description}`);
+  } else if (spanish && (description.length < ES_DESC_MIN || description.length > ES_DESC_MAX)) {
+    fail(
+      page,
+      `Spanish description is ${description.length} characters (allowed ${ES_DESC_MIN} to ${ES_DESC_MAX}): ${description}`,
+    );
   }
 
   if (title) titles.set(title, [...(titles.get(title) ?? []), page]);
@@ -116,6 +139,22 @@ for (const file of files) {
     if (!meta(head, 'og:image:alt')) fail(page, 'missing og:image:alt');
   }
   if (meta(head, 'twitter:card') !== 'summary_large_image') fail(page, 'twitter:card is not summary_large_image');
+
+  const htmlLang = html.match(/<html\b[^>]*\blang="([^"]*)"/i)?.[1];
+  if (htmlLang !== lang) fail(page, `<html lang="${htmlLang}"> but the page is ${lang}`);
+  const ogLocale = meta(head, 'og:locale');
+  if (ogLocale !== LANGS[lang]) fail(page, `og:locale is ${ogLocale}, expected ${LANGS[lang]}`);
+
+  const canonical = head.match(/<link\b[^>]*\brel="canonical"[^>]*\bhref="([^"]+)"/i)?.[1];
+  const links = [...head.matchAll(/<link\b[^>]*\brel="alternate"[^>]*\bhreflang="([^"]+)"[^>]*\bhref="([^"]+)"/gi)];
+  if (links.length) {
+    const map = Object.fromEntries(links.map(([, code, href]) => [code, href]));
+    alternates.set(page, { map, canonical });
+    for (const code of ['en', 'es', 'x-default']) if (!map[code]) fail(page, `hreflang "${code}" is missing`);
+    if (canonical && map[lang] !== canonical) fail(page, `hreflang "${lang}" is not the page's own canonical URL`);
+    if (map['x-default'] !== map.en) fail(page, 'hreflang x-default does not point at the English page');
+    if (!meta(head, 'og:locale:alternate')) fail(page, 'page has hreflang alternates but no og:locale:alternate');
+  }
 
   const body = html.slice(html.indexOf('</head>'));
   const h1 = (body.match(/<h1[\s>]/gi) ?? []).length;
@@ -140,7 +179,27 @@ for (const file of files) {
   }
   if (!types.has('Organization') || !types.has('WebSite'))
     fail(page, 'sitewide Organization or WebSite JSON-LD is missing');
-  if (page !== '/' && !noindex && !types.has('BreadcrumbList')) fail(page, 'inner page has no BreadcrumbList JSON-LD');
+  if (page !== '/' && page !== '/es/' && !noindex && !types.has('BreadcrumbList'))
+    fail(page, 'inner page has no BreadcrumbList JSON-LD');
+}
+
+// Every alternate must exist and list the page back.
+const toPage = (href) => new URL(href).pathname;
+for (const [page, { map }] of alternates) {
+  for (const [code, href] of Object.entries(map)) {
+    const target = toPage(href);
+    const theirs = alternates.get(target);
+    if (!theirs) {
+      fail(
+        page,
+        `hreflang "${code}" points at ${target}, which has no hreflang alternates (missing or not reciprocal)`,
+      );
+      continue;
+    }
+    if (toPage(theirs.map[langOfPage(page)] ?? '') !== page) {
+      fail(page, `hreflang "${code}" target ${target} does not link back to this page`);
+    }
+  }
 }
 
 for (const [map, label] of [

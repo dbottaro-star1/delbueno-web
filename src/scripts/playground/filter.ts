@@ -20,9 +20,11 @@ export function initFilter(root: ParentNode = document): void {
       }
     });
     chips.forEach((c) => c.setAttribute('aria-pressed', String(c.dataset.filter === tag)));
-    if (status)
-      status.textContent =
-        tag === 'all' ? `Showing all ${n} shots` : `Showing ${n} ${n === 1 ? 'shot' : 'shots'} tagged ${tag}`;
+    if (status) {
+      // The sentences come from the page (data-all, data-one, data-many) so they are in the page's language.
+      const template = tag === 'all' ? status.dataset.all : n === 1 ? status.dataset.one : status.dataset.many;
+      status.textContent = (template ?? '').replace('{n}', String(n)).replace('{tag}', tag);
+    }
   };
   chips.forEach((c) => c.addEventListener('click', () => apply(c.dataset.filter ?? 'all')));
 }

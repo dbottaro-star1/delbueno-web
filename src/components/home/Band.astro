@@ -1,17 +1,25 @@
 ---
 /** Velocity band: speed, direction and skew follow scroll velocity (see scripts/home/marquee.ts). */
-import { BRAND } from '../../lib/site';
+import type { Lang } from '../../i18n/config';
+import { t } from '../../i18n';
+import { homeCopy } from '../../i18n/pages/home';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const c = homeCopy[lang].band;
 ---
 
-<section class="band" aria-label={BRAND.speed}>
+<section class="band" aria-label={t(lang, 'brand.speed')}>
   <div class="marquee" id="band">
     <div class="marquee__track">
       <div class="marquee__group">
-        <span class="m-w">Kickoff today</span>
+        <span class="m-w">{c.first}</span>
         <svg class="m-i" aria-hidden="true">
           <use href="#bolt"></use>
         </svg>
-        <span class="m-w m-o">First concepts in 48h</span>
+        <span class="m-w m-o">{c.second}</span>
         <svg class="m-i" aria-hidden="true">
           <use href="#bolt"></use>
         </svg>

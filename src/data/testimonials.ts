@@ -1,4 +1,6 @@
 import type { ImageMetadata } from 'astro';
+import type { Lang } from '../i18n/config';
+import { testimonialsEs } from './testimonials.es';
 import ionatan from '../assets/testimonials/ionatan.png';
 import mikaela from '../assets/testimonials/mikaela.png';
 import yaron from '../assets/testimonials/yaron.png';
@@ -12,6 +14,8 @@ export interface Testimonial {
   photo: ImageMetadata;
   /** Slug of the related case study, when there is one. */
   work?: string;
+  /** True when the quote is a translation of what the person wrote. The page says so. */
+  translated?: boolean;
 }
 
 /** Client quotes from the old site, with the headshots supplied by the clients. */
@@ -52,7 +56,13 @@ export const testimonials: Testimonial[] = [
   },
 ];
 
+/** The testimonials in a language. Spanish quotes are translations of the English originals and are flagged. */
+export function getTestimonials(lang: Lang): Testimonial[] {
+  if (lang === 'en') return testimonials;
+  return testimonials.map((t) => ({ ...t, ...testimonialsEs[t.name], translated: true }));
+}
+
 /** The testimonial tied to a case study, if any. */
-export function testimonialFor(workSlug: string): Testimonial | undefined {
-  return testimonials.find((t) => t.work === workSlug);
+export function testimonialFor(workSlug: string, lang: Lang = 'en'): Testimonial | undefined {
+  return getTestimonials(lang).find((t) => t.work === workSlug);
 }

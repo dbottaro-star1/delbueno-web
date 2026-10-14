@@ -3,20 +3,31 @@
  * The four disciplines as a pinned index. Markup is four stacked blocks that read well on their own; on wide screens
  * the script adds .idx-on and the blocks overlay, so the active one swaps its illustration and description.
  */
-import { services } from '../../data/services';
+import { getServices } from '../../data/services';
+import type { Lang } from '../../i18n/config';
+import { fill } from '../../i18n';
+import { innerCopy } from '../../i18n/pages/services';
+import { servicePath } from '../../i18n/routes';
 import { url } from '../../lib/url';
 import Art from './Art.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const c = innerCopy[lang].index;
+const services = getServices(lang);
 
 const total = String(services.length).padStart(2, '0');
 ---
 
 <section class="idx" data-idx aria-labelledby="idx-h">
   <h2 class="sr-only" id="idx-h">
-    The four services
+    {c.stackLabel}
   </h2>
   <div class="idx-stage">
     <p class="idx-top">
-      <span class="label">Four disciplines</span>
+      <span class="label">{c.kicker}</span>
       <span class="idx-count" id="idxCount" aria-hidden="true">
         01 / {total}
       </span>
@@ -24,13 +35,13 @@ const total = String(services.length).padStart(2, '0');
     {services.map((s, i) => (
       <article class="idx-item" style={`--i:${i}`} aria-labelledby={`idx-${s.slug}`}>
         <h3 class="idx-name" id={`idx-${s.slug}`}>
-          <a href={url(`/services/${s.slug}/`)}>
+          <a href={url(servicePath(s.slug, lang))}>
             <span class="idx-n">{String(i + 1).padStart(2, '0')}</span>
             <span class="idx-t">{s.name}</span>
           </a>
         </h3>
         <div class="idx-art">
-          <Art slug={s.slug} />
+          <Art lang={lang} slug={s.slug} />
         </div>
         <div class="idx-det">
           <p class="idx-kicker">{s.home.kicker}</p>
@@ -40,8 +51,8 @@ const total = String(services.length).padStart(2, '0');
               <li>{c}</li>
             ))}
           </ul>
-          <a class="in-more" href={url(`/services/${s.slug}/`)}>
-            About {s.name}
+          <a class="in-more" href={url(servicePath(s.slug, lang))}>
+            {fill(c.about, { name: s.name })}
             <svg class="arr" aria-hidden="true">
               <use href="#i-arr" />
             </svg>

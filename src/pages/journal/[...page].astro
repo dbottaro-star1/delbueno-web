@@ -6,6 +6,7 @@ import JournalList from '../../components/journal/JournalList.astro';
 import InfoHero from '../../components/info/InfoHero.astro';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { getJournal, type JournalEntry } from '../../lib/content';
+import { pagePath } from '../../i18n/routes';
 import { crumbs } from '../../lib/schema';
 import { url } from '../../lib/url';
 
@@ -23,7 +24,7 @@ const featured = first ? page.data[0] : undefined;
 const rows = first ? page.data.slice(1) : page.data;
 const start = page.start + (first ? 2 : 1);
 
-const trail = crumbs({ name: 'Journal', path: '/journal/' });
+const trail = crumbs('en', { name: 'Journal', path: '/journal/' });
 const pageTrail = first
   ? trail
   : [...trail, { name: `Page ${page.currentPage}`, path: `/journal/${page.currentPage}/` }];
@@ -36,11 +37,14 @@ const numbers = Array.from({ length: page.lastPage }, (_, i) => i + 1);
 ---
 
 <BaseLayout
+  lang="en"
+  switchFallback={pagePath('journal', 'es')}
   title={`Journal${suffix}: notes on designing complex software`}
   description={first ? description : `Page ${page.currentPage} of ${page.lastPage}: ${description}`}
   breadcrumbs={pageTrail}
 >
   <InfoHero
+    lang="en"
     eyebrow={`Journal / ${page.total} articles`}
     title="Notes on designing"
     accent="complex software."
@@ -50,9 +54,9 @@ const numbers = Array.from({ length: page.lastPage }, (_, i) => i + 1);
     maxWidth="100%"
   />
 
-  {first && featured && <FeaturedPost entry={featured} />}
+  {first && featured && <FeaturedPost lang="en" entry={featured} />}
 
-  <JournalList entries={rows} start={start}>
+  <JournalList lang="en" entries={rows} start={start}>
     {page.lastPage > 1 && (
       <nav class="pager" aria-label="Journal pages">
         {page.currentPage > 1 ? (
@@ -82,7 +86,7 @@ const numbers = Array.from({ length: page.lastPage }, (_, i) => i + 1);
     )}
   </JournalList>
 
-  <BookCta />
+  <BookCta lang="en" />
 
   <script>
     import { initInfoReveals } from '../../scripts/info/reveal';

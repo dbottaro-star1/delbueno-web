@@ -1,19 +1,21 @@
 ---
+import type { Lang } from '../i18n/config';
 import type { Crumb } from '../lib/schema';
 import Breadcrumbs from './Breadcrumbs.astro';
 
 interface Props {
+  lang: Lang;
   title: string;
   eyebrow?: string;
   lede?: string;
   crumbs?: Crumb[];
 }
-const { title, eyebrow, lede, crumbs } = Astro.props;
+const { lang, title, eyebrow, lede, crumbs } = Astro.props;
 ---
 
 <header class="page-top section-head">
   <div class="wrap stack">
-    {crumbs && <Breadcrumbs items={crumbs} />}
+    {crumbs && <Breadcrumbs lang={lang} items={crumbs} />}
     {eyebrow && <p class="label">{eyebrow}</p>}
     <h1 data-reveal>{title}</h1>
     {lede && (

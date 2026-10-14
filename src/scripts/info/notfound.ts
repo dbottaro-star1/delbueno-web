@@ -25,6 +25,19 @@ const VIOLET = [123, 107, 255];
 const LIME = [186, 251, 68];
 const INK = [242, 242, 245];
 
+/**
+ * The static host answers every missing address with the same /404.html, which is English. A visitor who followed a
+ * broken link under /es/ is sent to the Spanish 404 page instead.
+ */
+export function sendSpanishMisses(): void {
+  const page = document.querySelector<HTMLElement>('[data-es-prefix]');
+  const prefix = page?.dataset.esPrefix;
+  const target = page?.dataset.esPage;
+  if (prefix && target && location.pathname.startsWith(prefix) && !location.pathname.startsWith(target)) {
+    location.replace(target);
+  }
+}
+
 export function initNotFound(): void {
   const stage = document.querySelector<HTMLElement>('[data-nf]');
   const cv = stage?.querySelector<HTMLCanvasElement>('canvas');

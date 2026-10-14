@@ -1,16 +1,25 @@
 ---
 /** The four headline numbers, counted up on enter. The HTML holds the final values. */
+import type { Lang } from '../../i18n/config';
+import { aboutCopy } from '../../i18n/pages/about';
+import { statsCopy } from '../../i18n/pages/shared';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const stats = statsCopy[lang];
 const numbers = [
-  { to: '10', unit: '+', label: 'years designing digital products' },
-  { to: '58', unit: '+', label: 'products shipped' },
-  { to: '85', unit: '%', label: 'of clients come back for more' },
-  { to: '4.9', dec: 1, unit: '', star: true, label: 'on Clutch' },
+  { to: '10', unit: '+', label: stats.years },
+  { to: '58', unit: '+', label: stats.products },
+  { to: '85', unit: '%', label: stats.returning },
+  { to: '4.9', dec: 1, unit: '', star: true, label: stats.clutch },
 ];
 ---
 
 <section class="an" aria-labelledby="an-h">
   <h2 class="sr-only" id="an-h">
-    The studio in numbers
+    {aboutCopy[lang].numbersHeading}
   </h2>
   <div class="wrap">
     <dl class="an-grid">

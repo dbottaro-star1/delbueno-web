@@ -1,0 +1,50 @@
+---
+import Backdrop from '../components/home/Backdrop.astro';
+import Band from '../components/home/Band.astro';
+import Engagements from '../components/home/Engagements.astro';
+import FinalCta from '../components/home/FinalCta.astro';
+import Hero from '../components/home/Hero.astro';
+import Numbers from '../components/home/Numbers.astro';
+import Playground from '../components/home/Playground.astro';
+import SelectedWork from '../components/home/SelectedWork.astro';
+import Services from '../components/home/Services.astro';
+import Speed from '../components/home/Speed.astro';
+import Testimonials from '../components/home/Testimonials.astro';
+import Trust from '../components/home/Trust.astro';
+import ShotLightbox from '../components/playground/ShotLightbox.astro';
+import type { Lang } from '../i18n/config';
+import { homeCopy } from '../i18n/pages/home';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getHomeShots, getWork } from '../lib/content';
+import { BRAND } from '../lib/site';
+import '../styles/home.css';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+
+const work = (await getWork(lang)).slice(0, 6);
+const shots = await getHomeShots(12);
+const copy = homeCopy[lang];
+---
+
+<BaseLayout lang={lang} title={`${BRAND.name}: ${copy.meta.title}`} description={copy.meta.description}>
+  <Backdrop lang={lang} />
+  <Hero lang={lang} />
+  <Band lang={lang} />
+  <SelectedWork lang={lang} entries={work} />
+  <Playground lang={lang} shots={shots} />
+  <Trust lang={lang} />
+  <Services lang={lang} />
+  <Speed lang={lang} />
+  <Numbers lang={lang} />
+  <Testimonials lang={lang} />
+  <Engagements lang={lang} />
+  <FinalCta lang={lang} />
+  <ShotLightbox lang={lang} />
+
+  <script>
+    import '../scripts/home';
+  </script>
+</BaseLayout>

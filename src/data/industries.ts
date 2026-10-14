@@ -1,3 +1,5 @@
+import type { Lang } from '../i18n/config';
+import { industriesEs } from './industries.es';
 import type { FaqItem } from './types';
 
 export interface IndustryProblem {
@@ -34,6 +36,12 @@ export interface Industry {
   cta: string;
   faqs: FaqItem[];
 }
+
+/** The words of an industry. Spanish versions are in industries.es.ts, the rest is shared. */
+export type IndustryText = Omit<Industry, 'slug' | 'cases' | 'posts' | 'keywords' | 'challenges' | 'problems'> & {
+  /** Same order as the English problems. The journal post each one links to is kept in industries.ts. */
+  problems: Omit<IndustryProblem, 'post'>[];
+};
 
 function withChallenges<T extends Omit<Industry, 'challenges'>>(industry: T): T & { challenges: string[] } {
   return { ...industry, challenges: industry.problems.map((p) => p.title) };
@@ -330,4 +338,15 @@ export const industries: Industry[] = [
 
 export function getIndustry(slug: string): Industry | undefined {
   return industries.find((i) => i.slug === slug);
+}
+
+/** The industries with their words in a language. English is the source and Spanish overlays it. */
+export function getIndustries(lang: Lang): Industry[] {
+  if (lang === 'en') return industries;
+  return industries.map((industry) => {
+    const text = industriesEs[industry.slug];
+    if (!text) throw new Error(`No Spanish copy for industry "${industry.slug}" in industries.es.ts`);
+    const problems = industry.problems.map((problem, i) => ({ ...problem, ...text.problems[i] }));
+    return { ...industry, ...text, problems, challenges: problems.map((p) => p.title) };
+  });
 }

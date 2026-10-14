@@ -1,13 +1,18 @@
 ---
 import '../styles/global.css';
+import '../styles/es.css';
 import syneBold from '@fontsource/syne/files/syne-latin-800-normal.woff2?url';
 import geistRegular from '@fontsource/geist/files/geist-latin-400-normal.woff2?url';
 
 import Footer from '../components/Footer.astro';
 import JsonLd from '../components/JsonLd.astro';
+import LangBanner from '../components/LangBanner.astro';
 import Nav from '../components/Nav.astro';
 import Seo from '../components/Seo.astro';
 import Sprite from '../components/Sprite.astro';
+import { LANG_META, LANGS, otherLang, type Lang } from '../i18n/config';
+import { translator } from '../i18n';
+import { alternates as alternatesFor, switchPath } from '../i18n/routes';
 import { breadcrumbSchema, sitewideSchema, type Crumb, type JsonLdNode } from '../lib/schema';
 import { BRAND, IS_PREVIEW } from '../lib/site';
 import { cspString } from '../../security/csp.mjs';
@@ -17,6 +22,13 @@ import { absoluteUrl, stripBase, url } from '../lib/url';
 interface Props {
   title: string;
   description: string;
+  /** Language of the page. English pages live at the root, Spanish pages under /es/. */
+  lang: Lang;
+  /**
+   * Where the language switcher goes when the page has no translation of its own. Defaults to the home page of the
+   * other language. Journal pages pass the Spanish blog, because posts exist in English only.
+   */
+  switchFallback?: string;
   /** Absolute image URL for social previews. Defaults to the site card. */
   image?: string;
   imageAlt?: string;
@@ -35,6 +47,8 @@ interface Props {
 const {
   title,
   description,
+  lang,
+  switchFallback,
   image,
   imageAlt,
   type,
@@ -47,17 +61,31 @@ const {
   section,
 } = Astro.props;
 
-const path = stripBase(Astro.url.pathname);
-// A page without its own image gets its generated card (src/lib/og.ts), or the default card.
-const card = image ? undefined : await ogCardFor(path);
-const ogImage = image ?? absoluteUrl(card ? `/og/${card.name}.png` : '/og-default.png', Astro.site);
-const ogAlt = imageAlt ?? card?.alt ?? `${BRAND.name}: ${BRAND.tagline}`;
+const t = translator(lang);
+// Astro's i18n routing knows the locale from the URL. A page that passes the wrong `lang` fails the build here.
+if (Astro.currentLocale !== lang) {
+  throw new Error(
+    `Page ${Astro.url.pathname} is rendered with lang="${lang}" but its locale is "${Astro.currentLocale}".`,
+  );
+}
 
-const graph: JsonLdNode[] = [sitewideSchema(), ...(breadcrumbs ? [breadcrumbSchema(breadcrumbs)] : []), ...jsonLd];
+const path = stripBase(Astro.url.pathname);
+const twins = alternatesFor(path);
+const switchTo = Object.fromEntries(LANGS.map((code) => [code, switchPath(path, code, switchFallback)])) as Record<
+  Lang,
+  string
+>;
+// A page without its own image gets its generated card (src/lib/og.ts), or the default card of its language.
+const card = image ? undefined : await ogCardFor(path);
+const defaultCard = lang === 'en' ? '/og-default.png' : '/og/es-home.png';
+const ogImage = image ?? absoluteUrl(card ? `/og/${card.name}.png` : defaultCard, Astro.site);
+const ogAlt = imageAlt ?? card?.alt ?? `${BRAND.name}: ${t('brand.tagline')}`;
+
+const graph: JsonLdNode[] = [sitewideSchema(lang), ...(breadcrumbs ? [breadcrumbSchema(breadcrumbs)] : []), ...jsonLd];
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={LANG_META[lang].tag}>
   <head>
     <meta charset="utf-8" />
     {
@@ -73,6 +101,8 @@ const graph: JsonLdNode[] = [sitewideSchema(), ...(breadcrumbs ? [breadcrumbSche
     <Seo
       title={title}
       description={description}
+      lang={lang}
+      alternates={twins}
       path={path}
       image={ogImage}
       imageAlt={ogAlt}
@@ -89,7 +119,12 @@ const graph: JsonLdNode[] = [sitewideSchema(), ...(breadcrumbs ? [breadcrumbSche
     <link rel="icon" href={url('/favicon.ico')} sizes="48x48" />
     <link rel="apple-touch-icon" href={url('/apple-touch-icon.png')} />
     <link rel="manifest" href={url('/site.webmanifest')} />
-    <link rel="alternate" type="application/rss+xml" title={`${BRAND.name} journal`} href={url('/journal/rss.xml')} />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title={t('brand.siteLabel', { brand: BRAND.name })}
+      href={url('/journal/rss.xml')}
+    />
     {!IS_PREVIEW && <link rel="sitemap" href={url('/sitemap-index.xml')} />}
 
     <link rel="preload" as="font" type="font/woff2" href={syneBold} crossorigin />
@@ -115,8 +150,9 @@ const graph: JsonLdNode[] = [sitewideSchema(), ...(breadcrumbs ? [breadcrumbSche
   </head>
   <body>
     <a class="skip" href="#main">
-      Skip to content
+      {t('a11y.skip')}
     </a>
+    <LangBanner lang={lang} href={switchTo[otherLang(lang)]} />
     <Sprite />
     <div class="grain" aria-hidden="true"></div>
     <div class="progress" aria-hidden="true">
@@ -129,17 +165,19 @@ const graph: JsonLdNode[] = [sitewideSchema(), ...(breadcrumbs ? [breadcrumbSche
         <div class="c-label"></div>
       </div>
     </div>
-    <Nav />
+    <Nav lang={lang} switchTo={switchTo} />
     <main id="main" tabindex="-1">
       <slot />
     </main>
-    <Footer />
+    <Footer lang={lang} switchTo={switchTo} />
 
     <script>
       import { initMotion } from '../scripts/motion';
       import { initShell } from '../scripts/shell';
+      import { initLang } from '../scripts/lang';
       void initMotion();
       initShell();
+      initLang();
     </script>
   </body>
 </html>

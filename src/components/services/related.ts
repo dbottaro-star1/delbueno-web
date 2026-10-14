@@ -1,10 +1,11 @@
 /** Look up related case studies and journal posts for the services and industries pages. */
-import { getJournal, getWork, type JournalEntry, type WorkEntry } from '../../lib/content';
+import type { Lang } from '../../i18n/config';
+import { getJournal, getWork, workSlug, type JournalEntry, type WorkEntry } from '../../lib/content';
 
 /** Case studies in the order given by the slugs. Slugs that do not exist (or are drafts) are skipped. */
-export async function casesFor(slugs: string[]): Promise<WorkEntry[]> {
-  const work = await getWork();
-  return slugs.map((slug) => work.find((w) => w.id === slug)).filter((w): w is WorkEntry => Boolean(w));
+export async function casesFor(slugs: string[], lang: Lang = 'en'): Promise<WorkEntry[]> {
+  const work = await getWork(lang);
+  return slugs.map((slug) => work.find((w) => workSlug(w) === slug)).filter((w): w is WorkEntry => Boolean(w));
 }
 
 /**

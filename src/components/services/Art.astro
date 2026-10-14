@@ -1,8 +1,13 @@
 ---
+import type { Lang } from '../../i18n/config';
+import { innerCopy } from '../../i18n/pages/services';
+
 interface Props {
+  lang: Lang;
   slug: 'product-strategy' | 'product-design' | 'web-design' | 'build';
 }
-const { slug } = Astro.props;
+const { lang, slug } = Astro.props;
+const words = innerCopy[lang].art;
 ---
 
 {slug === 'product-strategy' && (
@@ -20,7 +25,7 @@ const { slug } = Astro.props;
     <path class="a-v" pathLength="1" d="M226 244C282 244 282 150 322 150" />
     <circle class="a-fl" cx="326" cy="150" r="6" />
     <text x="262" y="132">
-      decide
+      {words.decide}
     </text>
   </svg>
 )}
@@ -85,24 +90,24 @@ const { slug } = Astro.props;
     <rect class="a-s" pathLength="1" x="176" y="20" width="170" height="204" rx="8" />
     <path class="a-s" pathLength="1" d="M176 46h170" />
     <text x="192" y="38" style="font-size:10px">
-      terminal
+      {words.terminal}
     </text>
     <text x="192" y="76">
-      &gt; build --prod
+      {words.build}
     </text>
     <text x="192" y="98">
-      &gt; test ........ ok
+      {words.test}
     </text>
     <text x="192" y="120">
-      &gt; automate ... ok
+      {words.automate}
     </text>
     <text x="192" y="142" style="fill:#BAFB44">
-      &#10003; shipped
+      ✓ {words.shipped}
     </text>
     <path class="a-s" pathLength="1" d="M14 252h332" />
     <path class="a-l" pathLength="1" d="M14 252h236" />
     <text x="14" y="276">
-      MVP, weeks not quarters
+      {words.mvp}
     </text>
   </svg>
 )}

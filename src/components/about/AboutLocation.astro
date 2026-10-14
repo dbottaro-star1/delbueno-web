@@ -1,18 +1,27 @@
 ---
 /** Where the studio works: a live clock for Punta del Este, GMT-3, synced with US hours. */
+import type { Lang } from '../../i18n/config';
+import { fill } from '../../i18n';
+import { aboutCopy } from '../../i18n/pages/about';
 import { BRAND } from '../../lib/site';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const c = aboutCopy[lang].location;
+const place = { locality: BRAND.locality, country: BRAND.country };
 ---
 
 <section class="ip-sec al" aria-labelledby="al-h">
   <div class="wrap al-grid">
     <div>
-      <p class="label">Location</p>
+      <p class="label">{c.label}</p>
       <h2 class="ip-h2 al-h" id="al-h" data-lines>
-        Remote first. Synced with US hours.
+        {c.heading}
       </h2>
       <p class="al-text" data-reveal>
-        A remote-first team of UX and UI designers, researchers and developers working from {BRAND.locality},{' '}
-        {BRAND.country}. We sit on Latin America time (GMT-3), so your working day and ours overlap.
+        {fill(c.text, place)}
       </p>
     </div>
     <div class="al-clock" data-reveal>
@@ -23,7 +32,7 @@ import { BRAND } from '../../lib/site';
         <span class="ip-no">
           {BRAND.locality}, {BRAND.country}
         </span>
-        <span class="ip-no">GMT-3, local time now</span>
+        <span class="ip-no">{c.caption}</span>
       </p>
     </div>
   </div>

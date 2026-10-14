@@ -1,19 +1,30 @@
 ---
-import { services } from '../../data/services';
+import { getServices } from '../../data/services';
+import type { Lang } from '../../i18n/config';
+import { homeCopy } from '../../i18n/pages/home';
+import { servicePath } from '../../i18n/routes';
+import { fill } from '../../i18n';
 import { url } from '../../lib/url';
 import ServiceArt from './ServiceArt.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const c = homeCopy[lang].services;
+const services = getServices(lang);
 
 const total = String(services.length).padStart(2, '0');
 ---
 
 <section class="services" id="services" aria-labelledby="svc-h">
   <div class="sec-head">
-    <p class="label">Services</p>
+    <p class="label">{c.label}</p>
     <h2 class="h2" id="svc-h" data-split>
-      What we do
+      {c.heading}
     </h2>
     <p class="sub" data-rv>
-      Four disciplines, one team. Start with any of them.
+      {c.sub}
     </p>
   </div>
   <div class="svc-stack">
@@ -37,8 +48,8 @@ const total = String(services.length).padStart(2, '0');
                 <li>{c}</li>
               ))}
             </ul>
-            <a class="svc-more" href={url(`/services/${s.slug}/`)}>
-              About {s.name}
+            <a class="svc-more" href={url(servicePath(s.slug, lang))}>
+              {fill(c.about, { name: s.name })}
               <svg class="arr" aria-hidden="true">
                 <use href="#i-arr" />
               </svg>

@@ -1,11 +1,18 @@
 ---
 /** Fixed layers behind and in front of the first act: particle canvas, clarity readout and the flying screens. */
+import type { Lang } from '../../i18n/config';
+import { homeCopy } from '../../i18n/pages/home';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
 ---
 
 <canvas id="field" aria-hidden="true"></canvas>
 <div class="clarity" id="clarityRail" aria-hidden="true">
   <span class="mono">
-    <span>Clarity</span>
+    <span>{homeCopy[lang].clarity}</span>
     <b>
       <span id="clarity">000</span>%
     </b>

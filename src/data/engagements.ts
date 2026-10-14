@@ -1,3 +1,5 @@
+import type { Lang } from '../i18n/config';
+import { compareRowsEs, engagementFaqsEs, engagementsEs, pathEs, requestFlowEs } from './engagements.es';
 import type { FaqItem } from './types';
 
 export interface Engagement {
@@ -12,6 +14,9 @@ export interface Engagement {
   /** Situations where this model is the right call. */
   idealFor: string[];
 }
+
+/** The words of an engagement model. The name is a product name and is the same in every language. */
+export type EngagementText = Omit<Engagement, 'slug' | 'name'>;
 
 export const engagements: Engagement[] = [
   {
@@ -156,3 +161,24 @@ export const engagementFaqs: FaqItem[] = [
     a: 'We are based in Punta del Este, Uruguay, and work remote with US hours, so meetings land in your working day.',
   },
 ];
+
+/** Everything on the engagements page that has words, in one shape so it can be swapped per language. */
+export interface EngagementsCopy {
+  engagements: Engagement[];
+  compareRows: { label: string; values: [string, string, string] }[];
+  requestFlow: typeof requestFlow;
+  path: typeof path;
+  faqs: FaqItem[];
+}
+
+/** The engagement models, comparison, request flow, path and FAQs in a language. */
+export function getEngagementsCopy(lang: Lang): EngagementsCopy {
+  if (lang === 'en') return { engagements, compareRows, requestFlow, path, faqs: engagementFaqs };
+  return {
+    engagements: engagements.map((e) => ({ ...e, ...engagementsEs[e.slug] })),
+    compareRows: compareRowsEs,
+    requestFlow: requestFlowEs,
+    path: pathEs,
+    faqs: engagementFaqsEs,
+  };
+}

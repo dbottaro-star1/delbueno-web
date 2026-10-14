@@ -1,6 +1,14 @@
 ---
 /** How "unlimited requests, one at a time" works: four steps and a loop that draws back to the queue. */
-import { requestFlow } from '../../data/engagements';
+import { getEngagementsCopy } from '../../data/engagements';
+import type { Lang } from '../../i18n/config';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const { requestFlow } = getEngagementsCopy(lang);
+const repeat = lang === 'en' ? 'repeat' : 'repetir';
 ---
 
 <div class="rf" data-flow>
@@ -39,7 +47,7 @@ import { requestFlow } from '../../data/engagements';
       <path class="rf-loop-head" id="rfHead" d="M369 22L375 10L381 22" vector-effect="non-scaling-stroke"></path>
     </svg>
     <p class="rf-repeat" aria-hidden="true">
-      repeat
+      {repeat}
     </p>
   </div>
   <p class="rf-outro" data-rv>

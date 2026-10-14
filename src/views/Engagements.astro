@@ -1,0 +1,228 @@
+---
+import Faq from '../components/Faq.astro';
+import Compare from '../components/engagements/Compare.astro';
+import PathBlock from '../components/engagements/PathBlock.astro';
+import RequestFlow from '../components/engagements/RequestFlow.astro';
+import InnerCta from '../components/services/InnerCta.astro';
+import InnerHero from '../components/services/InnerHero.astro';
+import '../components/services/inner.css';
+import { getEngagementsCopy } from '../data/engagements';
+import type { Lang } from '../i18n/config';
+import { t } from '../i18n';
+import { engagementsPageCopy } from '../i18n/pages/engagements';
+import { pagePath } from '../i18n/routes';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { crumbs } from '../lib/schema';
+import { LINKS } from '../lib/site';
+import { canonicalUrl } from '../lib/url';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const c = engagementsPageCopy[lang];
+const { engagements, path: journey, faqs } = getEngagementsCopy(lang);
+const pageUrl = pagePath('engagements', lang);
+
+const trail = crumbs(lang, { name: t(lang, 'pageName.engagements'), path: pageUrl });
+
+const list = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: c.listName,
+  itemListElement: engagements.map((e, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    item: {
+      '@type': 'Service',
+      name: e.name,
+      description: e.description,
+      url: `${canonicalUrl(pageUrl)}#${e.slug}`,
+    },
+  })),
+};
+---
+
+<BaseLayout lang={lang} title={c.meta.title} description={c.meta.description} breadcrumbs={trail} jsonLd={[list]}>
+  <InnerHero lang={lang} crumbs={trail} label={c.label} title={c.heading} size="md" answer={c.answer} />
+
+  <section class="in-sec em-sec" aria-labelledby="em-h">
+    <div class="in-head">
+      <p class="label">{c.modelsLabel}</p>
+      <h2 class="in-h2" id="em-h" data-split>
+        {c.modelsHeading}
+      </h2>
+    </div>
+    <div class="em-list">
+      {engagements.map((e, i) => (
+        <article class="em" id={e.slug} aria-labelledby={`${e.slug}-h`}>
+          <div class="em-a">
+            <span class="em-no" data-rv>
+              {String(i + 1).padStart(2, '0')} / 0{engagements.length}
+            </span>
+            <h3 class="em-name" id={`${e.slug}-h`} data-split>
+              {e.name}
+            </h3>
+            <ul class="in-chips" data-rv>
+              {e.chips.map((chip) => (
+                <li>{chip}</li>
+              ))}
+            </ul>
+          </div>
+          <div class="em-b">
+            <p class="in-lead" data-rv>
+              {e.description}
+            </p>
+            <div class="em-cols" data-rv>
+              <div>
+                <h4 class="em-h4">{c.idealWhen}</h4>
+                <ul class="in-rows in-rows--mute">
+                  {e.idealFor.map((x) => (
+                    <li>{x}</li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <h4 class="em-h4">{c.includes}</h4>
+                <ul class="in-rows in-rows--mute">
+                  {e.includes.map((x) => (
+                    <li>{x}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+            <a class="in-more" href={LINKS.book} rel="noopener noreferrer" data-rv>
+              {t(lang, 'cta.bookAbout', { name: e.name })}
+              <svg class="arr" aria-hidden="true">
+                <use href="#i-arr" />
+              </svg>
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="in-sec" aria-labelledby="cmp-h">
+    <div class="in-head">
+      <p class="label">{c.compareLabel}</p>
+      <h2 class="in-h2" id="cmp-h" data-split>
+        {c.compareHeading}
+      </h2>
+      <p class="in-sub" data-rv>
+        {c.compareSub}
+      </p>
+    </div>
+    <Compare lang={lang} />
+  </section>
+
+  <section class="in-sec" aria-labelledby="path-h">
+    <div class="in-head">
+      <p class="label">{c.pathLabel}</p>
+      <h2 class="in-h2" id="path-h" data-split>
+        {journey.heading}
+      </h2>
+      <p class="in-sub" data-rv>
+        {journey.text}
+      </p>
+    </div>
+    <PathBlock lang={lang} />
+  </section>
+
+  <section class="in-sec" aria-labelledby="rf-h">
+    <div class="in-head">
+      <p class="label">{c.flowLabel}</p>
+      <h2 class="in-h2" id="rf-h" data-split>
+        {c.flowHeading}
+      </h2>
+    </div>
+    <RequestFlow lang={lang} />
+  </section>
+
+  <section class="in-sec in-faq">
+    <Faq lang={lang} items={faqs} />
+  </section>
+
+  <InnerCta lang={lang} heading={c.ctaHeading} />
+
+  <script>
+    import '../scripts/services';
+  </script>
+</BaseLayout>
+
+<style is:global>
+  .em-list {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .em {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--gap);
+    row-gap: clamp(28px, 4vw, 48px);
+    padding: clamp(40px, 6vw, 88px) 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .em-a {
+    grid-column: 1 / 7;
+    min-width: 0;
+  }
+
+  .em-b {
+    grid-column: 7 / 13;
+    min-width: 0;
+    display: grid;
+    gap: clamp(24px, 3vw, 40px);
+    align-content: start;
+  }
+
+  .em-no {
+    display: block;
+    margin-bottom: clamp(18px, 2vw, 28px);
+    font: 500 0.8125rem / 1 var(--mono);
+    letter-spacing: 0.08em;
+    color: var(--dim);
+  }
+
+  .em-name {
+    margin-bottom: clamp(20px, 2.4vw, 32px);
+    font: 800 clamp(2.3rem, 5vw, 5.6rem) / 0.92 var(--display);
+    letter-spacing: -0.05em;
+    text-wrap: balance;
+  }
+
+  .em-cols {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+    gap: clamp(24px, 3vw, 40px);
+  }
+
+  .em-h4 {
+    margin-bottom: 12px;
+    font: 400 var(--fs-xs) / 1 var(--mono);
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--mute);
+  }
+
+  .em-cols .in-rows > li {
+    grid-template-columns: 36px minmax(0, 1fr);
+    font-size: 1rem;
+  }
+
+  @media (min-width: 1024px) {
+    .em-a {
+      position: sticky;
+      top: calc(var(--nav-h) + 24px);
+      align-self: start;
+    }
+  }
+
+  @media (max-width: 1023px) {
+    .em-a,
+    .em-b {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

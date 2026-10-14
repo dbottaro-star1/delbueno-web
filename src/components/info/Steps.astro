@@ -5,17 +5,21 @@ interface Step {
   title: string;
   text: string;
 }
+import type { Lang } from '../../i18n/config';
+import { t } from '../../i18n';
+
 interface Props {
+  lang: Lang;
   steps: Step[];
 }
-const { steps } = Astro.props;
+const { lang, steps } = Astro.props;
 ---
 
 <ol class="ap" style={`--n:${steps.length}`}>
   {steps.map((s, i) => (
     <li class="ap-step" data-reveal>
       <span class="ap-dot" aria-hidden="true"></span>
-      <span class="ip-no">Step {String(i + 1).padStart(2, '0')}</span>
+      <span class="ip-no">{t(lang, 'process.step', { n: String(i + 1).padStart(2, '0') })}</span>
       <p class="ap-when">{s.when}</p>
       <h3>{s.title}</h3>
       <p class="ap-text">{s.text}</p>

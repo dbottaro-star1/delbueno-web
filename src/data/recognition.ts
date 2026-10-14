@@ -45,7 +45,6 @@ export const recognition: Recognition[] = [
 export const googleRating = {
   score: '4.9',
   outOf: '5',
-  label: 'Positive reviews',
   /** Set to the Google Business Profile reviews link once confirmed. */
   url: undefined as string | undefined,
 };

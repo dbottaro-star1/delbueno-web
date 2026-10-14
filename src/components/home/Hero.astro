@@ -1,38 +1,44 @@
 ---
+import type { Lang } from '../../i18n/config';
+import { translator } from '../../i18n';
+import { homeCopy } from '../../i18n/pages/home';
 import { BRAND, LINKS } from '../../lib/site';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = translator(lang);
+const c = homeCopy[lang].hero;
 ---
 
-<section class="hero" id="top" aria-label="Introduction">
+<section class="hero" id="top" aria-label={c.aria}>
   <div class="hero-inner">
     <div class="hero-copy">
-      <h1 class="eyebrow hero-fade">Product design &amp; development studio for B2B SaaS and startups.</h1>
+      <h1 class="eyebrow hero-fade">{c.eyebrow}</h1>
       <p class="hero-display">
-        <span class="hl">
-          <span class="hl-i">Software</span>
-        </span>{' '}
-        <span class="hl">
-          <span class="hl-i">that feels</span>
-        </span>{' '}
-        <span class="hl">
-          <span class="hl-i">
-            <span class="grad">obvious.</span>
-          </span>
-        </span>
+        {c.lines.map((line, i) => (
+          <>
+            {i > 0 && ' '}
+            <span class="hl">
+              <span class="hl-i">{i === c.lines.length - 1 ? <span class="grad">{line}</span> : line}</span>
+            </span>
+          </>
+        ))}
       </p>
       <div class="hero-foot">
         <p class="hero-sub hero-fade">
-          <strong>{BRAND.name}</strong> designs and builds products, websites and design systems for B2B SaaS teams and
-          ambitious startups. {BRAND.speed}
+          <strong>{BRAND.name}</strong> {c.intro} {t('brand.speed')}
         </p>
         <div class="hero-cta hero-fade">
           <a class="btn btn-primary" data-magnetic href={LINKS.book} rel="noopener">
-            Book a call{' '}
+            {t('cta.book')}{' '}
             <svg class="arr" aria-hidden="true">
               <use href="#i-arr"></use>
             </svg>
           </a>
           <a class="btn btn-ghost" data-magnetic href="#work">
-            See the work
+            {c.see}
           </a>
         </div>
       </div>
