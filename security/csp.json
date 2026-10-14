@@ -8,6 +8,7 @@
       "https://static.hotjar.com",
       "https://script.hotjar.com",
       "https://static.cloudflareinsights.com",
+      "https://cloud.umami.is",
       "'sha256-kSaX0iOryjpCQSkOMxVYvdTnp6BAnJysgVbj9wm/ERw='"
     ],
     "style-src": ["'self'", "https://static.hotjar.com", "https://script.hotjar.com"],
@@ -20,7 +21,8 @@
       "https://*.hotjar.com",
       "https://*.hotjar.io",
       "wss://*.hotjar.com",
-      "https://cloudflareinsights.com"
+      "https://cloudflareinsights.com",
+      "https://gateway.umami.is"
     ],
     "manifest-src": ["'self'"],
     "frame-src": ["'none'"],
