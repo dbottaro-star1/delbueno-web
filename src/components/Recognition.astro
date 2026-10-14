@@ -3,6 +3,8 @@
  * Row of third-party recognition badges (Dribbble, Clutch, TechBehemoths) plus the Google rating.
  * Badges keep each platform's artwork, scaled to one shared height, and link to the platform when a
  * profile URL is known. Raster badges go through astro:assets, so they ship as small WebP files.
+ * Landscape items (TechBehemoths, the Google card) get the class rec-wide, so a parent can lay them out
+ * apart from the compact shields on narrow screens.
  */
 import { Image } from 'astro:assets';
 import { googleRating, recognition } from '../data/recognition';
@@ -51,7 +53,7 @@ const RatingTag = googleRating.url ? 'a' : 'div';
         />
       );
     return (
-      <li>
+      <li class:list={{ 'rec-wide': r.image.width / r.image.height > 1.6 }}>
         <Tag
           class="rec-item"
           {...(r.url ? { href: r.url, ...ext, 'aria-label': `${r.name} (${t('a11y.newTab')})` } : {})}
@@ -62,7 +64,7 @@ const RatingTag = googleRating.url ? 'a' : 'div';
     );
   })}
   {withRating && (
-    <li>
+    <li class="rec-wide">
       <RatingTag
         class="rec-item rec-google"
         {...(googleRating.url ? { href: googleRating.url, ...ext } : {})}

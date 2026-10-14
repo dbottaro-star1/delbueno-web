@@ -91,7 +91,8 @@ const t = translator(lang);
   }
 
   .pg-head .h2 {
-    font-size: clamp(2.4rem, 5.6vw, 6rem);
+    /* "Playground" is one long word: the 10vw floor keeps it inside a 320px screen. */
+    font-size: clamp(min(2.4rem, 10vw), 5.6vw, 6rem);
     margin-top: 14px;
   }
 

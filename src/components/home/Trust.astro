@@ -63,9 +63,47 @@ const clients = CLIENT_NAMES;
     border-top: 1px solid var(--line);
   }
 
+  /* Below desktop the badges sit on two rows: the three shields, then the two landscape items. A single
+     wrapped row left one item alone on tablets and squeezed the wide pair on phones. The ul.rec
+     selectors outrank the scoped styles in Recognition.astro. */
+  @media (max-width: 1023px) {
+    .trust-rec ul.rec {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 32px 16px;
+      width: 100%;
+      align-items: center;
+      justify-items: center;
+    }
+
+    .trust-rec ul.rec > li {
+      grid-column: span 2;
+    }
+
+    .trust-rec ul.rec > li.rec-wide {
+      grid-column: span 3;
+    }
+  }
+
+  /* Phones: the wide pair fills its half of the row, at the same height. */
   @media (max-width: 560px) {
-    .trust-rec .rec {
-      --rec-h: 64px !important;
+    .trust-rec ul.rec {
+      --rec-h: 76px !important;
+    }
+
+    .trust-rec ul.rec > li.rec-wide {
+      justify-self: stretch;
+    }
+
+    .trust-rec ul.rec > .rec-wide .rec-item img {
+      width: 100%;
+      height: auto;
+    }
+
+    /* Same height as the TechBehemoths banner, which scales with its half of the row. */
+    .trust-rec ul.rec > .rec-wide .rec-google {
+      --rec-h: min(56px, calc((100vw - 2 * var(--pad) - 16px) / 2 / 2.97));
+      justify-content: center;
     }
   }
 
