@@ -3,15 +3,15 @@
  *
  *   - Hotjar: heatmaps and session recordings. Sets its own cookies, so it is skipped when the browser sends
  *     Global Privacy Control.
- *   - Umami Cloud: cookieless page views with country, region, city and device. It loads from cloud.umami.is and
- *     reports to gateway.umami.is.
+ *   - Umami Cloud: cookieless page views with country, region, city and device, plus three click events (see
+ *     trackClicks). It loads from cloud.umami.is and reports to gateway.umami.is.
  *
  * Both vendor snippets are moved into this bundled module, so they need no inline script and no new CSP hash. The hosts
  * they use are listed in security/csp.json. Nothing here runs outside the production domain: previews, localhost and
  * the dev server never load either tool. (Cloudflare Web Analytics is the third tool; Cloudflare injects it at the
  * edge, so it is not here.)
  */
-import { PROD_ORIGIN } from '../lib/site';
+import { LINKS, PROD_ORIGIN } from '../lib/site';
 
 const HOTJAR_ID = 5084351;
 const HOTJAR_SNIPPET_VERSION = 6;
@@ -21,6 +21,7 @@ type HotjarQueue = ((...args: unknown[]) => void) & { q?: unknown[][] };
 
 declare global {
   interface Window {
+    umami?: { track: (event: string, data?: Record<string, string>) => void };
     hj?: HotjarQueue;
     _hjSettings?: { hjid: number; hjsv: number };
   }
@@ -55,9 +56,31 @@ function initUmami(): void {
   });
 }
 
+/**
+ * Click events for the weekly report: "Book a call", "Email" and "Outbound link" (with the host). One delegated
+ * listener, so no template needs tracking attributes. Umami sends with fetch keepalive, so the event survives the
+ * navigation that follows the click.
+ */
+function trackClicks(): void {
+  document.addEventListener(
+    'click',
+    (event) => {
+      const link = (event.target as Element | null)?.closest?.('a[href]');
+      if (!(link instanceof HTMLAnchorElement) || !window.umami) return;
+      const href = link.href;
+      if (href.startsWith(LINKS.book)) window.umami.track('Book a call', { page: location.pathname });
+      else if (href.startsWith('mailto:')) window.umami.track('Email', { page: location.pathname });
+      else if (link.origin !== location.origin && /^https?:/.test(href))
+        window.umami.track('Outbound link', { host: link.hostname });
+    },
+    { capture: true, passive: true },
+  );
+}
+
 export function initAnalytics(): void {
   if (!import.meta.env.PROD || __PREVIEW__) return;
   if (location.origin !== PROD_ORIGIN) return;
   initUmami();
+  trackClicks();
   initHotjar();
 }

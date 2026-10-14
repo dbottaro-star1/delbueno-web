@@ -75,7 +75,7 @@ export const privacyCopy: Localized<LegalPage> = {
             p: 'We use [Hotjar](hotjar) to understand how visitors use the Website, so we can improve it. Hotjar creates heatmaps and session recordings of page visits and stores its data in the European Union. It sets first party cookies, such as _hjSessionUser and _hjSession, to tell one visit from the next. They last up to one year and are not used for advertising.',
           },
           {
-            p: 'We also use Umami and Cloudflare Web Analytics to count visits. They record page views, referring sites, device type, browser and approximate location (country and city, worked out from your IP address, which they do not store). Neither sets cookies or identifies you.',
+            p: 'We also use Umami and Cloudflare Web Analytics to count visits. They record page views, clicks on the booking, email and outbound links, referring sites, device type, browser and approximate location (country and city, worked out from your IP address, which they do not store). Neither sets cookies or identifies you.',
           },
           {
             p: 'The Website itself sets no other cookies and uses no advertising tags or tracking pixels. If your browser sends a Global Privacy Control signal, Hotjar is not loaded. You can also block or delete cookies at any time in your browser settings, and the Website keeps working without them.',
@@ -223,7 +223,7 @@ export const privacyCopy: Localized<LegalPage> = {
             p: 'Usamos [Hotjar](hotjar) para entender cómo los visitantes usan el Sitio y así mejorarlo. Hotjar crea mapas de calor y grabaciones de sesión de las visitas y guarda sus datos en la Unión Europea. Establece cookies propias, como _hjSessionUser y _hjSession, para distinguir una visita de la siguiente. Duran hasta un año y no se usan para publicidad.',
           },
           {
-            p: 'También usamos Umami y Cloudflare Web Analytics para contar las visitas. Registran páginas vistas, sitios de origen, tipo de dispositivo, navegador y ubicación aproximada (país y ciudad, deducidos de tu dirección IP, que no guardan). Ninguno establece cookies ni te identifica.',
+            p: 'También usamos Umami y Cloudflare Web Analytics para contar las visitas. Registran páginas vistas, clics en los enlaces de reserva, de correo y externos, sitios de origen, tipo de dispositivo, navegador y ubicación aproximada (país y ciudad, deducidos de tu dirección IP, que no guardan). Ninguno establece cookies ni te identifica.',
           },
           {
             p: 'El Sitio no establece otras cookies y no usa etiquetas publicitarias ni píxeles de seguimiento. Si tu navegador envía la señal Global Privacy Control, Hotjar no se carga. También puedes bloquear o borrar las cookies en cualquier momento desde la configuración de tu navegador, y el Sitio sigue funcionando sin ellas.',
