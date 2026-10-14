@@ -16,7 +16,7 @@ import { workCopy } from '../i18n/pages/work';
 import { pagePath, workPath } from '../i18n/routes';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getWork, workSlug, type WorkEntry } from '../lib/content';
-import { ORG_ID, caseStudySchema, crumbs, websiteId } from '../lib/schema';
+import { caseStudySchema, crumbs, websiteId } from '../lib/schema';
 import { canonicalUrl, url } from '../lib/url';
 
 interface Props {
@@ -128,21 +128,8 @@ const creativeWork = {
   },
   mainEntityOfPage: { '@type': 'WebPage', '@id': canonicalUrl(path) },
   thumbnailUrl: ogImage,
-  ...(quote
-    ? {
-        review: {
-          '@type': 'Review',
-          reviewBody: quote.text,
-          author: {
-            '@type': 'Person',
-            name: quote.name,
-            jobTitle: quote.role,
-            ...(quote.company ? { worksFor: { '@type': 'Organization', name: quote.company } } : {}),
-          },
-          itemReviewed: { '@id': ORG_ID },
-        },
-      }
-    : {}),
+  /* The client testimonial stays on the page but not in the schema: Google treats a review of the studio published on
+     the studio's own site as self-serving, and flags a Review without a rating as a validation error. */
 };
 ---
 

@@ -3,12 +3,12 @@ import InfoCta from '../components/info/InfoCta.astro';
 import InfoFaq from '../components/info/InfoFaq.astro';
 import InfoHero from '../components/info/InfoHero.astro';
 import Steps from '../components/info/Steps.astro';
-import { LANG_META, type Lang } from '../i18n/config';
+import type { Lang } from '../i18n/config';
 import { t } from '../i18n';
 import { auditCopy } from '../i18n/pages/audit';
 import { pagePath } from '../i18n/routes';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { ORG_ID, crumbs, websiteId } from '../lib/schema';
+import { ORG_ID, crumbs } from '../lib/schema';
 import { BRAND, LINKS } from '../lib/site';
 import { canonicalUrl } from '../lib/url';
 
@@ -41,9 +41,7 @@ const mailto = `mailto:${BRAND.email}?subject=${encodeURIComponent(c.mail.subjec
       serviceType: c.meta.serviceType,
       description,
       url: canonicalUrl(path),
-      inLanguage: LANG_META[lang].tag,
       provider: { '@id': ORG_ID },
-      isPartOf: { '@id': websiteId(lang) },
       areaServed: 'Worldwide',
       offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
     },
