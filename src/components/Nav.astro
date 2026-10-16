@@ -241,13 +241,16 @@ const isActive = (href: string) => current === href || current.startsWith(href);
     min-height: 44px;
   }
 
-  @media (max-width: 860px) {
-    :global(:root) {
-      --nav-h: 64px;
+  /* Seven links: tighten the gaps between 1024 and 1100 px so the row keeps room next to the wordmark and buttons.
+     Below 1024 px the links move into the menu (see below). */
+  @media (max-width: 1100px) {
+    .nav-links {
+      gap: clamp(14px, 1.9vw, 24px);
     }
+  }
 
-    .nav-links,
-    .nav-right .btn {
+  @media (max-width: 1023px) {
+    .nav-links {
       display: none;
     }
 
@@ -256,7 +259,17 @@ const isActive = (href: string) => current === href || current.startsWith(href);
     }
   }
 
-  @media (min-width: 861px) {
+  @media (max-width: 860px) {
+    :global(:root) {
+      --nav-h: 64px;
+    }
+
+    .nav-right .btn {
+      display: none;
+    }
+  }
+
+  @media (min-width: 1024px) {
     .menu {
       display: none;
     }

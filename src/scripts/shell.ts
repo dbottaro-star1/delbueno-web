@@ -78,7 +78,7 @@ export function initShell(): void {
       first.focus();
     }
   });
-  window.matchMedia('(min-width: 861px)').addEventListener('change', (e) => e.matches && setOpen(false));
+  window.matchMedia('(min-width: 1024px)').addEventListener('change', (e) => e.matches && setOpen(false));
 
   /* ---- solid nav ---- */
   const onScroll = () => nav.classList.toggle('is-solid', window.scrollY > 40);

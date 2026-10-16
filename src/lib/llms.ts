@@ -5,9 +5,11 @@
 import { getEngagementsCopy } from '../data/engagements';
 import { getIndustries } from '../data/industries';
 import { getServices } from '../data/services';
+import { STACK_SLUGS, stack } from '../data/stack';
 import type { Lang } from '../i18n/config';
 import { fill, t } from '../i18n';
 import { llmsCopy } from '../i18n/pages/llms';
+import { stackPageCopy } from '../i18n/pages/stack';
 import { industryPath, pagePath, servicePath, workPath } from '../i18n/routes';
 import { formatDate, getJournal, getShots, getWork, plainBody, shotText, workSlug } from './content';
 import { BRAND, LINKS, SAME_AS } from './site';
@@ -74,6 +76,7 @@ export async function buildLlmsTxt(site: URL | undefined, lang: Lang = 'en'): Pr
     link(co.work[0], u(pagePath('work', lang)), co.work[1]),
     link(co.industries[0], u(pagePath('industries', lang)), co.industries[1]),
     link(co.engagements[0], u(pagePath('engagements', lang)), co.engagements[1]),
+    link(co.stack[0], u(pagePath('stack', lang)), co.stack[1]),
     link(co.journal[0], u(pagePath('journal', lang)), co.journal[1]),
     link(co.about[0], u(pagePath('about', lang)), co.about[1]),
     link(co.contact[0], u(pagePath('contact', lang)), fill(c.contactNote, { email: BRAND.email })),
@@ -153,6 +156,18 @@ export async function buildLlmsFullTxt(site: URL | undefined, lang: Lang = 'en')
     );
   }
   out.push(...engagementFaqs.flatMap((q) => [`Q: ${q.q}`, `A: ${q.a}`, '']));
+
+  const stackCopy = stackPageCopy[lang];
+  out.push(
+    `## ${c.h.stack}`,
+    '',
+    `${f.url}: ${u(pagePath('stack', lang))}`,
+    '',
+    stackCopy.answer,
+    '',
+    ...STACK_SLUGS.map((slug) => `- ${stackCopy.categories[slug].title}: ${stack[slug].map((i) => i.name).join(', ')}`),
+    '',
+  );
 
   out.push(`## ${c.h.industries}`, '');
   for (const i of getIndustries(lang)) {

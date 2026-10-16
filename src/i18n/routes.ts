@@ -14,6 +14,7 @@ export const PAGES = {
   playground: { en: '/playground/', es: '/es/playground/' },
   services: { en: '/services/', es: '/es/servicios/' },
   engagements: { en: '/engagements/', es: '/es/modelos-de-trabajo/' },
+  stack: { en: '/tech-stack/', es: '/es/tecnologias/' },
   industries: { en: '/industries/', es: '/es/industrias/' },
   about: { en: '/about/', es: '/es/nosotros/' },
   contact: { en: '/contact/', es: '/es/contacto/' },

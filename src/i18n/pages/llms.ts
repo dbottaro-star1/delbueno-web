@@ -9,6 +9,7 @@ export interface LlmsCopy {
   h: {
     services: string;
     engagements: string;
+    stack: string;
     industries: string;
     cases: string;
     playground: string;
@@ -21,6 +22,7 @@ export interface LlmsCopy {
     work: [string, string];
     industries: [string, string];
     engagements: [string, string];
+    stack: [string, string];
     journal: [string, string];
     about: [string, string];
     contact: [string, string];
@@ -68,6 +70,7 @@ export const llmsCopy: Localized<LlmsCopy> = {
     h: {
       services: 'Services',
       engagements: 'Engagement models',
+      stack: 'Tech stack',
       industries: 'Industries',
       cases: 'Case studies',
       playground: 'Playground',
@@ -80,6 +83,7 @@ export const llmsCopy: Localized<LlmsCopy> = {
       work: ['Work', 'Case studies with the results behind each'],
       industries: ['Industries', 'Cloud, cybersecurity, DevOps, AI and fintech'],
       engagements: ['Engagements', 'Launch Sprint, Design Partner and Designer on Demand, compared'],
+      stack: ['Tech stack', 'The design, AI, frontend, backend and cloud tools we work with'],
       journal: ['Journal', 'Articles on UX for complex software'],
       about: ['About', 'Who we are and how we work'],
       contact: ['Contact', 'Book a call or email {email}'],
@@ -125,6 +129,7 @@ export const llmsCopy: Localized<LlmsCopy> = {
     h: {
       services: 'Servicios',
       engagements: 'Modelos de trabajo',
+      stack: 'Tecnologías',
       industries: 'Industrias',
       cases: 'Casos de estudio',
       playground: 'Playground',
@@ -137,6 +142,7 @@ export const llmsCopy: Localized<LlmsCopy> = {
       work: ['Trabajo', 'Casos de estudio con los resultados de cada uno'],
       industries: ['Industrias', 'Nube, ciberseguridad, DevOps, IA y fintech'],
       engagements: ['Modelos de trabajo', 'Launch Sprint, Design Partner y Designer on Demand, comparados'],
+      stack: ['Tecnologías', 'Las herramientas de diseño, IA, frontend, backend y nube con las que trabajamos'],
       journal: ['Blog', 'Artículos en inglés sobre UX para software complejo'],
       about: ['Nosotros', 'Quiénes somos y cómo trabajamos'],
       contact: ['Contacto', 'Agenda una llamada o escribe a {email}'],

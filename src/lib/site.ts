@@ -64,6 +64,7 @@ export const NAV_LINKS: readonly SiteLink[] = [
   { page: 'playground', label: 'nav.playground' },
   { page: 'services', label: 'nav.services' },
   { page: 'engagements', label: 'nav.engagements' },
+  { page: 'stack', label: 'nav.stack' },
   { page: 'journal', label: 'nav.journal' },
   { page: 'about', label: 'nav.about' },
 ];

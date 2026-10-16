@@ -32,6 +32,14 @@ export const OG_STATIC: { page: PageKey; kicker: Localized<string>; title: Local
     title: { en: 'Three ways to work together.', es: 'Tres formas de trabajar juntos.' },
   },
   {
+    page: 'stack',
+    kicker: { en: 'Tech stack', es: 'Tecnologías' },
+    title: {
+      en: 'The tools behind our design and code.',
+      es: 'Las herramientas detrás de nuestro diseño y código.',
+    },
+  },
+  {
     page: 'industries',
     kicker: { en: 'Industries', es: 'Industrias' },
     title: {
