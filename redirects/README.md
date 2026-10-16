@@ -29,17 +29,19 @@ What the file covers:
 
 - Pages: every legitimate page in the old site's URL inventory, mapped to the closest new page.
 - Landing pages: `/delbueno-nocode-landing/`, `/design-speed-for-startups/`, `/ux-product-design-landing/` and `/product-design-for-ai-tools/`.
-- Categories: `/category/stories/` goes to `/work/`, `/category/blog/marketing/` to its journal category, the other blog
-  categories to `/journal/`.
+- Categories: `/category/stories/` goes to `/work/`, `/category/blog/marketing/` to its blog category, the other blog
+  categories to `/blog/`.
+- Blog index: the blog lived at `/journal/` for its first days on the new site (October 2026), so `/journal/`, its
+  pages, categories and feed point to the same paths under `/blog/`, the old WordPress address.
 - Author archives: the three real authors go to `/about/`.
-- Feeds: `/feed/`, `/comments/feed/` and every category feed go to `/journal/rss.xml`.
+- Feeds: `/feed/`, `/comments/feed/` and every category feed go to `/blog/rss.xml`.
 - Sitemaps: `/sitemap.xml`, `/sitemap_index.xml`, `/post-sitemap.xml`, `/page-sitemap.xml` and `/category-sitemap.xml`
   go to `/sitemap-index.xml`. These sources are files, so they have no trailing slash.
 
 Not in the file on purpose: junk test pages and URLs that should return 410. Those belong in the private 410 list (see
 below), together with any author archive that is not one of the real authors. Per-post comment feeds
 (`/<post-slug>/feed/`) are not redirected. If Search Console shows requests for them, add rows that point to
-`/journal/rss.xml`.
+`/blog/rss.xml`.
 
 ## How to import
 

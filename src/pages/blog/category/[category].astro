@@ -28,20 +28,20 @@ interface Props {
 }
 const { name, slug, entries } = Astro.props;
 
-const trail = crumbs('en', { name: 'Journal', path: '/journal/' }, { name, path: `/journal/category/${slug}/` });
+const trail = crumbs('en', { name: 'Blog', path: '/blog/' }, { name, path: `/blog/category/${slug}/` });
 const count = `${entries.length} ${entries.length === 1 ? 'article' : 'articles'}`;
 ---
 
 <BaseLayout
   lang="en"
   switchFallback={pagePath('journal', 'es')}
-  title={`${name}: journal articles`}
+  title={`${name}: blog articles`}
   description={`${count} from delbueno™ Studio on ${name}, for teams building complex B2B software. Practical guides, frameworks and field notes from our work.`}
   breadcrumbs={trail}
 >
   <InfoHero
     lang="en"
-    eyebrow={`Journal / ${count}`}
+    eyebrow={`Blog / ${count}`}
     title={name}
     lede={`Everything we have written about ${name}, newest first.`}
     crumbs={trail}

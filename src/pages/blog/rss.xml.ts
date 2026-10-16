@@ -8,8 +8,8 @@ const escape = (value: string) =>
 
 export const GET: APIRoute = async ({ site }) => {
   const posts = await getJournal();
-  const self = absoluteUrl('/journal/rss.xml', site);
-  const home = absoluteUrl('/journal/', site);
+  const self = absoluteUrl('/blog/rss.xml', site);
+  const home = absoluteUrl('/blog/', site);
 
   const items = posts
     .map((post) => {
@@ -32,7 +32,7 @@ export const GET: APIRoute = async ({ site }) => {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:dc="http://purl.org/dc/elements/1.1/">
   <channel>
-    <title>${escape(BRAND.name)} journal</title>
+    <title>${escape(BRAND.name)} blog</title>
     <link>${home}</link>
     <description>Notes on designing complex B2B software from ${escape(BRAND.name)}.</description>
     <language>en</language>
@@ -40,7 +40,7 @@ export const GET: APIRoute = async ({ site }) => {
     <managingEditor>${BRAND.email} (${escape(FOUNDER.name)})</managingEditor>
     <image>
       <url>${absoluteUrl('/logo.png', site)}</url>
-      <title>${escape(BRAND.name)} journal</title>
+      <title>${escape(BRAND.name)} blog</title>
       <link>${home}</link>
     </image>
     <lastBuildDate>${lastBuild}</lastBuildDate>

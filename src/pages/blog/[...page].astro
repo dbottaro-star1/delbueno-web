@@ -24,28 +24,26 @@ const featured = first ? page.data[0] : undefined;
 const rows = first ? page.data.slice(1) : page.data;
 const start = page.start + (first ? 2 : 1);
 
-const trail = crumbs('en', { name: 'Journal', path: '/journal/' });
-const pageTrail = first
-  ? trail
-  : [...trail, { name: `Page ${page.currentPage}`, path: `/journal/${page.currentPage}/` }];
+const trail = crumbs('en', { name: 'Blog', path: '/blog/' });
+const pageTrail = first ? trail : [...trail, { name: `Page ${page.currentPage}`, path: `/blog/${page.currentPage}/` }];
 const suffix = first ? '' : ` (page ${page.currentPage})`;
 const description =
   'Articles from delbueno™ Studio on UX for cloud, cybersecurity, DevOps and AI products, design systems, and how to design and build B2B SaaS.';
 // Pagination links are built from the page number so they honour the base path.
-const pageUrl = (n: number) => url(n === 1 ? '/journal/' : `/journal/${n}/`);
+const pageUrl = (n: number) => url(n === 1 ? '/blog/' : `/blog/${n}/`);
 const numbers = Array.from({ length: page.lastPage }, (_, i) => i + 1);
 ---
 
 <BaseLayout
   lang="en"
   switchFallback={pagePath('journal', 'es')}
-  title={`Journal${suffix}: notes on designing complex software`}
+  title={`Blog${suffix}: notes on designing complex software`}
   description={first ? description : `Page ${page.currentPage} of ${page.lastPage}: ${description}`}
   breadcrumbs={pageTrail}
 >
   <InfoHero
     lang="en"
-    eyebrow={`Journal / ${page.total} articles`}
+    eyebrow={`Blog / ${page.total} articles`}
     title="Notes on designing"
     accent="complex software."
     lede="Practical writing on UX for cloud, cybersecurity, DevOps and AI products, and on building B2B SaaS."
@@ -58,7 +56,7 @@ const numbers = Array.from({ length: page.lastPage }, (_, i) => i + 1);
 
   <JournalList lang="en" entries={rows} start={start}>
     {page.lastPage > 1 && (
-      <nav class="pager" aria-label="Journal pages">
+      <nav class="pager" aria-label="Blog pages">
         {page.currentPage > 1 ? (
           <a class="btn btn-ghost btn-sm" href={pageUrl(page.currentPage - 1)} rel="prev">
             Newer posts

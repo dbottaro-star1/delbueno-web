@@ -1,6 +1,6 @@
 /**
  * The Spanish blog index. The posts themselves are in English, so the page says so and tags every entry. The English
- * journal index keeps its own copy in src/pages/journal.
+ * blog index keeps its own copy in src/pages/blog.
  */
 export interface BlogCopy {
   meta: { title: string; description: string };

@@ -57,7 +57,7 @@ export const accessibilityCopy: Localized<LegalPage> = {
             ul: [
               'The booking page is run by Lemcal, and the Playground links to Dribbble. We do not control the accessibility of those services.',
               'Playground clips are short silent loops that show design motion. They come with a text title and description.',
-              'Some older journal articles may have gaps, such as a short image description. We are working through them.',
+              'Some older blog articles may have gaps, such as a short image description. We are working through them.',
             ],
           },
         ],

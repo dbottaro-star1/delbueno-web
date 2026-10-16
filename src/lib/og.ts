@@ -48,8 +48,8 @@ async function build(): Promise<OgCard[]> {
       })),
     ]),
     ...(await getCategories()).map((c) => ({
-      path: `/journal/category/${categorySlug(c.name)}/`,
-      kicker: 'Journal',
+      path: `/blog/category/${categorySlug(c.name)}/`,
+      kicker: 'Blog',
       title: c.name,
     })),
     // Posts with a hero image use it. A post without one gets a card with its short title.
@@ -72,7 +72,7 @@ export const getOgCards = (): Promise<OgCard[]> => (cache ??= build());
 
 /** The generated card for a page path, or undefined when the page uses the default image. */
 export async function ogCardFor(path: string): Promise<OgCard | undefined> {
-  // Later pages of the journal share the first page's card.
-  const key = path.replace(/^\/journal\/\d+\/$/, '/journal/');
+  // Later pages of the blog share the first page's card.
+  const key = path.replace(/^\/blog\/\d+\/$/, '/blog/');
   return (await getOgCards()).find((c) => c.path === key);
 }

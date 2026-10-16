@@ -16,7 +16,7 @@ export const notFoundCopy: Localized<NotFoundCopy> = {
     meta: {
       title: 'Page not found',
       description:
-        'The page you are looking for does not exist or has moved. Go back to the delbueno™ Studio home page, our work or the journal to keep exploring.',
+        'The page you are looking for does not exist or has moved. Go back to the delbueno™ Studio home page, our work or the blog to keep exploring.',
     },
     label: 'Error 404',
     heading: 'This page has moved or never existed.',

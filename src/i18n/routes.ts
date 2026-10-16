@@ -17,7 +17,7 @@ export const PAGES = {
   industries: { en: '/industries/', es: '/es/industrias/' },
   about: { en: '/about/', es: '/es/nosotros/' },
   contact: { en: '/contact/', es: '/es/contacto/' },
-  journal: { en: '/journal/', es: '/es/blog/' },
+  journal: { en: '/blog/', es: '/es/blog/' },
   audit: { en: '/free-ux-audit/', es: '/es/auditoria-ux-gratis/' },
   careers: { en: '/careers/', es: '/es/trabaja-con-nosotros/' },
   terms: { en: '/terms/', es: '/es/terminos/' },

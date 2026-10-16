@@ -10,7 +10,7 @@ export const en = {
     description:
       'delbueno™ Studio is a product design and development studio for B2B SaaS teams and startups, based in Punta del Este, Uruguay, working remote with US hours.',
     kicker: 'Product design studio',
-    siteLabel: '{brand} journal',
+    siteLabel: '{brand} blog',
   },
   founder: {
     jobTitle: 'Founder',
@@ -31,7 +31,7 @@ export const en = {
     playground: 'Playground',
     services: 'Services',
     engagements: 'Engagements',
-    journal: 'Journal',
+    journal: 'Blog',
     about: 'About',
   },
   lang: { inEnglish: 'In English', translated: 'Translated from English' },
@@ -66,7 +66,7 @@ export const en = {
     industries: 'Industries',
     about: 'About',
     contact: 'Contact',
-    journal: 'Journal',
+    journal: 'Blog',
     audit: 'Free UX audit',
     careers: 'Careers',
     terms: 'Terms',

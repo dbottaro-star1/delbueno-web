@@ -1,6 +1,6 @@
 ---
 /**
- * The six journal categories as a filter row. Each one is a real page (/journal/category/<slug>/), so the
+ * The six blog categories as a filter row. Each one is a real page (/blog/category/<slug>/), so the
  * filter works without scripts and every category is indexable. On narrow screens the row scrolls sideways.
  */
 import { getCategories } from './reading';
@@ -16,16 +16,16 @@ const categories = await getCategories();
 const total = (await getJournal()).length;
 ---
 
-<nav class="cn" aria-label="Journal categories">
+<nav class="cn" aria-label="Blog categories">
   <ul>
     <li>
-      <a href={url('/journal/')} aria-current={!active ? 'page' : undefined}>
+      <a href={url('/blog/')} aria-current={!active ? 'page' : undefined}>
         All <sup>{total}</sup>
       </a>
     </li>
     {categories.map((c) => (
       <li>
-        <a href={url(`/journal/category/${c.slug}/`)} aria-current={active === c.slug ? 'page' : undefined}>
+        <a href={url(`/blog/category/${c.slug}/`)} aria-current={active === c.slug ? 'page' : undefined}>
           {c.name} <sup>{c.count}</sup>
         </a>
       </li>

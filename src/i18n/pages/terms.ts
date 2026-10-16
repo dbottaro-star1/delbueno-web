@@ -25,7 +25,7 @@ export const termsCopy: Localized<LegalPage> = {
         title: 'Intellectual property',
         blocks: [
           {
-            p: 'The content of the Website, including text, graphics, logos, images, case studies, journal articles and code, belongs to {brand} or its licensors and is protected by copyright, trademark and other intellectual property laws. You may not use, reproduce, modify or distribute it without our prior written consent.',
+            p: 'The content of the Website, including text, graphics, logos, images, case studies, blog articles and code, belongs to {brand} or its licensors and is protected by copyright, trademark and other intellectual property laws. You may not use, reproduce, modify or distribute it without our prior written consent.',
           },
           {
             p: 'Case studies and shots show work made by {brand}. Client names and product names belong to their respective owners. Concept projects shown on the Website are self-initiated and are not commissioned by, or affiliated with, the brands they mention.',
@@ -64,10 +64,10 @@ export const termsCopy: Localized<LegalPage> = {
       },
       {
         id: 'journal',
-        title: 'Journal and content',
+        title: 'Blog and content',
         blocks: [
           {
-            p: 'Articles in the [journal](journal) are general information about design and product work. They are not professional, legal or financial advice, and you should not rely on them as such.',
+            p: 'Articles in the [blog](journal) are general information about design and product work. They are not professional, legal or financial advice, and you should not rely on them as such.',
           },
         ],
       },

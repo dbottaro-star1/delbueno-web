@@ -54,7 +54,7 @@ export const OG_STATIC: { page: PageKey; kicker: Localized<string>; title: Local
   },
   {
     page: 'journal',
-    kicker: { en: 'Journal', es: 'Blog' },
+    kicker: { en: 'Blog', es: 'Blog' },
     title: { en: 'Notes on designing complex software.', es: 'Notas sobre cómo diseñar software complejo.' },
   },
   {

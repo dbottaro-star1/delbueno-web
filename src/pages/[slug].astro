@@ -47,8 +47,8 @@ const minutes = readingMinutes(entry.body);
 const related = await getRelated(entry, 3);
 
 const path = `/${entry.id}/`;
-const categoryPath = `/journal/category/${categorySlug(data.category)}/`;
-const trail = crumbs('en', { name: 'Journal', path: '/journal/' }, { name: data.title, path });
+const categoryPath = `/blog/category/${categorySlug(data.category)}/`;
+const trail = crumbs('en', { name: 'Blog', path: '/blog/' }, { name: data.title, path });
 
 let ogImage: string | undefined;
 if (data.heroImage) {
@@ -161,7 +161,7 @@ const articleImage = ogImage ?? absoluteUrl(card ? `/og/${card.name}.png` : '/og
               Related posts
             </h2>
           </div>
-          <a class="btn btn-ghost btn-sm" href={url('/journal/')}>
+          <a class="btn btn-ghost btn-sm" href={url('/blog/')}>
             All articles
           </a>
         </div>
