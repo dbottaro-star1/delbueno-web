@@ -5,7 +5,6 @@
  */
 import { Image, getImage } from 'astro:assets';
 import type { Lang } from '../../i18n/config';
-import { translator } from '../../i18n';
 import { playgroundCopy } from '../../i18n/pages/playground';
 import { shotText, shotVideoSrc, type ShotEntry } from '../../lib/content';
 
@@ -42,7 +41,6 @@ const sizes =
     aria-label={`${data.title}, ${c.dribbbleShot}`}
     draggable="false"
     data-shot
-    data-cursor={translator(lang)('cursor.open')}
     data-title={data.title}
     data-alt={alt}
     data-full={full.src}

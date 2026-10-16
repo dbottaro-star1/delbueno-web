@@ -79,7 +79,6 @@ export const es: Shape<typeof en> = {
     privacy: 'Política de privacidad',
     accessibility: 'Declaración de accesibilidad',
   },
-  cursor: { view: 'Ver', open: 'Abrir', read: 'Leer' },
   info: { legal: 'Legal', onThisPage: 'En esta página', lastUpdated: 'Última actualización: {date}' },
   journal: {
     latest: 'Lo último',

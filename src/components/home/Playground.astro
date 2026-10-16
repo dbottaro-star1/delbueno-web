@@ -1,7 +1,6 @@
 ---
 /** Homepage Playground strip: featured Dribbble shots first, then the rest, ending in a link to /playground/. */
 import type { Lang } from '../../i18n/config';
-import { translator } from '../../i18n';
 import { homeCopy } from '../../i18n/pages/home';
 import { pagePath } from '../../i18n/routes';
 import { LINKS } from '../../lib/site';
@@ -16,7 +15,6 @@ interface Props {
 }
 const { lang, shots } = Astro.props;
 const c = homeCopy[lang].playground;
-const t = translator(lang);
 ---
 
 {shots.length > 0 && (
@@ -51,7 +49,7 @@ const t = translator(lang);
           <ShotCard lang={lang} shot={shot} variant="strip" eager={i < 2} />
         ))}
         <li class="pg-cta">
-          <a class="pg-cta__main stretch" href={url(pagePath('playground', lang))} data-cursor={t('cursor.open')}>
+          <a class="pg-cta__main stretch" href={url(pagePath('playground', lang))}>
             <span class="label">{c.more}</span>
             <span class="pg-cta__t">{c.seeAll}</span>
             <span class="pg-cta__go">

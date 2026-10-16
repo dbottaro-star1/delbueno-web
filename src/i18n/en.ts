@@ -75,7 +75,6 @@ export const en = {
     privacy: 'Privacy',
     accessibility: 'Accessibility',
   },
-  cursor: { view: 'View', open: 'Open', read: 'Read' },
   info: { legal: 'Legal', onThisPage: 'On this page', lastUpdated: 'Last updated: {date}' },
   journal: {
     latest: 'Latest',

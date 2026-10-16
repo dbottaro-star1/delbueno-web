@@ -7,7 +7,6 @@ import { getImage } from 'astro:assets';
 import type { Lang } from '../../i18n/config';
 import { homeCopy } from '../../i18n/pages/home';
 import { pagePath, workPath } from '../../i18n/routes';
-import { translator } from '../../i18n';
 import { workSlug, type WorkEntry } from '../../lib/content';
 import { url } from '../../lib/url';
 
@@ -17,7 +16,6 @@ interface Props {
 }
 const { lang, entries } = Astro.props;
 const copy = homeCopy[lang].work;
-const t = translator(lang);
 
 const cards = await Promise.all(
   entries.map(async (entry, i) => {
@@ -58,7 +56,7 @@ const total = String(cards.length).padStart(2, '0');
 
   <ul class="work-grid" id="workGrid">
     {cards.map((card) => (
-      <li class="wc" data-cursor={t('cursor.view')}>
+      <li class="wc">
         <div class="wc__media">
           <img
             src={card.img.src}

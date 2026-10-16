@@ -92,7 +92,7 @@ export function destroyMotion(): void {
   motion = null;
   starting = null;
   tickerFn = null;
-  document.documentElement.classList.remove('js', 'js-live', 'has-cursor');
+  document.documentElement.classList.remove('js', 'js-live');
   document.querySelectorAll<HTMLElement>('[data-reveal]').forEach((el) => {
     el.style.opacity = '';
     el.style.transform = '';

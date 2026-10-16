@@ -6,7 +6,6 @@
  */
 import { Image } from 'astro:assets';
 import type { Lang } from '../../i18n/config';
-import { translator } from '../../i18n';
 import { workCopy } from '../../i18n/pages/work';
 import { workPath } from '../../i18n/routes';
 import { workSlug, type WorkEntry } from '../../lib/content';
@@ -23,14 +22,13 @@ const { lang, entry, index, total } = Astro.props;
 const { data } = entry;
 const slug = workSlug(entry);
 const c = workCopy[lang].card;
-const t = translator(lang);
 const metric = data.metrics[0];
 const concept = CONCEPT_SLUGS.has(slug);
 const pad = (n: number) => String(n).padStart(2, '0');
 ---
 
 <li class="wk-card" data-card>
-  <div class="wk-card__media" data-cursor={t('cursor.view')} style={`--ar:${data.cover.width} / ${data.cover.height}`}>
+  <div class="wk-card__media" style={`--ar:${data.cover.width} / ${data.cover.height}`}>
     <div class="wk-card__par" data-par>
       <Image
         class="wk-card__img"

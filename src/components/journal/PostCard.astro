@@ -13,7 +13,7 @@ const { data } = entry;
 const minutes = readingMinutes(entry.body);
 ---
 
-<a class="pc" href={url(`/${entry.id}/`)} data-cursor="Read">
+<a class="pc" href={url(`/${entry.id}/`)}>
   <span class="pc-media">
     {data.heroImage && (
       <Image

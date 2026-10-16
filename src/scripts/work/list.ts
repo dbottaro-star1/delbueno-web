@@ -1,7 +1,7 @@
 /**
  * /work/ choreography: header line reveal, the client name ticker drifting with scroll, and each card opening with
  * a clip-path while its picture settles and then moves inside the frame as you scroll (inner parallax).
- * Hover scale and the View cursor are CSS and the shell, so they work without this file.
+ * Hover scale is CSS, so it works without this file.
  */
 import { whenMotionReady, type Motion } from '../motion';
 import { $, $$, failSafe, revealFade, revealLines, whenFontsReady } from './common';
