@@ -15,7 +15,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { FOUNDER_ID, ORG_ID, crumbs, websiteId } from '../lib/schema';
 import { BRAND, FOUNDER, LINKS } from '../lib/site';
 import { LANG_META } from '../i18n/config';
-import { canonicalUrl } from '../lib/url';
+import { canonicalUrl, url } from '../lib/url';
 
 interface Props {
   lang: Lang;
@@ -77,6 +77,9 @@ const { description } = c.meta;
       <div class="fo-body" data-reveal>
         <p class="fo-bio">{t(lang, 'founder.bio')}</p>
         <p class="fo-links">
+          <a class="btn btn-ghost btn-sm" href={url(pagePath('author', lang))}>
+            {c.founder.authorLink}
+          </a>
           <a class="btn btn-ghost btn-sm" href={FOUNDER.linkedin} rel="me noopener noreferrer">
             LinkedIn
           </a>

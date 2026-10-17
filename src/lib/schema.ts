@@ -13,7 +13,13 @@ export const SERVICE_ID = `${PROD_ORIGIN}/#professionalservice`;
 export const WEBSITE_ID = `${PROD_ORIGIN}/#website`;
 /** The WebSite node of a language: the English one at the root, the Spanish one under /es/. */
 export const websiteId = (lang: Lang): string => (lang === 'en' ? WEBSITE_ID : `${PROD_ORIGIN}/es/#website`);
-export const FOUNDER_ID = `${PROD_ORIGIN}/about/#founder`;
+/**
+ * The founder Person. The author page is the canonical home of the entity, so the id lives on that page. Every
+ * reference (Organization founder, Article author, AboutPage, ContactPage) uses this constant.
+ */
+export const FOUNDER_ID = `${PROD_ORIGIN}${pagePath('author', 'en')}#person`;
+/** The ProfilePage node of the author page in a language. */
+export const founderPageId = (lang: Lang): string => `${PROD_ORIGIN}${pagePath('author', lang)}#profile`;
 
 /** The brand mark (public/logo.png, built by scripts/build-icons.mjs). */
 const LOGO = {
@@ -73,7 +79,8 @@ export function sitewideSchema(lang: Lang = 'en'): JsonLdNode {
         name: FOUNDER.name,
         jobTitle: t(lang, 'founder.jobTitle'),
         description: t(lang, 'founder.bio'),
-        url: canonicalUrl(pagePath('about', lang)),
+        url: canonicalUrl(pagePath('author', lang)),
+        mainEntityOfPage: { '@id': founderPageId(lang) },
         sameAs: [FOUNDER.linkedin],
         knowsAbout: [...FOUNDER.knowsAbout],
         worksFor: { '@id': ORG_ID },
@@ -123,13 +130,14 @@ export function faqSchema(items: { q: string; a: string }[]): JsonLdNode {
   };
 }
 
-export function personSchema(name: string, path = pagePath('about', 'en')): JsonLdNode {
+/** An author as a Person node. The founder points at the author page and shares the id of the sitewide Person. */
+export function personSchema(name: string, path?: string): JsonLdNode {
   const isFounder = name === BRAND.founder;
   return {
     '@type': 'Person',
     ...(isFounder ? { '@id': FOUNDER_ID, sameAs: [FOUNDER.linkedin] } : {}),
     name,
-    url: canonicalUrl(path),
+    url: canonicalUrl(path ?? pagePath(isFounder ? 'author' : 'about', 'en')),
     worksFor: { '@id': ORG_ID },
   };
 }

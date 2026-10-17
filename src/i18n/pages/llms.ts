@@ -25,6 +25,7 @@ export interface LlmsCopy {
     stack: [string, string];
     journal: [string, string];
     about: [string, string];
+    author: [string, string];
     contact: [string, string];
     audit: [string, string];
     full: [string, string];
@@ -86,6 +87,7 @@ export const llmsCopy: Localized<LlmsCopy> = {
       stack: ['Tech stack', 'The design, AI, frontend, backend and cloud tools we work with'],
       journal: ['Journal', 'Articles on UX for complex software'],
       about: ['About', 'Who we are and how we work'],
+      author: ['Dani Bottaro', 'The founder: his profile, recognition and every article he has written'],
       contact: ['Contact', 'Book a call or email {email}'],
       audit: ['Free UX audit', 'A short, ranked list of what to fix first'],
       full: ['Full text for language models', 'All of the above with full details'],
@@ -145,6 +147,7 @@ export const llmsCopy: Localized<LlmsCopy> = {
       stack: ['Tecnologías', 'Las herramientas de diseño, IA, frontend, backend y nube con las que trabajamos'],
       journal: ['Blog', 'Artículos en inglés sobre UX para software complejo'],
       about: ['Nosotros', 'Quiénes somos y cómo trabajamos'],
+      author: ['Dani Bottaro', 'El fundador: su perfil, los reconocimientos y todos sus artículos'],
       contact: ['Contacto', 'Agenda una llamada o escribe a {email}'],
       audit: ['Auditoría UX gratis', 'Una lista breve y ordenada de qué corregir primero'],
       full: ['Texto completo para modelos de lenguaje', 'Todo lo anterior con todos los detalles'],

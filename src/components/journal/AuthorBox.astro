@@ -4,6 +4,7 @@
  * Posts are published in English only, so this box is English too.
  */
 import { t } from '../../i18n';
+import { pagePath } from '../../i18n/routes';
 import { FOUNDER } from '../../lib/site';
 import { url } from '../../lib/url';
 ---
@@ -14,14 +15,21 @@ import { url } from '../../lib/url';
   </span>
   <div class="au-body">
     <p class="label">Written by</p>
-    <p class="au-name">{FOUNDER.name}</p>
+    <p class="au-name">
+      <a href={url(pagePath('author', 'en'))} rel="author">
+        {FOUNDER.name}
+      </a>
+    </p>
     <p class="au-role">{t('en', 'founder.jobTitle')}, delbueno™ Studio</p>
     <p class="au-bio">{t('en', 'founder.bio')}</p>
     <p class="au-links">
-      <a class="btn btn-ghost btn-sm" href={FOUNDER.linkedin} rel="author me noopener noreferrer">
+      <a class="btn btn-ghost btn-sm" href={FOUNDER.linkedin} rel="me noopener noreferrer">
         LinkedIn
       </a>
-      <a class="btn btn-ghost btn-sm" href={url('/about/')}>
+      <a class="btn btn-ghost btn-sm" href={url(pagePath('author', 'en'))}>
+        All articles by Dani
+      </a>
+      <a class="btn btn-ghost btn-sm" href={url(pagePath('about', 'en'))}>
         About the studio
       </a>
     </p>
@@ -63,6 +71,17 @@ import { url } from '../../lib/url';
     margin-top: 16px;
     font: 800 clamp(1.5rem, 1.2rem + 1vw, 2.1rem) / 1 var(--display);
     letter-spacing: -0.04em;
+  }
+
+  .au-name a {
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .au-name a:hover {
+      border-color: var(--ink);
+    }
   }
 
   .au-role {

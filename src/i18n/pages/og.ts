@@ -56,6 +56,14 @@ export const OG_STATIC: { page: PageKey; kicker: Localized<string>; title: Local
     },
   },
   {
+    page: 'author',
+    kicker: { en: 'Author', es: 'Autor' },
+    title: {
+      en: 'Dani Bottaro, founder of delbueno Studio.',
+      es: 'Dani Bottaro, fundador de delbueno Studio.',
+    },
+  },
+  {
     page: 'contact',
     kicker: { en: 'Contact', es: 'Contacto' },
     title: { en: 'Book a call or write to us.', es: 'Agenda una llamada o escríbenos.' },
