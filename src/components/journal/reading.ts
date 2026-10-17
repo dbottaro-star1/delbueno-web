@@ -1,4 +1,4 @@
-/** Journal helpers: reading time, categories and related posts. */
+/** Journal helpers: reading time, the FAQ section, categories and related posts. */
 import type { Lang } from '../../i18n/config';
 import { formatShortDate as formatShortLocalDate } from '../../i18n';
 import { getJournal, type JournalEntry } from '../../lib/content';
@@ -21,6 +21,37 @@ export function wordCount(body: string | undefined): number {
 /** Whole minutes to read a Markdown body (words / 230, rounded up, never below 1). */
 export function readingMinutes(body: string | undefined): number {
   return Math.max(1, Math.ceil(wordCount(body) / WORDS_PER_MINUTE));
+}
+
+/** Headings that open a post's FAQ section, in both languages. */
+const FAQ_HEADING = /^##\s+(Frequently asked questions|Preguntas frecuentes)\s*$/im;
+
+/** Markdown to plain text for structured data: links keep their label, emphasis and code marks go. */
+const plain = (md: string): string =>
+  md
+    .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')
+    .replace(/[*_`]+/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+/**
+ * Questions and answers from a post's "## Frequently asked questions" section ("## Preguntas frecuentes" in Spanish),
+ * where each question is an H3 and its answer the paragraphs below it. The section ends at the next H2, and an italic
+ * photo credit line is not part of the last answer. Used for the post's FAQPage structured data.
+ */
+export function postFaq(body: string | undefined): { q: string; a: string }[] {
+  const match = FAQ_HEADING.exec(body ?? '');
+  if (!match) return [];
+  const section = (body ?? '').slice(match.index + match[0].length).split(/^##\s/m)[0];
+  return section
+    .split(/^###\s+/m)
+    .slice(1)
+    .map((block) => {
+      const [question, ...rest] = block.split('\n');
+      const answer = rest.filter((line) => !/^\*[^*].*\*\s*$/.test(line.trim())).join(' ');
+      return { q: plain(question), a: plain(answer) };
+    })
+    .filter((item) => item.q && item.a);
 }
 
 export const categorySlug = (name: string): string =>

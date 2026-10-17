@@ -91,6 +91,11 @@ the first paragraph.
 - At least one concrete example, mini-framework, or before/after walkthrough.
 - One clear CTA near the end pointing to `/contact/` (or `/free-ux-audit/` when it fits),
   framed as a next step for teams weighing in-house vs a specialized partner. Not a hard sell.
+- Phrase most `##` headers as the questions people type into Google or ask an AI assistant.
+- End the body (before the photo credit line) with `## Frequently asked questions` holding 3
+  to 5 `###` questions, each answered in 1 to 3 short paragraphs. The site turns this section
+  into FAQPage structured data automatically, so keep the heading text exact and put nothing
+  else in that section. The FAQ does not count toward the 900 to 1300 words.
 
 **SEO mechanics:**
 

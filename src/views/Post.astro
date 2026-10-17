@@ -12,7 +12,7 @@ import '../components/info/info.css';
 import AuthorBox from '../components/journal/AuthorBox.astro';
 import PostCard from '../components/journal/PostCard.astro';
 import PostToc from '../components/journal/PostToc.astro';
-import { categorySlug, getRelated, readingMinutes, wordCount } from '../components/journal/reading';
+import { categorySlug, getRelated, postFaq, readingMinutes, wordCount } from '../components/journal/reading';
 import '../components/journal/prose.css';
 import { otherLang, type Lang } from '../i18n/config';
 import { t } from '../i18n';
@@ -21,7 +21,7 @@ import { pagePath } from '../i18n/routes';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { formatDate, inLang, isSpanishPost, postHref, type PostEntry } from '../lib/content';
 import { ogCardFor } from '../lib/og';
-import { articleSchema, crumbs } from '../lib/schema';
+import { articleSchema, crumbs, faqSchema } from '../lib/schema';
 import { FOUNDER } from '../lib/site';
 import { absoluteUrl, url } from '../lib/url';
 
@@ -35,6 +35,7 @@ const { data } = entry;
 const { Content, headings } = await render(entry);
 const toc = headings.filter((h) => h.depth === 2);
 const isFounder = data.author === FOUNDER.name;
+const faq = postFaq(entry.body);
 const minutes = readingMinutes(entry.body);
 // Related posts are picked from the English originals (the categories are English), then shown in the post's language.
 const original = isSpanishPost(entry) ? await getEntry('journal', entry.data.translationOf) : entry;
@@ -91,6 +92,7 @@ const articleImage = ogImage ?? absoluteUrl(card ? `/og/${card.name}.png` : '/og
       }),
       timeRequired: `PT${minutes}M`,
     },
+    ...(faq.length >= 2 ? [faqSchema(faq)] : []),
   ]}
 >
   <div class="rp" aria-hidden="true">
