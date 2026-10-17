@@ -1,10 +1,10 @@
 ---
 translationOf: "toyota"
-title: "Un concepto de landing page cinematográfica para el Toyota RAV4 Hybrid"
+title: "Proyectamos 64% más de interacción para un concepto de landing page del Toyota RAV4 Hybrid"
 seoTitle: "Toyota RAV4 Hybrid: concepto de landing page cinematográfica"
-description: "Proyecto conceptual: landing page del Toyota RAV4 Hybrid en Uruguay, con animación 2D y un mapa de consumo. Proyectamos una interacción 64%+ mayor."
+description: "Proyecto conceptual: landing page del Toyota RAV4 Hybrid en Uruguay, con animación 2D y un mapa de consumo. Proyectamos una interacción 64% mayor."
 client: "Toyota"
-summary: "Diseñamos el concepto de una landing page para el lanzamiento del Toyota RAV4 Hybrid en Uruguay, con animaciones 2D y un mapa interactivo de consumo de combustible. Proyectamos una interacción 64%+ mayor gracias a sus elementos interactivos."
+summary: "Diseñamos el concepto de una landing page para el lanzamiento del Toyota RAV4 Hybrid en Uruguay, con animaciones 2D y un mapa interactivo de consumo de combustible. Proyectamos una interacción 64% mayor gracias a sus elementos interactivos."
 industry: "Automotriz"
 services: ["Diseño de landing pages", "Animación 2D", "Investigación de marketing", "Prototipos interactivos", "Diseño UX/UI"]
 metrics:
@@ -44,4 +44,4 @@ Al enfocarnos en el diseño de interacción y no solo en el diseño visual, conv
 
 ## Resultados
 
-La página convierte la compra de un auto de una observación pasiva en un análisis activo de costo y beneficio. Proyectamos una interacción 64%+ mayor gracias a la interactividad, con un camino más corto hacia la conversión y una experiencia que se sostiene en todos los dispositivos. Al cuantificar la eficiencia híbrida con el mapa, la página le da a los compradores una justificación lógica para el precio premium y acorta la fase de consideración.
+La página convierte la compra de un auto de una observación pasiva en un análisis activo de costo y beneficio. Proyectamos una interacción 64% mayor gracias a la interactividad, con un camino más corto hacia la conversión y una experiencia que se sostiene en todos los dispositivos. Al cuantificar la eficiencia híbrida con el mapa, la página le da a los compradores una justificación lógica para el precio premium y acorta la fase de consideración.
