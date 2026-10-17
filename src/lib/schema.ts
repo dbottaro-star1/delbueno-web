@@ -145,6 +145,7 @@ export interface ArticleInput {
   image?: { url: string; width: number; height: number };
   category?: string;
   wordCount?: number;
+  lang?: Lang;
 }
 
 export function articleSchema(a: ArticleInput): JsonLdNode {
@@ -155,11 +156,11 @@ export function articleSchema(a: ArticleInput): JsonLdNode {
     description: a.description,
     datePublished: a.pubDate.toISOString(),
     dateModified: (a.updatedDate ?? a.pubDate).toISOString(),
-    author: personSchema(a.author),
+    author: personSchema(a.author, pagePath('about', a.lang ?? 'en')),
     publisher: PUBLISHER,
     mainEntityOfPage: { '@type': 'WebPage', '@id': canonicalUrl(a.path) },
     url: canonicalUrl(a.path),
-    inLanguage: 'en',
+    inLanguage: LANG_META[a.lang ?? 'en'].tag,
     ...(a.image ? { image: { '@type': 'ImageObject', ...a.image } } : {}),
     ...(a.category ? { articleSection: a.category } : {}),
     ...(a.wordCount ? { wordCount: a.wordCount } : {}),

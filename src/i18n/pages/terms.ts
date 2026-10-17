@@ -192,7 +192,7 @@ export const termsCopy: Localized<LegalPage> = {
         title: 'Blog y contenido',
         blocks: [
           {
-            p: 'Los artículos del [blog](journal), publicados en inglés, son información general sobre diseño y trabajo de producto. No constituyen asesoría profesional, legal ni financiera, y no debes basarte en ellos como tal.',
+            p: 'Los artículos del [blog](journal), publicados en español y en inglés, son información general sobre diseño y trabajo de producto. No constituyen asesoría profesional, legal ni financiera, y no debes basarte en ellos como tal.',
           },
         ],
       },

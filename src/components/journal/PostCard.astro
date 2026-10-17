@@ -2,18 +2,23 @@
 /** Journal card: image, meta line, title and a two line summary. Used for related posts. */
 import { Image } from 'astro:assets';
 import { formatShortDate, readingMinutes } from './reading';
-import type { JournalEntry } from '../../lib/content';
+import type { Lang } from '../../i18n/config';
+import { translator } from '../../i18n';
+import { isSpanishPost, postHref, type PostEntry } from '../../lib/content';
 import { url } from '../../lib/url';
+import LangTag from '../LangTag.astro';
 
 interface Props {
-  entry: JournalEntry;
+  lang: Lang;
+  entry: PostEntry;
 }
-const { entry } = Astro.props;
+const { lang, entry } = Astro.props;
+const t = translator(lang);
 const { data } = entry;
 const minutes = readingMinutes(entry.body);
 ---
 
-<a class="pc" href={url(`/${entry.id}/`)}>
+<a class="pc" href={url(postHref(entry))}>
   <span class="pc-media">
     {data.heroImage && (
       <Image
@@ -28,9 +33,10 @@ const minutes = readingMinutes(entry.body);
   <span class="pc-meta">
     <span>{data.category}</span>
     <span>
-      <time datetime={data.pubDate.toISOString()}>{formatShortDate(data.pubDate)}</time>
+      <time datetime={data.pubDate.toISOString()}>{formatShortDate(data.pubDate, lang)}</time>
     </span>
-    <span>{minutes} min read</span>
+    <span>{t('journal.minRead', { n: minutes })}</span>
+    {lang !== 'en' && !isSpanishPost(entry) && <LangTag lang={lang} />}
   </span>
   <h3 class="pc-title">{data.title}</h3>
   <p class="pc-desc">{data.description}</p>

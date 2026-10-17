@@ -48,7 +48,7 @@ export const notFoundCopy: Localized<NotFoundCopy> = {
     links: [
       { page: 'work', t: 'Trabajo', d: 'Casos de estudio para B2B SaaS y startups.' },
       { page: 'playground', t: 'Playground', d: 'Shots y experimentos de motion de Dribbble.' },
-      { page: 'journal', t: 'Blog', d: 'Notas sobre cómo diseñar software complejo, en inglés.' },
+      { page: 'journal', t: 'Blog', d: 'Notas sobre cómo diseñar software complejo.' },
     ],
     more: {
       or: 'O ve al',

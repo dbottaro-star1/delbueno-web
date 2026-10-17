@@ -3,17 +3,22 @@
  * Table of contents built from the post's h2 headings. Sticky beside the article on desktop, a collapsible
  * panel above it on narrow screens. scripts/journal/post.ts marks the section being read.
  */
+import type { Lang } from '../../i18n/config';
+import { postCopy } from '../../i18n/pages/post';
+
 interface Props {
+  lang: Lang;
   headings: { slug: string; text: string }[];
 }
-const { headings } = Astro.props;
+const { lang, headings } = Astro.props;
+const c = postCopy[lang].toc;
 ---
 
 {headings.length >= 2 && (
-  <aside class="toc" aria-label="Table of contents" data-toc>
+  <aside class="toc" aria-label={c.label} data-toc>
     <details class="toc-box" data-toc-box>
       <summary>
-        <span class="label">In this article</span>
+        <span class="label">{c.title}</span>
         <span class="toc-n ip-no">{String(headings.length).padStart(2, '0')}</span>
         <svg class="toc-chev" viewBox="0 0 16 16" aria-hidden="true">
           <path

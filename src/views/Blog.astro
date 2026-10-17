@@ -1,7 +1,7 @@
 ---
 /**
- * The Spanish blog index. Journal posts are written in English and have no Spanish twin yet, so this page lists them
- * all, each tagged "En inglés", and the posts keep their English URLs at the site root.
+ * The Spanish blog index. It lists every post: the translated ones in Spanish at /es/blog/<slug>/, the rest in
+ * English at their root URLs, each tagged "En inglés".
  */
 import BookCta from '../components/BookCta.astro';
 import InfoHero from '../components/info/InfoHero.astro';
@@ -12,7 +12,7 @@ import { fill, t } from '../i18n';
 import { blogCopy } from '../i18n/pages/blog';
 import { pagePath } from '../i18n/routes';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { getJournal } from '../lib/content';
+import { getJournalFor } from '../lib/content';
 import { crumbs } from '../lib/schema';
 
 interface Props {
@@ -21,7 +21,7 @@ interface Props {
 const { lang } = Astro.props;
 const c = blogCopy;
 
-const posts = await getJournal();
+const posts = await getJournalFor(lang);
 const [featured, ...rows] = posts;
 const trail = crumbs(lang, { name: t(lang, 'pageName.journal'), path: pagePath('journal', lang) });
 ---

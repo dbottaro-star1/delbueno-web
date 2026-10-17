@@ -4,13 +4,13 @@ import { Image } from 'astro:assets';
 import { formatShortDate, readingMinutes } from './reading';
 import type { Lang } from '../../i18n/config';
 import { translator } from '../../i18n';
-import type { JournalEntry } from '../../lib/content';
+import { isSpanishPost, postHref, type PostEntry } from '../../lib/content';
 import { url } from '../../lib/url';
 import LangTag from '../LangTag.astro';
 
 interface Props {
   lang: Lang;
-  entry: JournalEntry;
+  entry: PostEntry;
   /** Position in the whole journal, shown as 01, 02 ... */
   number: number;
 }
@@ -21,7 +21,7 @@ const minutes = readingMinutes(entry.body);
 ---
 
 <li class="pr" data-reveal>
-  <a class="pr-link" href={url(`/${entry.id}/`)}>
+  <a class="pr-link" href={url(postHref(entry))}>
     <span class="pr-no ip-no" aria-hidden="true">
       {String(number).padStart(2, '0')}
     </span>
@@ -33,7 +33,7 @@ const minutes = readingMinutes(entry.body);
     <span class="pr-main">
       <span class="pr-cat">
         {data.category}
-        {lang !== 'en' && (
+        {lang !== 'en' && !isSpanishPost(entry) && (
           <>
             {' '}
             <LangTag lang={lang} />

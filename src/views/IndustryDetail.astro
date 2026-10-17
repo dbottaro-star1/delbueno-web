@@ -34,7 +34,7 @@ const no = String(industries.findIndex((i) => i.slug === industry.slug) + 1).pad
 
 const cases = await casesFor(industry.cases, lang);
 const linked = industry.problems.flatMap((p) => (p.post ? [p.post] : []));
-const posts = await postsFor([...new Set([...linked, ...industry.posts])], industry.keywords, 3);
+const posts = await postsFor([...new Set([...linked, ...industry.posts])], industry.keywords, 3, lang);
 const others = industries.filter((i) => i.slug !== industry.slug);
 ---
 

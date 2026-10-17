@@ -1,28 +1,38 @@
 ---
 /**
  * Author box at the end of a post. Only shown for the founder, whose profile lives in src/lib/site.ts and src/i18n.
- * Posts are published in English only, so this box is English too.
+ * It speaks the language of the post.
  */
-import { t } from '../../i18n';
+import type { Lang } from '../../i18n/config';
+import { translator } from '../../i18n';
+import { postCopy } from '../../i18n/pages/post';
+import { pagePath } from '../../i18n/routes';
 import { FOUNDER } from '../../lib/site';
 import { url } from '../../lib/url';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = translator(lang);
+const c = postCopy[lang].author;
 ---
 
-<aside class="au" aria-label="About the author">
+<aside class="au" aria-label={c.label}>
   <span class="au-mark" aria-hidden="true">
     DB
   </span>
   <div class="au-body">
-    <p class="label">Written by</p>
+    <p class="label">{c.writtenBy}</p>
     <p class="au-name">{FOUNDER.name}</p>
-    <p class="au-role">{t('en', 'founder.jobTitle')}, delbueno™ Studio</p>
-    <p class="au-bio">{t('en', 'founder.bio')}</p>
+    <p class="au-role">{t('founder.jobTitle')}, delbueno™ Studio</p>
+    <p class="au-bio">{t('founder.bio')}</p>
     <p class="au-links">
       <a class="btn btn-ghost btn-sm" href={FOUNDER.linkedin} rel="author me noopener noreferrer">
         LinkedIn
       </a>
-      <a class="btn btn-ghost btn-sm" href={url('/about/')}>
-        About the studio
+      <a class="btn btn-ghost btn-sm" href={url(pagePath('about', lang))}>
+        {c.aboutStudio}
       </a>
     </p>
   </div>

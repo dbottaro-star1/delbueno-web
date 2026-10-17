@@ -4,6 +4,7 @@
  *
  * English stays at the root and Spanish lives under /es/ with Spanish slugs. Paths are site-relative with a trailing
  * slash (the base path is added later by url()). Case study slugs are client names and are the same in both languages.
+ * Journal posts keep their English root URLs and the translated ones live at /es/blog/<spanish-slug>/ (POST_SLUGS).
  */
 import { LANGS, langOfPath, type Lang } from './config';
 
@@ -45,6 +46,20 @@ export const INDUSTRY_SLUGS = {
   fintech: 'fintech',
 } as const;
 
+/**
+ * Journal posts that have a Spanish translation: English slug (served at /<slug>/) to Spanish slug (served at
+ * /es/blog/<slug>/). Posts not listed here are English only. Each Spanish post is a file in src/content/journal-es
+ * named after its Spanish slug, with `translationOf` set to the English slug. The build fails when this table and
+ * those files disagree (see getJournalEs in src/lib/content.ts).
+ */
+export const POST_SLUGS: Readonly<Record<string, string>> = {
+  'rbac-ux-permissions-design': 'diseno-ux-permisos-rbac',
+  'complex-ux-design': 'ux-dashboards-saas-complejos',
+  'saas-onboarding-ux-patterns': 'onboarding-saas-patrones-ux',
+  'ai-agent-ux-human-in-the-loop': 'ux-agentes-ia-human-in-the-loop',
+  'fintech-ux-irreversible-actions': 'ux-fintech-acciones-irreversibles',
+};
+
 /** Sections whose pages are `<prefix><slug>/`. Without a `slugs` table the slug is the same in both languages. */
 const SECTIONS: { en: string; es: string; slugs?: Record<string, string> }[] = [
   { en: PAGES.work.en, es: PAGES.work.es },
@@ -68,6 +83,21 @@ export const workPath = (slug: string, lang: Lang): string => `${PAGES.work[lang
 const invert = (map: Record<string, string>): Record<string, string> =>
   Object.fromEntries(Object.entries(map).map(([en, es]) => [es, en]));
 
+/** Path of a post in a language: the root for English, /es/blog/ for Spanish. `slug` is the English slug. */
+export const postPath = (slug: string, lang: Lang): string =>
+  lang === 'en' ? `/${slug}/` : `${PAGES.journal.es}${POST_SLUGS[slug]}/`;
+
+/** The other language's path for a journal post path, or undefined when the post is not translated. */
+function postTwin(path: string, from: Lang, to: Lang): string | undefined {
+  const prefix = from === 'en' ? '/' : PAGES.journal.es;
+  if (!path.startsWith(prefix) || path === prefix) return undefined;
+  const slug = path.slice(prefix.length).replace(/\/$/, '');
+  if (!slug || slug.includes('/')) return undefined;
+  if (from === 'en') return Object.hasOwn(POST_SLUGS, slug) ? postPath(slug, to) : undefined;
+  const english = Object.keys(POST_SLUGS).find((en) => POST_SLUGS[en] === slug);
+  return english ? postPath(english, to) : undefined;
+}
+
 /** Splits "/a/b/#x?y" into the path and the "#x?y" tail. */
 function split(path: string): [string, string] {
   const i = path.search(/[?#]/);
@@ -75,8 +105,8 @@ function split(path: string): [string, string] {
 }
 
 /**
- * The same page in the other language, or undefined when the page has no twin (journal posts, paginated or category
- * journal pages, the 404 page). A "#hash" or "?query" tail is kept.
+ * The same page in the other language, or undefined when the page has no twin (journal posts without a translation,
+ * paginated or category journal pages, the 404 page). A "#hash" or "?query" tail is kept.
  */
 export function twinPath(sitePath: string, to: Lang): string | undefined {
   const [path, tail] = split(sitePath);
@@ -86,6 +116,8 @@ export function twinPath(sitePath: string, to: Lang): string | undefined {
   for (const page of Object.values(PAGES)) {
     if (page[from] === path) return page[to] + tail;
   }
+  const post = postTwin(path, from, to);
+  if (post) return post + tail;
   for (const section of SECTIONS) {
     const prefix = section[from];
     if (!path.startsWith(prefix) || path === prefix) continue;
@@ -107,8 +139,8 @@ export function alternates(sitePath: string): Partial<Record<Lang, string>> {
 }
 
 /**
- * Where the language switcher points. The twin when there is one. Otherwise the closest page: the blog for anything
- * in the journal (posts have no Spanish twin), else the home page of that language.
+ * Where the language switcher points. The twin when there is one. Otherwise the closest page: the fallback the page
+ * passes (journal pages without a translation go to the Spanish blog), else the home page of that language.
  */
 export function switchPath(sitePath: string, to: Lang, fallback?: string): string {
   return twinPath(sitePath, to) ?? fallback ?? PAGES.home[to];
