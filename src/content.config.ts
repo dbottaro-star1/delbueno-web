@@ -4,7 +4,7 @@ import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 
 /**
- * Both collections ignore files that start with "_" (drafts, samples, notes).
+ * Every collection ignores files that start with "_" (drafts, samples, notes).
  * The entry id is the exact file name without extension, so a journal post at
  * src/content/journal/my-post.md is served at /my-post/, matching the old WordPress URL.
  */
@@ -47,26 +47,42 @@ const workEs = defineCollection({
   schema: ({ image }) => z.object({ ...workFields(image), translationOf: z.string() }),
 });
 
+/** Fields shared by the English and Spanish journal posts. */
+const journalFields = (image: () => z.ZodType<ImageMetadata>) => ({
+  /** The headline shown as the page H1. */
+  title: z.string(),
+  /** Title for the browser tab, search results and social cards. 60 characters or fewer with the brand. */
+  seoTitle: z.string().optional(),
+  /** Meta description, 140 to 155 characters. */
+  description: z.string(),
+  pubDate: z.coerce.date(),
+  updatedDate: z.coerce.date().optional(),
+  author: z.string().default('Dani Bottaro'),
+  category: z.string(),
+  heroImage: image().optional(),
+  heroAlt: z.string().optional(),
+});
+
 const journal = defineCollection({
   loader: glob({ base: './src/content/journal', pattern: '**/[^_]*.{md,mdx}', generateId }),
   schema: ({ image }) =>
     z.object({
-      /** The headline shown as the page H1. */
-      title: z.string(),
-      /** Title for the browser tab, search results and social cards. 60 characters or fewer with the brand. */
-      seoTitle: z.string().optional(),
-      /** Meta description, 140 to 155 characters. */
-      description: z.string(),
-      pubDate: z.coerce.date(),
-      updatedDate: z.coerce.date().optional(),
-      author: z.string().default('Dani Bottaro'),
-      category: z.string(),
-      heroImage: image().optional(),
-      heroAlt: z.string().optional(),
+      ...journalFields(image),
       legacyPath: z.string(),
       /** Keep the URL live but hide the post from search engines and listings. */
       noindex: z.boolean().default(false),
     }),
+});
+
+/**
+ * Spanish translations of journal posts. Same fields as `journal` (the images are the English post's, referenced as
+ * ../../assets/journal/<english-slug>/...), plus `translationOf`: the id of the English post it translates. The
+ * entry id is the Spanish slug, served at /es/blog/<id>/, and it must match the table POST_SLUGS in
+ * src/i18n/routes.ts. The build fails when the two disagree (see getJournalEs in src/lib/content.ts).
+ */
+const journalEs = defineCollection({
+  loader: glob({ base: './src/content/journal-es', pattern: '**/[^_]*.{md,mdx}', generateId }),
+  schema: ({ image }) => z.object({ ...journalFields(image), translationOf: z.string() }),
 });
 
 /**
@@ -102,4 +118,4 @@ const shots = defineCollection({
     }),
 });
 
-export const collections = { work, workEs, journal, shots };
+export const collections = { work, workEs, journal, journalEs, shots };

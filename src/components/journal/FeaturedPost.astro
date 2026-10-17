@@ -4,18 +4,18 @@ import { Image } from 'astro:assets';
 import { formatShortDate, readingMinutes } from './reading';
 import type { Lang } from '../../i18n/config';
 import { translator } from '../../i18n';
-import type { JournalEntry } from '../../lib/content';
+import { isSpanishPost, postHref, type PostEntry } from '../../lib/content';
 import { url } from '../../lib/url';
 import LangTag from '../LangTag.astro';
 
 interface Props {
   lang: Lang;
-  entry: JournalEntry;
+  entry: PostEntry;
 }
 const { lang, entry } = Astro.props;
 const t = translator(lang);
 const { data } = entry;
-const href = url(`/${entry.id}/`);
+const href = url(postHref(entry));
 const minutes = readingMinutes(entry.body);
 ---
 
@@ -39,7 +39,7 @@ const minutes = readingMinutes(entry.body);
         <span>{data.category}</span>
         <time datetime={data.pubDate.toISOString()}>{formatShortDate(data.pubDate, lang)}</time>
         <span>{t('journal.minRead', { n: minutes })}</span>
-        {lang !== 'en' && <LangTag lang={lang} />}
+        {lang !== 'en' && !isSpanishPost(entry) && <LangTag lang={lang} />}
       </p>
       <h2 class="ft-title" id="ft-title">
         <a href={href}>{data.title}</a>

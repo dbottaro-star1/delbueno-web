@@ -4,11 +4,11 @@ import CategoryNav from './CategoryNav.astro';
 import PostRow from './PostRow.astro';
 import type { Lang } from '../../i18n/config';
 import { translator } from '../../i18n';
-import type { JournalEntry } from '../../lib/content';
+import type { PostEntry } from '../../lib/content';
 
 interface Props {
   lang: Lang;
-  entries: JournalEntry[];
+  entries: PostEntry[];
   /** Show the category filter. The Spanish blog index has none: the category pages exist in English only. */
   categories?: boolean;
   /** Running number of the first row. */

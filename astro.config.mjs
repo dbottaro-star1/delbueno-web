@@ -29,19 +29,29 @@ const HIDDEN_POSTS = readdirSync('./src/content/journal')
   .map((f) => f.replace(/\.mdx?$/, ''));
 /** Sitemap lastmod: a post's updatedDate (or pubDate), and the build date for every other page. */
 const BUILD_DATE = new Date();
-const POST_LASTMOD = new Map(
-  readdirSync('./src/content/journal')
+/**
+ * Last modified date of each post in a folder, keyed by the page path without slashes: the file name for the English
+ * posts (served at /<slug>/) and "es/blog/<file name>" for the Spanish ones (served at /es/blog/<slug>/).
+ * @param {string} dir
+ * @param {string} prefix
+ * @returns {[string, Date][]}
+ */
+const postDates = (dir, prefix) =>
+  readdirSync(dir)
     .filter((f) => /\.mdx?$/.test(f))
     .map((f) => {
-      const source = readFileSync(`./src/content/journal/${f}`, 'utf8');
+      const source = readFileSync(`${dir}/${f}`, 'utf8');
       const field = (/** @type {string} */ key) => source.match(new RegExp(`^${key}:\\s*["']?([0-9-]+)`, 'm'))?.[1];
       const date = new Date(field('updatedDate') ?? field('pubDate') ?? BUILD_DATE);
       return /** @type {[string, Date]} */ ([
-        f.replace(/\.mdx?$/, ''),
+        prefix + f.replace(/\.mdx?$/, ''),
         Number.isNaN(date.valueOf()) ? BUILD_DATE : date,
       ]);
-    }),
-);
+    });
+const POST_LASTMOD = new Map([
+  ...postDates('./src/content/journal', ''),
+  ...postDates('./src/content/journal-es', 'es/blog/'),
+]);
 /**
  * Adds lastmod, and for pages that exist in both languages the hreflang alternates. The sitemap integration's own
  * `i18n` option pairs pages by swapping the locale prefix, which cannot work with translated slugs, so the pairs come

@@ -11,7 +11,17 @@ import { fill, t } from '../i18n';
 import { llmsCopy } from '../i18n/pages/llms';
 import { stackPageCopy } from '../i18n/pages/stack';
 import { industryPath, pagePath, servicePath, workPath } from '../i18n/routes';
-import { formatDate, getJournal, getShots, getWork, plainBody, shotText, workSlug } from './content';
+import {
+  formatDate,
+  getJournalFor,
+  getShots,
+  getWork,
+  isSpanishPost,
+  plainBody,
+  postHref,
+  shotText,
+  workSlug,
+} from './content';
 import { BRAND, LINKS, SAME_AS } from './site';
 import { absoluteUrl } from './url';
 
@@ -27,7 +37,7 @@ export async function buildLlmsTxt(site: URL | undefined, lang: Lang = 'en'): Pr
   const c = llmsCopy[lang];
   const u = (path: string) => absoluteUrl(path, site);
   const vars = { brand: BRAND.name, locality: BRAND.locality, country: BRAND.country, email: BRAND.email };
-  const [work, journal, shots] = await Promise.all([getWork(lang), getJournal(), getShots()]);
+  const [work, journal, shots] = await Promise.all([getWork(lang), getJournalFor(lang), getShots()]);
   const { engagements } = getEngagementsCopy(lang);
   const other: Lang = lang === 'en' ? 'es' : 'en';
 
@@ -67,7 +77,7 @@ export async function buildLlmsTxt(site: URL | undefined, lang: Lang = 'en'): Pr
   }
 
   if (journal.length) {
-    lines.push(`## ${c.h.journal}`, ...journal.map((p) => link(p.data.title, u(`/${p.id}/`), p.data.description)), '');
+    lines.push(`## ${c.h.journal}`, ...journal.map((p) => link(p.data.title, u(postHref(p)), p.data.description)), '');
   }
 
   const co = c.company;
@@ -98,7 +108,7 @@ export async function buildLlmsFullTxt(site: URL | undefined, lang: Lang = 'en')
   const f = c.full;
   const u = (path: string) => absoluteUrl(path, site);
   const vars = { brand: BRAND.name, locality: BRAND.locality, country: BRAND.country, email: BRAND.email };
-  const [work, journal, shots] = await Promise.all([getWork(lang), getJournal(), getShots()]);
+  const [work, journal, shots] = await Promise.all([getWork(lang), getJournalFor(lang), getShots()]);
   const { engagements, faqs: engagementFaqs } = getEngagementsCopy(lang);
 
   const out: string[] = [
@@ -229,7 +239,7 @@ export async function buildLlmsFullTxt(site: URL | undefined, lang: Lang = 'en')
       const d = p.data;
       out.push(
         `### ${d.title}`,
-        `${f.url}: ${u(`/${p.id}/`)}`,
+        `${f.url}: ${u(postHref(p))}`,
         `${f.author}: ${d.author}`,
         `${f.published}: ${formatDate(d.pubDate, lang)}`,
         `${f.category}: ${d.category}`,
@@ -237,8 +247,9 @@ export async function buildLlmsFullTxt(site: URL | undefined, lang: Lang = 'en')
         d.description,
         '',
       );
-      // The Spanish file lists the articles only. The full English text is in llms-full.txt.
-      if (lang === 'en') {
+      // The Spanish file carries the full text of the Spanish articles and only lists the English ones. The full
+      // English text is in the English llms-full.txt.
+      if (lang === 'en' || isSpanishPost(p)) {
         const body = demote(plainBody(p.body));
         if (body) out.push(body, '');
       }

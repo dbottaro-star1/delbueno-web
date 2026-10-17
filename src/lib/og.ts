@@ -10,7 +10,7 @@ import { LANGS } from '../i18n/config';
 import { OG_SECTION, OG_STATIC } from '../i18n/pages/og';
 import { industryPath, pagePath, servicePath } from '../i18n/routes';
 import { BRAND } from './site';
-import { getJournal } from './content';
+import { getJournal, getJournalEs, postHref } from './content';
 import type { OgText } from './og-render';
 
 export interface OgCard extends OgText {
@@ -55,7 +55,10 @@ async function build(): Promise<OgCard[]> {
     // Posts with a hero image use it. A post without one gets a card with its short title.
     ...(await getJournal())
       .filter((p) => !p.data.heroImage)
-      .map((p) => ({ path: `/${p.id}/`, kicker: p.data.category, title: p.data.seoTitle ?? p.data.title })),
+      .map((p) => ({ path: postHref(p), kicker: p.data.category, title: p.data.seoTitle ?? p.data.title })),
+    ...(await getJournalEs())
+      .filter((p) => !p.data.heroImage)
+      .map((p) => ({ path: postHref(p), kicker: p.data.category, title: p.data.seoTitle ?? p.data.title })),
   ];
 
   const seen = new Map<string, string>();

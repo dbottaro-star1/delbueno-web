@@ -1,21 +1,21 @@
 ---
 import type { Lang } from '../../i18n/config';
-import type { JournalEntry } from '../../lib/content';
+import { isSpanishPost, postHref, type PostEntry } from '../../lib/content';
 import { url } from '../../lib/url';
 import LangTag from '../LangTag.astro';
 
 interface Props {
   lang: Lang;
-  entry: JournalEntry;
+  entry: PostEntry;
 }
 const { lang, entry } = Astro.props;
 const { data } = entry;
 ---
 
-<a class="in-post" href={url(`/${entry.id}/`)} data-rv>
+<a class="in-post" href={url(postHref(entry))} data-rv>
   <span class="in-post__cat">
     {data.category}
-    {lang !== 'en' && (
+    {lang !== 'en' && !isSpanishPost(entry) && (
       <>
         {' '}
         <LangTag lang={lang} />

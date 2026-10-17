@@ -1,6 +1,14 @@
 /** Look up related case studies and journal posts for the services and industries pages. */
 import type { Lang } from '../../i18n/config';
-import { getJournal, getWork, workSlug, type JournalEntry, type WorkEntry } from '../../lib/content';
+import {
+  getJournal,
+  getWork,
+  inLang,
+  workSlug,
+  type JournalEntry,
+  type PostEntry,
+  type WorkEntry,
+} from '../../lib/content';
 
 /** Case studies in the order given by the slugs. Slugs that do not exist (or are drafts) are skipped. */
 export async function casesFor(slugs: string[], lang: Lang = 'en'): Promise<WorkEntry[]> {
@@ -10,9 +18,10 @@ export async function casesFor(slugs: string[], lang: Lang = 'en'): Promise<Work
 
 /**
  * Up to `max` journal posts: first the ones named by slug, then posts that match the keywords in their
- * title, description or category, newest first. Hidden (noindex) posts are never returned.
+ * title, description or category, newest first. Hidden (noindex) posts are never returned. Slugs and keywords are
+ * English; in Spanish the posts that have a translation come back translated.
  */
-export async function postsFor(slugs: string[], keywords: string[], max = 3): Promise<JournalEntry[]> {
+export async function postsFor(slugs: string[], keywords: string[], max = 3, lang: Lang = 'en'): Promise<PostEntry[]> {
   const posts = await getJournal();
   const picked: JournalEntry[] = [];
   const add = (post: JournalEntry | undefined) => {
@@ -30,5 +39,5 @@ export async function postsFor(slugs: string[], keywords: string[], max = 3): Pr
       .sort((a, b) => b.score - a.score || b.post.data.pubDate.valueOf() - a.post.data.pubDate.valueOf())
       .forEach((x) => add(x.post));
   }
-  return picked;
+  return inLang(picked, lang);
 }

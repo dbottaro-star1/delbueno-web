@@ -55,12 +55,13 @@ PREVIEW=true BASE_PATH=/delbueno-web SITE_URL=https://dbottaro-star1.github.io n
 
 ```
 src/
-  content.config.ts      Collections: work, workEs, journal and shots (glob loaders, files starting with _ are ignored)
+  content.config.ts      Collections: work, workEs, journal, journalEs and shots (glob loaders, files starting with _ are ignored)
   content/work/          Case studies, one Markdown file each
   content/work-es/       The Spanish case studies, same fields plus `translationOf`
   i18n/                  Languages: URL map (routes.ts), UI strings (en.ts, es.ts, t() helper), per-page copy (pages/)
   views/                 One view per page, shared by the English and Spanish routes (they take a `lang` prop)
   content/journal/       Journal posts, one Markdown file each. The file name is the URL slug
+  content/journal-es/    Spanish translations of journal posts, same fields plus `translationOf`. The file name is the Spanish slug
   assets/work/<slug>/    Case study images, referenced relatively from the Markdown
   assets/journal/<slug>/ Journal images, referenced relatively from the Markdown
   data/                  Services, engagement models, industries, tech stack and testimonials, with Spanish copy in *.es.ts next to them
@@ -98,7 +99,8 @@ Spanish, under `/es/`: `/es/`, `/es/trabajo/`, `/es/trabajo/[slug]/`, `/es/playg
 `/es/terminos/`, `/es/privacidad/`, `/es/accesibilidad/`, `/es/404/`.
 
 Journal posts are served from the site root as `/[slug]/` so they keep their old WordPress URLs. The slug is the file
-name in `src/content/journal/`. The build fails if a post slug equals a built-in route such as `contact`.
+name in `src/content/journal/`. The build fails if a post slug equals a built-in route such as `contact`. Spanish
+translations of posts are served at `/es/blog/[slug]/` with a Spanish slug.
 
 Generated files: `/sitemap-index.xml` (with `hreflang` alternates), `/robots.txt`, `/llms.txt`, `/llms-full.txt`, `/es/llms.txt`, `/es/llms-full.txt`, `/blog/rss.xml`, `/og-default.png` and one social card per page without a hero image under `/og/`.
 
@@ -130,8 +132,14 @@ language of the JSON-LD.
 **Case studies.** Add `src/content/work-es/<slug>.md` with the same fields as the English file plus
 `translationOf: "<slug>"`. The build fails if a published English case study has no Spanish twin, or the reverse.
 
-**Journal.** Posts are English only. `/es/blog/` lists them in Spanish UI with an "En inglés" tag. The author and the
-posts keep their root URLs.
+**Journal.** Posts are written in English and keep their root URLs. A post can have a Spanish translation, a file in
+`src/content/journal-es/<spanish-slug>.md` with the same fields as the English post plus `translationOf: "<english-slug>"`
+(the images are the English post's: reference `../../assets/journal/<english-slug>/...`). It is served at
+`/es/blog/<spanish-slug>/` and pairs with the English post in the `POST_SLUGS` table in `src/i18n/routes.ts`, which is
+what drives the language switcher, `hreflang`, the sitemap alternates and the social cards. The build fails if the table
+and the files disagree. `/es/blog/` lists every post: translated ones in Spanish, the rest in English with an "En inglés"
+tag. Posts without a translation behave as before (the switcher goes to `/es/blog/`, no `hreflang`). Translated posts
+are in `/es/llms.txt` and, with their full text, in `/es/llms-full.txt`. Category pages and the RSS feed are English only.
 
 **Testimonials** are quotes from real people. The Spanish versions are translations and are marked "Traducido del inglés".
 
@@ -148,6 +156,10 @@ The old Spanish subdomain is covered in `redirects/README.md`.
 Journal post: add `src/content/journal/<old-wordpress-slug>.md` with `title`, `description`, `pubDate`, `category`,
 `legacyPath` and optionally `seoTitle`, `updatedDate`, `author`, `heroImage` and `heroAlt`. Put images in
 `src/assets/journal/<slug>/` and reference them relatively, for example `../../assets/journal/<slug>/hero.jpg`.
+
+Spanish translation of a post: add the Spanish slug to `POST_SLUGS` in `src/i18n/routes.ts` and the file
+`src/content/journal-es/<spanish-slug>.md` (see Journal under Languages). Spanish titles are 60 characters or fewer
+(`seoTitle` when the headline is longer) and descriptions 140 to 155, enforced by `check:seo`.
 
 Case study: add `src/content/work/<slug>.md` with the fields in `src/content.config.ts`. Set `draft: true` to hide it.
 
