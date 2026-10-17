@@ -17,6 +17,7 @@ export const PAGES = {
   stack: { en: '/tech-stack/', es: '/es/tecnologias/' },
   industries: { en: '/industries/', es: '/es/industrias/' },
   about: { en: '/about/', es: '/es/nosotros/' },
+  author: { en: '/about/dani-bottaro/', es: '/es/nosotros/dani-bottaro/' },
   contact: { en: '/contact/', es: '/es/contacto/' },
   journal: { en: '/blog/', es: '/es/blog/' },
   audit: { en: '/free-ux-audit/', es: '/es/auditoria-ux-gratis/' },

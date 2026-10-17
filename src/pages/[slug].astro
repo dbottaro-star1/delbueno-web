@@ -47,6 +47,7 @@ const minutes = readingMinutes(entry.body);
 const related = await getRelated(entry, 3);
 
 const path = `/${entry.id}/`;
+const isFounder = data.author === FOUNDER.name;
 const categoryPath = `/blog/category/${categorySlug(data.category)}/`;
 const trail = crumbs('en', { name: 'Blog', path: '/blog/' }, { name: data.title, path });
 
@@ -110,7 +111,14 @@ const articleImage = ogImage ?? absoluteUrl(card ? `/og/${card.name}.png` : '/og
         </h1>
         <p class="ph-meta">
           <span>
-            By <a href={url('/about/')}>{data.author}</a>
+            By{' '}
+            {isFounder ? (
+              <a href={url(pagePath('author', 'en'))} rel="author">
+                {data.author}
+              </a>
+            ) : (
+              data.author
+            )}
           </span>
           <span>
             <time datetime={data.pubDate.toISOString()}>{formatDate(data.pubDate)}</time>
@@ -146,7 +154,7 @@ const articleImage = ogImage ?? absoluteUrl(card ? `/og/${card.name}.png` : '/og
         <div class="post-prose">
           <Content />
         </div>
-        {data.author === FOUNDER.name && <AuthorBox />}
+        {isFounder && <AuthorBox />}
       </div>
     </div>
   </article>

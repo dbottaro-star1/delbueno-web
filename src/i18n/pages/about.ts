@@ -4,7 +4,7 @@ export interface AboutCopy {
   meta: { title: string; description: string; schemaName: string };
   hero: { eyebrow: string; title: string; accent: string; ledeTemplate: string };
   numbersHeading: string;
-  founder: { label: string; heading: string };
+  founder: { label: string; heading: string; authorLink: string };
   how: { label: string; heading: string; steps: { when: string; title: string; text: string }[] };
   values: {
     label: string;
@@ -33,7 +33,7 @@ export const aboutCopy: Localized<AboutCopy> = {
         '{brand} is a product design and development studio led by {founder}. We work remote from {locality}, {country}, synced with US hours, for B2B SaaS teams and ambitious startups.',
     },
     numbersHeading: 'The studio in numbers',
-    founder: { label: 'Founder', heading: 'Led by {name}.' },
+    founder: { label: 'Founder', heading: 'Led by {name}.', authorLink: 'Profile and articles' },
     how: {
       label: 'How we work',
       heading: 'Kickoff today. Concepts in 48 hours.',
@@ -114,7 +114,7 @@ export const aboutCopy: Localized<AboutCopy> = {
         '{brand} es un estudio de diseño y desarrollo de producto liderado por {founder}. Trabajamos en remoto desde {locality}, {country}, en sintonía con el horario de EE. UU., para equipos B2B SaaS y startups con ambición.',
     },
     numbersHeading: 'El estudio en cifras',
-    founder: { label: 'Fundador', heading: 'Liderado por {name}.' },
+    founder: { label: 'Fundador', heading: 'Liderado por {name}.', authorLink: 'Perfil y artículos' },
     how: {
       label: 'Cómo trabajamos',
       heading: 'Empezamos hoy. Conceptos en 48 horas.',

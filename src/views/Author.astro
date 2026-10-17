@@ -1,0 +1,260 @@
+---
+/**
+ * The founder's author page: the canonical home of the Person entity. Profile, topics, the studio's recognition and
+ * every article he has written. Shared by /about/dani-bottaro/ and /es/nosotros/dani-bottaro/.
+ */
+import InfoCta from '../components/info/InfoCta.astro';
+import InfoHero from '../components/info/InfoHero.astro';
+import PostRow from '../components/journal/PostRow.astro';
+import Recognition from '../components/Recognition.astro';
+import type { Lang } from '../i18n/config';
+import { LANG_META } from '../i18n/config';
+import { fill, t } from '../i18n';
+import { authorCopy } from '../i18n/pages/author';
+import { pagePath } from '../i18n/routes';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getJournal } from '../lib/content';
+import { FOUNDER_ID, ORG_ID, crumbs, founderPageId, websiteId } from '../lib/schema';
+import { BRAND, FOUNDER } from '../lib/site';
+import { canonicalUrl, url } from '../lib/url';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const c = authorCopy[lang];
+
+const posts = (await getJournal()).filter((p) => p.data.author === FOUNDER.name);
+
+const path = pagePath('author', lang);
+const trail = crumbs(
+  lang,
+  { name: t(lang, 'pageName.about'), path: pagePath('about', lang) },
+  { name: FOUNDER.name, path },
+);
+const { description } = c.meta;
+const place = { brand: BRAND.name, locality: BRAND.locality, country: BRAND.country };
+---
+
+<BaseLayout
+  lang={lang}
+  title={c.meta.title}
+  description={description}
+  breadcrumbs={trail}
+  jsonLd={[
+    {
+      '@context': 'https://schema.org',
+      '@type': 'ProfilePage',
+      '@id': founderPageId(lang),
+      url: canonicalUrl(path),
+      name: fill(c.meta.schemaName, { name: FOUNDER.name, brand: BRAND.name }),
+      description,
+      inLanguage: LANG_META[lang].tag,
+      isPartOf: { '@id': websiteId(lang) },
+      publisher: { '@id': ORG_ID },
+      mainEntity: { '@id': FOUNDER_ID },
+    },
+  ]}
+>
+  <InfoHero
+    lang={lang}
+    eyebrow={c.hero.eyebrow}
+    title={c.hero.title}
+    accent={c.hero.accent}
+    lede={fill(c.hero.ledeTemplate, place)}
+    crumbs={trail}
+    size="clamp(2.3rem, 7.6vw, 8.6rem)"
+    maxWidth="100%"
+  />
+
+  <section class="ip-sec" aria-labelledby="au-h">
+    <div class="wrap au">
+      <div class="au-lead">
+        <p class="label">{c.profile.label}</p>
+        <h2 class="ip-h2" id="au-h" data-lines>
+          {c.profile.heading}
+        </h2>
+      </div>
+      <div class="au-body" data-reveal>
+        <p class="au-bio">{t(lang, 'founder.bio')}</p>
+        <p class="au-links">
+          <a class="btn btn-ghost btn-sm" href={FOUNDER.linkedin} rel="me noopener noreferrer">
+            LinkedIn
+          </a>
+          <a class="btn btn-ghost btn-sm" href={url(pagePath('about', lang))}>
+            {c.profile.studioLink}
+          </a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="ip-sec" aria-labelledby="at-h">
+    <div class="wrap">
+      <div class="ip-head">
+        <p class="label">{c.topics.label}</p>
+        <h2 class="ip-h2" id="at-h" data-lines>
+          {c.topics.heading}
+        </h2>
+      </div>
+      <ul class="at">
+        {c.topics.items.map((topic) => (
+          <li data-reveal>{topic}</li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="ip-sec" aria-labelledby="ar-h">
+    <div class="wrap">
+      <div class="ip-head">
+        <p class="label">{c.recognition.label}</p>
+        <h2 class="ip-h2" id="ar-h" data-lines>
+          {c.recognition.heading}
+        </h2>
+      </div>
+      <div class="ar" data-reveal>
+        <Recognition lang={lang} height={96} />
+      </div>
+    </div>
+  </section>
+
+  <section class="ip-sec aa" aria-labelledby="aa-h">
+    <div class="wrap">
+      <div class="ip-head">
+        <p class="label">{c.articles.label}</p>
+        <h2 class="ip-h2" id="aa-h" data-lines>
+          {fill(c.articles.headingTemplate, { n: posts.length })}
+        </h2>
+        <p class="ip-sub">{c.articles.note}</p>
+      </div>
+      <ol class="aa-list">
+        {posts.map((entry, i) => (
+          <PostRow lang={lang} entry={entry} number={i + 1} />
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <InfoCta lang={lang} heading={c.cta.heading} sub={c.cta.sub} />
+
+  <script>
+    import { initInfoReveals } from '../scripts/info/reveal';
+    initInfoReveals();
+  </script>
+</BaseLayout>
+
+<style>
+  .au {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--gap);
+    row-gap: clamp(32px, 5vw, 64px);
+  }
+
+  .au-lead {
+    grid-column: 1 / 7;
+    min-width: 0;
+  }
+
+  .au-lead .ip-h2 {
+    grid-column: auto;
+  }
+
+  .au-body {
+    grid-column: 7 / 13;
+    align-self: end;
+    min-width: 0;
+  }
+
+  .au-bio {
+    font-size: clamp(1.1rem, 1rem + 0.5vw, 1.45rem);
+    line-height: 1.5;
+    color: rgb(242 242 245 / 0.82);
+    text-wrap: pretty;
+  }
+
+  .au-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 32px;
+  }
+
+  .at {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    border-top: 1px solid var(--line);
+    padding-top: clamp(24px, 3vw, 44px);
+  }
+
+  .at li {
+    padding: 12px 22px;
+    border: 1px solid var(--line-2);
+    border-radius: 999px;
+    font: 700 clamp(1rem, 0.9rem + 0.5vw, 1.4rem) / 1.1 var(--display);
+    letter-spacing: -0.02em;
+    color: rgb(242 242 245 / 0.82);
+  }
+
+  .aa-list {
+    border-top: 1px solid var(--line);
+  }
+
+  /* Below desktop the badges sit on two rows: the three shields, then the two landscape items. The ul.rec selectors
+     outrank the scoped styles in Recognition.astro (the same rules the home page uses). */
+  @media (max-width: 1023px) {
+    .ar :global(ul.rec) {
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 32px 16px;
+      width: 100%;
+      align-items: center;
+      justify-items: center;
+    }
+
+    .ar :global(ul.rec > li) {
+      grid-column: span 2;
+    }
+
+    .ar :global(ul.rec > li.rec-wide) {
+      grid-column: span 3;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .ar :global(ul.rec) {
+      --rec-h: 76px !important;
+    }
+
+    .ar :global(ul.rec > li.rec-wide) {
+      justify-self: stretch;
+    }
+
+    .ar :global(ul.rec > .rec-wide .rec-item img) {
+      width: 100%;
+      height: auto;
+    }
+
+    .ar :global(ul.rec > .rec-wide .rec-google) {
+      --rec-h: min(56px, calc((100vw - 2 * var(--pad) - 16px) / 2 / 2.97));
+      justify-content: center;
+    }
+  }
+
+  /* The longest words (Recognition, Reconocimientos) must not split mid-word on a 320px screen. */
+  @media (max-width: 420px) {
+    .ip-h2 {
+      font-size: 1.75rem;
+      hyphens: auto;
+    }
+  }
+
+  @media (max-width: 1000px) {
+    .au-lead,
+    .au-body {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

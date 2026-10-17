@@ -1,9 +1,9 @@
 ---
-title: "A cinematic launch page concept for Toyota's RAV4 Hybrid"
+title: "Projecting 64% higher engagement for a Toyota RAV4 Hybrid launch page concept"
 seoTitle: "Toyota RAV4 Hybrid: Cinematic Landing Page Concept"
-description: "Concept project: a landing page for the Toyota RAV4 Hybrid launch in Uruguay, with 2D animation and a fuel map. We project 64%+ higher engagement."
+description: "Concept project: a landing page for the Toyota RAV4 Hybrid launch in Uruguay, with 2D animation and a fuel map. We project 64% higher engagement."
 client: "Toyota"
-summary: "We designed a concept landing page for the Toyota RAV4 Hybrid launch in Uruguay, with 2D animations and an interactive fuel consumption map. We project 64%+ higher engagement from its interactive elements."
+summary: "We designed a concept landing page for the Toyota RAV4 Hybrid launch in Uruguay, with 2D animations and an interactive fuel consumption map. We project 64% higher engagement from its interactive elements."
 industry: "Automotive"
 services: ["Landing page design", "2D animation", "Marketing research", "Interactive prototypes", "UX/UI design"]
 metrics:
@@ -44,4 +44,4 @@ By focusing on interaction design rather than visual design alone, we turned a t
 
 ## Results
 
-The page turns car buying from passive viewing into an active cost-benefit analysis. We project engagement 64%+ higher through interactivity, with a streamlined path to conversion and an experience that holds up across devices. By quantifying hybrid efficiency through the map, the page gives buyers a logical justification for the premium price and shortens the consideration phase.
+The page turns car buying from passive viewing into an active cost-benefit analysis. We project engagement 64% higher through interactivity, with a streamlined path to conversion and an experience that holds up across devices. By quantifying hybrid efficiency through the map, the page gives buyers a logical justification for the premium price and shortens the consideration phase.
