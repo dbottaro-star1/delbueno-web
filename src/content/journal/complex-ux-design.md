@@ -1,7 +1,7 @@
 ---
 title: "Designing Clarity: UX Principles for Complex SaaS Dashboards"
-seoTitle: "Clarity in SaaS UX Design: Dashboard Principles"
-description: "Clarity in SaaS UX design starts with the dashboard. Cut cognitive load, set a clear hierarchy and tie every metric to an action, even in dense data."
+seoTitle: "Clarity in SaaS UX Design: 7-Step Dashboard Checklist"
+description: "What clarity in SaaS UX design looks like: a clear state, its drivers and the next action. Get the 7-step checklist and test it with 3 users this month."
 pubDate: 2025-11-11
 author: "Dani Bottaro"
 category: "UX Strategy"
@@ -10,7 +10,7 @@ heroAlt: "Desk covered with paper wireframes, sticky notes and color swatches wh
 legacyPath: "/complex-ux-design/"
 ---
 
-Complex products often succeed or stall at the dashboard. When a homepage shows twenty charts, a sea of alerts, and dense tables, even expert users struggle to find the next right action. Clear dashboards do not remove information. They shape information so that attention lands on what matters now. In this guide, we translate **complex UX design** into practical decisions that make **SaaS dashboard UX** feel obvious to power users while still approachable for first time teams. Throughout, we ground ideas in the reality of **data heavy interfaces** and the expectations that come with **UX for technical users**.
+Clarity in SaaS UX design means a user can see the system state, the drivers behind it and the next action without hunting for them. Complex products often succeed or stall at the dashboard. When a homepage shows twenty charts, a sea of alerts, and dense tables, even expert users struggle to find the next right action. Clear dashboards do not remove information. They shape information so that attention lands on what matters now. In this guide, we translate **complex UX design** into practical decisions that make **SaaS dashboard UX** feel obvious to power users while still approachable for first time teams. Throughout, we ground ideas in the reality of **data heavy interfaces** and the expectations that come with **UX for technical users**.
 
 Video: [How to Create an Awesome Dashboard for Your SaaS](https://www.youtube.com/watch?v=-IkSF-T7PNY)
 

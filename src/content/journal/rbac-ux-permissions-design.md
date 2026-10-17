@@ -1,6 +1,7 @@
 ---
 title: "RBAC UX: Designing Permissions People Understand"
-description: "Most B2B permission models confuse the admins who depend on them. A practical guide to RBAC UX: roles, scopes, and access people can reason about."
+seoTitle: "RBAC UX: 3 Questions Every Permissions UI Must Answer"
+description: "Admins often cannot answer who can delete production data. RBAC UX patterns that help: effective permissions views, job-based roles, readable audit logs."
 pubDate: 2026-07-22
 author: "Dani Bottaro"
 category: "DevOps & Security"
