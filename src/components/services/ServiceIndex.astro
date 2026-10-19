@@ -17,8 +17,6 @@ interface Props {
 const { lang } = Astro.props;
 const c = innerCopy[lang].index;
 const services = getServices(lang);
-
-const total = String(services.length).padStart(2, '0');
 ---
 
 <section class="idx" data-idx aria-labelledby="idx-h">
@@ -28,15 +26,11 @@ const total = String(services.length).padStart(2, '0');
   <div class="idx-stage">
     <p class="idx-top">
       <span class="label">{c.kicker}</span>
-      <span class="idx-count" id="idxCount" aria-hidden="true">
-        01 / {total}
-      </span>
     </p>
     {services.map((s, i) => (
       <article class="idx-item" style={`--i:${i}`} aria-labelledby={`idx-${s.slug}`}>
         <h3 class="idx-name" id={`idx-${s.slug}`}>
           <a href={url(servicePath(s.slug, lang))}>
-            <span class="idx-n">{String(i + 1).padStart(2, '0')}</span>
             <span class="idx-t">{s.name}</span>
           </a>
         </h3>
@@ -69,17 +63,8 @@ const total = String(services.length).padStart(2, '0');
 <style is:global>
   /* ----- stacked (phones, tablets, reduced motion, no script) ----- */
   .idx-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     padding: clamp(40px, 6vw, 72px) var(--pad) clamp(24px, 3vw, 40px);
     border-top: 1px solid var(--line);
-  }
-
-  .idx-count {
-    font: 500 0.8125rem / 1 var(--mono);
-    letter-spacing: 0.08em;
-    color: var(--mute);
   }
 
   .idx-bar {
@@ -95,14 +80,6 @@ const total = String(services.length).padStart(2, '0');
 
   .idx-name a {
     display: block;
-  }
-
-  .idx-n {
-    display: block;
-    margin-bottom: 14px;
-    font: 500 0.8125rem / 1 var(--mono);
-    letter-spacing: 0.08em;
-    color: var(--dim);
   }
 
   .idx-t {
@@ -221,18 +198,11 @@ const total = String(services.length).padStart(2, '0');
   .idx-on .idx-name a {
     display: flex;
     align-items: baseline;
-    gap: clamp(14px, 2vw, 28px);
     min-height: 44px;
     color: var(--dim);
     transition:
       color 0.7s var(--out),
       transform 0.9s var(--out);
-  }
-
-  .idx-on .idx-n {
-    margin: 0;
-    flex: none;
-    min-width: 2.2em;
   }
 
   .idx-on .idx-t {
@@ -244,10 +214,6 @@ const total = String(services.length).padStart(2, '0');
   .idx-on .is-active .idx-name a {
     color: var(--ink);
     transform: translateX(clamp(12px, 1.6vw, 28px));
-  }
-
-  .idx-on .is-active .idx-n {
-    color: var(--lime);
   }
 
   @media (hover: hover) and (pointer: fine) {

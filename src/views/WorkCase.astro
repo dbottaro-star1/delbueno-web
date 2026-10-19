@@ -33,7 +33,6 @@ const slug = workSlug(entry);
 const all = await getWork(lang);
 const at = all.findIndex((e) => workSlug(e) === slug);
 const next = all.length > 1 ? all[(at + 1) % all.length] : undefined;
-const pad = (n: number) => String(n).padStart(2, '0');
 const concept = CONCEPT_SLUGS.has(slug);
 const widest = Math.max(3, ...data.metrics.map((m) => splitMetric(m.value).chars));
 
@@ -150,9 +149,6 @@ const creativeWork = {
         <Breadcrumbs lang={lang} items={trail} />
         <div class="cs-hero__top" data-rv>
           <p class="wk-tag">{c.tag}</p>
-          <p class="cs-no" aria-hidden="true">
-            <b>{pad(at + 1)}</b> / {pad(all.length)}
-          </p>
         </div>
 
         {concept && (
@@ -251,10 +247,9 @@ const creativeWork = {
           <nav class="cs-index" aria-label={c.onThisPage} data-index>
             <p class="wk-tag">{c.onThisPage}</p>
             <ol>
-              {toc.map((h, i) => (
+              {toc.map((h) => (
                 <li>
                   <a href={`#${h.slug}`} data-spy={h.slug}>
-                    <span aria-hidden="true">{pad(i + 1)}</span>
                     {h.text}
                   </a>
                 </li>
@@ -275,9 +270,6 @@ const creativeWork = {
           <h2 class="wk-tag" id="cs-gal-h" data-rv>
             {c.screens}
           </h2>
-          <p class="cs-gal__count" aria-hidden="true">
-            {pad(shots.length)} {c.images}
-          </p>
         </div>
         <div class="cs-gal__rows">
           {rows.map((row) =>
@@ -376,11 +368,8 @@ const creativeWork = {
     {next && (
       <section class="cs-next" aria-labelledby="cs-next-h">
         <a class="cs-next__a" href={url(workPath(workSlug(next), lang))} data-next>
-          <div class="wk-wrap cs-next__top">
+          <div class="wk-wrap">
             <p class="wk-tag">{c.next}</p>
-            <p class="cs-no" aria-hidden="true">
-              <b>{pad(((at + 1) % all.length) + 1)}</b> / {pad(all.length)}
-            </p>
           </div>
           <div class="wk-wrap">
             <h2 class="cs-next__h" id="cs-next-h">

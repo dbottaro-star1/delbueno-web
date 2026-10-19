@@ -16,15 +16,13 @@ interface Props {
   lang: Lang;
   entry: WorkEntry;
   index: number;
-  total: number;
 }
-const { lang, entry, index, total } = Astro.props;
+const { lang, entry, index } = Astro.props;
 const { data } = entry;
 const slug = workSlug(entry);
 const c = workCopy[lang].card;
 const metric = data.metrics[0];
 const concept = CONCEPT_SLUGS.has(slug);
-const pad = (n: number) => String(n).padStart(2, '0');
 ---
 
 <li class="wk-card" data-card>
@@ -49,11 +47,8 @@ const pad = (n: number) => String(n).padStart(2, '0');
   </div>
 
   <div class="wk-card__cap" data-cap>
-    <p class="wk-card__no" aria-hidden="true">
-      <span>
-        <b>{pad(index + 1)}</b> / {pad(total)}
-      </span>
-      <span>{data.year}</span>
+    <p class="wk-card__year" aria-hidden="true">
+      {data.year}
     </p>
     <div class="wk-card__info">
       <h2 class="wk-card__h">
@@ -181,22 +176,14 @@ const pad = (n: number) => String(n).padStart(2, '0');
     padding-top: clamp(14px, 1.4vw, 20px);
   }
 
-  .wk-card__no {
+  .wk-card__year {
     grid-column: 1 / -1;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     padding-bottom: 14px;
     border-bottom: 1px solid var(--line);
     color: var(--dim);
     font: 400 var(--fs-xs) / 1 var(--mono);
     letter-spacing: 0.09em;
     text-transform: uppercase;
-  }
-
-  .wk-card__no b {
-    font-weight: 500;
-    color: var(--ink);
   }
 
   .wk-card__h {

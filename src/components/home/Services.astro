@@ -13,8 +13,6 @@ interface Props {
 const { lang } = Astro.props;
 const c = homeCopy[lang].services;
 const services = getServices(lang);
-
-const total = String(services.length).padStart(2, '0');
 ---
 
 <section class="services" id="services" aria-labelledby="svc-h">
@@ -32,9 +30,6 @@ const total = String(services.length).padStart(2, '0');
       <article class="svc" aria-labelledby={`svc${i + 1}`}>
         <div class="svc-in">
           <div class="svc-top">
-            <span class="svc-num">
-              <b>{String(i + 1).padStart(2, '0')}</b> / {total}
-            </span>
             <span class="svc-num">{s.home.kicker}</span>
           </div>
           <h3 class="svc-title" id={`svc${i + 1}`} data-split>
@@ -132,7 +127,6 @@ const total = String(services.length).padStart(2, '0');
   .svc-top {
     grid-column: 1 / -1;
     display: flex;
-    justify-content: space-between;
     align-items: center;
     color: var(--mute);
   }
@@ -140,11 +134,6 @@ const total = String(services.length).padStart(2, '0');
   .svc-num {
     font: 500 0.8125rem / 1 var(--mono);
     letter-spacing: 0.08em;
-  }
-
-  .svc-num b {
-    color: var(--ink);
-    font-weight: 500;
   }
 
   .svc-title {

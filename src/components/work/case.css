@@ -4,18 +4,6 @@
   position: relative;
 }
 
-.cs-no {
-  color: var(--dim);
-  font: 400 var(--fs-xs) / 1 var(--mono);
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
-}
-
-.cs-no b {
-  font-weight: 500;
-  color: var(--ink);
-}
-
 /* ---------- hero ---------- */
 .cs-hero {
   position: relative;
@@ -26,9 +14,6 @@
 }
 
 .cs-hero__top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   margin-top: clamp(32px, 5vw, 72px);
 }
 
@@ -49,20 +34,9 @@
 }
 
 .cs-client {
-  display: flex;
-  align-items: center;
-  gap: 0.6em;
   margin-top: clamp(28px, 4vw, 52px);
   font: 700 clamp(1.25rem, 1rem + 1.2vw, 2rem) / 1 var(--display);
   letter-spacing: -0.03em;
-}
-
-.cs-client::before {
-  content: '';
-  width: 0.42em;
-  height: 0.42em;
-  border-radius: 50%;
-  background: var(--grad-fill);
 }
 
 .cs-title {
@@ -319,8 +293,7 @@
 
 .cs-index a {
   display: flex;
-  align-items: baseline;
-  gap: 14px;
+  align-items: center;
   min-height: 44px;
   padding: 10px 0 10px 18px;
   margin-left: -1px;
@@ -346,7 +319,6 @@
 .cs-prose {
   grid-column: 5 / 13;
   max-width: 44rem;
-  counter-reset: sec;
   color: rgb(242 242 245 / 0.76);
   font-size: clamp(1.0625rem, 1rem + 0.25vw, 1.25rem);
   line-height: 1.72;
@@ -361,7 +333,6 @@
 }
 
 .cs-prose h2 {
-  counter-increment: sec;
   margin-top: clamp(64px, 8vw, 120px);
   padding-top: 28px;
   border-top: 1px solid var(--line);
@@ -375,15 +346,6 @@
   margin-top: 0;
   padding-top: 0;
   border-top: 0;
-}
-
-.cs-prose h2::before {
-  content: '(' counter(sec, decimal-leading-zero) ')';
-  display: block;
-  margin-bottom: 20px;
-  color: var(--dim);
-  font: 400 var(--fs-xs) / 1 var(--mono);
-  letter-spacing: 0.09em;
 }
 
 .cs-prose h2 + p {
@@ -438,17 +400,7 @@
 }
 
 .cs-gal__head {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
   margin-bottom: clamp(28px, 4vw, 56px);
-}
-
-.cs-gal__count {
-  color: var(--dim);
-  font: 400 var(--fs-xs) / 1 var(--mono);
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
 }
 
 .cs-gal__rows {
@@ -580,12 +532,6 @@
 .cs-next__a {
   position: relative;
   display: block;
-}
-
-.cs-next__top {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
 }
 
 .cs-next__h {

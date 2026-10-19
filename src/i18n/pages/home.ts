@@ -14,7 +14,7 @@ export interface HomeCopy {
   };
   band: { first: string; second: string };
   clarity: string;
-  work: { label: string; heading: string; lede: string; cases: string; view: string; all: string; concept: string };
+  work: { label: string; heading: string; lede: string; view: string; all: string; concept: string };
   playground: {
     label: string;
     heading: string;
@@ -66,7 +66,6 @@ export const homeCopy: Localized<HomeCopy> = {
       label: 'Work',
       heading: 'Selected work',
       lede: 'Messy in. Obvious out.',
-      cases: 'cases',
       view: 'View case',
       all: 'All case studies',
       concept: 'Concept',
@@ -138,7 +137,6 @@ export const homeCopy: Localized<HomeCopy> = {
       label: 'Trabajo',
       heading: 'Trabajo seleccionado',
       lede: 'Entra el caos. Sale la claridad.',
-      cases: 'casos',
       view: 'Ver caso',
       all: 'Todos los casos de estudio',
       concept: 'Concepto',

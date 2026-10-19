@@ -113,7 +113,7 @@ export const innerCopy: Localized<InnerCopy> = {
       ],
     },
     detail: {
-      label: 'Service {no} / 0{total}',
+      label: 'Service',
       whoLabel: 'Who it is for',
       whoHeading: 'Built for teams like yours.',
       includedLabel: 'What is included',
@@ -201,7 +201,7 @@ export const innerCopy: Localized<InnerCopy> = {
       ],
     },
     detail: {
-      label: 'Servicio {no} / 0{total}',
+      label: 'Servicio',
       whoLabel: 'Para quién es',
       whoHeading: 'Hecho para equipos como el tuyo.',
       includedLabel: 'Qué incluye',

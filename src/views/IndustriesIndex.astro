@@ -21,7 +21,6 @@ const c = industriesCopy[lang].index;
 const industries = getIndustries(lang);
 
 const trail = crumbs(lang, { name: t(lang, 'pageName.industries'), path: pagePath('industries', lang) });
-const total = String(industries.length).padStart(2, '0');
 const work = await getWork(lang);
 ---
 
@@ -33,11 +32,8 @@ const work = await getWork(lang);
       {c.listLabel}
     </h2>
     <div class="ind-list">
-      {industries.map((ind, i) => (
+      {industries.map((ind) => (
         <a class="ind-row" href={url(industryPath(ind.slug, lang))} data-rv>
-          <span class="ind-no">
-            {String(i + 1).padStart(2, '0')} / {total}
-          </span>
           <h3 class="ind-name">{ind.name}</h3>
           <p class="ind-sum">{ind.summary}</p>
           <ul class="in-chips ind-chips">
@@ -122,11 +118,12 @@ const work = await getWork(lang);
     position: relative;
     display: grid;
     grid-template-columns: minmax(0, 1fr) minmax(0, 220px);
+    grid-template-rows: auto auto auto 1fr;
     grid-template-areas:
-      'no art'
       'name art'
       'sum art'
-      'chips art';
+      'chips art'
+      '. art';
     column-gap: var(--gap);
     row-gap: 14px;
     padding: clamp(28px, 4vw, 56px) 0;
@@ -134,13 +131,6 @@ const work = await getWork(lang);
     transition:
       padding-left 0.8s var(--out),
       background 0.6s;
-  }
-
-  .ind-no {
-    grid-area: no;
-    font: 500 0.8125rem / 1 var(--mono);
-    letter-spacing: 0.08em;
-    color: var(--dim);
   }
 
   .ind-name {
@@ -196,8 +186,8 @@ const work = await getWork(lang);
   @media (max-width: 700px) {
     .ind-row {
       grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: none;
       grid-template-areas:
-        'no'
         'name'
         'sum'
         'chips'

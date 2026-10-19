@@ -19,9 +19,8 @@ const { label, heading, items: values } = aboutCopy[lang].values;
       </h2>
     </div>
     <ol class="av">
-      {values.map((v, i) => (
+      {values.map((v) => (
         <li class="av-row" data-reveal>
-          <span class="ip-no av-no">{String(i + 1).padStart(2, '0')} / 04</span>
           <h3 class="av-name">
             <span>{v.name}</span>
           </h3>
@@ -49,12 +48,8 @@ const { label, heading, items: values } = aboutCopy[lang].values;
     border-bottom: 1px solid var(--line);
   }
 
-  .av-no {
-    grid-column: 1 / 3;
-  }
-
   .av-name {
-    grid-column: 3 / 9;
+    grid-column: 1 / 9;
     container-type: inline-size;
   }
 
@@ -102,11 +97,6 @@ const { label, heading, items: values } = aboutCopy[lang].values;
   }
 
   @media (max-width: 1000px) {
-    .av-no {
-      grid-column: 1 / -1;
-      margin-bottom: 16px;
-    }
-
     .av-name {
       grid-column: 1 / -1;
     }

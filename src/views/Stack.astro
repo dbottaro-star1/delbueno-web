@@ -43,12 +43,9 @@ const list = {
       </h2>
     </div>
     <div class="st-list">
-      {STACK_SLUGS.map((slug, i) => (
+      {STACK_SLUGS.map((slug) => (
         <article class="st" aria-labelledby={`st-${slug}`}>
           <div class="st-a">
-            <span class="st-no" data-rv>
-              {String(i + 1).padStart(2, '0')} / 0{STACK_SLUGS.length}
-            </span>
             <h3 class="st-name" id={`st-${slug}`} data-split>
               {c.categories[slug].title}
             </h3>
@@ -93,14 +90,6 @@ const list = {
   .st-a {
     grid-column: 1 / 6;
     min-width: 0;
-  }
-
-  .st-no {
-    display: block;
-    margin-bottom: clamp(14px, 1.6vw, 22px);
-    font: 500 0.8125rem / 1 var(--mono);
-    letter-spacing: 0.08em;
-    color: var(--dim);
   }
 
   .st-name {

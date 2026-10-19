@@ -22,7 +22,6 @@ const work = await getWork(lang);
 const path = pagePath('work', lang);
 const trail = crumbs(lang, { name: t(lang, 'pageName.work'), path });
 const total = work.length;
-const pad = (n: number) => String(n).padStart(2, '0');
 const years = work.map((w) => w.data.year);
 const span = fill(c.years, { from: Math.min(...years), to: Math.max(...years) });
 
@@ -70,7 +69,7 @@ const collectionSchema = {
           <dl class="wk-head__facts" data-rv>
             <div>
               <dt>{c.factCases}</dt>
-              <dd>{pad(total)}</dd>
+              <dd>{total}</dd>
             </div>
             <div>
               <dt>{c.factYears}</dt>
@@ -100,7 +99,7 @@ const collectionSchema = {
       {total > 0 ? (
         <ul class="wk-grid">
           {work.map((entry, i) => (
-            <WorkCard lang={lang} entry={entry} index={i} total={total} />
+            <WorkCard lang={lang} entry={entry} index={i} />
           ))}
         </ul>
       ) : (

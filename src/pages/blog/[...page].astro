@@ -22,7 +22,6 @@ const { page } = Astro.props;
 const first = page.currentPage === 1;
 const featured = first ? page.data[0] : undefined;
 const rows = first ? page.data.slice(1) : page.data;
-const start = page.start + (first ? 2 : 1);
 
 const trail = crumbs('en', { name: 'Blog', path: '/blog/' });
 const pageTrail = first ? trail : [...trail, { name: `Page ${page.currentPage}`, path: `/blog/${page.currentPage}/` }];
@@ -54,7 +53,7 @@ const numbers = Array.from({ length: page.lastPage }, (_, i) => i + 1);
 
   {first && featured && <FeaturedPost lang="en" entry={featured} />}
 
-  <JournalList lang="en" entries={rows} start={start}>
+  <JournalList lang="en" entries={rows}>
     {page.lastPage > 1 && (
       <nav class="pager" aria-label="Blog pages">
         {page.currentPage > 1 ? (

@@ -215,20 +215,10 @@ p {
 .label {
   display: inline-flex;
   align-items: center;
-  gap: 0.7em;
   font: 400 var(--fs-xs) / 1 var(--mono);
   letter-spacing: 0.09em;
   text-transform: uppercase;
   color: var(--mute);
-}
-
-.label::before {
-  content: '';
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--ink);
-  opacity: 0.9;
 }
 
 .grad {

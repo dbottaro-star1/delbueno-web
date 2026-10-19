@@ -87,9 +87,8 @@ const mailto = `mailto:${BRAND.email}?subject=${encodeURIComponent(c.mail.subjec
         </h2>
       </div>
       <ul class="fa-pains">
-        {c.pains.map((p, i) => (
+        {c.pains.map((p) => (
           <li data-reveal>
-            <span class="ip-no">{String(i + 1).padStart(2, '0')}</span>
             <h3>{p.q}</h3>
             <p>{p.a}</p>
           </li>
@@ -107,15 +106,14 @@ const mailto = `mailto:${BRAND.email}?subject=${encodeURIComponent(c.mail.subjec
             {c.getHeading}
           </h2>
         </div>
-        <ol class="fa-gets">
-          {c.gets.map((g, i) => (
+        <ul class="fa-gets">
+          {c.gets.map((g) => (
             <li data-reveal>
-              <span class="ip-no">{String(i + 1).padStart(2, '0')}</span>
               <h3>{g.t}</h3>
               <p>{g.d}</p>
             </li>
           ))}
-        </ol>
+        </ul>
       </div>
       <figure class="fa-card" data-reveal aria-label={c.card.aria}>
         <figcaption class="fa-card-top">
@@ -123,14 +121,11 @@ const mailto = `mailto:${BRAND.email}?subject=${encodeURIComponent(c.mail.subjec
           <span class="fa-badge">{c.card.badge}</span>
         </figcaption>
         <p class="fa-card-title">{c.card.title}</p>
-        <ol class="fa-card-list">
-          {c.card.items.map((item, i) => (
-            <li>
-              <span class="ip-no">{String(i + 1).padStart(2, '0')}</span>
-              {item}
-            </li>
+        <ul class="fa-card-list">
+          {c.card.items.map((item) => (
+            <li>{item}</li>
           ))}
-        </ol>
+        </ul>
         <p class="fa-card-foot ip-no">{c.card.foot}</p>
       </figure>
     </div>
@@ -227,15 +222,9 @@ const mailto = `mailto:${BRAND.email}?subject=${encodeURIComponent(c.mail.subjec
     border-bottom: 1px solid var(--line);
   }
 
-  .fa-pains .ip-no,
-  .fa-gets .ip-no {
-    grid-column: 1 / 2;
-    padding-top: 0.5em;
-  }
-
   .fa-pains h3,
   .fa-gets h3 {
-    grid-column: 2 / 8;
+    grid-column: 1 / 8;
     font: 700 clamp(1.2rem, 1rem + 1vw, 2rem) / 1.15 var(--display);
     letter-spacing: -0.035em;
     text-wrap: balance;
@@ -263,11 +252,11 @@ const mailto = `mailto:${BRAND.email}?subject=${encodeURIComponent(c.mail.subjec
   }
 
   .fa-gets h3 {
-    grid-column: 2 / 13;
+    grid-column: 1 / 13;
   }
 
   .fa-gets p {
-    grid-column: 2 / 13;
+    grid-column: 1 / 13;
     max-width: 52ch;
   }
 
@@ -314,8 +303,6 @@ const mailto = `mailto:${BRAND.email}?subject=${encodeURIComponent(c.mail.subjec
   }
 
   .fa-card-list li {
-    display: flex;
-    gap: 16px;
     padding-block: 16px;
     border-bottom: 1px solid var(--line);
     font-weight: 500;
@@ -388,30 +375,10 @@ const mailto = `mailto:${BRAND.email}?subject=${encodeURIComponent(c.mail.subjec
     }
   }
 
-  @media (max-width: 760px) {
-    .fa-pains .ip-no,
-    .fa-gets .ip-no {
-      grid-column: 1 / -1;
-    }
-
+  @media (max-width: 1000px) {
     .fa-pains h3,
     .fa-pains p {
       grid-column: 1 / -1;
-    }
-
-    .fa-gets h3,
-    .fa-gets p {
-      grid-column: 1 / -1;
-    }
-  }
-
-  @media (max-width: 1000px) and (min-width: 761px) {
-    .fa-pains h3 {
-      grid-column: 2 / 13;
-    }
-
-    .fa-pains p {
-      grid-column: 2 / 13;
     }
   }
 </style>

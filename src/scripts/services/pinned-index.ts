@@ -9,9 +9,7 @@ export function initPinnedIndex({ gsap, ScrollTrigger }: Motion): void {
   const sec = document.querySelector<HTMLElement>('[data-idx]');
   if (!sec) return;
   const items = Array.from(sec.querySelectorAll<HTMLElement>('.idx-item'));
-  const count = sec.querySelector<HTMLElement>('#idxCount');
   const bar = sec.querySelector<HTMLElement>('.idx-bar i');
-  const total = String(items.length).padStart(2, '0');
 
   const draw = (item: HTMLElement, on: boolean) => item.querySelector('.art-draw')?.classList.toggle('is-drawn', on);
 
@@ -27,7 +25,6 @@ export function initPinnedIndex({ gsap, ScrollTrigger }: Motion): void {
         item.classList.toggle('is-active', k === i);
         draw(item, k === i);
       });
-      if (count) count.textContent = `${String(i + 1).padStart(2, '0')} / ${total}`;
     };
     setActive(0);
 

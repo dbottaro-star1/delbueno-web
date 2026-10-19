@@ -54,12 +54,9 @@ const list = {
       </h2>
     </div>
     <div class="em-list">
-      {engagements.map((e, i) => (
+      {engagements.map((e) => (
         <article class="em" id={e.slug} aria-labelledby={`${e.slug}-h`}>
           <div class="em-a">
-            <span class="em-no" data-rv>
-              {String(i + 1).padStart(2, '0')} / 0{engagements.length}
-            </span>
             <h3 class="em-name" id={`${e.slug}-h`} data-split>
               {e.name}
             </h3>
@@ -177,14 +174,6 @@ const list = {
     align-content: start;
   }
 
-  .em-no {
-    display: block;
-    margin-bottom: clamp(18px, 2vw, 28px);
-    font: 500 0.8125rem / 1 var(--mono);
-    letter-spacing: 0.08em;
-    color: var(--dim);
-  }
-
   .em-name {
     margin-bottom: clamp(20px, 2.4vw, 32px);
     font: 800 clamp(2.3rem, 5vw, 5.6rem) / 0.92 var(--display);
@@ -207,7 +196,6 @@ const list = {
   }
 
   .em-cols .in-rows > li {
-    grid-template-columns: 36px minmax(0, 1fr);
     font-size: 1rem;
   }
 

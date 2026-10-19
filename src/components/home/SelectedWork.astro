@@ -18,7 +18,7 @@ const { lang, entries } = Astro.props;
 const copy = homeCopy[lang].work;
 
 const cards = await Promise.all(
-  entries.map(async (entry, i) => {
+  entries.map(async (entry) => {
     const img = await getImage({ src: entry.data.cover, width: 1200, format: 'webp' });
     const metric = entry.data.metrics[0];
     return {
@@ -28,12 +28,10 @@ const cards = await Promise.all(
       what: entry.data.services.slice(0, 2).join(' & '),
       alt: entry.data.coverAlt,
       metric,
-      no: String(i + 1).padStart(2, '0'),
       img,
     };
   }),
 );
-const total = String(cards.length).padStart(2, '0');
 ---
 
 <section class="work" id="work" aria-labelledby="work-h">
@@ -48,9 +46,6 @@ const total = String(cards.length).padStart(2, '0');
       <p class="work-lede" data-rv>
         {copy.lede}
       </p>
-      <span class="work-count" aria-hidden="true">
-        {total} {copy.cases}
-      </span>
     </div>
   </div>
 
@@ -75,11 +70,6 @@ const total = String(cards.length).padStart(2, '0');
           </span>
         </div>
         <div class="wc__cap">
-          <p class="wc__no" aria-hidden="true">
-            <span>
-              <b>{card.no}</b> / {total}
-            </span>
-          </p>
           <div class="wc__info">
             <h3 class="wc__name">
               <a class="stretch" href={url(workPath(card.slug, lang))}>
@@ -143,12 +133,6 @@ const total = String(cards.length).padStart(2, '0');
   .work-lede {
     font: 700 clamp(1.05rem, 1.5vw, 1.5rem) / 1.1 var(--display);
     letter-spacing: -0.03em;
-  }
-
-  .work-count {
-    font: 500 0.8125rem / 1 var(--mono);
-    letter-spacing: 0.08em;
-    color: var(--mute);
   }
 
   .work-grid {
@@ -279,29 +263,6 @@ const total = String(cards.length).padStart(2, '0');
     row-gap: 14px;
     padding-top: clamp(14px, 1.5vw, 20px);
     align-items: start;
-  }
-
-  .wc__no {
-    grid-column: 1 / -1;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: var(--dim);
-    font: 400 0.75rem / 1 var(--mono);
-    letter-spacing: 0.09em;
-    text-transform: uppercase;
-    padding-bottom: 14px;
-    border-bottom: 1px solid var(--line);
-  }
-
-  .wc__no b {
-    font-weight: 500;
-    color: var(--ink);
-    transition: color 0.6s var(--out);
-  }
-
-  .js.fly-on .wc:not(.is-landed) .wc__no b {
-    color: var(--dim);
   }
 
   .wc__name {

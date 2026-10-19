@@ -49,7 +49,7 @@ export const industriesCopy: Localized<IndustriesCopy> = {
       ctaHeading: 'Building in one of these? Let’s talk.',
     },
     detail: {
-      label: 'Industry {no} / 0{total}',
+      label: 'Industry',
       secondary: 'See our services',
       problemsLabel: 'Typical problems',
       problemsHeading: 'What goes wrong in {name}.',
@@ -82,7 +82,7 @@ export const industriesCopy: Localized<IndustriesCopy> = {
       ctaHeading: '¿Construyes en una de estas industrias? Hablemos.',
     },
     detail: {
-      label: 'Industria {no} / 0{total}',
+      label: 'Industria',
       secondary: 'Ver nuestros servicios',
       problemsLabel: 'Problemas típicos',
       problemsHeading: 'Qué sale mal en {name}.',

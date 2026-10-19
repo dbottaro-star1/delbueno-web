@@ -129,8 +129,8 @@ const place = { brand: BRAND.name, locality: BRAND.locality, country: BRAND.coun
         <p class="ip-sub">{c.articles.note}</p>
       </div>
       <ol class="aa-list">
-        {posts.map((entry, i) => (
-          <PostRow lang={lang} entry={entry} number={i + 1} />
+        {posts.map((entry) => (
+          <PostRow lang={lang} entry={entry} />
         ))}
       </ol>
     </div>

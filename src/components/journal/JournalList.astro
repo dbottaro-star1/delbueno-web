@@ -11,12 +11,10 @@ interface Props {
   entries: PostEntry[];
   /** Show the category filter. The Spanish blog index has none: the category pages exist in English only. */
   categories?: boolean;
-  /** Running number of the first row. */
-  start?: number;
   active?: string;
   heading?: string;
 }
-const { lang, entries, categories = true, start = 1, active, heading } = Astro.props;
+const { lang, entries, categories = true, active, heading } = Astro.props;
 const t = translator(lang);
 ---
 
@@ -28,8 +26,8 @@ const t = translator(lang);
     {categories && <CategoryNav active={active} />}
     {entries.length > 0 ? (
       <ol class="jl-list">
-        {entries.map((entry, i) => (
-          <PostRow lang={lang} entry={entry} number={start + i} />
+        {entries.map((entry) => (
+          <PostRow lang={lang} entry={entry} />
         ))}
       </ol>
     ) : (

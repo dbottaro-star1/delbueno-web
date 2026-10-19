@@ -31,7 +31,6 @@ export interface WorkCopy {
     onThisPage: string;
     body: string;
     screens: string;
-    images: string;
     clientWords: string;
     portrait: string;
     next: string;
@@ -79,7 +78,6 @@ export const workCopy: Localized<WorkCopy> = {
       onThisPage: 'On this page',
       body: 'Case study',
       screens: 'Selected screens',
-      images: 'images',
       clientWords: 'Client words',
       portrait: 'Portrait of {name}',
       next: 'Next project',
@@ -127,7 +125,6 @@ export const workCopy: Localized<WorkCopy> = {
       onThisPage: 'En esta página',
       body: 'Caso de estudio',
       screens: 'Pantallas seleccionadas',
-      images: 'imágenes',
       clientWords: 'Lo que dice el cliente',
       portrait: 'Retrato de {name}',
       next: 'Siguiente proyecto',

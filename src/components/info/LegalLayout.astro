@@ -50,13 +50,10 @@ const { lang, title, lede, updated, crumbs, sections } = Astro.props;
         </svg>
       </summary>
       <ol>
-        {sections.map((s, i) => (
+        {sections.map((s) => (
           <li>
             <a href={`#${s.id}`} data-spy-link>
-              <span class="ip-no" aria-hidden="true">
-                {String(i + 1).padStart(2, '0')}
-              </span>
-              <span>{s.title}</span>
+              {s.title}
             </a>
           </li>
         ))}
@@ -91,7 +88,6 @@ const { lang, title, lede, updated, crumbs, sections } = Astro.props;
   .lg-body {
     min-width: 0;
     max-width: 72ch;
-    counter-reset: lg;
   }
 
   .lg-box {
@@ -130,9 +126,8 @@ const { lang, title, lede, updated, crumbs, sections } = Astro.props;
   }
 
   a {
-    display: grid;
-    grid-template-columns: 28px minmax(0, 1fr);
-    gap: 8px;
+    display: flex;
+    align-items: center;
     min-height: 44px;
     padding: 12px 12px;
     border-radius: 8px;
@@ -144,10 +139,6 @@ const { lang, title, lede, updated, crumbs, sections } = Astro.props;
       background 0.3s;
   }
 
-  a .ip-no {
-    padding-top: 0.25em;
-  }
-
   a:hover {
     color: var(--ink);
   }
@@ -155,10 +146,6 @@ const { lang, title, lede, updated, crumbs, sections } = Astro.props;
   a[aria-current='true'] {
     color: var(--ink);
     background: rgb(255 255 255 / 0.05);
-  }
-
-  a[aria-current='true'] .ip-no {
-    color: var(--lime);
   }
 
   @media (min-width: 1100px) {
@@ -207,7 +194,6 @@ const { lang, title, lede, updated, crumbs, sections } = Astro.props;
 
   /* Reading column. The page content is slotted, so these rules are global to the layout. */
   .lg-body :global(section) {
-    counter-increment: lg;
     padding-top: clamp(32px, 4vw, 56px);
     scroll-margin-top: calc(var(--nav-h) + 16px);
   }
@@ -219,15 +205,6 @@ const { lang, title, lede, updated, crumbs, sections } = Astro.props;
   .lg-body :global(h2) {
     font: 800 clamp(1.4rem, 1.1rem + 1.2vw, 2.1rem) / 1.05 var(--display);
     letter-spacing: -0.04em;
-  }
-
-  .lg-body :global(h2::before) {
-    content: counter(lg, decimal-leading-zero);
-    display: block;
-    margin-bottom: 14px;
-    font: 400 0.75rem / 1 var(--mono);
-    letter-spacing: 0.09em;
-    color: var(--dim);
   }
 
   .lg-body :global(p),

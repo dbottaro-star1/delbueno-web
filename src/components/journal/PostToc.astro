@@ -19,7 +19,6 @@ const c = postCopy[lang].toc;
     <details class="toc-box" data-toc-box>
       <summary>
         <span class="label">{c.title}</span>
-        <span class="toc-n ip-no">{String(headings.length).padStart(2, '0')}</span>
         <svg class="toc-chev" viewBox="0 0 16 16" aria-hidden="true">
           <path
             d="M3.5 6 8 10.5 12.5 6"
@@ -32,13 +31,10 @@ const c = postCopy[lang].toc;
         </svg>
       </summary>
       <ol>
-        {headings.map((h, i) => (
+        {headings.map((h) => (
           <li>
             <a href={`#${h.slug}`} data-toc-link>
-              <span class="ip-no" aria-hidden="true">
-                {String(i + 1).padStart(2, '0')}
-              </span>
-              <span>{h.text}</span>
+              {h.text}
             </a>
           </li>
         ))}
@@ -75,11 +71,8 @@ const c = postCopy[lang].toc;
     display: none;
   }
 
-  .toc-n {
-    margin-left: auto;
-  }
-
   .toc-chev {
+    margin-left: auto;
     width: 16px;
     height: 16px;
     color: var(--mute);
@@ -97,9 +90,8 @@ const c = postCopy[lang].toc;
   }
 
   a {
-    display: grid;
-    grid-template-columns: 28px minmax(0, 1fr);
-    gap: 8px;
+    display: flex;
+    align-items: center;
     min-height: 44px;
     padding: 12px 12px;
     border-radius: 8px;
@@ -111,10 +103,6 @@ const c = postCopy[lang].toc;
       background 0.3s;
   }
 
-  a .ip-no {
-    padding-top: 0.25em;
-  }
-
   a:hover {
     color: var(--ink);
   }
@@ -122,10 +110,6 @@ const c = postCopy[lang].toc;
   a[aria-current='true'] {
     color: var(--ink);
     background: rgb(255 255 255 / 0.05);
-  }
-
-  a[aria-current='true'] .ip-no {
-    color: var(--lime);
   }
 
   .toc-read {
@@ -154,8 +138,7 @@ const c = postCopy[lang].toc;
       cursor: default;
     }
 
-    .toc-chev,
-    .toc-n {
+    .toc-chev {
       display: none;
     }
 

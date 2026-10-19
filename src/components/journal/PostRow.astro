@@ -1,5 +1,5 @@
 ---
-/** One line of the journal index: running number, thumbnail, title and summary, date and reading time. */
+/** One line of the journal index: thumbnail, title and summary, date and reading time. */
 import { Image } from 'astro:assets';
 import { formatShortDate, readingMinutes } from './reading';
 import type { Lang } from '../../i18n/config';
@@ -11,10 +11,8 @@ import LangTag from '../LangTag.astro';
 interface Props {
   lang: Lang;
   entry: PostEntry;
-  /** Position in the whole journal, shown as 01, 02 ... */
-  number: number;
 }
-const { lang, entry, number } = Astro.props;
+const { lang, entry } = Astro.props;
 const t = translator(lang);
 const { data } = entry;
 const minutes = readingMinutes(entry.body);
@@ -22,9 +20,6 @@ const minutes = readingMinutes(entry.body);
 
 <li class="pr" data-reveal>
   <a class="pr-link" href={url(postHref(entry))}>
-    <span class="pr-no ip-no" aria-hidden="true">
-      {String(number).padStart(2, '0')}
-    </span>
     <span class="pr-media">
       {data.heroImage && (
         <Image src={data.heroImage} alt="" widths={[240, 480]} sizes="240px" loading="lazy" decoding="async" />
@@ -60,7 +55,7 @@ const minutes = readingMinutes(entry.body);
 
   .pr-link {
     display: grid;
-    grid-template-columns: 44px 200px minmax(0, 1fr) 150px 28px;
+    grid-template-columns: 200px minmax(0, 1fr) 150px 28px;
     align-items: center;
     column-gap: clamp(16px, 2.4vw, 40px);
     padding-block: clamp(20px, 2.4vw, 32px);
@@ -163,10 +158,6 @@ const minutes = readingMinutes(entry.body);
     .pr-link {
       grid-template-columns: 140px minmax(0, 1fr) 24px;
       row-gap: 12px;
-    }
-
-    .pr-no {
-      display: none;
     }
 
     .pr-meta {

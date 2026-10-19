@@ -29,7 +29,6 @@ const trail = crumbs(
   { name: t(lang, 'pageName.services'), path: pagePath('services', lang) },
   { name: service.name, path },
 );
-const no = String(services.findIndex((s) => s.slug === service.slug) + 1).padStart(2, '0');
 const cases = await casesFor(service.cases, lang);
 const others = services.filter((s) => s.slug !== service.slug);
 ---
@@ -44,7 +43,7 @@ const others = services.filter((s) => s.slug !== service.slug);
   <InnerHero
     lang={lang}
     crumbs={trail}
-    label={fill(c.label, { no, total: services.length })}
+    label={c.label}
     title={service.name}
     headline={service.headline}
     answer={service.answer}

@@ -38,10 +38,9 @@ const c = notFoundCopy[lang];
         {c.lede.after}
       </p>
       <ul class="nf-links">
-        {c.links.map((l, i) => (
+        {c.links.map((l) => (
           <li data-reveal>
             <a href={url(pagePath(l.page, lang))}>
-              <span class="ip-no">{String(i + 1).padStart(2, '0')}</span>
               <span class="nf-t">{l.t}</span>
               <span class="nf-d">{l.d}</span>
               <svg class="arr nf-arr" aria-hidden="true">
@@ -127,7 +126,7 @@ const c = notFoundCopy[lang];
 
   .nf-links a {
     display: grid;
-    grid-template-columns: 44px minmax(0, 0.9fr) minmax(0, 1.4fr) 28px;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.4fr) 28px;
     align-items: center;
     column-gap: var(--gap);
     min-height: 44px;
@@ -183,10 +182,6 @@ const c = notFoundCopy[lang];
     .nf-links a {
       grid-template-columns: minmax(0, 1fr) 28px;
       row-gap: 6px;
-    }
-
-    .nf-links .ip-no {
-      display: none;
     }
 
     .nf-d {
