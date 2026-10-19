@@ -1,0 +1,110 @@
+---
+/**
+ * Language suggestion. Written in the language it suggests (a Spanish line on the English page) and hidden until
+ * src/scripts/lang.ts finds that the browser prefers the other language and the visitor has not chosen yet.
+ * It floats (bottom right on desktop, clear of the hero calls to action on the left; a bottom sheet on phones),
+ * so showing it never moves the page.
+ * There is no redirect by IP or language: the visitor decides, and the choice is remembered in localStorage.
+ */
+import { LANG_META, otherLang, type Lang } from '../i18n/config';
+import { SWITCH } from '../i18n/switcher';
+import { url } from '../lib/url';
+
+interface Props {
+  /** Language of the current page. */
+  lang: Lang;
+  /** Site-relative path of the equivalent page in the other language. */
+  href: string;
+}
+const { lang, href } = Astro.props;
+const suggested = otherLang(lang);
+const copy = SWITCH[suggested];
+---
+
+<aside
+  class="lang-banner"
+  lang={LANG_META[suggested].tag}
+  aria-label={copy.region}
+  data-lang-banner
+  data-page-lang={lang}
+  data-suggested-lang={suggested}
+  hidden
+>
+  <p class="lang-banner__q">{copy.question}</p>
+  <div class="lang-banner__row">
+    <a class="btn btn-primary btn-sm" href={url(href)} hreflang={LANG_META[suggested].tag} data-lang-accept={suggested}>
+      {copy.accept}
+    </a>
+    <button class="btn btn-ghost btn-sm" type="button" data-lang-stay={lang}>
+      {copy.stay}
+    </button>
+  </div>
+</aside>
+
+<style>
+  .lang-banner {
+    position: fixed;
+    right: var(--pad);
+    bottom: max(20px, env(safe-area-inset-bottom));
+    z-index: var(--z-banner);
+    width: min(400px, calc(100vw - 2 * var(--pad)));
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 18px 18px 16px 20px;
+    border: 1px solid var(--line-2);
+    border-radius: 20px;
+    background: rgb(17 17 24 / 0.94);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    box-shadow: 0 24px 60px rgb(0 0 0 / 0.45);
+    opacity: 0;
+    transform: translateY(16px);
+    pointer-events: none;
+    transition:
+      opacity 0.6s var(--out),
+      transform 0.8s var(--out);
+  }
+
+  .lang-banner[hidden] {
+    display: none;
+  }
+
+  .lang-banner.is-in {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+
+  .lang-banner__q {
+    font-size: 0.9375rem;
+    line-height: 1.4;
+    color: var(--ink);
+  }
+
+  .lang-banner__row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  @media (max-width: 640px) {
+    .lang-banner {
+      left: 12px;
+      right: 12px;
+      bottom: max(12px, env(safe-area-inset-bottom));
+      width: auto;
+    }
+
+    .lang-banner__row .btn {
+      flex: 1 1 auto;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .lang-banner {
+      transition: none;
+      transform: none;
+    }
+  }
+</style>

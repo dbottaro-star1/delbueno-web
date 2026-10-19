@@ -1,20 +1,31 @@
 ---
-import { BRAND, LINKS } from '../lib/site';
+import type { Lang } from '../i18n/config';
+import { translator } from '../i18n';
+import { pagePath } from '../i18n/routes';
+import { LINKS } from '../lib/site';
 import { url } from '../lib/url';
 
 interface Props {
+  lang: Lang;
   heading?: string;
 }
-const { heading = 'Have a product that needs to feel obvious?' } = Astro.props;
+const { lang, heading } = Astro.props;
+const t = translator(lang);
 ---
 
 <section class="section cta" aria-labelledby="cta-heading">
   <div class="wrap stack">
-    <h2 id="cta-heading" data-reveal>{heading}</h2>
-    <p class="lede">{BRAND.speed}</p>
+    <h2 id="cta-heading" data-reveal>
+      {heading ?? t('bookCta.heading')}
+    </h2>
+    <p class="lede">{t('brand.speed')}</p>
     <div class="cta-row">
-      <a class="btn btn-primary" href={LINKS.book} rel="noopener">Book a 15 minute call</a>
-      <a class="btn btn-ghost" href={url('/free-ux-audit/')}>Get a free UX audit</a>
+      <a class="btn btn-primary" href={LINKS.book} rel="noopener">
+        {t('cta.book15')}
+      </a>
+      <a class="btn btn-ghost" href={url(pagePath('audit', lang))}>
+        {t('cta.audit')}
+      </a>
     </div>
   </div>
 </section>

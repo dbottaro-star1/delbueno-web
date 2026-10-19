@@ -1,6 +1,6 @@
 /**
- * Site-wide shell behaviour: solid nav on scroll, mobile menu, scroll progress bar, custom cursor,
- * magnetic CTAs and the footer wordmark. Runs on every page.
+ * Site-wide shell behaviour: solid nav on scroll, mobile menu, scroll progress bar, magnetic CTAs and the footer
+ * wordmark. Runs on every page.
  *
  * Everything that needs GSAP waits for whenMotionReady(), so visitors who prefer reduced motion
  * get the nav and the menu and nothing else.
@@ -17,15 +17,36 @@ export function initShell(): void {
   const menu = document.querySelector<HTMLElement>('[data-menu]');
   if (!nav || !toggle || !menu) return;
 
-  /* ---- menu ---- */
+  /* ---- menu: a modal dialog while open ---- */
+  // Everything behind the menu is inert (no focus, no pointer, hidden from assistive technology) except the burger,
+  // which stays in the header so the menu can be closed. Whatever was already inert is left alone on close.
+  let inerted: HTMLElement[] = [];
+  const backdrop = (): HTMLElement[] => {
+    const outside = Array.from(document.body.children).filter(
+      (el): el is HTMLElement =>
+        el instanceof HTMLElement && !['SCRIPT', 'STYLE'].includes(el.tagName) && el !== nav && el !== menu,
+    );
+    const inHeader = Array.from(
+      nav.querySelectorAll<HTMLElement>(':scope > *:not(.nav-right), .nav-right > :not([data-nav-toggle])'),
+    );
+    return [...outside, ...inHeader].filter((el) => !el.inert);
+  };
   const setOpen = (open: boolean) => {
     if (menu.classList.contains('is-open') === open) return;
     menu.classList.toggle('is-open', open);
     toggle.setAttribute('aria-expanded', String(open));
-    toggle.setAttribute('aria-label', open ? 'Close menu' : 'Menu');
+    toggle.setAttribute('aria-label', (open ? toggle.dataset.labelClose : toggle.dataset.labelOpen) ?? 'Menu');
     document.documentElement.classList.toggle('menu-open', open);
+    if (open) {
+      inerted = backdrop();
+      inerted.forEach((el) => (el.inert = true));
+    } else {
+      inerted.forEach((el) => (el.inert = false));
+      inerted = [];
+    }
     const lenis = getMotion()?.lenis;
-    if (lenis) open ? lenis.stop() : lenis.start();
+    if (open) lenis?.stop();
+    else lenis?.start();
     if (open) menu.querySelector<HTMLElement>('a')?.focus({ preventScroll: true });
   };
   toggle.addEventListener('click', () => setOpen(!menu.classList.contains('is-open')));
@@ -48,9 +69,12 @@ export function initShell(): void {
     } else if (!e.shiftKey && document.activeElement === last) {
       e.preventDefault();
       first.focus();
+    } else if (!items.includes(document.activeElement as HTMLElement)) {
+      e.preventDefault();
+      first.focus();
     }
   });
-  window.matchMedia('(min-width: 861px)').addEventListener('change', (e) => e.matches && setOpen(false));
+  window.matchMedia('(min-width: 1024px)').addEventListener('change', (e) => e.matches && setOpen(false));
 
   /* ---- solid nav ---- */
   const onScroll = () => nav.classList.toggle('is-solid', window.scrollY > 40);
@@ -60,10 +84,7 @@ export function initShell(): void {
   whenMotionReady((m) => {
     scrollMotion(m, nav, menu);
     footerWordmark(m);
-    if (isFinePointer()) {
-      cursor(m);
-      magnetic(m);
-    }
+    if (isFinePointer()) magnetic(m);
   });
 }
 
@@ -110,61 +131,6 @@ function footerWordmark({ gsap }: Motion): void {
       scrollTrigger: { trigger: '.foot', start: 'top bottom', end: 'bottom bottom', scrub: true },
     },
   );
-}
-
-/** Dot plus ring cursor that turns into a labelled lens over [data-cursor] elements. */
-function cursor({ gsap }: Motion): void {
-  const root = document.documentElement;
-  const dot = document.querySelector<HTMLElement>('.c-dot');
-  const ring = document.querySelector<HTMLElement>('.c-ring');
-  const bg = document.querySelector<HTMLElement>('.c-bg');
-  const label = document.querySelector<HTMLElement>('.c-label');
-  if (!dot || !ring || !bg || !label) return;
-
-  root.classList.add('has-cursor');
-  gsap.set([dot, ring], { xPercent: -50, yPercent: -50 });
-  const dx = gsap.quickTo(dot, 'x', { duration: 0.12, ease: 'power3' });
-  const dy = gsap.quickTo(dot, 'y', { duration: 0.12, ease: 'power3' });
-  const rx = gsap.quickTo(ring, 'x', { duration: 0.6, ease: 'expo.out' });
-  const ry = gsap.quickTo(ring, 'y', { duration: 0.6, ease: 'expo.out' });
-  let shown = false;
-  window.addEventListener(
-    'pointermove',
-    (e) => {
-      if (e.pointerType === 'touch') return;
-      if (!shown) {
-        shown = true;
-        gsap.set([dot, ring], { x: e.clientX, y: e.clientY });
-        gsap.to([dot, ring], { opacity: 1, duration: 0.6 });
-      }
-      dx(e.clientX);
-      dy(e.clientY);
-      rx(e.clientX);
-      ry(e.clientY);
-    },
-    { passive: true },
-  );
-  root.addEventListener('mouseleave', () => gsap.to([dot, ring], { opacity: 0, duration: 0.4 }));
-  root.addEventListener('mouseenter', () => shown && gsap.to([dot, ring], { opacity: 1, duration: 0.4 }));
-
-  let state = '';
-  const setState = (s: string, text?: string) => {
-    if (s === state && (s !== 'view' || label.textContent === text)) return;
-    state = s;
-    ring.classList.toggle('is-view', s === 'view');
-    ring.classList.toggle('is-link', s === 'link');
-    gsap.to(bg, { scale: s === 'view' ? 2 : s === 'link' ? 1.5 : 1, duration: 0.7, ease: 'expo.out' });
-    gsap.to(dot, { scale: s === 'view' ? 0 : 1, duration: 0.4 });
-    label.textContent = text || '';
-    gsap.to(label, { opacity: s === 'view' ? 1 : 0, duration: 0.4 });
-  };
-  document.addEventListener('pointerover', (e) => {
-    const t = e.target as Element | null;
-    if (!t || !t.closest) return;
-    const v = t.closest<HTMLElement>('[data-cursor]');
-    if (v) return setState('view', v.dataset.cursor);
-    setState(t.closest('a,button,[role="button"]') ? 'link' : '');
-  });
 }
 
 /** Buttons marked [data-magnetic] lean toward the pointer. */

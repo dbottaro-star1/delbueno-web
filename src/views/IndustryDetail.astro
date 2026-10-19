@@ -1,0 +1,214 @@
+---
+import Faq from '../components/Faq.astro';
+import IndustryArt from '../components/industries/IndustryArt.astro';
+import CaseCard from '../components/services/CaseCard.astro';
+import InnerCta from '../components/services/InnerCta.astro';
+import InnerHero from '../components/services/InnerHero.astro';
+import NextRows from '../components/services/NextRows.astro';
+import PostLink from '../components/services/PostLink.astro';
+import { casesFor, postsFor } from '../components/services/related';
+import '../components/services/inner.css';
+import { getIndustries, type Industry } from '../data/industries';
+import type { Lang } from '../i18n/config';
+import { fill, t } from '../i18n';
+import { industriesCopy } from '../i18n/pages/industries';
+import { industryPath, pagePath } from '../i18n/routes';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { crumbs, serviceSchema } from '../lib/schema';
+import { url } from '../lib/url';
+
+interface Props {
+  lang: Lang;
+  industry: Industry;
+}
+const { lang, industry } = Astro.props;
+const c = industriesCopy[lang].detail;
+const industries = getIndustries(lang);
+const path = industryPath(industry.slug, lang);
+const trail = crumbs(
+  lang,
+  { name: t(lang, 'pageName.industries'), path: pagePath('industries', lang) },
+  { name: industry.name, path },
+);
+
+const cases = await casesFor(industry.cases, lang);
+const linked = industry.problems.flatMap((p) => (p.post ? [p.post] : []));
+const posts = await postsFor([...new Set([...linked, ...industry.posts])], industry.keywords, 3, lang);
+const others = industries.filter((i) => i.slug !== industry.slug);
+---
+
+<BaseLayout
+  lang={lang}
+  title={industry.title}
+  description={industry.seoDescription}
+  breadcrumbs={trail}
+  jsonLd={[
+    serviceSchema({
+      path,
+      name: industry.title,
+      description: industry.answer,
+      serviceType: lang === 'en' ? 'Product design' : 'Diseño de producto',
+    }),
+  ]}
+>
+  <InnerHero
+    lang={lang}
+    crumbs={trail}
+    label={c.label}
+    title={industry.title}
+    size="md"
+    answer={industry.answer}
+    secondary={{ label: c.secondary, href: pagePath('services', lang) }}
+  >
+    <div class="in-hero__art">
+      <IndustryArt lang={lang} slug={industry.slug} />
+    </div>
+  </InnerHero>
+
+  <section class="in-sec" aria-labelledby="prob-h">
+    <div class="in-split">
+      <div class="in-split__a ind-sticky">
+        <p class="label" data-rv>
+          {c.problemsLabel}
+        </p>
+        <h2 class="in-h2" id="prob-h" data-split>
+          {fill(c.problemsHeading, { name: industry.name })}
+        </h2>
+      </div>
+      <div class="in-split__b">
+        <ul class="ind-problems">
+          {industry.problems.map((p) => (
+            <li class="ind-problem" data-rv>
+              <h3>{p.title}</h3>
+              <p>{p.text}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="in-sec" aria-labelledby="des-h">
+    <div class="in-head">
+      <p class="label">{c.designLabel}</p>
+      <h2 class="in-h2" id="des-h" data-split>
+        {c.designHeading}
+      </h2>
+    </div>
+    <ul class="ind-designs" data-rv>
+      {industry.designs.map((d) => (
+        <li>{d}</li>
+      ))}
+    </ul>
+  </section>
+
+  {cases.length > 0 && (
+    <section class="in-sec" aria-labelledby="case-h">
+      <div class="in-head">
+        <p class="label">{c.casesLabel}</p>
+        <h2 class="in-h2" id="case-h" data-split>
+          {c.casesHeading}
+        </h2>
+      </div>
+      {industry.casesNote && (
+        <p class="in-note" data-rv>
+          {industry.casesNote}
+        </p>
+      )}
+      <div class="in-cases">
+        {cases.map((entry) => (
+          <CaseCard lang={lang} entry={entry} />
+        ))}
+      </div>
+    </section>
+  )}
+
+  {posts.length > 0 && (
+    <section class="in-sec" aria-labelledby="post-h">
+      <div class="in-head">
+        <p class="label">{c.postsLabel}</p>
+        <h2 class="in-h2" id="post-h" data-split>
+          {c.postsHeading}
+        </h2>
+      </div>
+      <div class="in-posts">
+        {posts.map((entry) => (
+          <PostLink lang={lang} entry={entry} />
+        ))}
+      </div>
+      <p style="margin-top: 24px" data-rv>
+        <a class="in-more" href={url(pagePath('journal', lang))}>
+          {c.allPosts}
+          <svg class="arr" aria-hidden="true">
+            <use href="#i-arr" />
+          </svg>
+        </a>
+      </p>
+    </section>
+  )}
+
+  <section class="in-sec in-faq">
+    <Faq lang={lang} items={industry.faqs} />
+  </section>
+
+  <NextRows
+    lang={lang}
+    label={c.otherLabel}
+    heading={c.otherHeading}
+    items={others.map((i) => ({ name: i.name, summary: i.summary, href: industryPath(i.slug, lang) }))}
+  />
+
+  <InnerCta lang={lang} heading={industry.cta} />
+
+  <script>
+    import '../scripts/services';
+  </script>
+</BaseLayout>
+
+<style is:global>
+  .ind-problems {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .ind-problem {
+    padding: clamp(22px, 2.8vw, 36px) 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .ind-problem h3 {
+    font: 700 clamp(1.4rem, 2.3vw, 2.2rem) / 1.08 var(--display);
+    letter-spacing: -0.035em;
+    margin-bottom: 12px;
+    text-wrap: balance;
+  }
+
+  .ind-problem p {
+    max-width: 54ch;
+    color: var(--mute);
+    line-height: 1.55;
+  }
+
+  .ind-designs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+    border-top: 1px solid var(--line);
+    border-left: 1px solid var(--line);
+  }
+
+  .ind-designs li {
+    min-height: clamp(110px, 12vw, 170px);
+    padding: clamp(18px, 2vw, 28px);
+    border-right: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    font: 700 clamp(1.25rem, 1.8vw, 1.75rem) / 1.12 var(--display);
+    letter-spacing: -0.03em;
+  }
+
+  @media (min-width: 1024px) {
+    .ind-sticky {
+      position: sticky;
+      top: calc(var(--nav-h) + 24px);
+      align-self: start;
+    }
+  }
+</style>

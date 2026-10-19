@@ -2,22 +2,18 @@
 /**
  * Journal posts live at the site root to keep the exact old WordPress URLs.
  * Static routes always win over this dynamic route, and getStaticPaths refuses
- * any post whose slug equals a built-in top-level route.
+ * any post whose slug equals a built-in top-level route. The Spanish translations
+ * are served from src/pages/es/blog/[slug].astro. Both render the Post view.
  */
 import type { GetStaticPaths } from 'astro';
-import { Image, getImage } from 'astro:assets';
-import { render } from 'astro:content';
-import BookCta from '../components/BookCta.astro';
-import Breadcrumbs from '../components/Breadcrumbs.astro';
-import BaseLayout from '../layouts/BaseLayout.astro';
-import { formatDate, getAllJournal, type JournalEntry } from '../lib/content';
+import { getAllJournal, getJournalEs, type JournalEntry } from '../lib/content';
 import { assertSlugFree } from '../lib/routes';
-import { articleSchema, crumbs } from '../lib/schema';
-import { FOUNDER } from '../lib/site';
-import { absoluteUrl, url } from '../lib/url';
+import Post from '../views/Post.astro';
 
 export const getStaticPaths = (async () => {
   const posts = await getAllJournal();
+  // Checks that the Spanish posts and the table of translations agree before any page links to a twin.
+  await getJournalEs();
   return posts.map((entry) => {
     assertSlugFree(entry.id);
     const legacy = entry.data.legacyPath.replace(/^\/?/, '/').replace(/\/?$/, '/');
@@ -32,131 +28,6 @@ interface Props {
   entry: JournalEntry;
 }
 const { entry } = Astro.props;
-const { data } = entry;
-const { Content } = await render(entry);
-
-const path = `/${entry.id}/`;
-const trail = crumbs({ name: 'Journal', path: '/journal/' }, { name: data.title, path });
-
-let ogImage: string | undefined;
-if (data.heroImage) {
-  const og = await getImage({ src: data.heroImage, width: 1200, height: 630, fit: 'cover', format: 'jpg' });
-  ogImage = new URL(og.src, Astro.site).toString();
-}
 ---
 
-<BaseLayout
-  title={data.title}
-  description={data.description}
-  type="article"
-  image={ogImage}
-  imageAlt={data.heroAlt}
-  breadcrumbs={trail}
-  publishedTime={data.pubDate}
-  modifiedTime={data.updatedDate}
-  author={data.author}
-  section={data.category}
-  noindex={data.noindex}
-  jsonLd={[
-    articleSchema({
-      path,
-      title: data.title,
-      description: data.description,
-      author: data.author,
-      pubDate: data.pubDate,
-      updatedDate: data.updatedDate,
-      image: ogImage ?? absoluteUrl('/og-default.png', Astro.site),
-      category: data.category,
-    }),
-  ]}
->
-  <article>
-    <header class="page-top head">
-      <div class="wrap stack">
-        <Breadcrumbs items={trail} />
-        <p class="label">{data.category}</p>
-        <h1>{data.title}</h1>
-        <p class="byline">
-          By <a class="link" href={url('/about/')}>{data.author}</a>,{' '}
-          <time datetime={data.pubDate.toISOString()}>{formatDate(data.pubDate)}</time>
-          {
-            data.updatedDate && (
-              <>
-                , updated <time datetime={data.updatedDate.toISOString()}>{formatDate(data.updatedDate)}</time>
-              </>
-            )
-          }
-        </p>
-      </div>
-    </header>
-
-    {
-      data.heroImage && (
-        <div class="wrap hero">
-          <Image src={data.heroImage} alt={data.heroAlt ?? ''} widths={[800, 1200, 1800]} sizes="100vw" loading="eager" />
-        </div>
-      )
-    }
-
-    <div class="wrap body">
-      <div class="prose">
-        <Content />
-      </div>
-      {
-        data.author === FOUNDER.name && (
-          <aside class="author" aria-label="About the author">
-            <p class="label">Written by</p>
-            <p class="author-name">
-              <a class="link" href={FOUNDER.linkedin} rel="author me">{FOUNDER.name}</a>
-            </p>
-            <p class="author-bio">{FOUNDER.bio}</p>
-          </aside>
-        )
-      }
-    </div>
-  </article>
-
-  <BookCta heading="Designing complex software? Let us talk." />
-</BaseLayout>
-
-<style>
-  .head {
-    padding-bottom: var(--space-7);
-  }
-
-  h1 {
-    font-size: var(--fs-xl);
-    max-width: 22ch;
-  }
-
-  .byline {
-    color: var(--mute);
-  }
-
-  .hero img {
-    width: 100%;
-    max-height: 70vh;
-    object-fit: cover;
-    border-radius: var(--radius);
-  }
-
-  .body {
-    padding-top: var(--space-8);
-  }
-
-  .author {
-    max-width: 68ch;
-    margin-top: var(--space-8);
-    padding-top: var(--space-6);
-    border-top: 1px solid var(--line);
-  }
-
-  .author-name {
-    font-family: var(--display);
-    font-size: var(--fs-md);
-  }
-
-  .author-bio {
-    color: var(--mute);
-  }
-</style>
+<Post lang="en" entry={entry} />

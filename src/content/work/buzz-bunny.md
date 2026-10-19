@@ -1,5 +1,7 @@
 ---
 title: "Taking Buzz Bunny's AI stock app from 62% to 91% onboarding completion"
+seoTitle: "Buzz Bunny: AI Stock App Onboarding Case Study"
+description: "We designed Buzz Bunny, an AI stock recommendation app, and built it in Flutter. Onboarding completion rose from 62% to 91% in the closed beta."
 client: "Buzz Bunny"
 summary: "We designed Buzz Bunny, an AI-driven stock recommendation app for everyday investors, and built it in Flutter for iOS and Android. Onboarding completion rose from 62% to 91%, and the closed beta reached 1,000+ early users."
 industry: "Fintech"

@@ -1,4 +1,8 @@
 /** schema.org JSON-LD builders. Identity URLs always use the production origin. */
+import { recognition } from '../data/recognition';
+import { LANG_META, type Lang } from '../i18n/config';
+import { t } from '../i18n';
+import { pagePath } from '../i18n/routes';
 import { BRAND, FOUNDER, PROD_ORIGIN, SAME_AS } from './site';
 import { canonicalUrl } from './url';
 
@@ -7,7 +11,27 @@ export type JsonLdNode = Record<string, unknown>;
 export const ORG_ID = `${PROD_ORIGIN}/#organization`;
 export const SERVICE_ID = `${PROD_ORIGIN}/#professionalservice`;
 export const WEBSITE_ID = `${PROD_ORIGIN}/#website`;
-export const FOUNDER_ID = `${PROD_ORIGIN}/about/#founder`;
+/** The WebSite node of a language: the English one at the root, the Spanish one under /es/. */
+export const websiteId = (lang: Lang): string => (lang === 'en' ? WEBSITE_ID : `${PROD_ORIGIN}/es/#website`);
+/**
+ * The founder Person. The author page is the canonical home of the entity, so the id lives on that page. Every
+ * reference (Organization founder, Article author, AboutPage, ContactPage) uses this constant.
+ */
+export const FOUNDER_ID = `${PROD_ORIGIN}${pagePath('author', 'en')}#person`;
+/** The ProfilePage node of the author page in a language. */
+export const founderPageId = (lang: Lang): string => `${PROD_ORIGIN}${pagePath('author', lang)}#profile`;
+
+/** The brand mark (public/logo.png, built by scripts/build-icons.mjs). */
+const LOGO = {
+  '@type': 'ImageObject',
+  url: `${PROD_ORIGIN}/logo.png`,
+  contentUrl: `${PROD_ORIGIN}/logo.png`,
+  width: 512,
+  height: 512,
+};
+
+/** The publisher as search engines want it on Article and WebSite: named, with its logo, and tied to the Organization by id. */
+export const PUBLISHER = { '@type': 'Organization', '@id': ORG_ID, name: BRAND.name, logo: LOGO };
 
 const address = {
   '@type': 'PostalAddress',
@@ -15,8 +39,9 @@ const address = {
   addressCountry: BRAND.countryCode,
 };
 
-/** Organization, ProfessionalService, founder Person and WebSite. Emitted on every page. */
-export function sitewideSchema(): JsonLdNode {
+/** Organization, ProfessionalService, founder Person and WebSite. Emitted on every page, in the page's language. */
+export function sitewideSchema(lang: Lang = 'en'): JsonLdNode {
+  const description = t(lang, 'brand.description');
   return {
     '@context': 'https://schema.org',
     '@graph': [
@@ -26,16 +51,13 @@ export function sitewideSchema(): JsonLdNode {
         name: BRAND.name,
         alternateName: BRAND.shortName,
         url: `${PROD_ORIGIN}/`,
-        logo: {
-          '@type': 'ImageObject',
-          url: `${PROD_ORIGIN}/logo.png`,
-          width: 512,
-          height: 512,
-        },
+        logo: LOGO,
+        image: LOGO.url,
         email: BRAND.email,
-        description: BRAND.description,
+        description,
         address,
         founder: { '@id': FOUNDER_ID },
+        award: recognition.map((r) => r.name),
         sameAs: SAME_AS,
       },
       {
@@ -45,7 +67,7 @@ export function sitewideSchema(): JsonLdNode {
         url: `${PROD_ORIGIN}/`,
         image: `${PROD_ORIGIN}/og-default.png`,
         email: BRAND.email,
-        description: BRAND.description,
+        description,
         address,
         areaServed: 'Worldwide',
         parentOrganization: { '@id': ORG_ID },
@@ -55,20 +77,23 @@ export function sitewideSchema(): JsonLdNode {
         '@type': 'Person',
         '@id': FOUNDER_ID,
         name: FOUNDER.name,
-        jobTitle: FOUNDER.jobTitle,
-        description: FOUNDER.bio,
-        url: `${PROD_ORIGIN}/about/`,
+        jobTitle: t(lang, 'founder.jobTitle'),
+        description: t(lang, 'founder.bio'),
+        url: canonicalUrl(pagePath('author', lang)),
+        mainEntityOfPage: { '@id': founderPageId(lang) },
         sameAs: [FOUNDER.linkedin],
         knowsAbout: [...FOUNDER.knowsAbout],
         worksFor: { '@id': ORG_ID },
       },
       {
         '@type': 'WebSite',
-        '@id': WEBSITE_ID,
-        url: `${PROD_ORIGIN}/`,
+        '@id': websiteId(lang),
+        url: canonicalUrl(pagePath('home', lang)),
         name: BRAND.name,
-        publisher: { '@id': ORG_ID },
-        inLanguage: 'en',
+        alternateName: BRAND.shortName,
+        description,
+        publisher: PUBLISHER,
+        inLanguage: LANG_META[lang].tag,
       },
     ],
   };
@@ -105,13 +130,14 @@ export function faqSchema(items: { q: string; a: string }[]): JsonLdNode {
   };
 }
 
-export function personSchema(name: string, path = '/about/'): JsonLdNode {
+/** An author as a Person node. The founder points at the author page and shares the id of the sitewide Person. */
+export function personSchema(name: string, path?: string): JsonLdNode {
   const isFounder = name === BRAND.founder;
   return {
     '@type': 'Person',
     ...(isFounder ? { '@id': FOUNDER_ID, sameAs: [FOUNDER.linkedin] } : {}),
     name,
-    url: canonicalUrl(path),
+    url: canonicalUrl(path ?? pagePath(isFounder ? 'author' : 'about', 'en')),
     worksFor: { '@id': ORG_ID },
   };
 }
@@ -123,8 +149,11 @@ export interface ArticleInput {
   author: string;
   pubDate: Date;
   updatedDate?: Date;
-  image?: string;
+  /** Absolute image URL and its size in pixels. */
+  image?: { url: string; width: number; height: number };
   category?: string;
+  wordCount?: number;
+  lang?: Lang;
 }
 
 export function articleSchema(a: ArticleInput): JsonLdNode {
@@ -135,13 +164,14 @@ export function articleSchema(a: ArticleInput): JsonLdNode {
     description: a.description,
     datePublished: a.pubDate.toISOString(),
     dateModified: (a.updatedDate ?? a.pubDate).toISOString(),
-    author: personSchema(a.author),
-    publisher: { '@id': ORG_ID },
+    author: personSchema(a.author, pagePath('about', a.lang ?? 'en')),
+    publisher: PUBLISHER,
     mainEntityOfPage: { '@type': 'WebPage', '@id': canonicalUrl(a.path) },
     url: canonicalUrl(a.path),
-    inLanguage: 'en',
-    ...(a.image ? { image: a.image } : {}),
+    inLanguage: LANG_META[a.lang ?? 'en'].tag,
+    ...(a.image ? { image: { '@type': 'ImageObject', ...a.image } } : {}),
     ...(a.category ? { articleSection: a.category } : {}),
+    ...(a.wordCount ? { wordCount: a.wordCount } : {}),
   };
 }
 
@@ -154,6 +184,7 @@ export interface CaseStudyInput {
   industry: string;
   services: string[];
   image?: string;
+  lang?: Lang;
 }
 
 export function caseStudySchema(c: CaseStudyInput): JsonLdNode {
@@ -170,7 +201,7 @@ export function caseStudySchema(c: CaseStudyInput): JsonLdNode {
     about: c.industry,
     keywords: c.services.join(', '),
     sponsor: { '@type': 'Organization', name: c.client },
-    inLanguage: 'en',
+    inLanguage: LANG_META[c.lang ?? 'en'].tag,
     ...(c.image ? { image: c.image } : {}),
   };
 }
@@ -196,8 +227,8 @@ export function serviceSchema(s: ServiceInput): JsonLdNode {
 }
 
 /** Breadcrumb trail starting at Home. Pass the trail below Home. */
-export function crumbs(...trail: Crumb[]): Crumb[] {
-  return [{ name: 'Home', path: '/' }, ...trail];
+export function crumbs(lang: Lang, ...trail: Crumb[]): Crumb[] {
+  return [{ name: t(lang, 'pageName.home'), path: pagePath('home', lang) }, ...trail];
 }
 
 export interface ShotInput {
@@ -215,7 +246,13 @@ export interface ShotInput {
 }
 
 /** CollectionPage listing every Playground shot as an ImageObject or VideoObject that links to Dribbble. */
-export function playgroundSchema(path: string, name: string, description: string, shots: ShotInput[]): JsonLdNode {
+export function playgroundSchema(
+  path: string,
+  name: string,
+  description: string,
+  shots: ShotInput[],
+  lang: Lang = 'en',
+): JsonLdNode {
   return {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
@@ -223,9 +260,9 @@ export function playgroundSchema(path: string, name: string, description: string
     name,
     description,
     url: canonicalUrl(path),
-    isPartOf: { '@id': WEBSITE_ID },
+    isPartOf: { '@id': websiteId(lang) },
     publisher: { '@id': ORG_ID },
-    inLanguage: 'en',
+    inLanguage: LANG_META[lang].tag,
     mainEntity: {
       '@type': 'ItemList',
       numberOfItems: shots.length,

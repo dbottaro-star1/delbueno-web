@@ -1,6 +1,7 @@
 ---
 title: "AI Agent UX: Designing Human-in-the-Loop Controls"
-description: "Autonomous AI agents fail users when they act without oversight. A practical UX framework for approvals, interruptibility, and trust in agentic products."
+seoTitle: "Human-in-the-Loop AI Agents: UX for Approvals"
+description: "How to design human-in-the-loop approvals for AI agents: preview before, interruptibility during, audit and undo after. A UX framework for trust."
 pubDate: 2026-06-29
 updatedDate: 2026-07-22
 author: "Dani Bottaro"
@@ -18,7 +19,7 @@ Blaming the model misses the point. The model did what agents do: hand it a goal
 
 For two decades, software UX ran on a quiet promise: you click a control, the system does exactly what the label says. Buttons equal actions. The whole point was that nothing surprised you.
 
-Agents tear that up. Now the user asks for an outcome: “clean up these duplicate accounts,” “draft replies to everyone in this folder,” “scale the cluster if traffic spikes,” and the system works out the steps on its own. The screen stops being a fixed menu of actions and becomes a handoff of judgment, which is really the shift underneath [product design for AI tools](/product-design-for-ai-tools/). Once you see it that way, human-in-the-loop design stops being a safety bolt-on and turns into the core of the thing.
+Agents tear that up. Now the user asks for an outcome: “clean up these duplicate accounts,” “draft replies to everyone in this folder,” “scale the cluster if traffic spikes,” and the system works out the steps on its own. The screen stops being a fixed menu of actions and becomes a handoff of judgment, which is really the shift underneath [product design for AI tools](/industries/ai/). Once you see it that way, human-in-the-loop design stops being a safety bolt-on and turns into the core of the thing.
 
 Here’s the trap. The two ways to get it wrong pull in opposite directions. Too little oversight, and the agent runs with a bad read, like the refund mess, and torches trust in one move. Too much, and you’ve rebuilt the manual tool with extra confirmation clicks, and the user starts wondering why they’re babysitting the thing that was supposed to save them time. The real job is narrow: spend the user’s attention only where the stakes actually earn it. Google’s [People + AI Guidebook](https://pair.withgoogle.com/chapter/feedback-controls/) calls this balancing control and automation, and in agentic products it’s the tension everything else hangs off.
 

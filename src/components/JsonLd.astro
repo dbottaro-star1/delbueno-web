@@ -9,4 +9,6 @@ const nodes = Array.isArray(data) ? data : [data];
 const json = (node: unknown) => JSON.stringify(node).replace(/</g, '\\u003c');
 ---
 
-{nodes.map((node) => <script type="application/ld+json" set:html={json(node)} />)}
+{nodes.map((node) => (
+  <script type="application/ld+json" set:html={json(node)} />
+))}

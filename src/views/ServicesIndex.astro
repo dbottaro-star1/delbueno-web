@@ -1,0 +1,59 @@
+---
+import Faq from '../components/Faq.astro';
+import InnerCta from '../components/services/InnerCta.astro';
+import InnerHero from '../components/services/InnerHero.astro';
+import NextRows from '../components/services/NextRows.astro';
+import ServiceIndex from '../components/services/ServiceIndex.astro';
+import '../components/services/inner.css';
+import { getEngagementsCopy } from '../data/engagements';
+import type { Lang } from '../i18n/config';
+import { t } from '../i18n';
+import { innerCopy } from '../i18n/pages/services';
+import { pagePath } from '../i18n/routes';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { crumbs } from '../lib/schema';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const c = innerCopy[lang].index;
+const engagements = getEngagementsCopy(lang).engagements;
+
+const trail = crumbs(lang, { name: t(lang, 'pageName.services'), path: pagePath('services', lang) });
+---
+
+<BaseLayout lang={lang} title={c.meta.title} description={c.meta.description} breadcrumbs={trail}>
+  <InnerHero
+    lang={lang}
+    crumbs={trail}
+    label={c.label}
+    title={c.heading}
+    size="md"
+    answer={c.answer}
+    secondary={{ label: c.secondary, href: pagePath('engagements', lang) }}
+  />
+
+  <ServiceIndex lang={lang} />
+
+  <NextRows
+    lang={lang}
+    label={c.engagements.label}
+    heading={c.engagements.heading}
+    items={engagements.map((e) => ({
+      name: e.name,
+      summary: e.summary,
+      href: `${pagePath('engagements', lang)}#${e.slug}`,
+    }))}
+  />
+
+  <section class="in-sec in-faq">
+    <Faq lang={lang} items={c.faqs} />
+  </section>
+
+  <InnerCta lang={lang} heading={c.ctaHeading} />
+
+  <script>
+    import '../scripts/services';
+  </script>
+</BaseLayout>

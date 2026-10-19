@@ -1,9 +1,10 @@
 /**
  * Marquees. The velocity band speeds up, reverses and skews with scroll velocity (clamped). The trusted-by row
- * speeds up with Lenis velocity. Both pause while off-screen.
+ * speeds up with Lenis velocity. Both pause while off-screen and settle when the visitor stops scrolling (calm.ts).
  */
 import type { Motion } from '../motion';
 import { addTick } from '../loop';
+import { calm } from './calm';
 
 const clamp = (v: number, a: number, b: number) => Math.min(b, Math.max(a, v));
 
@@ -47,7 +48,7 @@ export function initMarquees({ gsap, ScrollTrigger, lenis }: Motion): void {
       if (Math.abs(sv) > 0.4) dir = sv > 0 ? 1 : -1;
       const boost = Math.min(Math.abs(sv) / 5, 6);
       skew += (clamp(-sv * 0.3, -8, 8) - skew) * 0.2;
-      bTw.timeScale(dir * (1 + boost));
+      bTw.timeScale(dir * (1 + boost) * calm.level);
       setSkew(skew);
     });
   }
@@ -69,10 +70,13 @@ export function initMarquees({ gsap, ScrollTrigger, lenis }: Motion): void {
       },
     });
     addTick(() => {
-      if (!on) return;
+      if (!on) {
+        mq.timeScale(ts * calm.level);
+        return;
+      }
       const v = Math.abs(lenis.velocity);
       ts += (1 + Math.min(v * 0.18, 5) - ts) * 0.08;
-      mq.timeScale(ts);
+      mq.timeScale(ts * calm.level);
     });
   }
 }

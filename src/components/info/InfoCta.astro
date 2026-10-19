@@ -1,0 +1,42 @@
+---
+/** Closing call to action for the info pages, in the homepage final CTA language. */
+import type { Lang } from '../../i18n/config';
+import { translator } from '../../i18n';
+import { innerCopy } from '../../i18n/pages/services';
+import { BRAND, LINKS } from '../../lib/site';
+import './info.css';
+
+interface Props {
+  lang: Lang;
+  heading?: string;
+  label?: string;
+  sub?: string;
+}
+const { lang, heading = innerCopy[lang].cta.heading, label, sub } = Astro.props;
+const t = translator(lang);
+---
+
+<section class="ip-cta" aria-labelledby="ip-cta-h">
+  <div class="wrap">
+    <p class="label">{label ?? t('cta.next')}</p>
+    <h2 class="ip-cta-h" id="ip-cta-h" data-lines>
+      {heading}
+    </h2>
+    {sub && (
+      <p class="ip-lede" data-reveal>
+        {sub}
+      </p>
+    )}
+    <div class="ip-cta-row" data-reveal>
+      <a class="btn btn-primary ip-cta-btn" data-magnetic href={LINKS.book} rel="noopener">
+        {t('cta.book')}{' '}
+        <svg class="arr" aria-hidden="true">
+          <use href="#i-arr"></use>
+        </svg>
+      </a>
+      <p class="ip-cta-alt">
+        {t('cta.or')} <a href={`mailto:${BRAND.email}`}>{BRAND.email}</a>
+      </p>
+    </div>
+  </div>
+</section>

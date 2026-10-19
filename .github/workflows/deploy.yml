@@ -8,21 +8,20 @@ on:
 # No permissions by default. Each job below asks for only what it needs.
 permissions: {}
 
+# A deploy that is already running is never cut off halfway; a newer push waits its turn.
 concurrency:
   group: pages
-  cancel-in-progress: true
+  cancel-in-progress: false
 
-# Deployment target. Today the site is a noindex preview on GitHub Pages.
-#
-# To switch to the custom domain delbuenostudio.com:
-#   1. Add a file public/CNAME that contains: delbuenostudio.com
-#   2. Change the three values below to: PREVIEW 'false', BASE_PATH '/', SITE_URL 'https://delbuenostudio.com'
-#   3. In the repository settings (Pages), set the custom domain and enforce HTTPS.
-#   4. Import the redirects (see redirects/README.md).
+# Deployment target: production on the custom domain delbuenostudio.com (public/CNAME).
+# The domain is verified on the GitHub account, and Cloudflare sits in front for DNS,
+# redirects and security headers (see docs/security/cloudflare.md and redirects/README.md).
+# For a noindex preview build instead, use PREVIEW 'true', BASE_PATH '/delbueno-web' and
+# SITE_URL 'https://dbottaro-star1.github.io', and remove public/CNAME.
 env:
-  PREVIEW: 'true'
-  BASE_PATH: /delbueno-web
-  SITE_URL: https://dbottaro-star1.github.io
+  PREVIEW: 'false'
+  BASE_PATH: /
+  SITE_URL: https://delbuenostudio.com
 
 jobs:
   build:
@@ -41,7 +40,11 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
 
-      - run: npm ci
+      # See ci.yml for why install scripts are off and no `npm rebuild` is needed.
+      - run: npm ci --ignore-scripts
+
+      - name: Verify registry signatures
+        run: npm audit signatures
 
       - name: Audit production dependencies (fails on high or critical)
         run: npm audit --audit-level=high --omit=dev
@@ -54,6 +57,12 @@ jobs:
 
       - name: Copy lint (no em dashes, en dashes or middle dots)
         run: npm run lint:copy
+
+      - name: Content Security Policy (inline script hashes, no inline styles, meta tag, docs in sync)
+        run: npm run check:csp
+
+      - name: SEO (title and description length, unique, canonical, absolute og:image, one h1, JSON-LD parses)
+        run: npm run check:seo
 
       - uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6
 

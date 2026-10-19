@@ -1,31 +1,5 @@
 ---
-import BookCta from '../../components/BookCta.astro';
-import PageHeader from '../../components/PageHeader.astro';
-import WorkCard from '../../components/WorkCard.astro';
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import { getWork } from '../../lib/content';
-import { crumbs } from '../../lib/schema';
-
-const work = await getWork();
-const trail = crumbs({ name: 'Work', path: '/work/' });
+import WorkIndex from '../../views/WorkIndex.astro';
 ---
 
-<BaseLayout
-  title="Work: case studies in B2B SaaS and product design"
-  description="Case studies from delbueno™ Studio: product design for cloud security, AI, marketplaces and consumer brands, with the results behind each."
-  breadcrumbs={trail}
->
-  <PageHeader title="Work" eyebrow="Case studies" lede="Selected projects and what changed for the teams behind them." crumbs={trail} />
-  <section class="section">
-    <div class="wrap">
-      {
-        work.length > 0 ? (
-          <div class="grid">{work.map((entry) => <WorkCard entry={entry} />)}</div>
-        ) : (
-          <p class="lede">Case studies are on the way.</p>
-        )
-      }
-    </div>
-  </section>
-  <BookCta />
-</BaseLayout>
+<WorkIndex lang="en" />

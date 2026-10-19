@@ -1,0 +1,21 @@
+---
+/**
+ * Spanish translations of journal posts, at /es/blog/<spanish-slug>/. The files are in src/content/journal-es and the
+ * slug pairs with the English post in POST_SLUGS (src/i18n/routes.ts). The English posts are served from the site root.
+ */
+import type { GetStaticPaths } from 'astro';
+import { getJournalEs, type JournalEsEntry } from '../../../lib/content';
+import Post from '../../../views/Post.astro';
+
+export const getStaticPaths = (async () => {
+  const posts = await getJournalEs();
+  return posts.map((entry) => ({ params: { slug: entry.id }, props: { entry } }));
+}) satisfies GetStaticPaths;
+
+interface Props {
+  entry: JournalEsEntry;
+}
+const { entry } = Astro.props;
+---
+
+<Post lang="es" entry={entry} />

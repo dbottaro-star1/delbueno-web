@@ -1,0 +1,120 @@
+---
+/** A ruled timeline of steps: a horizontal rail on desktop, a vertical one on phones. */
+interface Step {
+  when: string;
+  title: string;
+  text: string;
+}
+import type { Lang } from '../../i18n/config';
+import { t } from '../../i18n';
+
+interface Props {
+  lang: Lang;
+  steps: Step[];
+}
+const { lang, steps } = Astro.props;
+---
+
+<ol class="ap" style={`--n:${steps.length}`}>
+  {steps.map((s, i) => (
+    <li class="ap-step" data-reveal>
+      <span class="ap-dot" aria-hidden="true"></span>
+      <span class="ip-no">{t(lang, 'process.step', { n: String(i + 1).padStart(2, '0') })}</span>
+      <p class="ap-when">{s.when}</p>
+      <h3>{s.title}</h3>
+      <p class="ap-text">{s.text}</p>
+    </li>
+  ))}
+</ol>
+
+<style>
+  .ap {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(var(--n), minmax(0, 1fr));
+    column-gap: var(--gap);
+  }
+
+  .ap::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 4px;
+    height: 1px;
+    background: linear-gradient(90deg, var(--violet-2), var(--line-2) 40%, var(--line));
+  }
+
+  .ap-step {
+    position: relative;
+    padding-top: 40px;
+    container-type: inline-size;
+  }
+
+  .ap-dot {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 1px solid var(--violet-2);
+  }
+
+  .ap-step:first-child .ap-dot {
+    background: var(--lime);
+    border-color: var(--lime);
+  }
+
+  .ap-when {
+    margin-top: 18px;
+    font: 800 clamp(1.5rem, 11cqw, 2.6rem) / 1 var(--display);
+    overflow-wrap: anywhere;
+    letter-spacing: -0.045em;
+    color: var(--ink);
+  }
+
+  h3 {
+    margin-top: 14px;
+  }
+
+  .ap-text {
+    margin-top: 10px;
+    color: var(--mute);
+    font-size: var(--fs-sm);
+    line-height: 1.6;
+    max-width: 30ch;
+  }
+
+  @media (max-width: 900px) {
+    .ap {
+      grid-template-columns: 1fr;
+      row-gap: 36px;
+      padding-left: 32px;
+    }
+
+    .ap::before {
+      left: 4px;
+      right: auto;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      height: auto;
+      background: linear-gradient(180deg, var(--violet-2), var(--line));
+    }
+
+    .ap-step {
+      padding-top: 0;
+    }
+
+    .ap-dot {
+      top: 6px;
+      left: -32px;
+    }
+
+    .ap-when {
+      margin-top: 12px;
+    }
+  }
+</style>

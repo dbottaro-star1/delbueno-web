@@ -1,0 +1,172 @@
+---
+// BaseLayout is imported first on purpose: stylesheets are emitted in import order, and the base .btn rule has to come
+// before the larger .ip-cta-btn on this page.
+import BaseLayout from '../layouts/BaseLayout.astro';
+import InfoHero from '../components/info/InfoHero.astro';
+import type { Lang } from '../i18n/config';
+import { t } from '../i18n';
+import { careersCopy } from '../i18n/pages/careers';
+import { pagePath } from '../i18n/routes';
+import { crumbs } from '../lib/schema';
+import { BRAND } from '../lib/site';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const c = careersCopy[lang];
+
+const trail = crumbs(lang, { name: t(lang, 'pageName.careers'), path: pagePath('careers', lang) });
+
+const mailto = `mailto:${BRAND.email}?subject=${encodeURIComponent(c.mail.subject)}&body=${encodeURIComponent(
+  c.mail.lines.join('\n'),
+)}`;
+---
+
+<BaseLayout lang={lang} title={c.meta.title} description={c.meta.description} breadcrumbs={trail}>
+  <InfoHero
+    lang={lang}
+    eyebrow={c.eyebrow}
+    title={c.title}
+    accent={c.accent}
+    lede={c.lede}
+    crumbs={trail}
+    size="clamp(2.2rem, 6.8vw, 7.6rem)"
+    maxWidth="100%"
+  >
+    <div class="cr-cta" data-reveal>
+      <a class="btn btn-primary ip-cta-btn" data-magnetic href={mailto}>
+        {c.cta}{' '}
+        <svg class="arr" aria-hidden="true">
+          <use href="#i-arr"></use>
+        </svg>
+      </a>
+      <p class="cr-mail">
+        {c.to} <a href={mailto}>{BRAND.email}</a>
+      </p>
+    </div>
+  </InfoHero>
+
+  <section class="ip-sec" aria-labelledby="cr-h">
+    <div class="wrap">
+      <div class="ip-head">
+        <p class="label">{c.cultureLabel}</p>
+        <h2 class="ip-h2" id="cr-h" data-lines>
+          {c.cultureHeading}
+        </h2>
+      </div>
+      <ul class="cr-list">
+        {c.culture.map((item) => (
+          <li data-reveal>
+            <h3>{item.t}</h3>
+            <p>{item.d}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="ip-sec" aria-labelledby="cr-send-h">
+    <div class="wrap cr-send">
+      <div>
+        <p class="label">{c.sendLabel}</p>
+        <h2 class="ip-h2 cr-send-h" id="cr-send-h" data-lines>
+          {c.sendHeading}
+        </h2>
+      </div>
+      <ul class="list-check cr-points" data-reveal>
+        {c.send.map((line) => (
+          <li>{line}</li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <script>
+    import { initInfoReveals } from '../scripts/info/reveal';
+    initInfoReveals();
+  </script>
+</BaseLayout>
+
+<style>
+  .cr-cta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px clamp(20px, 3vw, 40px);
+    margin-top: clamp(32px, 4.4vw, 64px);
+  }
+
+  .cr-mail {
+    color: var(--mute);
+  }
+
+  .cr-mail a {
+    color: var(--ink);
+    border-bottom: 1px solid var(--line-2);
+  }
+
+  .cr-list {
+    border-top: 1px solid var(--line);
+  }
+
+  .cr-list li {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--gap);
+    row-gap: 12px;
+    align-items: baseline;
+    padding-block: clamp(26px, 3.4vw, 52px);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .cr-list h3 {
+    grid-column: 1 / 9;
+    font: 800 clamp(1.7rem, 1rem + 2.8vw, 3.6rem) / 1 var(--display);
+    letter-spacing: -0.045em;
+    text-wrap: balance;
+    overflow-wrap: anywhere;
+  }
+
+  .cr-list p {
+    grid-column: 9 / 13;
+    color: var(--mute);
+    font-size: var(--fs-sm);
+    line-height: 1.6;
+  }
+
+  .cr-send {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--gap);
+    row-gap: 40px;
+    align-items: end;
+  }
+
+  .cr-send > div {
+    grid-column: 1 / 8;
+  }
+
+  .cr-send-h {
+    grid-column: auto;
+  }
+
+  .cr-points {
+    grid-column: 8 / 13;
+    display: grid;
+    gap: 14px;
+    font-size: var(--fs-md);
+  }
+
+  @media (max-width: 1000px) {
+    .cr-list h3,
+    .cr-list p {
+      grid-column: 1 / -1;
+    }
+
+    .cr-send > div,
+    .cr-points {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

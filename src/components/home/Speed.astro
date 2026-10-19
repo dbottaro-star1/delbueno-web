@@ -1,31 +1,34 @@
 ---
-const steps = [
-  { when: 'Today', title: 'Strategic kickoff', text: 'One focused call to align on goals and scope; we start the moment we hang up.' },
-  {
-    when: 'Within 24h',
-    title: 'Your portal goes live',
-    text: 'A dedicated Notion workspace with your backlog, plus a shared Slack channel. No email chains.',
-  },
-  { when: '48h later', title: 'First high-fidelity concepts', text: 'No waiting weeks for a big reveal.' },
-];
+import type { Lang } from '../../i18n/config';
+import { translator } from '../../i18n';
+import { homeCopy } from '../../i18n/pages/home';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = translator(lang);
+const { label, heading, steps } = homeCopy[lang].speed;
 ---
 
 <section class="speed" id="speed" aria-labelledby="speed-h">
-  <p class="label">Process</p>
-  <h2 class="h2" id="speed-h" data-split>Kickoff today. Concepts in 48 hours.</h2>
+  <p class="label">{label}</p>
+  <h2 class="h2" id="speed-h" data-split>
+    {heading}
+  </h2>
   <div class="steps" id="steps">
-    <div class="rail" aria-hidden="true"><span class="rail-fill" id="railFill"></span></div>
+    <div class="rail" aria-hidden="true">
+      <span class="rail-fill" id="railFill"></span>
+    </div>
     <ol class="step-list">
-      {
-        steps.map((s, i) => (
-          <li class="step" data-rv>
-            <span class="step-no mono">Step {String(i + 1).padStart(2, '0')}</span>
-            <p class="step-t">{s.when}</p>
-            <h3>{s.title}</h3>
-            <p>{s.text}</p>
-          </li>
-        ))
-      }
+      {steps.map((s, i) => (
+        <li class="step" data-rv>
+          <span class="step-no mono">{t('process.step', { n: String(i + 1).padStart(2, '0') })}</span>
+          <p class="step-t">{s.when}</p>
+          <h3>{s.title}</h3>
+          <p>{s.text}</p>
+        </li>
+      ))}
     </ol>
   </div>
 </section>
@@ -98,7 +101,10 @@ const steps = [
     border-radius: 50%;
     background: var(--lime);
     border: 1px solid var(--lime);
-    transition: background 0.7s var(--out), border-color 0.7s var(--out), transform 0.7s var(--out);
+    transition:
+      background 0.7s var(--out),
+      border-color 0.7s var(--out),
+      transform 0.7s var(--out);
   }
 
   .js .step::before {

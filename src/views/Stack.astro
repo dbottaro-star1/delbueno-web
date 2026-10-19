@@ -1,0 +1,201 @@
+---
+import TechChip from '../components/stack/TechChip.astro';
+import InnerCta from '../components/services/InnerCta.astro';
+import InnerHero from '../components/services/InnerHero.astro';
+import '../components/services/inner.css';
+import { STACK_SLUGS, stack } from '../data/stack';
+import type { Lang } from '../i18n/config';
+import { t } from '../i18n';
+import { stackPageCopy } from '../i18n/pages/stack';
+import { pagePath } from '../i18n/routes';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { crumbs } from '../lib/schema';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const c = stackPageCopy[lang];
+const pageUrl = pagePath('stack', lang);
+
+const trail = crumbs(lang, { name: t(lang, 'pageName.stack'), path: pageUrl });
+
+const list = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  name: c.listName,
+  itemListElement: STACK_SLUGS.flatMap((slug) => stack[slug]).map((item, i) => ({
+    '@type': 'ListItem',
+    position: i + 1,
+    name: item.name,
+  })),
+};
+---
+
+<BaseLayout lang={lang} title={c.meta.title} description={c.meta.description} breadcrumbs={trail} jsonLd={[list]}>
+  <InnerHero lang={lang} crumbs={trail} label={c.label} title={c.heading} size="md" answer={c.answer} />
+
+  <section class="in-sec st-sec" aria-labelledby="st-h">
+    <div class="in-head">
+      <p class="label">{c.toolkitLabel}</p>
+      <h2 class="in-h2" id="st-h" data-split>
+        {c.toolkitHeading}
+      </h2>
+    </div>
+    <div class="st-list">
+      {STACK_SLUGS.map((slug) => (
+        <article class="st" aria-labelledby={`st-${slug}`}>
+          <div class="st-a">
+            <h3 class="st-name" id={`st-${slug}`} data-split>
+              {c.categories[slug].title}
+            </h3>
+            <p class="st-intro" data-rv>
+              {c.categories[slug].intro}
+            </p>
+          </div>
+          <ul class="st-grid" data-rv>
+            {stack[slug].map((item) => (
+              <TechChip item={item} />
+            ))}
+          </ul>
+        </article>
+      ))}
+    </div>
+    <p class="st-credit" data-rv>
+      {c.credit}
+    </p>
+  </section>
+
+  <InnerCta lang={lang} heading={c.ctaHeading} />
+
+  <script>
+    import '../scripts/services';
+  </script>
+</BaseLayout>
+
+<style is:global>
+  .st-list {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .st {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: var(--gap);
+    row-gap: clamp(24px, 3vw, 40px);
+    padding: clamp(36px, 5vw, 72px) 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .st-a {
+    grid-column: 1 / 6;
+    min-width: 0;
+  }
+
+  .st-name {
+    margin-bottom: clamp(14px, 1.6vw, 22px);
+    font: 800 clamp(1.75rem, 3.6vw, 3.8rem) / 0.96 var(--display);
+    letter-spacing: -0.045em;
+    text-wrap: balance;
+    overflow-wrap: break-word;
+  }
+
+  .st-intro {
+    max-width: 38ch;
+    color: var(--mute);
+    font-size: clamp(1rem, 1.2vw, 1.125rem);
+    line-height: 1.5;
+  }
+
+  .st-grid {
+    grid-column: 7 / 13;
+    min-width: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 168px), 1fr));
+    gap: 10px;
+    align-content: start;
+  }
+
+  .st-chip {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+    min-height: 60px;
+    padding: 14px 16px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--bg-1);
+    color: var(--ink);
+    transition:
+      transform 0.5s var(--out),
+      border-color 0.4s,
+      background-color 0.4s;
+  }
+
+  .st-mark {
+    flex: none;
+    width: 24px;
+    height: 24px;
+  }
+
+  .st-mono {
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--line-2);
+    border-radius: 7px;
+    font: 500 0.625rem / 1 var(--mono);
+    letter-spacing: 0;
+    color: var(--mute);
+  }
+
+  .st-label {
+    min-width: 0;
+    font: 500 0.9375rem / 1.25 var(--sans);
+    letter-spacing: -0.01em;
+    overflow-wrap: anywhere;
+  }
+
+  .st-credit {
+    max-width: 62ch;
+    margin-top: clamp(24px, 3vw, 40px);
+    color: var(--dim);
+    font-size: var(--fs-xs);
+    line-height: 1.5;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .st-chip:hover {
+      transform: translateY(-3px);
+      border-color: var(--line-2);
+      background: var(--bg-3);
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .st-a {
+      position: sticky;
+      top: calc(var(--nav-h) + 24px);
+      align-self: start;
+    }
+  }
+
+  @media (max-width: 1023px) {
+    .st-a,
+    .st-grid {
+      grid-column: 1 / -1;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .st-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .st-chip {
+      gap: 10px;
+      padding: 12px;
+    }
+  }
+</style>

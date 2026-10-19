@@ -15,6 +15,13 @@ concurrency:
 # GitHub Actions is not allowed to create pull requests in this repository, so this workflow
 # only pushes the synced files to the dribbble-sync branch. Dani opens the pull request by hand
 # from the link in the job summary.
+#
+# The branch is never force-pushed. If dribbble-sync already holds commits that are not on main (an open review,
+# possibly with hand-edited imageAlt or featured values), the sync runs on top of it and adds a new commit. If
+# main cannot be merged into that branch cleanly, the sync goes to a new dated branch instead.
+#
+# Pushes made with the built-in token do not start other workflows, so CI does not run on the new commit by
+# itself. The job summary says how to run it (Actions, CI, Run workflow, pick the branch).
 jobs:
   sync:
     runs-on: ubuntu-latest
@@ -38,11 +45,46 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
+          fetch-depth: 0 # the branch step needs history to compare and merge
 
       - if: steps.token.outputs.present == 'true'
         uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
           node-version-file: .nvmrc
+
+      # Decide which branch to build on, and check it out, before the sync runs: the script skips shots that already
+      # have a JSON file, so it has to see the files that are waiting for review on the branch.
+      - if: steps.token.outputs.present == 'true'
+        name: Choose the branch to build on
+        id: branch
+        env:
+          GITHUB_TOKEN_FOR_FETCH: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          REMOTE="https://x-access-token:${GITHUB_TOKEN_FOR_FETCH}@github.com/${REPOSITORY}.git"
+          git fetch --no-tags "$REMOTE" "+refs/heads/main:refs/remotes/origin/main"
+          BRANCH=dribbble-sync
+          if git fetch --no-tags "$REMOTE" "+refs/heads/dribbble-sync:refs/remotes/origin/dribbble-sync" 2>/dev/null; then
+            AHEAD=$(git rev-list --count origin/main..origin/dribbble-sync)
+            if [ "$AHEAD" -gt 0 ]; then
+              echo "dribbble-sync has $AHEAD commit(s) that are not on main. Building on top of it."
+              git checkout -B dribbble-sync origin/dribbble-sync
+              if ! git merge --no-edit origin/main; then
+                git merge --abort
+                BRANCH="dribbble-sync-$(date -u +%Y%m%d-%H%M%S)"
+                echo "::warning::main does not merge cleanly into dribbble-sync. Using the new branch $BRANCH instead."
+                git checkout -B "$BRANCH" origin/main
+              fi
+            else
+              # Everything on the branch is already on main, so a new commit on top of main is a plain fast-forward push.
+              git checkout -B dribbble-sync origin/main
+            fi
+          else
+            git checkout -B dribbble-sync origin/main
+          fi
+          echo "name=$BRANCH" >> "$GITHUB_OUTPUT"
 
       # The script only uses Node built-ins, so there is no npm install step.
       - if: steps.token.outputs.present == 'true'
@@ -52,28 +94,27 @@ jobs:
         run: npm run sync:dribbble
 
       - if: steps.token.outputs.present == 'true'
-        name: Push changes to the dribbble-sync branch
+        name: Push changes (never a force push)
         env:
           GITHUB_TOKEN_FOR_PUSH: ${{ github.token }}
           REPOSITORY: ${{ github.repository }}
+          BRANCH: ${{ steps.branch.outputs.name }}
         run: |
           git add -A -- src/content/shots src/assets/shots
           if git diff --cached --quiet; then
             echo "No new or changed shots." >> "$GITHUB_STEP_SUMMARY"
             exit 0
           fi
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git checkout -b dribbble-sync
           git commit -m "Sync Dribbble shots"
-          git push --force "https://x-access-token:${GITHUB_TOKEN_FOR_PUSH}@github.com/${REPOSITORY}.git" dribbble-sync
+          git push "https://x-access-token:${GITHUB_TOKEN_FOR_PUSH}@github.com/${REPOSITORY}.git" "HEAD:refs/heads/${BRANCH}"
           {
             echo "## Dribbble shots synced"
             echo
-            echo "New or reordered shots were pushed to the \`dribbble-sync\` branch. Nothing is published yet."
+            echo "New or reordered shots were pushed to the \`${BRANCH}\` branch. Nothing is published yet."
             echo
-            echo "1. Open the pull request: https://github.com/${REPOSITORY}/compare/main...dribbble-sync?expand=1"
+            echo "1. Open the pull request: https://github.com/${REPOSITORY}/compare/main...${BRANCH}?expand=1"
             echo "2. Check each new shot in \`src/content/shots/\` and rewrite \`imageAlt\` so it describes what the UI shows."
             echo "3. Set \`featured: true\` on the shots that should lead the Playground section."
-            echo "4. Merge the pull request once CI is green. Merging publishes the shots on the next deploy."
+            echo "4. Run CI on the branch. Pushes made by this workflow do not start CI by themselves. Open Actions, choose CI, press Run workflow, pick \`${BRANCH}\`, and run it. (Closing and reopening the pull request also works.)"
+            echo "5. Merge the pull request once CI is green. Merging publishes the shots on the next deploy."
           } >> "$GITHUB_STEP_SUMMARY"

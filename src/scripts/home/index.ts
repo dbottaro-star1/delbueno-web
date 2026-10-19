@@ -10,6 +10,7 @@ import { addTick } from '../loop';
 import { initMotion, prefersReducedMotion, type Motion } from '../motion';
 import { initPlayground } from '../playground';
 import { isFinePointer } from '../shell';
+import { startCalm } from './calm';
 import { createFlight, remeasureOnRefresh } from './flight';
 import { initFlip } from './flip';
 import { initMarquees } from './marquee';
@@ -35,6 +36,7 @@ async function boot(m: Motion): Promise<void> {
   ScrollTrigger.config({ ignoreMobileResize: true });
   gsap.defaults({ ease: 'expo.out', duration: 1.2 });
 
+  startCalm();
   const field = createField(false);
   const flight = createFlight({ reduce: false, fine, field });
   flight?.measure();
@@ -47,7 +49,12 @@ async function boot(m: Motion): Promise<void> {
   gsap
     .timeline({ delay: 0.15 })
     .fromTo('.hero .hl-i', { yPercent: 115 }, { yPercent: 0, duration: 1.5, stagger: 0.13, ease: 'expo.out' }, 0.1)
-    .fromTo('.hero-fade', { opacity: 0, y: 24 }, { opacity: 1, y: 0, duration: 1.2, stagger: 0.1, ease: 'expo.out' }, 0.55)
+    .fromTo(
+      '.hero-fade',
+      { opacity: 0, y: 24 },
+      { opacity: 1, y: 0, duration: 1.2, stagger: 0.1, ease: 'expo.out' },
+      0.55,
+    )
     .fromTo(nav, { opacity: 0 }, { opacity: 1, duration: 1.2, ease: 'power2.out' }, 0.3);
   if (field) gsap.to(field.st, { intro: 1, duration: 2.4, ease: 'power2.out', delay: 0.2 });
   flight?.startIntro(t0);
@@ -70,16 +77,23 @@ async function boot(m: Motion): Promise<void> {
   const rest = () => {
     if (booted) return;
     booted = true;
-    gsap.set('.hl-i, .hero-fade, [data-rv], [data-split]', { opacity: 1 });
-    flight?.measure();
-    initMarquees(m);
-    initReveals(m, { flight: root.classList.contains('fly-on') });
-    if (fine) initTilt(m);
-    initFlip();
-    initPlayground();
-    ScrollTrigger.refresh();
+    try {
+      gsap.set('.hl-i, .hero-fade, [data-rv], [data-split]', { opacity: 1 });
+      flight?.measure();
+      initMarquees(m);
+      initReveals(m, { flight: root.classList.contains('fly-on') });
+      if (fine) initTilt(m);
+      initFlip();
+      initPlayground();
+      ScrollTrigger.refresh();
+    } catch (error) {
+      // Never leave sections hidden because one effect threw: fall back to the plain page.
+      console.error('Homepage sections failed to start', error);
+      root.classList.remove('js', 'fly-on');
+      root.classList.add('rm');
+    }
   };
-  (document.fonts?.ready ?? Promise.resolve()).then(rest);
+  (document.fonts?.ready ?? Promise.resolve()).then(rest, rest);
   window.setTimeout(rest, 2500);
   window.addEventListener('load', () => ScrollTrigger.refresh());
 }

@@ -1,30 +1,5 @@
 ---
-import PageHeader from '../components/PageHeader.astro';
-import BaseLayout from '../layouts/BaseLayout.astro';
-import { crumbs } from '../lib/schema';
-import { BRAND, LINKS } from '../lib/site';
-
-const trail = crumbs({ name: 'Free UX audit', path: '/free-ux-audit/' });
+import Audit from '../views/Audit.astro';
 ---
 
-<BaseLayout
-  title="Free UX audit"
-  description="Get a free UX audit of your product from delbueno™ Studio. Kickoff today and first findings in 48 hours."
-  breadcrumbs={trail}
->
-  <PageHeader
-    title="Free UX audit"
-    eyebrow="Lead offer"
-    lede="Send us your product and get a short, ranked list of what to fix first."
-    crumbs={trail}
-  />
-  <section class="section">
-    <div class="wrap stack">
-      <p class="lede">{BRAND.speed}</p>
-      <div class="cta-row">
-        <a class="btn btn-primary" href={LINKS.book} rel="noopener">Book a 15 minute call</a>
-        <a class="btn btn-ghost" href={`mailto:${BRAND.email}?subject=Free%20UX%20audit`}>Email us</a>
-      </div>
-    </div>
-  </section>
-</BaseLayout>
+<Audit lang="en" />

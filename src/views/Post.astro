@@ -1,0 +1,369 @@
+---
+/**
+ * A journal post in either language. The English posts are served from the site root (src/pages/[slug].astro) to keep
+ * the old WordPress URLs, and the Spanish translations from /es/blog/ (src/pages/es/blog/[slug].astro). Both pages
+ * render this view.
+ */
+import { Image, getImage } from 'astro:assets';
+import { getEntry, render } from 'astro:content';
+import BookCta from '../components/BookCta.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import '../components/info/info.css';
+import AuthorBox from '../components/journal/AuthorBox.astro';
+import PostCard from '../components/journal/PostCard.astro';
+import PostToc from '../components/journal/PostToc.astro';
+import { categorySlug, getRelated, postFaq, readingMinutes, wordCount } from '../components/journal/reading';
+import '../components/journal/prose.css';
+import { otherLang, type Lang } from '../i18n/config';
+import { t } from '../i18n';
+import { postCopy } from '../i18n/pages/post';
+import { pagePath } from '../i18n/routes';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { formatDate, inLang, isSpanishPost, postHref, type PostEntry } from '../lib/content';
+import { ogCardFor } from '../lib/og';
+import { articleSchema, crumbs, faqSchema } from '../lib/schema';
+import { FOUNDER } from '../lib/site';
+import { absoluteUrl, url } from '../lib/url';
+
+interface Props {
+  lang: Lang;
+  entry: PostEntry;
+}
+const { lang, entry } = Astro.props;
+const c = postCopy[lang];
+const { data } = entry;
+const { Content, headings } = await render(entry);
+const toc = headings.filter((h) => h.depth === 2);
+const isFounder = data.author === FOUNDER.name;
+const faq = postFaq(entry.body);
+const minutes = readingMinutes(entry.body);
+// Related posts are picked from the English originals (the categories are English), then shown in the post's language.
+const original = isSpanishPost(entry) ? await getEntry('journal', entry.data.translationOf) : entry;
+const related = original ? await inLang(await getRelated(original, 3), lang) : [];
+
+const path = postHref(entry);
+const noindex = 'noindex' in data && data.noindex;
+// Category pages exist in English only, so a Spanish post names its category without a link.
+const categoryPath = lang === 'en' ? `/blog/category/${categorySlug(data.category)}/` : undefined;
+const trail = crumbs(
+  lang,
+  { name: t(lang, 'pageName.journal'), path: pagePath('journal', lang) },
+  { name: data.title, path },
+);
+
+let ogImage: string | undefined;
+if (data.heroImage) {
+  const og = await getImage({ src: data.heroImage, width: 1200, height: 630, fit: 'cover', format: 'jpg' });
+  ogImage = new URL(og.src, Astro.site).toString();
+}
+// Without a hero, the post gets its generated card (the same one BaseLayout uses for the social tags).
+const card = data.heroImage ? undefined : await ogCardFor(path);
+const articleImage = ogImage ?? absoluteUrl(card ? `/og/${card.name}.png` : '/og-default.png', Astro.site);
+---
+
+<BaseLayout
+  lang={lang}
+  switchFallback={pagePath('journal', otherLang(lang))}
+  title={data.seoTitle ?? data.title}
+  description={data.description}
+  type="article"
+  image={ogImage}
+  imageAlt={data.heroAlt}
+  breadcrumbs={trail}
+  publishedTime={data.pubDate}
+  modifiedTime={data.updatedDate}
+  author={data.author}
+  section={data.category}
+  noindex={noindex}
+  jsonLd={[
+    {
+      ...articleSchema({
+        path,
+        // Article headlines over 110 characters are cut by Google, so a very long H1 falls back to the short title.
+        title: data.title.length > 110 ? (data.seoTitle ?? data.title) : data.title,
+        description: data.description,
+        author: data.author,
+        pubDate: data.pubDate,
+        updatedDate: data.updatedDate,
+        image: { url: articleImage, width: 1200, height: 630 },
+        category: data.category,
+        wordCount: wordCount(entry.body),
+        lang,
+      }),
+      timeRequired: `PT${minutes}M`,
+    },
+    ...(faq.length >= 2 ? [faqSchema(faq)] : []),
+  ]}
+>
+  <div class="rp" aria-hidden="true">
+    <i data-read-bar></i>
+  </div>
+
+  <article>
+    <header class="ph">
+      <div class="wrap">
+        <Breadcrumbs lang={lang} items={trail} />
+        <p class="ph-cat">
+          {categoryPath ? (
+            <a class="label" href={url(categoryPath)}>
+              {data.category}
+            </a>
+          ) : (
+            <span class="label">{data.category}</span>
+          )}
+        </p>
+        <h1 class="ph-title" data-lines>
+          {data.title}
+        </h1>
+        <p class="ph-meta">
+          <span>
+            {c.by}{' '}
+            {isFounder ? (
+              <a href={url(pagePath('author', lang))} rel="author">
+                {data.author}
+              </a>
+            ) : (
+              data.author
+            )}
+          </span>
+          <span>
+            <time datetime={data.pubDate.toISOString()}>{formatDate(data.pubDate, lang)}</time>
+          </span>
+          {data.updatedDate && (
+            <span>
+              {c.updated} <time datetime={data.updatedDate.toISOString()}>{formatDate(data.updatedDate, lang)}</time>
+            </span>
+          )}
+          <span>{t(lang, 'journal.minRead', { n: minutes })}</span>
+        </p>
+      </div>
+    </header>
+
+    {data.heroImage && (
+      <div class="wrap">
+        <div class="ph-hero">
+          <Image
+            src={data.heroImage}
+            alt={data.heroAlt ?? ''}
+            widths={[800, 1200, 1800, 2400]}
+            sizes="(min-width: 1440px) 1312px, 94vw"
+            loading="eager"
+            fetchpriority="high"
+          />
+        </div>
+      </div>
+    )}
+
+    <div class="wrap pb" class:list={{ 'pb--toc': toc.length >= 2 }}>
+      <PostToc lang={lang} headings={toc} />
+      <div class="pb-main" data-post-body>
+        <div class="post-prose">
+          <Content />
+        </div>
+        {isFounder && <AuthorBox lang={lang} />}
+      </div>
+    </div>
+  </article>
+
+  {related.length > 0 && (
+    <section class="rel" aria-labelledby="rel-h">
+      <div class="wrap">
+        <div class="rel-head">
+          <div>
+            <p class="label">{c.keepReading}</p>
+            <h2 class="rel-h" id="rel-h">
+              {c.related}
+            </h2>
+          </div>
+          <a class="btn btn-ghost btn-sm" href={url(pagePath('journal', lang))}>
+            {c.allArticles}
+          </a>
+        </div>
+        <div class="rel-grid">
+          {related.map((r) => (
+            <PostCard lang={lang} entry={r} />
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <BookCta lang={lang} heading={c.ctaHeading} />
+
+  <script>
+    import '../scripts/journal/post';
+    import { initInfoReveals } from '../scripts/info/reveal';
+    initInfoReveals();
+  </script>
+</BaseLayout>
+
+<style>
+  /* The reading bar replaces the page-wide one on posts. */
+  :global(.progress) {
+    display: none;
+  }
+
+  .rp {
+    position: fixed;
+    inset: 0 0 auto 0;
+    z-index: var(--z-progress);
+    height: 3px;
+    pointer-events: none;
+  }
+
+  .rp i {
+    display: block;
+    height: 100%;
+    background: var(--grad);
+    transform: scaleX(0);
+    transform-origin: left;
+  }
+
+  .ph {
+    padding: calc(var(--nav-h) + clamp(28px, 5vw, 80px)) 0 clamp(36px, 5vw, 72px);
+  }
+
+  .ph-cat {
+    margin-top: clamp(28px, 4vw, 56px);
+  }
+
+  .ph-cat .label {
+    min-height: 44px;
+    color: var(--violet-2);
+    transition: color 0.3s;
+  }
+
+  .ph-cat a:hover {
+    color: var(--ink);
+  }
+
+  .ph-title {
+    margin-top: clamp(16px, 2vw, 28px);
+    max-width: 21ch;
+    font: 800 clamp(2rem, 1rem + 4.5vw, 5.4rem) / 0.97 var(--display);
+    letter-spacing: -0.05em;
+    text-wrap: balance;
+    overflow-wrap: break-word;
+  }
+
+  .ph-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 28px;
+    margin-top: clamp(24px, 3vw, 40px);
+    font: 400 var(--fs-xs) / 1.3 var(--mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--dim);
+  }
+
+  .ph-meta a {
+    color: var(--ink);
+    border-bottom: 1px solid var(--line-2);
+    transition: border-color 0.3s;
+  }
+
+  .ph-meta a:hover {
+    border-color: var(--ink);
+  }
+
+  .ph-hero {
+    overflow: hidden;
+    aspect-ratio: 21 / 9;
+    max-height: 70svh;
+    border-radius: var(--radius);
+    background: var(--bg-2);
+  }
+
+  .ph-hero img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    animation: hero-settle 1.8s var(--out) both;
+  }
+
+  @keyframes hero-settle {
+    from {
+      transform: scale(1.06);
+    }
+  }
+
+  .pb {
+    padding-block: clamp(40px, 6vw, 96px) clamp(72px, 9vw, 140px);
+  }
+
+  .pb-main {
+    min-width: 0;
+  }
+
+  @media (min-width: 1100px) {
+    .pb--toc {
+      display: grid;
+      grid-template-columns: 250px minmax(0, 70ch);
+      justify-content: center;
+      column-gap: clamp(48px, 6vw, 112px);
+    }
+
+    .pb:not(.pb--toc) .pb-main {
+      margin-inline: auto;
+      max-width: 70ch;
+    }
+  }
+
+  @media (max-width: 1099px) {
+    .pb--toc {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+
+    .pb-main {
+      max-width: 70ch;
+      width: 100%;
+      margin-inline: auto;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .ph-hero {
+      aspect-ratio: 4 / 3;
+    }
+  }
+
+  .rel {
+    padding: clamp(64px, 9vw, 140px) 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .rel-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: clamp(32px, 4vw, 56px);
+  }
+
+  .rel-h {
+    margin-top: 16px;
+    font: 800 clamp(2rem, 1.2rem + 3.4vw, 4.4rem) / 0.95 var(--display);
+    letter-spacing: -0.045em;
+  }
+
+  .rel-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(28px, 3vw, 48px) var(--gap);
+  }
+
+  @media (max-width: 900px) {
+    .rel-grid {
+      grid-template-columns: 1fr;
+      max-width: 560px;
+    }
+
+    .rel-head {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>

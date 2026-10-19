@@ -1,0 +1,27 @@
+---
+import { splitMetric } from './metric';
+
+interface Props {
+  value: string;
+  label: string;
+}
+const { value, label } = Astro.props;
+const m = splitMetric(value);
+/* The widest metric in the band sets one size for all of them (see --chars on .cs-results__grid). */
+---
+
+<div class="mt" data-metric>
+  <p class="mt-v">
+    <span class="sr-only">{value}</span>
+    <span class="mt-n" aria-hidden="true">
+      {m.prefix && <span class="mt-p">{m.prefix}</span>}
+      {m.target !== null ? (
+        <span data-count={m.target} data-dec={m.decimals} data-comma={m.comma ? '1' : '0'}>
+          {m.digits}
+        </span>
+      ) : null}
+      {m.suffix && <span class:list={['mt-s', { 'mt-u': m.unit }]}>{m.suffix}</span>}
+    </span>
+  </p>
+  <p class="mt-l">{label}</p>
+</div>

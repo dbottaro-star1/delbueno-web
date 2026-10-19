@@ -1,0 +1,205 @@
+---
+/** One line of the journal index: thumbnail, title and summary, date and reading time. */
+import { Image } from 'astro:assets';
+import { formatShortDate, readingMinutes } from './reading';
+import type { Lang } from '../../i18n/config';
+import { translator } from '../../i18n';
+import { isSpanishPost, postHref, type PostEntry } from '../../lib/content';
+import { url } from '../../lib/url';
+import LangTag from '../LangTag.astro';
+
+interface Props {
+  lang: Lang;
+  entry: PostEntry;
+}
+const { lang, entry } = Astro.props;
+const t = translator(lang);
+const { data } = entry;
+const minutes = readingMinutes(entry.body);
+---
+
+<li class="pr" data-reveal>
+  <a class="pr-link" href={url(postHref(entry))}>
+    <span class="pr-media">
+      {data.heroImage && (
+        <Image src={data.heroImage} alt="" widths={[240, 480]} sizes="240px" loading="lazy" decoding="async" />
+      )}
+    </span>
+    <span class="pr-main">
+      <span class="pr-cat">
+        {data.category}
+        {lang !== 'en' && !isSpanishPost(entry) && (
+          <>
+            {' '}
+            <LangTag lang={lang} />
+          </>
+        )}
+      </span>
+      <h3 class="pr-title">{data.title}</h3>
+      <span class="pr-desc">{data.description}</span>
+    </span>
+    <span class="pr-meta">
+      <time datetime={data.pubDate.toISOString()}>{formatShortDate(data.pubDate, lang)}</time>
+      <span>{t('journal.minRead', { n: minutes })}</span>
+    </span>
+    <svg class="arr pr-arr" aria-hidden="true">
+      <use href="#i-arr"></use>
+    </svg>
+  </a>
+</li>
+
+<style>
+  .pr {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .pr-link {
+    display: grid;
+    grid-template-columns: 200px minmax(0, 1fr) 150px 28px;
+    align-items: center;
+    column-gap: clamp(16px, 2.4vw, 40px);
+    padding-block: clamp(20px, 2.4vw, 32px);
+    transition:
+      padding 0.7s var(--out),
+      background 0.5s;
+  }
+
+  .pr-media {
+    display: block;
+    overflow: hidden;
+    aspect-ratio: 3 / 2;
+    border-radius: 10px;
+    background: var(--bg-2);
+  }
+
+  .pr-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 1.2s var(--out);
+  }
+
+  .pr-main {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    min-width: 0;
+  }
+
+  .pr-cat {
+    font: 400 var(--fs-xs) / 1 var(--mono);
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--violet-2);
+  }
+
+  .pr-title {
+    font: 700 clamp(1.15rem, 0.95rem + 0.9vw, 1.75rem) / 1.14 var(--display);
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+    transition: transform 0.7s var(--out);
+  }
+
+  .pr-desc {
+    color: var(--mute);
+    font-size: var(--fs-sm);
+    line-height: 1.5;
+    max-width: 62ch;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .pr-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font: 400 var(--fs-xs) / 1.2 var(--mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--dim);
+    text-align: right;
+  }
+
+  .pr-arr {
+    width: 20px;
+    height: 20px;
+    color: var(--mute);
+    opacity: 0.5;
+    transition:
+      transform 0.7s var(--out),
+      opacity 0.4s,
+      color 0.4s;
+  }
+
+  .pr-link:focus-visible .pr-arr {
+    opacity: 1;
+    color: var(--lime);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .pr-link:hover .pr-media img {
+      transform: scale(1.07);
+    }
+
+    .pr-link:hover .pr-title {
+      transform: translateX(10px);
+    }
+
+    .pr-link:hover .pr-arr {
+      transform: translateX(6px);
+      opacity: 1;
+      color: var(--lime);
+    }
+  }
+
+  @media (max-width: 1000px) {
+    .pr-link {
+      grid-template-columns: 140px minmax(0, 1fr) 24px;
+      row-gap: 12px;
+    }
+
+    .pr-meta {
+      grid-column: 2 / 3;
+      grid-row: 2;
+      flex-direction: row;
+      gap: 16px;
+      text-align: left;
+    }
+
+    .pr-arr {
+      grid-column: 3;
+      grid-row: 1;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .pr-link {
+      grid-template-columns: minmax(0, 1fr) 24px;
+      padding-block: 24px;
+    }
+
+    .pr-media {
+      grid-column: 1 / -1;
+      grid-row: 1;
+    }
+
+    .pr-main {
+      grid-column: 1;
+      grid-row: 2;
+    }
+
+    .pr-arr {
+      grid-column: 2;
+      grid-row: 2;
+      align-self: start;
+      margin-top: 28px;
+    }
+
+    .pr-meta {
+      grid-column: 1 / -1;
+      grid-row: 3;
+    }
+  }
+</style>

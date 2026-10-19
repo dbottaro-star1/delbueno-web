@@ -1,6 +1,7 @@
 ---
 title: "Designing AI first product design patterns for intelligent systems"
-description: "A field guide to AI first product design with AI product UX patterns, ML interface design, and UX for intelligent software that earns trust and speeds decisions."
+seoTitle: "AI-First Product Design Patterns"
+description: "A field guide to AI-first product design: UX patterns for intelligent systems, ML interface design and interfaces that earn trust and speed decisions."
 pubDate: 2025-11-25
 author: "Dani Bottaro"
 category: "AI & UX"

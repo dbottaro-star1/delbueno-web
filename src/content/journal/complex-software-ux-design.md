@@ -1,6 +1,7 @@
 ---
 title: "UX for Complex Software Platforms: Designing for Speed, Clarity, and Confident Decisions"
-description: "Design complex software UX that feels fast, clear, and confident, improving usability, flow, and user trust."
+seoTitle: "UX for Complex Software: Speed, Clarity, Confidence"
+description: "How to design complex software UX that feels fast, clear and confident, with practical ways to improve usability, task flow and trust in B2B platforms."
 pubDate: 2026-02-23
 author: "Dani Bottaro"
 category: "UX Strategy"
@@ -162,7 +163,7 @@ These roles should not have identical default experiences. They can share the sa
 
 A role-based approach is often the fastest way to improve **enterprise UX design** because it reduces noise for each user type.
 
-If you need help implementing role-based platform UX and aligning it with growth and adoption goals, our [**UX design for SaaS**](/ux-design/) work often starts by mapping roles, tasks, and permission boundaries into clear product experiences.
+If you need help implementing role-based platform UX and aligning it with growth and adoption goals, our [**UX design for SaaS**](/services/product-design/) work often starts by mapping roles, tasks, and permission boundaries into clear product experiences.
 
 ## **How do you prevent complex workflows from becoming confusing?**
 
@@ -203,7 +204,7 @@ Empty states should show users what this area is for and what they should do nex
 
 Most platforms have list views and detail views. Standardize these patterns so users can operate on muscle memory.
 
-If your team needs a consistent UI system across a growing product, our [**product design services**](/product-design/) focus on building scalable patterns so complex platforms stay usable as feature count grows.
+If your team needs a consistent UI system across a growing product, our [**product design services**](/services/product-design/) focus on building scalable patterns so complex platforms stay usable as feature count grows.
 
 ## **What about error states, loading states, and partial data?**
 
@@ -250,7 +251,7 @@ Complex platforms can feel overwhelming to fix because there is so much surface 
 
 Map the journey, identify friction, simplify the path, and standardize patterns.
 
-If you also need the platform experience to align with your marketing site and lead capture, it helps to keep messaging and design consistent end to end. Our [**web design**](/web-design/) work supports product teams that want the public site and in-app experience to feel like one coherent brand.
+If you also need the platform experience to align with your marketing site and lead capture, it helps to keep messaging and design consistent end to end. Our [**web design**](/services/web-design/) work supports product teams that want the public site and in-app experience to feel like one coherent brand.
 
 ## **Final question: what makes complex software feel simple?**
 

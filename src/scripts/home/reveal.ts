@@ -6,7 +6,8 @@ import { SplitText } from 'gsap/SplitText';
 import type { Motion } from '../motion';
 
 const $ = <T extends Element = HTMLElement>(s: string, c: ParentNode = document) => c.querySelector<T>(s);
-const $$ = <T extends Element = HTMLElement>(s: string, c: ParentNode = document) => Array.from(c.querySelectorAll<T>(s));
+const $$ = <T extends Element = HTMLElement>(s: string, c: ParentNode = document) =>
+  Array.from(c.querySelectorAll<T>(s));
 
 export function initReveals({ gsap, ScrollTrigger }: Motion, opts: { flight: boolean }): void {
   gsap.registerPlugin(SplitText);
@@ -26,7 +27,13 @@ export function initReveals({ gsap, ScrollTrigger }: Motion, opts: { flight: boo
         return gsap.fromTo(
           self.lines,
           { yPercent: 118 },
-          { yPercent: 0, duration: 1.3, stagger: 0.09, ease: 'expo.out', scrollTrigger: { trigger, start, once: true } },
+          {
+            yPercent: 0,
+            duration: 1.3,
+            stagger: 0.09,
+            ease: 'expo.out',
+            scrollTrigger: { trigger, start, once: true },
+          },
         );
       },
     });
@@ -34,13 +41,25 @@ export function initReveals({ gsap, ScrollTrigger }: Motion, opts: { flight: boo
   gsap.fromTo(
     '.final .hl-i',
     { yPercent: 118 },
-    { yPercent: 0, duration: 1.4, stagger: 0.1, ease: 'expo.out', scrollTrigger: { trigger: '.final .h2', start: 'top 82%', once: true } },
+    {
+      yPercent: 0,
+      duration: 1.4,
+      stagger: 0.1,
+      ease: 'expo.out',
+      scrollTrigger: { trigger: '.final .h2', start: 'top 82%', once: true },
+    },
   );
   $$('[data-rv]').forEach((el) => {
     gsap.fromTo(
       el,
       { opacity: 0, y: 44 },
-      { opacity: 1, y: 0, duration: 1.2, ease: 'expo.out', scrollTrigger: { trigger: el, start: 'top 90%', once: true } },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 1.2,
+        ease: 'expo.out',
+        scrollTrigger: { trigger: el, start: 'top 90%', once: true },
+      },
     );
   });
 
@@ -86,7 +105,13 @@ export function initReveals({ gsap, ScrollTrigger }: Motion, opts: { flight: boo
     gsap.fromTo(
       a,
       { opacity: 0, y: 40 },
-      { opacity: 1, y: 0, duration: 1.4, ease: 'expo.out', scrollTrigger: { trigger: a.closest('.svc'), start: 'top 55%', once: true } },
+      {
+        opacity: 1,
+        y: 0,
+        duration: 1.4,
+        ease: 'expo.out',
+        scrollTrigger: { trigger: a.closest('.svc'), start: 'top 55%', once: true },
+      },
     ),
   );
 
@@ -150,7 +175,13 @@ export function initReveals({ gsap, ScrollTrigger }: Motion, opts: { flight: boo
     gsap.fromTo(
       qs.words,
       { opacity: 0.2 },
-      { opacity: 1, ease: 'none', stagger: 0.12, duration: 0.5, scrollTrigger: { trigger: q, start: 'top 78%', end: 'bottom 52%', scrub: true } },
+      {
+        opacity: 1,
+        ease: 'none',
+        stagger: 0.12,
+        duration: 0.5,
+        scrollTrigger: { trigger: q, start: 'top 78%', end: 'bottom 52%', scrub: true },
+      },
     );
   }
 
@@ -158,6 +189,14 @@ export function initReveals({ gsap, ScrollTrigger }: Motion, opts: { flight: boo
   gsap.fromTo(
     '.flip',
     { opacity: 0, y: 90 },
-    { opacity: 1, y: 0, duration: 1.2, ease: 'expo.out', stagger: 0.12, clearProps: 'transform', scrollTrigger: { trigger: '#flipGrid', start: 'top 86%', once: true } },
+    {
+      opacity: 1,
+      y: 0,
+      duration: 1.2,
+      ease: 'expo.out',
+      stagger: 0.12,
+      clearProps: 'transform',
+      scrollTrigger: { trigger: '#flipGrid', start: 'top 86%', once: true },
+    },
   );
 }

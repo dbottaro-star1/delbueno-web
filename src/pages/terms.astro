@@ -1,24 +1,5 @@
 ---
-import PageHeader from '../components/PageHeader.astro';
-import BaseLayout from '../layouts/BaseLayout.astro';
-import { crumbs } from '../lib/schema';
-import { BRAND } from '../lib/site';
-
-const trail = crumbs({ name: 'Terms', path: '/terms/' });
+import Legal from '../views/Legal.astro';
 ---
 
-<BaseLayout
-  title="Terms and conditions"
-  description="The terms that apply when you use this website and work with delbueno™ Studio."
-  breadcrumbs={trail}
->
-  <PageHeader title="Terms and conditions" eyebrow="Legal" crumbs={trail} />
-  <section class="section">
-    <div class="wrap prose">
-      <p>
-        The full text of this page is being moved to the new website. Until then, write to
-        <a href={`mailto:${BRAND.email}`}>{BRAND.email}</a> with any question.
-      </p>
-    </div>
-  </section>
-</BaseLayout>
+<Legal lang="en" page="terms" />

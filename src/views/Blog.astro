@@ -1,0 +1,51 @@
+---
+/**
+ * The Spanish blog index. It lists every post: the translated ones in Spanish at /es/blog/<slug>/, the rest in
+ * English at their root URLs, each tagged "En inglés".
+ */
+import BookCta from '../components/BookCta.astro';
+import InfoHero from '../components/info/InfoHero.astro';
+import FeaturedPost from '../components/journal/FeaturedPost.astro';
+import JournalList from '../components/journal/JournalList.astro';
+import type { Lang } from '../i18n/config';
+import { fill, t } from '../i18n';
+import { blogCopy } from '../i18n/pages/blog';
+import { pagePath } from '../i18n/routes';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getJournalFor } from '../lib/content';
+import { crumbs } from '../lib/schema';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const c = blogCopy;
+
+const posts = await getJournalFor(lang);
+const [featured, ...rows] = posts;
+const trail = crumbs(lang, { name: t(lang, 'pageName.journal'), path: pagePath('journal', lang) });
+---
+
+<BaseLayout lang={lang} title={c.meta.title} description={c.meta.description} breadcrumbs={trail}>
+  <InfoHero
+    lang={lang}
+    eyebrow={fill(c.eyebrow, { n: posts.length })}
+    title={c.title}
+    accent={c.accent}
+    lede={c.lede}
+    crumbs={trail}
+    size="clamp(2.1rem, 5.6vw, 6.4rem)"
+    maxWidth="100%"
+  />
+
+  {featured && <FeaturedPost lang={lang} entry={featured} />}
+
+  <JournalList lang={lang} entries={rows} categories={false} />
+
+  <BookCta lang={lang} />
+
+  <script>
+    import { initInfoReveals } from '../scripts/info/reveal';
+    initInfoReveals();
+  </script>
+</BaseLayout>

@@ -1,6 +1,7 @@
 ---
 title: "The Art of Letters: Exploring Typography Trends Shaping Design in 2024"
-description: "How does Typography influence user experience? Uncover typography trends that enhance engagement and readability. Upgrade your design now!"
+seoTitle: "Typography Trends in Design: The Art of Letters"
+description: "How typography influences user experience. Typography trends that improve engagement and readability, and how to apply them to your own designs."
 pubDate: 2023-08-14
 updatedDate: 2025-05-16
 author: "Dani Bottaro"

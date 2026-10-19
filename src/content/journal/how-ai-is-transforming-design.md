@@ -1,6 +1,7 @@
 ---
 title: "How AI is Transforming UX/UI Design (And Why It Matters for Your Product)"
-description: "Discover how AI is transforming UX/UI design and helping create smarter, more personalized digital experiences, with practical tips for your product strategy."
+seoTitle: "How AI Is Transforming UX/UI Design"
+description: "How AI is transforming UX/UI design and helping teams create smarter, more personalized digital experiences, with practical tips for product strategy."
 pubDate: 2025-04-03
 updatedDate: 2026-07-22
 author: "Dani Bottaro"
@@ -14,7 +15,7 @@ In this article you will find a practical guide for founders, PMs, and designers
 
 When most people think of AI (artificial intelligence), they imagine robots, chatbots, or maybe that Netflix algorithm that always seems to get it *almost* right. But for those of us building digital products, especially in healthcare, fintech, or cybersecurity, AI is no longer just a buzzword. It’s a powerful tool that’s reshaping how we design user experiences.
 
-At [delbueno Studio,](/) we’ve started integrating [AI-driven](https://www.linkedin.com/pulse/data-driven-design-decisions-using-ai-insights-optimize-ifeanyi-nijfe/) thinking into our [UX/UI design](/ux-product-design/) process. And no, we’re not talking about letting machines do all the creative work. We’re talking about working smarter, faster, and more in tune with what real users need.
+At [delbueno Studio,](/) we’ve started integrating [AI-driven](https://www.linkedin.com/pulse/data-driven-design-decisions-using-ai-insights-optimize-ifeanyi-nijfe/) thinking into our [UX/UI design](/services/product-design/) process. And no, we’re not talking about letting machines do all the creative work. We’re talking about working smarter, faster, and more in tune with what real users need.
 
 ![Glass spheres joined by thin rods forming an abstract molecular structure](../../assets/journal/how-ai-is-transforming-design/ai-blog-2.jpg)
 

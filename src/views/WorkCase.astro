@@ -1,0 +1,415 @@
+---
+import type { ImageMetadata } from 'astro';
+import { Image, getImage } from 'astro:assets';
+import { render } from 'astro:content';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import TranslatedNote from '../components/TranslatedNote.astro';
+import Closer from '../components/work/Closer.astro';
+import Metric from '../components/work/Metric.astro';
+import { CONCEPT_SLUGS, splitMetric } from '../components/work/metric';
+import '../components/work/work.css';
+import '../components/work/case.css';
+import { testimonialFor } from '../data/testimonials';
+import type { Lang } from '../i18n/config';
+import { fill, translator } from '../i18n';
+import { workCopy } from '../i18n/pages/work';
+import { pagePath, workPath } from '../i18n/routes';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getWork, workSlug, type WorkEntry } from '../lib/content';
+import { caseStudySchema, crumbs, websiteId } from '../lib/schema';
+import { canonicalUrl, url } from '../lib/url';
+
+interface Props {
+  lang: Lang;
+  entry: WorkEntry;
+}
+const { lang, entry } = Astro.props;
+const { data } = entry;
+const c = workCopy[lang].case;
+const t = translator(lang);
+const { Content, headings } = await render(entry);
+
+const slug = workSlug(entry);
+const all = await getWork(lang);
+const at = all.findIndex((e) => workSlug(e) === slug);
+const next = all.length > 1 ? all[(at + 1) % all.length] : undefined;
+const concept = CONCEPT_SLUGS.has(slug);
+const widest = Math.max(3, ...data.metrics.map((m) => splitMetric(m.value).chars));
+
+const seoTitle = data.seoTitle ?? data.title;
+const metaDescription = data.description ?? data.summary;
+
+const path = workPath(slug, lang);
+const trail = crumbs(lang, { name: t('pageName.work'), path: pagePath('work', lang) }, { name: data.title, path });
+
+/* ---------- social image and tiny ambient copies (blurred backdrops) ---------- */
+const og = await getImage({ src: data.cover, width: 1200, height: 630, fit: 'cover', format: 'jpg' });
+const ogImage = new URL(og.src, Astro.site).toString();
+const tiny = (src: ImageMetadata) => getImage({ src, width: 48, format: 'webp' });
+const coverAmb = await tiny(data.cover);
+const ratioOf = (src: ImageMetadata) => Number((src.width / src.height).toFixed(4));
+const coverRatio = ratioOf(data.cover);
+
+/* ---------- answer-first summary: the entry's own sentence (services are listed in the meta row above) ---------- */
+const answer = data.summary;
+
+/* ---------- body index ---------- */
+const toc = headings.filter((h) => h.depth === 2);
+
+/* ---------- gallery rows: respect every image's own ratio, never crop ---------- */
+type Shot = { src: ImageMetadata; alt: string; ratio: number };
+const shots: Shot[] = (data.gallery ?? []).map((g) => ({ src: g.src, alt: g.alt, ratio: ratioOf(g.src) }));
+type Row = { kind: 'full'; a: Shot; amb: Awaited<ReturnType<typeof tiny>> } | { kind: 'pair'; a: Shot; b: Shot };
+const rows: Row[] = [];
+{
+  let i = 0;
+  let wantFull = true;
+  while (i < shots.length) {
+    const left = shots.length - i;
+    const a = shots[i];
+    if (left === 1 || (wantFull && left >= 3 && a.ratio >= 1.1)) {
+      rows.push({ kind: 'full', a, amb: await tiny(a.src) });
+      i += 1;
+      wantFull = false;
+    } else {
+      rows.push({ kind: 'pair', a, b: shots[i + 1] });
+      i += 2;
+      wantFull = true;
+    }
+  }
+}
+
+/* ---------- testimonial: headshot version when we have one ---------- */
+const shared = testimonialFor(slug, lang);
+const quote = shared
+  ? {
+      text: shared.quote,
+      name: shared.name,
+      role: shared.role,
+      company: shared.company,
+      photo: shared.photo,
+      translated: shared.translated ?? false,
+    }
+  : data.testimonial
+    ? {
+        text: data.testimonial.quote,
+        name: data.testimonial.name,
+        role: data.testimonial.role,
+        company: '',
+        photo: undefined,
+        translated: lang !== 'en',
+      }
+    : undefined;
+
+/* ---------- structured data ---------- */
+const base = caseStudySchema({
+  path,
+  title: seoTitle,
+  description: metaDescription,
+  client: data.client,
+  year: data.year,
+  industry: data.industry,
+  services: data.services,
+  image: ogImage,
+  lang,
+});
+const creativeWork = {
+  ...base,
+  '@id': `${canonicalUrl(path)}#case-study`,
+  headline: seoTitle,
+  abstract: answer,
+  genre: concept ? c.genreConcept : c.genreCase,
+  isPartOf: {
+    '@type': 'CollectionPage',
+    '@id': `${canonicalUrl(pagePath('work', lang))}`,
+    url: canonicalUrl(pagePath('work', lang)),
+    isPartOf: { '@id': websiteId(lang) },
+  },
+  mainEntityOfPage: { '@type': 'WebPage', '@id': canonicalUrl(path) },
+  thumbnailUrl: ogImage,
+  /* The client testimonial stays on the page but not in the schema: Google treats a review of the studio published on
+     the studio's own site as self-serving, and flags a Review without a rating as a validation error. */
+};
+---
+
+<BaseLayout
+  lang={lang}
+  title={seoTitle}
+  description={metaDescription}
+  image={ogImage}
+  imageAlt={data.coverAlt}
+  breadcrumbs={trail}
+  jsonLd={[creativeWork]}
+>
+  <article class="cs">
+    <!-- ================= hero ================= -->
+    <header class="cs-hero">
+      <span class="wk-glow" aria-hidden="true"></span>
+      <div class="wk-wrap">
+        <Breadcrumbs lang={lang} items={trail} />
+        <div class="cs-hero__top" data-rv>
+          <p class="wk-tag">{c.tag}</p>
+        </div>
+
+        {concept && (
+          <p class="cs-concept" data-rv>
+            <span class="wk-chip">{c.concept}</span>
+            <span>{c.conceptNote}</span>
+          </p>
+        )}
+
+        <p class="cs-client" data-rv>
+          {data.client}
+        </p>
+        <h1 class="cs-title" data-split>
+          {data.title}
+        </h1>
+
+        <dl class="cs-meta" data-rv>
+          <div class="cs-meta__ind">
+            <dt>{c.industry}</dt>
+            <dd>{data.industry}</dd>
+          </div>
+          <div class="cs-meta__yr">
+            <dt>{concept ? c.yearConcept : c.year}</dt>
+            <dd>{data.year}</dd>
+          </div>
+          <div class="cs-meta__svc">
+            <dt>{c.services}</dt>
+            <dd>
+              <ul>
+                {data.services.map((s) => (
+                  <li>{s}</li>
+                ))}
+              </ul>
+            </dd>
+          </div>
+        </dl>
+      </div>
+    </header>
+
+    <!-- ================= cover: full-bleed stage, scales up as it arrives ================= -->
+    <section class="cs-stage" aria-label={c.cover} data-stage>
+      <div class="cs-stage__amb" aria-hidden="true" data-amb>
+        <img src={coverAmb.src} alt="" width={coverAmb.attributes.width} height={coverAmb.attributes.height} />
+      </div>
+      <div class="cs-stage__frame" data-frame style={`--ratio:${coverRatio}`}>
+        <Image
+          class="cs-stage__img"
+          src={data.cover}
+          alt={data.coverAlt}
+          widths={[800, 1280, 1600, 2000]}
+          sizes="(min-width: 1440px) 1312px, 100vw"
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+          data-frame-img
+        />
+      </div>
+    </section>
+
+    <!-- ================= results band ================= -->
+    {data.metrics.length > 0 && (
+      <section
+        class:list={['cs-results', { 'cs-results--one': data.metrics.length === 1 }]}
+        aria-labelledby="cs-results-h"
+      >
+        <h2 class="sr-only" id="cs-results-h">
+          {c.results}
+        </h2>
+        <div class="wk-wrap">
+          <div class="cs-results__grid" style={`--n:${Math.min(data.metrics.length, 4)};--chars:${widest.toFixed(2)}`}>
+            {data.metrics.map((m) => (
+              <Metric value={m.value} label={m.label} />
+            ))}
+          </div>
+          {concept && <p class="cs-results__note">{c.projection}</p>}
+        </div>
+      </section>
+    )}
+
+    <!-- ================= answer-first summary ================= -->
+    <section class="cs-sum" aria-labelledby="cs-sum-h">
+      <div class="wk-wrap cs-sum__grid">
+        <h2 class="wk-tag" id="cs-sum-h" data-rv>
+          {c.summary}
+        </h2>
+        <p class="cs-sum__p" data-words>
+          {answer}
+        </p>
+      </div>
+    </section>
+
+    <!-- ================= body ================= -->
+    <section class="cs-body" aria-label={c.body}>
+      <div class="wk-wrap cs-body__grid">
+        {toc.length > 1 && (
+          <nav class="cs-index" aria-label={c.onThisPage} data-index>
+            <p class="wk-tag">{c.onThisPage}</p>
+            <ol>
+              {toc.map((h) => (
+                <li>
+                  <a href={`#${h.slug}`} data-spy={h.slug}>
+                    {h.text}
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </nav>
+        )}
+        <div class="cs-prose" data-prose>
+          <Content />
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= gallery ================= -->
+    {rows.length > 0 && (
+      <section class="cs-gal" aria-labelledby="cs-gal-h">
+        <div class="wk-wrap cs-gal__head">
+          <h2 class="wk-tag" id="cs-gal-h" data-rv>
+            {c.screens}
+          </h2>
+        </div>
+        <div class="cs-gal__rows">
+          {rows.map((row) =>
+            row.kind === 'full' ? (
+              <div class="cs-row cs-row--full" data-row>
+                <div class="cs-row__amb" aria-hidden="true">
+                  <img
+                    src={row.amb.src}
+                    alt=""
+                    width={row.amb.attributes.width}
+                    height={row.amb.attributes.height}
+                    loading="lazy"
+                  />
+                </div>
+                <div class="wk-wrap">
+                  <figure class="cs-fig" data-fig style={`--fr:${row.a.ratio}`}>
+                    <div class="cs-fig__box" data-box>
+                      <Image
+                        class="cs-fig__img"
+                        src={row.a.src}
+                        alt={row.a.alt}
+                        widths={[800, 1280, 1600]}
+                        sizes="(min-width: 1440px) 1312px, 100vw"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </div>
+                  </figure>
+                </div>
+              </div>
+            ) : (
+              <div class="cs-row cs-row--pair" data-row>
+                <div class="wk-wrap cs-pair">
+                  {[row.a, row.b].map((s) => (
+                    <figure class="cs-fig" data-fig style={`--fr:${s.ratio}`}>
+                      <div class="cs-fig__box" data-box>
+                        <Image
+                          class="cs-fig__img"
+                          src={s.src}
+                          alt={s.alt}
+                          widths={[640, 960, 1280]}
+                          sizes="(min-width: 700px) 50vw, 100vw"
+                          loading="lazy"
+                          decoding="async"
+                        />
+                      </div>
+                    </figure>
+                  ))}
+                </div>
+              </div>
+            ),
+          )}
+        </div>
+      </section>
+    )}
+
+    <!-- ================= testimonial ================= -->
+    {quote && (
+      <section class="cs-quote" aria-labelledby="cs-quote-h">
+        <div class="wk-wrap">
+          <h2 class="wk-tag" id="cs-quote-h" data-rv>
+            {c.clientWords}
+          </h2>
+          {quote.translated && <TranslatedNote lang={lang} />}
+          <figure class="cs-quote__fig">
+            <span class="cs-quote__mark" aria-hidden="true">
+              “
+            </span>
+            <blockquote>
+              <p data-quote>{quote.text}</p>
+            </blockquote>
+            <figcaption class="cs-who" data-rv>
+              {quote.photo && (
+                <Image
+                  class="cs-who__img"
+                  src={quote.photo}
+                  width={144}
+                  height={144}
+                  fit="cover"
+                  alt={fill(c.portrait, { name: quote.name })}
+                  loading="lazy"
+                  decoding="async"
+                />
+              )}
+              <div>
+                <b>{quote.name}</b>
+                <span>{quote.company ? `${quote.role}, ${quote.company}` : quote.role}</span>
+              </div>
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+    )}
+
+    <!-- ================= next project ================= -->
+    {next && (
+      <section class="cs-next" aria-labelledby="cs-next-h">
+        <a class="cs-next__a" href={url(workPath(workSlug(next), lang))} data-next>
+          <div class="wk-wrap">
+            <p class="wk-tag">{c.next}</p>
+          </div>
+          <div class="wk-wrap">
+            <h2 class="cs-next__h" id="cs-next-h">
+              <span class="cs-next__name" data-next-name>
+                {next.data.client}
+              </span>
+              <span class="cs-next__go" aria-hidden="true">
+                <svg class="arr">
+                  <use href="#i-arr" />
+                </svg>
+              </span>
+            </h2>
+            <p class="cs-next__t">{next.data.title}</p>
+          </div>
+          <div class="cs-next__media" data-next-media>
+            <div class="cs-next__par" data-next-par>
+              <Image
+                class="cs-next__img"
+                src={next.data.cover}
+                alt={next.data.coverAlt}
+                widths={[800, 1280, 1920]}
+                sizes="100vw"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+          </div>
+        </a>
+        <div class="wk-wrap cs-next__foot">
+          <a class="btn btn-ghost" href={url(pagePath('work', lang))}>
+            {c.all}
+          </a>
+        </div>
+      </section>
+    )}
+
+    <Closer lang={lang} heading={c.closer} id="cs-end-h" />
+  </article>
+
+  <script>
+    import '../scripts/work/case';
+  </script>
+</BaseLayout>

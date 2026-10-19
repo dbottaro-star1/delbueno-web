@@ -1,0 +1,204 @@
+---
+/**
+ * One hairline illustration per industry, in the same stroke language as the homepage service art.
+ * Strokes carry pathLength="1" so the script can draw them on. The lime LED pulses while the art is on screen.
+ */
+import type { Lang } from '../../i18n/config';
+import { innerCopy } from '../../i18n/pages/services';
+
+interface Props {
+  lang: Lang;
+  slug: 'cloud' | 'cybersecurity' | 'devops' | 'ai' | 'fintech';
+  class?: string;
+}
+const { lang, slug, class: cls } = Astro.props;
+const words = innerCopy[lang].industryArt;
+---
+
+{slug === 'cloud' && (
+  <svg class:list={['ind-art art art-draw', cls]} viewBox="0 0 400 320" aria-hidden="true" focusable="false">
+    <path
+      class="a-s"
+      pathLength="1"
+      d="M118 142C74 142 62 94 104 86C108 48 160 34 188 66C208 36 270 46 276 92C322 94 336 142 292 142Z"
+    />
+    <path class="a-v" pathLength="1" d="M132 112h30l14-22 16 34 14-18h36" />
+    <path class="a-s" pathLength="1" d="M200 142v34M64 176h272M64 176v28M148 176v28M252 176v28M336 176v28" />
+    <rect class="a-s" pathLength="1" x="32" y="204" width="64" height="80" rx="6" />
+    <rect class="a-s" pathLength="1" x="116" y="204" width="64" height="80" rx="6" />
+    <rect class="a-s" pathLength="1" x="220" y="204" width="64" height="80" rx="6" />
+    <rect class="a-s" pathLength="1" x="304" y="204" width="64" height="80" rx="6" />
+    <path
+      class="a-s"
+      pathLength="1"
+      d="M44 222h30M44 242h30M44 262h30M128 222h30M128 242h30M128 262h30M232 222h30M232 242h30M232 262h30M316 222h30M316 242h30M316 262h30"
+    />
+    <circle class="a-fl led" cx="84" cy="222" r="3" />
+    <circle class="a-fv" cx="168" cy="242" r="3" />
+    <circle class="a-fv" cx="272" cy="262" r="3" />
+    <path class="a-l" pathLength="1" d="M304 262h30" />
+    <text x="32" y="306">
+      {words.cloud}
+    </text>
+  </svg>
+)}
+{slug === 'cybersecurity' && (
+  <svg class:list={['ind-art art art-draw', cls]} viewBox="0 0 400 320" aria-hidden="true" focusable="false">
+    <circle class="a-s" pathLength="1" cx="190" cy="160" r="140" opacity=".35" />
+    <circle class="a-s" pathLength="1" cx="190" cy="160" r="104" opacity=".5" />
+    <path class="a-s" pathLength="1" d="M190 58L274 88V158C274 210 236 244 190 264C144 244 106 210 106 158V88Z" />
+    <path class="a-v" pathLength="1" d="M190 84L252 106V158C252 194 226 220 190 236C154 220 128 194 128 158V106Z" />
+    <circle class="a-l" pathLength="1" cx="190" cy="148" r="14" />
+    <path class="a-l" pathLength="1" d="M190 162v26" />
+    <path class="a-v" pathLength="1" d="M190 160L312 92" />
+    <circle class="a-fl led" cx="312" cy="92" r="4" />
+    <rect class="a-s" pathLength="1" x="300" y="196" width="88" height="16" rx="8" />
+    <rect class="a-s" pathLength="1" x="300" y="224" width="88" height="16" rx="8" />
+    <rect class="a-s" pathLength="1" x="300" y="252" width="88" height="16" rx="8" />
+    <path class="a-l" pathLength="1" d="M310 204h30" />
+    <path class="a-s" pathLength="1" d="M310 232h46M310 260h38" />
+    <text x="300" y="186">
+      {words.alerts}
+    </text>
+  </svg>
+)}
+{slug === 'devops' && (
+  <svg class:list={['ind-art art art-draw', cls]} viewBox="0 0 400 320" aria-hidden="true" focusable="false">
+    <circle class="a-s" pathLength="1" cx="50" cy="66" r="16" />
+    <circle class="a-s" pathLength="1" cx="140" cy="66" r="16" />
+    <circle class="a-v" pathLength="1" cx="230" cy="66" r="16" />
+    <circle class="a-l" pathLength="1" cx="320" cy="66" r="16" />
+    <path class="a-s" pathLength="1" d="M66 66h58M156 66h58M246 66h58" />
+    <path class="a-v" pathLength="1" d="M320 82C320 128 50 128 50 90" />
+    <path class="a-v" pathLength="1" d="m45 98 5-8 5 8" />
+    <text x="34" y="30">
+      {words.build}
+    </text>
+    <text x="124" y="30">
+      {words.test}
+    </text>
+    <text x="214" y="30">
+      {words.stage}
+    </text>
+    <text x="300" y="30">
+      {words.ship}
+    </text>
+    <rect class="a-s" pathLength="1" x="14" y="160" width="372" height="146" rx="8" />
+    <path class="a-s" pathLength="1" d="M14 186h372" />
+    <circle class="a-s" pathLength="1" cx="30" cy="173" r="3" />
+    <circle class="a-s" pathLength="1" cx="42" cy="173" r="3" />
+    <circle class="a-s" pathLength="1" cx="54" cy="173" r="3" />
+    <text x="30" y="214">
+      {words.deploy}
+    </text>
+    <text x="30" y="236">
+      {words.health}
+    </text>
+    <text x="30" y="258">
+      {words.rollback}
+    </text>
+    <text x="30" y="286" style="fill:#BAFB44">
+      ✓ {words.live}
+    </text>
+    <path class="a-v" pathLength="1" d="M236 280l20-18 18 8 22-26 20 12 24-30 30 16" />
+    <circle class="a-fl led" cx="370" cy="232" r="4" />
+  </svg>
+)}
+{slug === 'ai' && (
+  <svg class:list={['ind-art art art-draw', cls]} viewBox="0 0 400 320" aria-hidden="true" focusable="false">
+    <path
+      class="a-s"
+      pathLength="1"
+      d="M40 80L140 50M40 80L140 125M40 80L140 195M40 80L140 270M40 160L140 50M40 160L140 125M40 160L140 195M40 160L140 270M40 240L140 50M40 240L140 125M40 240L140 195M40 240L140 270"
+      opacity=".55"
+    />
+    <path
+      class="a-s"
+      pathLength="1"
+      d="M140 50L250 110M140 50L250 210M140 125L250 110M140 125L250 210M140 195L250 110M140 195L250 210M140 270L250 110M140 270L250 210"
+      opacity=".55"
+    />
+    <path class="a-v" pathLength="1" d="M40 160L140 125L250 110" />
+    <circle class="a-s" pathLength="1" cx="40" cy="80" r="8" />
+    <circle class="a-s" pathLength="1" cx="40" cy="160" r="8" />
+    <circle class="a-s" pathLength="1" cx="40" cy="240" r="8" />
+    <circle class="a-s" pathLength="1" cx="140" cy="50" r="8" />
+    <circle class="a-s" pathLength="1" cx="140" cy="125" r="8" />
+    <circle class="a-s" pathLength="1" cx="140" cy="195" r="8" />
+    <circle class="a-s" pathLength="1" cx="140" cy="270" r="8" />
+    <circle class="a-s" pathLength="1" cx="250" cy="110" r="8" />
+    <circle class="a-s" pathLength="1" cx="250" cy="210" r="8" />
+    <circle class="a-fv" cx="40" cy="160" r="5" />
+    <circle class="a-fv" cx="140" cy="125" r="5" />
+    <circle class="a-fl led" cx="250" cy="110" r="5" />
+    <path class="a-v" pathLength="1" d="M258 110L296 124" />
+    <rect class="a-s" pathLength="1" x="296" y="82" width="92" height="132" rx="8" />
+    <path class="a-s" pathLength="1" d="M308 104h46M308 122h62M308 140h38" />
+    <rect class="a-l" pathLength="1" x="308" y="172" width="68" height="22" rx="11" />
+    <path class="a-l" pathLength="1" d="m326 183 4 4 8-9" />
+    <text x="296" y="72">
+      {words.plan}
+    </text>
+    <text x="40" y="304">
+      {words.review}
+    </text>
+  </svg>
+)}
+{slug === 'fintech' && (
+  <svg class:list={['ind-art art art-draw', cls]} viewBox="0 0 400 320" aria-hidden="true" focusable="false">
+    <path class="a-s" pathLength="1" d="M30 26v118h340" />
+    <path class="a-s" pathLength="1" d="M30 56h340M30 86h340M30 116h340" opacity=".35" />
+    <path class="a-v" pathLength="1" d="M30 124L80 104L124 112L172 76L220 90L270 50L320 62L370 32" />
+    <circle class="a-fl led" cx="370" cy="32" r="4" />
+    <circle class="a-fv" cx="270" cy="50" r="3" />
+    <path class="a-s" pathLength="1" d="M30 176h340M30 206h340M30 236h340" />
+    <path class="a-s" pathLength="1" d="M30 191h86M30 221h60M30 251h104" />
+    <path class="a-v" pathLength="1" d="M300 191h70" />
+    <path class="a-s" pathLength="1" d="M310 221h60M290 251h80" />
+    <rect class="a-l" pathLength="1" x="30" y="268" width="340" height="40" rx="20" />
+    <circle class="a-l" pathLength="1" cx="52" cy="288" r="14" />
+    <path class="a-l" pathLength="1" d="m47 288h10m-4-4 4 4-4 4" />
+    <text x="116" y="292">
+      {words.slide}
+    </text>
+  </svg>
+)}
+
+<style is:global>
+  .ind-art {
+    width: 100%;
+    height: auto;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .ind-art.is-live {
+      animation: ind-float 9s ease-in-out infinite;
+    }
+
+    .ind-art.is-live .led {
+      animation: ind-pulse 2.4s ease-in-out infinite;
+    }
+  }
+
+  @keyframes ind-float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+
+    50% {
+      transform: translateY(-6px);
+    }
+  }
+
+  @keyframes ind-pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+
+    50% {
+      opacity: 0.25;
+    }
+  }
+</style>

@@ -1,6 +1,7 @@
 ---
 title: "Designing Complex Dashboards That Humans Actually Understand: A UX Framework for Data-Heavy Products"
-description: "Dashboard UX design framework to simplify complex data products: improve clarity, navigation, and usability for real users."
+seoTitle: "Complex Dashboard UX: A Framework for Data-Heavy Products"
+description: "A dashboard UX design framework for complex, data-heavy products: improve clarity, navigation and usability so real users understand what they are seeing."
 pubDate: 2026-02-02
 updatedDate: 2026-07-22
 author: "Dani Bottaro"
@@ -168,7 +169,7 @@ You can improve perceived speed by:
 
 In **UX for analytics platforms**, perceived speed often improves conversions and retention because users feel in control. If they feel lost, they churn, even if the product is technically powerful.
 
-If your team wants a structured approach to designing these experiences end to end, our [**product design services**](/product-design/) are built to help SaaS teams simplify complexity without stripping capability.
+If your team wants a structured approach to designing these experiences end to end, our [**product design services**](/services/product-design/) are built to help SaaS teams simplify complexity without stripping capability.
 
 ## **How do you handle different user skill levels in one dashboard?**
 
@@ -225,7 +226,7 @@ Look for improvements in:
 
 And validate with quick testing. Ask users to complete real tasks and watch where they hesitate. Dashboards are one of the easiest places to test because tasks are clear.
 
-For subscription products and B2B SaaS, we often connect dashboard changes to activation and retention goals. That is a big part of our [**UX design for SaaS**](/ux-design/) work when teams need clarity that scales.
+For subscription products and B2B SaaS, we often connect dashboard changes to activation and retention goals. That is a big part of our [**UX design for SaaS**](/services/product-design/) work when teams need clarity that scales.
 
 ## **What should you do next if your dashboard is already “busy” and growing?**
 
@@ -239,7 +240,7 @@ A dashboard redesign does not need to be a massive rewrite. The fastest wins usu
 -   Improving labels and explanations
 -   Designing states that build trust
 
-If your dashboard also needs to work cleanly on smaller screens, approvals, or mobile companion experiences, it helps to think cross-platform early. Our [**mobile app design**](/solutions/app-design-and-development/) approach supports consistent patterns so users do not have to relearn the product on each device.
+If your dashboard also needs to work cleanly on smaller screens, approvals, or mobile companion experiences, it helps to think cross-platform early. Our [**mobile app design**](/services/product-design/) approach supports consistent patterns so users do not have to relearn the product on each device.
 
 ## **Final question: What makes a dashboard feel “human” instead of mechanical?**
 

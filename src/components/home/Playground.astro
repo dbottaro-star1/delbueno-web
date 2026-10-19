@@ -1,5 +1,8 @@
 ---
 /** Homepage Playground strip: featured Dribbble shots first, then the rest, ending in a link to /playground/. */
+import type { Lang } from '../../i18n/config';
+import { homeCopy } from '../../i18n/pages/home';
+import { pagePath } from '../../i18n/routes';
 import { LINKS } from '../../lib/site';
 import type { ShotEntry } from '../../lib/content';
 import { url } from '../../lib/url';
@@ -7,60 +10,68 @@ import ShotCard from '../playground/ShotCard.astro';
 import '../playground/shots.css';
 
 interface Props {
+  lang: Lang;
   shots: ShotEntry[];
 }
-const { shots } = Astro.props;
+const { lang, shots } = Astro.props;
+const c = homeCopy[lang].playground;
 ---
 
-{
-  shots.length > 0 && (
-    <section class="pg" id="playground" aria-labelledby="pg-h">
-      <div class="pg-head">
-        <div>
-          <p class="label">Dribbble shots</p>
-          <h2 class="h2" id="pg-h" data-split>
-            Playground
-          </h2>
-        </div>
-        <div class="pg-intro">
-          <p data-rv>Small experiments, UI explorations and motion studies. The quick stuff between the big projects.</p>
-          <div class="pg-arrows" data-rv>
-            <button class="pg-arrow" type="button" aria-label="Scroll the playground back" data-strip-prev>
-              <svg class="arr pg-flip" aria-hidden="true"><use href="#i-arr" /></svg>
-            </button>
-            <button class="pg-arrow" type="button" aria-label="Scroll the playground forward" data-strip-next>
-              <svg class="arr" aria-hidden="true"><use href="#i-arr" /></svg>
-            </button>
-          </div>
+{shots.length > 0 && (
+  <section class="pg" id="playground" aria-labelledby="pg-h">
+    <div class="pg-head">
+      <div>
+        <p class="label">{c.label}</p>
+        <h2 class="h2" id="pg-h" data-split>
+          {c.heading}
+        </h2>
+      </div>
+      <div class="pg-intro">
+        <p data-rv>{c.intro}</p>
+        <div class="pg-arrows" data-rv>
+          <button class="pg-arrow" type="button" aria-label={c.back} data-strip-prev>
+            <svg class="arr pg-flip" aria-hidden="true">
+              <use href="#i-arr" />
+            </svg>
+          </button>
+          <button class="pg-arrow" type="button" aria-label={c.forward} data-strip-next>
+            <svg class="arr" aria-hidden="true">
+              <use href="#i-arr" />
+            </svg>
+          </button>
         </div>
       </div>
+    </div>
 
-      <div class="pg-strip" data-strip tabindex="0" role="region" aria-label="Playground shots, scroll sideways">
-        <ul class="pg-track">
-          {shots.map((shot, i) => <ShotCard shot={shot} variant="strip" eager={i < 2} />)}
-          <li class="pg-cta">
-            <a class="pg-cta__main stretch" href={url('/playground/')} data-cursor="Open">
-              <span class="label">More</span>
-              <span class="pg-cta__t">See the whole playground</span>
-              <span class="pg-cta__go">
-                <svg class="arr" aria-hidden="true">
-                  <use href="#i-arr" />
-                </svg>
-              </span>
-            </a>
-            <a class="pg-cta__dribbble" href={LINKS.dribbble} target="_blank" rel="noopener me">
-              Follow on Dribbble
+    <div class="pg-strip" data-strip tabindex="0" role="region" aria-label={c.region}>
+      <ul class="pg-track">
+        {shots.map((shot, i) => (
+          <ShotCard lang={lang} shot={shot} variant="strip" eager={i < 2} />
+        ))}
+        <li class="pg-cta">
+          <a class="pg-cta__main stretch" href={url(pagePath('playground', lang))}>
+            <span class="label">{c.more}</span>
+            <span class="pg-cta__t">{c.seeAll}</span>
+            <span class="pg-cta__go">
               <svg class="arr" aria-hidden="true">
                 <use href="#i-arr" />
               </svg>
-            </a>
-          </li>
-        </ul>
-      </div>
-      <div class="pg-prog" aria-hidden="true"><i data-strip-prog /></div>
-    </section>
-  )
-}
+            </span>
+          </a>
+          <a class="pg-cta__dribbble" href={LINKS.dribbble} target="_blank" rel="noopener me">
+            {c.follow}
+            <svg class="arr" aria-hidden="true">
+              <use href="#i-arr" />
+            </svg>
+          </a>
+        </li>
+      </ul>
+    </div>
+    <div class="pg-prog" aria-hidden="true">
+      <i data-strip-prog />
+    </div>
+  </section>
+)}
 
 <style is:global>
   .pg {
@@ -78,7 +89,8 @@ const { shots } = Astro.props;
   }
 
   .pg-head .h2 {
-    font-size: clamp(2.4rem, 5.6vw, 6rem);
+    /* "Playground" is one long word: the 10vw floor keeps it inside a 320px screen. */
+    font-size: clamp(min(2.4rem, 10vw), 5.6vw, 6rem);
     margin-top: 14px;
   }
 
@@ -105,7 +117,10 @@ const { shots } = Astro.props;
     place-items: center;
     border-radius: 50%;
     border: 1px solid var(--line-2);
-    transition: background 0.4s, border-color 0.4s, opacity 0.3s;
+    transition:
+      background 0.4s,
+      border-color 0.4s,
+      opacity 0.3s;
   }
 
   .pg-arrow:hover {
@@ -213,7 +228,9 @@ const { shots } = Astro.props;
     border-radius: 50%;
     background: var(--ink);
     color: #0a0a0f;
-    transition: background 0.4s, transform 0.7s var(--out);
+    transition:
+      background 0.4s,
+      transform 0.7s var(--out);
   }
 
   .pg-cta__main:hover .pg-cta__go {

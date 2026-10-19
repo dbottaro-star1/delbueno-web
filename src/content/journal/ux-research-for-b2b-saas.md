@@ -1,6 +1,7 @@
 ---
 title: "From Chaos to Clarity: UX Research for Complex B2B Products"
-description: "A practical plan for UX research for B2B SaaS that aligns discovery with revenue, activation, and product quality, from enterprise research to user mapping."
+seoTitle: "UX Research for Complex B2B Products"
+description: "A practical plan for UX research in B2B SaaS that ties discovery to revenue, activation and product quality, from enterprise research to user mapping."
 pubDate: 2026-01-08
 author: "Dani Bottaro"
 category: "B2B SaaS"

@@ -1,24 +1,5 @@
 ---
-import PageHeader from '../components/PageHeader.astro';
-import BaseLayout from '../layouts/BaseLayout.astro';
-import { crumbs } from '../lib/schema';
-import { BRAND } from '../lib/site';
-
-const trail = crumbs({ name: 'Accessibility', path: '/accessibility/' });
+import Legal from '../views/Legal.astro';
 ---
 
-<BaseLayout
-  title="Accessibility statement"
-  description="Our commitment to an accessible website and how to report a problem."
-  breadcrumbs={trail}
->
-  <PageHeader title="Accessibility statement" eyebrow="Legal" crumbs={trail} />
-  <section class="section">
-    <div class="wrap prose">
-      <p>
-        The full text of this page is being moved to the new website. Until then, write to
-        <a href={`mailto:${BRAND.email}`}>{BRAND.email}</a> with any question.
-      </p>
-    </div>
-  </section>
-</BaseLayout>
+<Legal lang="en" page="accessibility" />

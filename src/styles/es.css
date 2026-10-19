@@ -1,0 +1,155 @@
+/*
+ * Spanish type adjustments. The display type of the site is set huge and tight, and Spanish words run longer than the
+ * English ones ("seleccionado" is 10 em wide in Syne 800, "Ciberseguridad" 11.6 em). Everything here is scoped to
+ * html[lang='es'], so the English pages do not change.
+ *
+ * Two kinds of rule: a lower minimum size, so on phones the viewport-width term decides instead of the rem floor that
+ * suits short English words, and a modest reduction where a long Spanish line would otherwise leave its column.
+ */
+
+/* Safety net for any long word in a narrow column: break it rather than let it leave the screen. */
+html[lang='es'] :is(h1, h2, h3, h4) {
+  overflow-wrap: break-word;
+}
+
+html[lang='es'] :is(p, li, dd, figcaption, blockquote) {
+  overflow-wrap: break-word;
+}
+
+/* Mono labels are longer in Spanish and can wrap onto a second line. */
+html[lang='es'] .label {
+  line-height: 1.4;
+}
+
+/* Buttons keep their pill shape and wrap onto two lines instead of leaving the screen. */
+html[lang='es'] .btn {
+  max-width: 100%;
+  height: auto;
+  min-height: 56px;
+  padding-block: 12px;
+  white-space: normal;
+  text-align: center;
+  line-height: 1.2;
+}
+
+html[lang='es'] .btn-sm {
+  min-height: 44px;
+  padding-block: 8px;
+}
+
+/* ---------- home ---------- */
+
+/* "Software que" is 10 em wide against 7 em for "Software", so the display is set at about three quarters of the
+   English size to stay on three lines inside the same column. */
+html[lang='es'] .hero-display {
+  font-size: clamp(1.8rem, 4.55vw, 6.2rem);
+}
+
+html[lang='es'] .final .h2 {
+  font-size: clamp(1.8rem, 8.5vw, 9.7rem);
+}
+
+html[lang='es'] .h2 {
+  font-size: clamp(1.7rem, 7.4vw, 8rem);
+}
+
+html[lang='es'] .speed .h2 {
+  font-size: clamp(1.7rem, 6.6vw, 7.2rem);
+}
+
+html[lang='es'] :is(.work-head, .pg-head) .h2 {
+  font-size: clamp(1.7rem, 5.6vw, 6rem);
+}
+
+html[lang='es'] .svc-title {
+  font-size: clamp(2.2rem, 7.4vw, 9rem);
+}
+
+@media (max-width: 1023px) {
+  html[lang='es'] .hero-display {
+    font-size: clamp(1.8rem, 8.4vw, 5.9rem);
+  }
+}
+
+@media (max-width: 860px) {
+  html[lang='es'] .final .h2 {
+    font-size: clamp(1.8rem, 9.8vw, 6rem);
+  }
+
+  html[lang='es'] .svc-title {
+    font-size: clamp(2rem, 9.4vw, 5rem);
+  }
+}
+
+/* ---------- work, services, industries ---------- */
+
+html[lang='es'] .in-h2 {
+  font-size: clamp(1.6rem, 5.4vw, 5.8rem);
+}
+
+html[lang='es'] .wk-end__h {
+  font-size: clamp(1.8rem, 7.2vw, 8.2rem);
+}
+
+html[lang='es'] .ind-name {
+  font-size: clamp(1.5rem, 5vw, 6.4rem);
+}
+
+html[lang='es'] .in-next__name {
+  font-size: clamp(1.4rem, 4vw, 4rem);
+}
+
+html[lang='es'] .in-cta .in-h2 {
+  font-size: clamp(1.7rem, 7vw, 8rem);
+}
+
+html[lang='es'] .in-split__a .in-h2 {
+  font-size: clamp(1.5rem, 3.1vw, 4rem);
+}
+
+html[lang='es'] .in-h1--md {
+  font-size: clamp(1.6rem, 5vw, 5.8rem);
+}
+
+html[lang='es'] .wk-head__facts {
+  flex-wrap: wrap;
+}
+
+html[lang='es'] .in-h1:not(.in-h1--md) {
+  font-size: clamp(2.2rem, 5.6vw, 7rem);
+}
+
+/* ---------- navigation ---------- */
+
+/* Spanish labels and the longer call to action need a little more room between 861 and 1000 px. */
+@media (min-width: 861px) and (max-width: 1000px) {
+  html[lang='es'] .nav-links {
+    gap: 14px;
+  }
+
+  html[lang='es'] .nav-right .btn {
+    padding-inline: 16px;
+  }
+}
+
+/* ---------- case studies ---------- */
+
+/* Case study titles are long sentences with long words ("cinematográfica"), so they are set smaller. */
+html[lang='es'] .cs-title {
+  font-size: clamp(1.4rem, 0.6rem + 3.6vw, 4.8rem);
+}
+
+/* ---------- info pages (about, contact, careers, audit, legal, journal) ---------- */
+
+/* Each page sets --h1 for its own length of title. Spanish titles are longer, so they get 88% of it. */
+html[lang='es'] .ip-h1 {
+  font-size: calc(var(--h1) * 0.88);
+}
+
+html[lang='es'] .ip-h2:not(.al-h, .cr-send-h) {
+  font-size: clamp(1.6rem, 0.8rem + 4.3vw, 5.2rem);
+}
+
+html[lang='es'] .ip-cta-h {
+  font-size: clamp(1.7rem, 7vw, 8rem);
+}

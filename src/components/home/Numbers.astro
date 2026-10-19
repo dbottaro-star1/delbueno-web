@@ -1,31 +1,42 @@
 ---
+import type { Lang } from '../../i18n/config';
+import { homeCopy } from '../../i18n/pages/home';
+import { statsCopy } from '../../i18n/pages/shared';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const stats = statsCopy[lang];
 const numbers = [
-  { to: '10', unit: '+', label: 'years designing digital products' },
-  { to: '58', unit: '+', label: 'products shipped' },
-  { to: '85', unit: '%', label: 'of clients come back for more' },
-  { to: '4.9', dec: 1, star: true, label: 'on Clutch' },
+  { to: '10', unit: '+', label: stats.years },
+  { to: '58', unit: '+', label: stats.products },
+  { to: '85', unit: '%', label: stats.returning },
+  { to: '4.9', dec: 1, star: true, label: stats.clutch },
 ];
 ---
 
 <section aria-labelledby="nums-h">
-  <h2 class="sr-only" id="nums-h">delbueno in numbers</h2>
+  <h2 class="sr-only" id="nums-h">
+    {homeCopy[lang].numbers.heading}
+  </h2>
   <div class="nums">
-    {
-      numbers.map((n) => (
-        <div class="num">
-          <p class="num-v">
-            <span data-count={n.to} data-dec={n.dec ?? 0}>{n.to}</span>
-            {n.unit && <span class="u">{n.unit}</span>}
-            {n.star && (
-              <svg class="star" viewBox="0 0 24 24" aria-label="stars" role="img">
-                <path d="M12 1.8l3 6.9 7.5.7-5.7 5 1.7 7.3L12 17.8 5.5 21.7l1.7-7.3-5.7-5 7.5-.7z" fill="currentColor" />
-              </svg>
-            )}
-          </p>
-          <p class="num-l">{n.label}</p>
-        </div>
-      ))
-    }
+    {numbers.map((n) => (
+      <div class="num">
+        <p class="num-v">
+          <span data-count={n.to} data-dec={n.dec ?? 0}>
+            {n.to}
+          </span>
+          {n.unit && <span class="u">{n.unit}</span>}
+          {n.star && (
+            <svg class="star" viewBox="0 0 24 24" aria-label={stats.stars} role="img">
+              <path d="M12 1.8l3 6.9 7.5.7-5.7 5 1.7 7.3L12 17.8 5.5 21.7l1.7-7.3-5.7-5 7.5-.7z" fill="currentColor" />
+            </svg>
+          )}
+        </p>
+        <p class="num-l">{n.label}</p>
+      </div>
+    ))}
   </div>
 </section>
 

@@ -1,47 +1,59 @@
 ---
-import { services } from '../../data/services';
+import { getServices } from '../../data/services';
+import type { Lang } from '../../i18n/config';
+import { homeCopy } from '../../i18n/pages/home';
+import { servicePath } from '../../i18n/routes';
+import { fill } from '../../i18n';
 import { url } from '../../lib/url';
 import ServiceArt from './ServiceArt.astro';
 
-const total = String(services.length).padStart(2, '0');
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const c = homeCopy[lang].services;
+const services = getServices(lang);
 ---
 
 <section class="services" id="services" aria-labelledby="svc-h">
   <div class="sec-head">
-    <p class="label">Services</p>
-    <h2 class="h2" id="svc-h" data-split>What we do</h2>
-    <p class="sub" data-rv>Four disciplines, one team. Start with any of them.</p>
+    <p class="label">{c.label}</p>
+    <h2 class="h2" id="svc-h" data-split>
+      {c.heading}
+    </h2>
+    <p class="sub" data-rv>
+      {c.sub}
+    </p>
   </div>
   <div class="svc-stack">
-    {
-      services.map((s, i) => (
-        <article class="svc" aria-labelledby={`svc${i + 1}`}>
-          <div class="svc-in">
-            <div class="svc-top">
-              <span class="svc-num">
-                <b>{String(i + 1).padStart(2, '0')}</b> / {total}
-              </span>
-              <span class="svc-num">{s.home.kicker}</span>
-            </div>
-            <h3 class="svc-title" id={`svc${i + 1}`} data-split>
-              {s.home.title}
-            </h3>
-            <ServiceArt slug={s.slug} />
-            <div class="svc-bottom">
-              <p class="svc-desc">{s.home.description}</p>
-              <ul class="chips">{s.home.chips.map((c) => <li>{c}</li>)}</ul>
-              <a class="svc-more" href={url(`/services/${s.slug}/`)}>
-                About {s.name}
-                <svg class="arr" aria-hidden="true">
-                  <use href="#i-arr" />
-                </svg>
-              </a>
-            </div>
+    {services.map((s, i) => (
+      <article class="svc" aria-labelledby={`svc${i + 1}`}>
+        <div class="svc-in">
+          <div class="svc-top">
+            <span class="svc-num">{s.home.kicker}</span>
           </div>
-          <div class="svc-dim" />
-        </article>
-      ))
-    }
+          <h3 class="svc-title" id={`svc${i + 1}`} data-split>
+            {s.home.title}
+          </h3>
+          <ServiceArt slug={s.slug} />
+          <div class="svc-bottom">
+            <p class="svc-desc">{s.home.description}</p>
+            <ul class="chips">
+              {s.home.chips.map((c) => (
+                <li>{c}</li>
+              ))}
+            </ul>
+            <a class="svc-more" href={url(servicePath(s.slug, lang))}>
+              {fill(c.about, { name: s.name })}
+              <svg class="arr" aria-hidden="true">
+                <use href="#i-arr" />
+              </svg>
+            </a>
+          </div>
+        </div>
+        <div class="svc-dim" />
+      </article>
+    ))}
   </div>
 </section>
 
@@ -115,7 +127,6 @@ const total = String(services.length).padStart(2, '0');
   .svc-top {
     grid-column: 1 / -1;
     display: flex;
-    justify-content: space-between;
     align-items: center;
     color: var(--mute);
   }
@@ -123,11 +134,6 @@ const total = String(services.length).padStart(2, '0');
   .svc-num {
     font: 500 0.8125rem / 1 var(--mono);
     letter-spacing: 0.08em;
-  }
-
-  .svc-num b {
-    color: var(--ink);
-    font-weight: 500;
   }
 
   .svc-title {

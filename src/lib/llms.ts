@@ -1,75 +1,101 @@
-/** Builds llms.txt and llms-full.txt from the content collections and data files. */
-import { engagementFaqs, engagements } from '../data/engagements';
-import { industries } from '../data/industries';
-import { services } from '../data/services';
-import { formatDate, getJournal, getShots, getWork, plainBody } from './content';
+/**
+ * Builds llms.txt and llms-full.txt from the content collections and data files, in each language.
+ * English lives at /llms.txt and /llms-full.txt, Spanish at /es/llms.txt and /es/llms-full.txt.
+ */
+import { getEngagementsCopy } from '../data/engagements';
+import { getIndustries } from '../data/industries';
+import { getServices } from '../data/services';
+import { STACK_SLUGS, stack } from '../data/stack';
+import type { Lang } from '../i18n/config';
+import { fill, t } from '../i18n';
+import { llmsCopy } from '../i18n/pages/llms';
+import { stackPageCopy } from '../i18n/pages/stack';
+import { industryPath, pagePath, servicePath, workPath } from '../i18n/routes';
+import {
+  formatDate,
+  getJournalFor,
+  getShots,
+  getWork,
+  isSpanishPost,
+  plainBody,
+  postHref,
+  shotText,
+  workSlug,
+} from './content';
 import { BRAND, LINKS, SAME_AS } from './site';
 import { absoluteUrl } from './url';
 
-const SUMMARY =
-  `${BRAND.name} is a product design and development studio for B2B SaaS teams and startups, ` +
-  `based in ${BRAND.locality}, ${BRAND.country}, working remote with US hours. ` +
-  'Services: product strategy, product design, web design and build. ' +
-  'Engagement models: Launch Sprint, Design Partner and Designer on Demand. ' +
-  `Kickoff is the same day and first concepts arrive in 48 hours. Contact: ${BRAND.email}.`;
+/** Push Markdown headings in an entry body below the entry's own `###` title, so the document outline stays valid. */
+const demote = (body: string): string => body.replace(/^(#{1,4}) /gm, '$1## ');
 
 const link = (title: string, href: string, note?: string) => `- [${title}](${href})${note ? `: ${note}` : ''}`;
 
-export async function buildLlmsTxt(site: URL | undefined): Promise<string> {
+const llmsPath = (lang: Lang, file: 'llms.txt' | 'llms-full.txt'): string =>
+  lang === 'en' ? `/${file}` : `/es/${file}`;
+
+export async function buildLlmsTxt(site: URL | undefined, lang: Lang = 'en'): Promise<string> {
+  const c = llmsCopy[lang];
   const u = (path: string) => absoluteUrl(path, site);
-  const [work, journal, shots] = await Promise.all([getWork(), getJournal(), getShots()]);
+  const vars = { brand: BRAND.name, locality: BRAND.locality, country: BRAND.country, email: BRAND.email };
+  const [work, journal, shots] = await Promise.all([getWork(lang), getJournalFor(lang), getShots()]);
+  const { engagements } = getEngagementsCopy(lang);
+  const other: Lang = lang === 'en' ? 'es' : 'en';
 
   const lines: string[] = [
     `# ${BRAND.name}`,
     '',
-    `> ${SUMMARY}`,
+    `> ${fill(c.summary, vars)}`,
     '',
-    `${BRAND.speed} Book a 15 minute call at ${LINKS.book}.`,
+    `${t(lang, 'brand.speed')} ${fill(c.bookLine, { url: LINKS.book })}`,
     '',
-    '## Services',
-    ...services.map((s) => link(s.name, u(`/services/${s.slug}/`), s.summary)),
+    `## ${c.h.services}`,
+    ...getServices(lang).map((s) => link(s.name, u(servicePath(s.slug, lang)), s.summary)),
     '',
-    '## Engagement models',
-    ...engagements.map((e) => link(e.name, u(`/engagements/#${e.slug}`), e.summary)),
+    `## ${c.h.engagements}`,
+    ...engagements.map((e) => link(e.name, u(`${pagePath('engagements', lang)}#${e.slug}`), e.summary)),
     '',
-    '## Industries',
-    ...industries.map((i) => link(i.title, u(`/industries/${i.slug}/`), i.summary)),
+    `## ${c.h.industries}`,
+    ...getIndustries(lang).map((i) => link(i.title, u(industryPath(i.slug, lang)), i.summary)),
     '',
   ];
 
   if (work.length) {
     lines.push(
-      '## Case studies',
-      ...work.map((w) => link(w.data.title, u(`/work/${w.id}/`), `${w.data.client}. ${w.data.summary}`)),
+      `## ${c.h.cases}`,
+      ...work.map((w) => link(w.data.title, u(workPath(workSlug(w), lang)), `${w.data.client}. ${w.data.summary}`)),
       '',
     );
   }
 
   if (shots.length) {
     lines.push(
-      '## Playground',
-      link('Playground', u('/playground/'), 'Short UI explorations and motion studies, also on Dribbble'),
-      ...shots.map((p) => link(p.data.title, p.data.url, p.data.tags.join(', '))),
+      `## ${c.h.playground}`,
+      link('Playground', u(pagePath('playground', lang)), c.playgroundNote),
+      ...shots.map((p) => link(p.data.title, p.data.url, shotText(p, lang).tags.join(', '))),
       '',
     );
   }
 
   if (journal.length) {
-    lines.push(
-      '## Journal',
-      ...journal.map((p) => link(p.data.title, u(`/${p.id}/`), p.data.description)),
-      '',
-    );
+    lines.push(`## ${c.h.journal}`, ...journal.map((p) => link(p.data.title, u(postHref(p)), p.data.description)), '');
   }
 
+  const co = c.company;
   lines.push(
-    '## Company',
-    link('About', u('/about/'), 'Who we are and how we work'),
-    link('Contact', u('/contact/'), `Book a call or email ${BRAND.email}`),
-    link('Free UX audit', u('/free-ux-audit/'), 'A short, ranked list of what to fix first'),
-    link('Full text for language models', u('/llms-full.txt'), 'All of the above with full details'),
+    `## ${c.h.company}`,
+    link(co.work[0], u(pagePath('work', lang)), co.work[1]),
+    link(co.industries[0], u(pagePath('industries', lang)), co.industries[1]),
+    link(co.engagements[0], u(pagePath('engagements', lang)), co.engagements[1]),
+    link(co.stack[0], u(pagePath('stack', lang)), co.stack[1]),
+    link(co.journal[0], u(pagePath('journal', lang)), co.journal[1]),
+    link(co.about[0], u(pagePath('about', lang)), co.about[1]),
+    link(co.author[0], u(pagePath('author', lang)), co.author[1]),
+    link(co.contact[0], u(pagePath('contact', lang)), fill(c.contactNote, { email: BRAND.email })),
+    link(co.audit[0], u(pagePath('audit', lang)), co.audit[1]),
+    link(co.full[0], u(llmsPath(lang, 'llms-full.txt')), co.full[1]),
+    link(co.otherLanguage[0], u(llmsPath(other, 'llms.txt')), co.otherLanguage[1]),
     '',
-    '## Profiles',
+    `## ${c.h.profiles}`,
     ...SAME_AS.map((href) => `- ${href}`),
     '',
   );
@@ -77,125 +103,156 @@ export async function buildLlmsTxt(site: URL | undefined): Promise<string> {
   return lines.join('\n');
 }
 
-export async function buildLlmsFullTxt(site: URL | undefined): Promise<string> {
+export async function buildLlmsFullTxt(site: URL | undefined, lang: Lang = 'en'): Promise<string> {
+  const c = llmsCopy[lang];
+  const f = c.full;
   const u = (path: string) => absoluteUrl(path, site);
-  const [work, journal] = await Promise.all([getWork(), getJournal()]);
+  const vars = { brand: BRAND.name, locality: BRAND.locality, country: BRAND.country, email: BRAND.email };
+  const [work, journal, shots] = await Promise.all([getWork(lang), getJournalFor(lang), getShots()]);
+  const { engagements, faqs: engagementFaqs } = getEngagementsCopy(lang);
 
   const out: string[] = [
     `# ${BRAND.name}`,
     '',
-    `> ${SUMMARY}`,
+    `> ${fill(c.summary, vars)}`,
     '',
-    '## Company',
+    `## ${c.h.company}`,
     '',
-    `Name: ${BRAND.name}`,
-    `Website: ${u('/')}`,
-    `Location: ${BRAND.locality}, ${BRAND.country}. Remote, with US hours.`,
-    `Founder: ${BRAND.founder}`,
-    `Email: ${BRAND.email}`,
-    `Book a call: ${LINKS.book}`,
-    `Speed: ${BRAND.speed}`,
+    `${f.name}: ${BRAND.name}`,
+    `${f.website}: ${u(pagePath('home', lang))}`,
+    fill(f.location, vars),
+    `${f.founder}: ${BRAND.founder} (${u(pagePath('author', lang))})`,
+    `${f.email}: ${BRAND.email}`,
+    `${f.book}: ${LINKS.book}`,
+    `${f.speed}: ${t(lang, 'brand.speed')}`,
     '',
-    'Profiles:',
+    f.profiles,
     ...SAME_AS.map((href) => `- ${href}`),
     '',
-    '## Services',
+    `## ${c.h.services}`,
     '',
   ];
 
-  for (const s of services) {
+  for (const s of getServices(lang)) {
     out.push(
       `### ${s.name}`,
-      `URL: ${u(`/services/${s.slug}/`)}`,
+      `${f.url}: ${u(servicePath(s.slug, lang))}`,
       '',
       s.answer,
       '',
-      'What we cover:',
-      ...s.covers.map((c) => `- ${c}`),
+      f.cover,
+      ...s.covers.map((x) => `- ${x}`),
       '',
-      'What you get:',
+      f.getTitle,
       ...s.deliverables.map((d) => `- ${d}`),
       '',
-      ...s.faqs.flatMap((f) => [`Q: ${f.q}`, `A: ${f.a}`, '']),
+      ...s.faqs.flatMap((q) => [`Q: ${q.q}`, `A: ${q.a}`, '']),
     );
   }
 
-  out.push('## Engagement models', '');
+  out.push(`## ${c.h.engagements}`, '');
   for (const e of engagements) {
     out.push(
       `### ${e.name}`,
-      `URL: ${u(`/engagements/#${e.slug}`)}`,
+      `${f.url}: ${u(`${pagePath('engagements', lang)}#${e.slug}`)}`,
       '',
       e.summary,
       '',
-      `Best for: ${e.bestFor}`,
+      `${f.bestFor}: ${e.bestFor}`,
       '',
       e.description,
       '',
-      ...e.includes.map((i) => `- ${i}`),
+      ...e.includes.map((x) => `- ${x}`),
       '',
     );
   }
-  out.push(...engagementFaqs.flatMap((f) => [`Q: ${f.q}`, `A: ${f.a}`, '']));
+  out.push(...engagementFaqs.flatMap((q) => [`Q: ${q.q}`, `A: ${q.a}`, '']));
 
-  out.push('## Industries', '');
-  for (const i of industries) {
+  const stackCopy = stackPageCopy[lang];
+  out.push(
+    `## ${c.h.stack}`,
+    '',
+    `${f.url}: ${u(pagePath('stack', lang))}`,
+    '',
+    stackCopy.answer,
+    '',
+    ...STACK_SLUGS.map((slug) => `- ${stackCopy.categories[slug].title}: ${stack[slug].map((i) => i.name).join(', ')}`),
+    '',
+  );
+
+  out.push(`## ${c.h.industries}`, '');
+  for (const i of getIndustries(lang)) {
     out.push(
       `### ${i.title}`,
-      `URL: ${u(`/industries/${i.slug}/`)}`,
+      `${f.url}: ${u(industryPath(i.slug, lang))}`,
       '',
       i.answer,
       '',
-      'Common challenges:',
-      ...i.challenges.map((c) => `- ${c}`),
+      f.challenges,
+      ...i.challenges.map((x) => `- ${x}`),
       '',
-      'What we design:',
-      ...i.designs.map((d) => `- ${d}`),
+      f.designs,
+      ...i.designs.map((x) => `- ${x}`),
       '',
-      ...i.faqs.flatMap((f) => [`Q: ${f.q}`, `A: ${f.a}`, '']),
+      ...i.faqs.flatMap((q) => [`Q: ${q.q}`, `A: ${q.a}`, '']),
     );
   }
 
   if (work.length) {
-    out.push('## Case studies', '');
+    out.push(`## ${c.h.cases}`, '');
     for (const w of work) {
       const d = w.data;
       out.push(
         `### ${d.title}`,
-        `URL: ${u(`/work/${w.id}/`)}`,
-        `Client: ${d.client}`,
-        `Industry: ${d.industry}`,
-        `Year: ${d.year}`,
-        `Services: ${d.services.join(', ')}`,
+        `${f.url}: ${u(workPath(workSlug(w), lang))}`,
+        `${f.client}: ${d.client}`,
+        `${f.industry}: ${d.industry}`,
+        `${f.year}: ${d.year}`,
+        `${f.services}: ${d.services.join(', ')}`,
         '',
         d.summary,
         '',
       );
-      if (d.metrics.length) out.push('Results:', ...d.metrics.map((m) => `- ${m.value} ${m.label}`), '');
+      if (d.metrics.length) out.push(f.results, ...d.metrics.map((m) => `- ${m.value} ${m.label}`), '');
       if (d.testimonial) {
-        out.push(`Testimonial: "${d.testimonial.quote}" (${d.testimonial.name}, ${d.testimonial.role})`, '');
+        out.push(`${f.testimonial}: "${d.testimonial.quote}" (${d.testimonial.name}, ${d.testimonial.role})`, '');
       }
-      const body = plainBody(w.body);
+      const body = demote(plainBody(w.body));
       if (body) out.push(body, '');
     }
   }
 
+  if (shots.length) {
+    out.push(`## ${c.h.playground}`, '', `${f.url}: ${u(pagePath('playground', lang))}`, '', f.playgroundBlurb, '');
+    for (const s of shots) {
+      const text = shotText(s, lang);
+      const d = s.data;
+      out.push(`- ${d.title}: ${text.alt} (${d.url}${text.tags.length ? `; ${f.tags}: ${text.tags.join(', ')}` : ''})`);
+    }
+    out.push('');
+  }
+
   if (journal.length) {
-    out.push('## Journal', '');
+    out.push(`## ${c.h.journal}`, '');
+    if (lang !== 'en') out.push(f.journalNote, '');
     for (const p of journal) {
       const d = p.data;
       out.push(
         `### ${d.title}`,
-        `URL: ${u(`/${p.id}/`)}`,
-        `Author: ${d.author}`,
-        `Published: ${formatDate(d.pubDate)}`,
-        `Category: ${d.category}`,
+        `${f.url}: ${u(postHref(p))}`,
+        `${f.author}: ${d.author}`,
+        `${f.published}: ${formatDate(d.pubDate, lang)}`,
+        `${f.category}: ${d.category}`,
         '',
         d.description,
         '',
       );
-      const body = plainBody(p.body);
-      if (body) out.push(body, '');
+      // The Spanish file carries the full text of the Spanish articles and only lists the English ones. The full
+      // English text is in the English llms-full.txt.
+      if (lang === 'en' || isSpanishPost(p)) {
+        const body = demote(plainBody(p.body));
+        if (body) out.push(body, '');
+      }
     }
   }
 

@@ -1,5 +1,7 @@
 ---
 title: "Improving organic conversion 62% for a private flights marketplace"
+seoTitle: "Flapz: Private Flights Marketplace Redesign"
+description: "We redesigned the website and unified desktop and mobile for Flapz, a private flights marketplace. Organic conversion rose 62% and new organic users 94%."
 client: "Flapz"
 summary: "We redesigned the website and unified the desktop and mobile experience for Flapz, a private flights marketplace in Latin America. Organic conversion rate improved 62% and new users from organic traffic grew 94%."
 industry: "Private aviation marketplace"

@@ -1,0 +1,52 @@
+---
+/** Client names set as type. No logos on purpose: the list is the proof. */
+import type { Lang } from '../../i18n/config';
+import { aboutCopy } from '../../i18n/pages/about';
+import { CLIENT_NAMES } from '../../i18n/pages/shared';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const c = aboutCopy[lang].clients;
+const clients = CLIENT_NAMES;
+---
+
+<section class="ip-sec" aria-labelledby="ac-h">
+  <div class="wrap">
+    <div class="ip-head">
+      <p class="label">{c.label}</p>
+      <h2 class="ip-h2" id="ac-h" data-lines>
+        {c.heading}
+      </h2>
+    </div>
+    <ul class="ac">
+      {clients.map((c) => (
+        <li data-reveal>{c}</li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .ac {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 clamp(28px, 5vw, 84px);
+    border-top: 1px solid var(--line);
+    padding-top: clamp(24px, 3vw, 44px);
+  }
+
+  .ac li {
+    font: 800 clamp(2rem, 1rem + 4.2vw, 5.4rem) / 1.25 var(--display);
+    letter-spacing: -0.045em;
+    color: rgb(242 242 245 / 0.6);
+    transition: color 0.5s;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .ac li:hover {
+      color: var(--ink);
+    }
+  }
+</style>

@@ -1,0 +1,206 @@
+---
+import IndustryArt from '../components/industries/IndustryArt.astro';
+import InnerCta from '../components/services/InnerCta.astro';
+import InnerHero from '../components/services/InnerHero.astro';
+import '../components/services/inner.css';
+import { getIndustries } from '../data/industries';
+import type { Lang } from '../i18n/config';
+import { t } from '../i18n';
+import { industriesCopy } from '../i18n/pages/industries';
+import { industryPath, pagePath, workPath } from '../i18n/routes';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getWork, workSlug } from '../lib/content';
+import { crumbs } from '../lib/schema';
+import { url } from '../lib/url';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const c = industriesCopy[lang].index;
+const industries = getIndustries(lang);
+
+const trail = crumbs(lang, { name: t(lang, 'pageName.industries'), path: pagePath('industries', lang) });
+const work = await getWork(lang);
+---
+
+<BaseLayout lang={lang} title={c.meta.title} description={c.meta.description} breadcrumbs={trail}>
+  <InnerHero lang={lang} crumbs={trail} label={c.label} title={c.heading} size="md" answer={c.answer} />
+
+  <section class="in-sec in-sec--tight" aria-labelledby="ind-h">
+    <h2 class="sr-only" id="ind-h">
+      {c.listLabel}
+    </h2>
+    <div class="ind-list">
+      {industries.map((ind) => (
+        <a class="ind-row" href={url(industryPath(ind.slug, lang))} data-rv>
+          <h3 class="ind-name">{ind.name}</h3>
+          <p class="ind-sum">{ind.summary}</p>
+          <ul class="in-chips ind-chips">
+            {ind.designs.slice(0, 3).map((d) => (
+              <li>{d}</li>
+            ))}
+          </ul>
+          <div class="ind-art">
+            <IndustryArt lang={lang} slug={ind.slug} />
+          </div>
+          <svg class="arr ind-arr" aria-hidden="true">
+            <use href="#i-arr" />
+          </svg>
+        </a>
+      ))}
+    </div>
+  </section>
+
+  <section class="in-sec in-sec--tight" aria-labelledby="oth-h">
+    <div class="in-head">
+      <p class="label">{c.beyondLabel}</p>
+      <h2 class="in-h2" id="oth-h" data-split>
+        {c.beyondHeading}
+      </h2>
+      <p class="in-sub" data-rv>
+        {c.beyondSub}
+      </p>
+    </div>
+    <ul class="in-chips in-chips--links" data-rv>
+      {work.map((w) => (
+        <li>
+          <a href={url(workPath(workSlug(w), lang))}>
+            {w.data.client}: {w.data.industry}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <InnerCta lang={lang} heading={c.ctaHeading} />
+
+  <script>
+    import '../scripts/services';
+  </script>
+</BaseLayout>
+
+<style is:global>
+  .in-chips--links li {
+    padding: 0;
+  }
+
+  .in-chips--links a {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 16px;
+    border-radius: 999px;
+    transition:
+      color 0.4s,
+      background 0.4s;
+  }
+
+  .in-chips--links li {
+    transition: border-color 0.4s;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .in-chips--links li:hover {
+      border-color: rgb(255 255 255 / 0.4);
+    }
+
+    .in-chips--links a:hover {
+      color: var(--ink);
+    }
+  }
+
+  .ind-list {
+    border-bottom: 1px solid var(--line);
+  }
+
+  .ind-row {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 220px);
+    grid-template-rows: auto auto auto 1fr;
+    grid-template-areas:
+      'name art'
+      'sum art'
+      'chips art'
+      '. art';
+    column-gap: var(--gap);
+    row-gap: 14px;
+    padding: clamp(28px, 4vw, 56px) 0;
+    border-top: 1px solid var(--line);
+    transition:
+      padding-left 0.8s var(--out),
+      background 0.6s;
+  }
+
+  .ind-name {
+    grid-area: name;
+    font: 800 clamp(1.5rem, 8vw, 8.4rem) / 0.92 var(--display);
+    letter-spacing: -0.05em;
+  }
+
+  .ind-sum {
+    grid-area: sum;
+    max-width: 44ch;
+    color: var(--mute);
+    font-size: clamp(1.0625rem, 1.4vw, 1.3125rem);
+  }
+
+  .ind-chips {
+    grid-area: chips;
+    margin-top: 6px;
+  }
+
+  .ind-art {
+    grid-area: art;
+    align-self: center;
+    opacity: 0.9;
+  }
+
+  .ind-arr {
+    position: absolute;
+    right: 0;
+    top: clamp(28px, 4vw, 56px);
+    width: 1.5rem;
+    height: 1.5rem;
+    color: var(--lime);
+    transition: transform 0.7s var(--out);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .ind-row:hover {
+      padding-left: 16px;
+    }
+
+    .ind-row:hover .ind-arr {
+      transform: translate(4px, -4px) rotate(-45deg);
+    }
+  }
+
+  @media (min-width: 1100px) {
+    .ind-row {
+      grid-template-columns: minmax(0, 1fr) 360px;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .ind-row {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-rows: none;
+      grid-template-areas:
+        'name'
+        'sum'
+        'chips'
+        'art';
+    }
+
+    .ind-art {
+      width: min(100%, 300px);
+      margin-top: 12px;
+    }
+
+    .ind-arr {
+      display: none;
+    }
+  }
+</style>

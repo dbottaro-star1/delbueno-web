@@ -24,7 +24,8 @@ export function initStrip(root: ParentNode = document): void {
     const x = strip.scrollLeft;
     if (prev) prev.disabled = x <= 2;
     if (next) next.disabled = x >= max - 2;
-    if (prog) prog.style.transform = `scaleX(${clamp((strip.clientWidth + x) / strip.scrollWidth, 0.05, 1).toFixed(4)})`;
+    if (prog)
+      prog.style.transform = `scaleX(${clamp((strip.clientWidth + x) / strip.scrollWidth, 0.05, 1).toFixed(4)})`;
   };
   strip.addEventListener('scroll', update, { passive: true });
   new ResizeObserver(update).observe(strip);

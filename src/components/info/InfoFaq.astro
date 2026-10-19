@@ -1,0 +1,101 @@
+---
+/** Question and answer list in the site's language, with matching FAQPage JSON-LD. */
+import JsonLd from '../JsonLd.astro';
+import { faqSchema } from '../../lib/schema';
+
+interface Props {
+  items: { q: string; a: string }[];
+}
+const { items } = Astro.props;
+---
+
+<div class="if">
+  {items.map((item) => (
+    <details class="if-item" data-reveal>
+      <summary>
+        <span class="if-q">{item.q}</span>
+        <span class="if-plus" aria-hidden="true"></span>
+      </summary>
+      <p class="if-a">{item.a}</p>
+    </details>
+  ))}
+</div>
+<JsonLd data={faqSchema(items)} />
+
+<style>
+  .if {
+    border-top: 1px solid var(--line);
+  }
+
+  .if-item {
+    border-bottom: 1px solid var(--line);
+  }
+
+  summary {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 32px;
+    align-items: center;
+    column-gap: 12px;
+    min-height: 44px;
+    padding-block: clamp(20px, 2.4vw, 32px);
+    cursor: pointer;
+    list-style: none;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .if-q {
+    font: 700 clamp(1.1rem, 1rem + 0.8vw, 1.7rem) / 1.2 var(--display);
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+    transition: transform 0.7s var(--out);
+  }
+
+  .if-plus {
+    position: relative;
+    width: 20px;
+    height: 20px;
+    justify-self: end;
+  }
+
+  .if-plus::before,
+  .if-plus::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 9px;
+    width: 20px;
+    height: 1.5px;
+    background: var(--ink);
+    transition: transform 0.6s var(--out);
+  }
+
+  .if-plus::after {
+    transform: rotate(90deg);
+  }
+
+  [open] .if-plus::after {
+    transform: rotate(0);
+  }
+
+  .if-a {
+    padding: 0 44px clamp(24px, 3vw, 36px) 0;
+    max-width: 78ch;
+    color: var(--mute);
+    line-height: 1.65;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    summary:hover .if-q {
+      transform: translateX(8px);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .if-a {
+      padding: 0 0 24px;
+    }
+  }
+</style>

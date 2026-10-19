@@ -1,57 +1,83 @@
 ---
-import { engagements } from '../../data/engagements';
+import { getEngagementsCopy } from '../../data/engagements';
+import type { Lang } from '../../i18n/config';
+import { translator } from '../../i18n';
+import { homeCopy } from '../../i18n/pages/home';
+import { pagePath } from '../../i18n/routes';
 import { LINKS } from '../../lib/site';
 import { url } from '../../lib/url';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const c = homeCopy[lang].engagements;
+const t = translator(lang);
+const { engagements } = getEngagementsCopy(lang);
 ---
 
 <section class="eng" id="engagements" aria-labelledby="eng-h">
   <div class="eng-head">
-    <p class="label">Engagements</p>
-    <h2 class="h2" id="eng-h" data-split>Three ways to work with us</h2>
+    <p class="label">{c.label}</p>
+    <h2 class="h2" id="eng-h" data-split>
+      {c.heading}
+    </h2>
   </div>
   <div class="flip-grid" id="flipGrid">
-    {
-      engagements.map((e, i) => {
-        const no = String(i + 1).padStart(2, '0');
-        return (
-          <article class="flip" data-flip>
-            <div class="flip__in">
-              <div class="flip__f flip__front">
-                <span class="flip__no">{no}</span>
-                <div>
-                  <h3>{e.name}</h3>
-                  <ul class="chips">{e.chips.map((c) => <li>{c}</li>)}</ul>
-                  <p class="flip__hint" aria-hidden="true">
-                    <svg class="arr"><use href="#i-arr" /></svg>
-                    <span class="flip__hint-hover">Hover for detail</span>
-                    <span class="flip__hint-tap">Tap for detail</span>
-                  </p>
-                </div>
-              </div>
-              <div class="flip__f flip__back">
-                <div>
-                  <span class="flip__no">{no}</span>
-                  <p class="flip__name">{e.name}</p>
-                  <p class="flip__d">{e.summary}</p>
-                </div>
-                <a class="btn btn-primary btn-sm" href={LINKS.book} rel="noopener">
-                  Book a call <svg class="arr" aria-hidden="true"><use href="#i-arr" /></svg>
-                </a>
-              </div>
+    {engagements.map((e) => (
+      <article class="flip" data-flip>
+        <div class="flip__in">
+          <div class="flip__f flip__front">
+            <div>
+              <h3>{e.name}</h3>
+              <ul class="chips">
+                {e.chips.map((c) => (
+                  <li>{c}</li>
+                ))}
+              </ul>
+              <p class="flip__hint" aria-hidden="true">
+                <svg class="arr">
+                  <use href="#i-arr" />
+                </svg>
+                <span class="flip__hint-hover">{c.hoverHint}</span>
+                <span class="flip__hint-tap">{c.tapHint}</span>
+              </p>
             </div>
-          </article>
-        );
-      })
-    }
+          </div>
+          <div class="flip__f flip__back">
+            <div>
+              <p class="flip__name">{e.name}</p>
+              <p class="flip__d">{e.summary}</p>
+            </div>
+            <a class="btn btn-primary btn-sm" href={LINKS.book} rel="noopener">
+              {t('cta.book')}{' '}
+              <svg class="arr" aria-hidden="true">
+                <use href="#i-arr" />
+              </svg>
+            </a>
+          </div>
+        </div>
+      </article>
+    ))}
   </div>
   <p class="eng-note" data-rv>
-    <svg viewBox="0 0 100 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+    <svg
+      viewBox="0 0 100 24"
+      aria-hidden="true"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.5"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
       <circle cx="5" cy="12" r="3.5" fill="currentColor" stroke="none"></circle>
       <path d="M12 12h80M85 5l7 7-7 7"></path>
     </svg>
     <span>
-      Many clients ship an MVP in a Launch Sprint, then roll into Design Partner.
-      <a class="eng-link" href={url('/engagements/')}>Compare the models</a>
+      {c.note}
+      <a class="eng-link" href={url(pagePath('engagements', lang))}>
+        {c.compare}
+      </a>
     </span>
   </p>
 </section>
@@ -117,6 +143,7 @@ import { url } from '../../lib/url';
   }
 
   .flip__front {
+    justify-content: flex-end;
     background: var(--bg-1);
     border: 1px solid var(--line-2);
   }
@@ -154,16 +181,6 @@ import { url } from '../../lib/url';
     -webkit-mask-image: radial-gradient(ellipse 80% 70% at 0% 100%, #000, transparent 70%);
     mask-image: radial-gradient(ellipse 80% 70% at 0% 100%, #000, transparent 70%);
     opacity: 0.5;
-  }
-
-  .flip__no {
-    font: 500 0.8125rem / 1 var(--mono);
-    letter-spacing: 0.09em;
-    color: var(--dim);
-  }
-
-  .flip__back .flip__no {
-    color: rgb(255 255 255 / 0.7);
   }
 
   .flip h3 {
@@ -210,7 +227,6 @@ import { url } from '../../lib/url';
   .flip__name {
     font: 800 clamp(1.5rem, 2.2vw, 2.3rem) / 1 var(--display);
     letter-spacing: -0.04em;
-    margin-top: 18px;
   }
 
   .flip__back p.flip__d {
@@ -287,7 +303,6 @@ import { url } from '../../lib/url';
     .flip__front {
       border-radius: clamp(14px, 1.5vw, 22px) clamp(14px, 1.5vw, 22px) 0 0;
       padding-bottom: 18px;
-      gap: 56px;
       border-bottom: 0;
     }
 
@@ -296,7 +311,6 @@ import { url } from '../../lib/url';
       gap: 24px;
     }
 
-    .flip__back .flip__no,
     .flip__back .flip__name {
       display: none;
     }

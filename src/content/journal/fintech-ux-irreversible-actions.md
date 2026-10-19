@@ -1,6 +1,7 @@
 ---
 title: "Fintech UX: Designing Actions Users Can’t Undo"
-description: "In fintech, one wrong tap moves real money that can't come back. How to design confirmations, previews, and undo for irreversible actions people trust."
+seoTitle: "Fintech UX: Designing Irreversible Actions Users Trust"
+description: "One wrong tap can move money that cannot come back. How to design payee warnings, meaningful confirmations, previews and undo in fintech products."
 pubDate: 2026-07-27
 author: "Dani Bottaro"
 category: "UX Strategy"
@@ -47,7 +48,7 @@ A short cancellation delay is the strongest tool you have. Hold outgoing transfe
 
 ## A real example: turning an AI stock pick into a trade
 
-We hit this head-on designing [Buzz Bunny](/buzz-mobile-app-design/), an AI app we built for a client that surfaces smart stock recommendations. The risky moment there isn’t the recommendation. It’s when someone acts on it. The AI suggests a position, the user taps, and now real money is exposed to a market that no undo button controls.
+We hit this head-on designing [Buzz Bunny](/work/buzz-bunny/), an AI app we built for a client that surfaces smart stock recommendations. The risky moment there isn’t the recommendation. It’s when someone acts on it. The AI suggests a position, the user taps, and now real money is exposed to a market that no undo button controls.
 
 The tempting design drops a “Buy” button straight onto the recommendation card. It looks frictionless and it quietly merges two very different decisions, reading a suggestion and committing capital, into a single thumb movement. The principle we designed around was to pull those apart. Looking at a pick and acting on it are separate steps, and the acting step spells out what’s about to happen in plain numbers: the ticker, the amount, the fact that it executes at market and can’t be walked back. The recommendation stays fast to browse. The trade asks for one deliberate beat more. That’s the whole idea of this article, applied to a product where the irreversible action is the entire point.
 

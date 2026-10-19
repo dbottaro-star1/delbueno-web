@@ -1,89 +1,18 @@
 ---
 import type { GetStaticPaths } from 'astro';
-import BookCta from '../../components/BookCta.astro';
-import Faq from '../../components/Faq.astro';
-import PageHeader from '../../components/PageHeader.astro';
-import { industries, type Industry } from '../../data/industries';
-import BaseLayout from '../../layouts/BaseLayout.astro';
-import { crumbs, serviceSchema } from '../../lib/schema';
-import { metaDescription } from '../../lib/text';
-import { url } from '../../lib/url';
+import { getIndustries, type Industry } from '../../data/industries';
+import IndustryDetail from '../../views/IndustryDetail.astro';
 
 export const getStaticPaths = (() =>
-  industries.map((industry) => ({ params: { slug: industry.slug }, props: { industry } }))) satisfies GetStaticPaths;
+  getIndustries('en').map((industry) => ({
+    params: { slug: industry.slug },
+    props: { industry },
+  }))) satisfies GetStaticPaths;
 
 interface Props {
   industry: Industry;
 }
 const { industry } = Astro.props;
-const path = `/industries/${industry.slug}/`;
-const trail = crumbs({ name: 'Industries', path: '/industries/' }, { name: industry.name, path });
 ---
 
-<BaseLayout
-  title={industry.title}
-  description={metaDescription(industry.answer)}
-  breadcrumbs={trail}
-  jsonLd={[serviceSchema({ path, name: industry.title, description: industry.answer, serviceType: 'Product design' })]}
->
-  <PageHeader title={industry.title} eyebrow="Industry" crumbs={trail} />
-
-  <section class="section">
-    <div class="wrap stack">
-      <h2 class="sr-only">Overview</h2>
-      <p class="lede">{industry.answer}</p>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="wrap two">
-      <div class="stack">
-        <h2>Common challenges</h2>
-        <ul class="list-check">{industry.challenges.map((item) => <li>{item}</li>)}</ul>
-      </div>
-      <div class="stack">
-        <h2>What we design</h2>
-        <ul class="list-check">{industry.designs.map((item) => <li>{item}</li>)}</ul>
-      </div>
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="wrap">
-      <Faq items={industry.faqs} />
-    </div>
-  </section>
-
-  <section class="section">
-    <div class="wrap stack">
-      <h2>Related</h2>
-      <ul class="tags">
-        <li><a class="tag" href={url('/services/product-design/')}>Product design</a></li>
-        <li><a class="tag" href={url('/work/')}>Case studies</a></li>
-        {
-          industries
-            .filter((i) => i.slug !== industry.slug)
-            .map((i) => (
-              <li>
-                <a class="tag" href={url(`/industries/${i.slug}/`)}>{i.name}</a>
-              </li>
-            ))
-        }
-      </ul>
-    </div>
-  </section>
-
-  <BookCta />
-</BaseLayout>
-
-<style>
-  .two {
-    display: grid;
-    gap: var(--space-8);
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
-  }
-
-  .two h2 {
-    font-size: var(--fs-lg);
-  }
-</style>
+<IndustryDetail lang="en" industry={industry} />

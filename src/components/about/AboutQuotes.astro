@@ -1,0 +1,142 @@
+---
+/** Client words from src/data/testimonials.ts: one large, the rest in a grid. */
+import { Image } from 'astro:assets';
+import { getTestimonials } from '../../data/testimonials';
+import type { Lang } from '../../i18n/config';
+import { fill } from '../../i18n';
+import { aboutCopy } from '../../i18n/pages/about';
+import { workCopy } from '../../i18n/pages/work';
+import TranslatedNote from '../TranslatedNote.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const c = aboutCopy[lang].quotes;
+const portrait = workCopy[lang].case.portrait;
+
+const [main, ...rest] = getTestimonials(lang);
+---
+
+<section class="ip-sec" aria-labelledby="aq-h">
+  <div class="wrap">
+    <div class="ip-head">
+      <p class="label">{c.label}</p>
+      <h2 class="ip-h2" id="aq-h" data-lines>
+        {c.heading}
+      </h2>
+      <TranslatedNote lang={lang} />
+    </div>
+
+    <figure class="aq-main" data-reveal>
+      <blockquote>
+        <p>{main.quote}</p>
+      </blockquote>
+      <figcaption class="aq-who">
+        <Image
+          class="aq-av"
+          src={main.photo}
+          width={112}
+          height={112}
+          fit="cover"
+          alt={fill(portrait, { name: main.name })}
+          loading="lazy"
+        />
+        <span>
+          <b>{main.name}</b>
+          {main.role}, {main.company}
+        </span>
+      </figcaption>
+    </figure>
+
+    <ul class="aq-grid">
+      {rest.map((t) => (
+        <li data-reveal>
+          <figure>
+            <blockquote>
+              <p>{t.quote}</p>
+            </blockquote>
+            <figcaption class="aq-who">
+              <Image
+                class="aq-av"
+                src={t.photo}
+                width={96}
+                height={96}
+                fit="cover"
+                alt={fill(portrait, { name: t.name })}
+                loading="lazy"
+              />
+              <span>
+                <b>{t.name}</b>
+                {t.role}, {t.company}
+              </span>
+            </figcaption>
+          </figure>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .aq-main {
+    max-width: 62rem;
+  }
+
+  .aq-main blockquote p {
+    font: 600 clamp(1.25rem, 1rem + 1vw, 2rem) / 1.32 var(--sans);
+    letter-spacing: -0.025em;
+    text-wrap: pretty;
+  }
+
+  .aq-who {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-top: clamp(24px, 3vw, 40px);
+    color: var(--mute);
+    font-size: var(--fs-sm);
+    line-height: 1.4;
+  }
+
+  .aq-who b {
+    display: block;
+    color: var(--ink);
+    font-weight: 500;
+  }
+
+  .aq-av {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex: none;
+  }
+
+  .aq-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--gap);
+    margin-top: clamp(48px, 7vw, 104px);
+    padding-top: clamp(32px, 4vw, 56px);
+    border-top: 1px solid var(--line);
+  }
+
+  .aq-grid blockquote p {
+    color: var(--mute);
+    font-size: var(--fs-sm);
+    line-height: 1.65;
+  }
+
+  .aq-grid .aq-who {
+    margin-top: 24px;
+  }
+
+  @media (max-width: 1000px) {
+    .aq-grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+      max-width: 60ch;
+    }
+  }
+</style>

@@ -1,6 +1,7 @@
 ---
 title: "AI design tools that power faster design workflows"
-description: "Practical ways to use AI design tools for AI for product designers, from generative UX variations to AI prototyping that speeds specs and handoff."
+seoTitle: "AI Design Tools for Faster Design Workflows"
+description: "Practical ways product designers use AI design tools, from generative UX variations to AI prototyping that speeds up specs and developer handoff."
 pubDate: 2025-12-12
 author: "Dani Bottaro"
 category: "AI & UX"

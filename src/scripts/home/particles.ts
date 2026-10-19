@@ -2,8 +2,10 @@
  * Signal field: one fixed canvas driven by scroll.
  * Flow-noise chaos eases into an ordered dot grid (graph-paper rhythm: bright lines every 6th cell, violet and
  * lime nodes). Typed arrays, DPR capped at 2 (1.5 on phones), ticked by the shared loop, skipped when faded out,
- * and skipped entirely once settled with nothing moving.
+ * and skipped entirely once settled with nothing moving. The drift stops after a few seconds without scrolling.
  */
+
+import { calm } from './calm';
 
 export interface Field {
   st: { p: number; sp: number; intro: number; fade: number };
@@ -56,8 +58,21 @@ export function createField(reduce: boolean): Field | null {
   function setup(): void {
     cap = capFor(W);
     const f = () => new Float32Array(cap);
-    cxp = f(); cyp = f(); tx = f(); ty = f(); dly = f(); curl = f(); spd = f(); szm = f();
-    ox = f(); oy = f(); vx = f(); vy = f(); dX = f(); dY = f(); dS = f();
+    cxp = f();
+    cyp = f();
+    tx = f();
+    ty = f();
+    dly = f();
+    curl = f();
+    spd = f();
+    szm = f();
+    ox = f();
+    oy = f();
+    vx = f();
+    vy = f();
+    dX = f();
+    dY = f();
+    dS = f();
     for (let i = 0; i < cap; i++) {
       curl[i] = (rnd() - 0.5) * 0.5;
       spd[i] = 26 + rnd() * 54;
@@ -83,7 +98,8 @@ export function createField(reduce: boolean): Field | null {
     const L: number[][] = [[], [], [], []];
     for (let r = 0; r < rows; r++) {
       for (let c = 0; c < cols; c++) {
-        const k = c % 12 === 0 && r % 12 === 0 ? 3 : c % 6 === 0 && r % 6 === 0 ? 2 : c % 6 === 0 || r % 6 === 0 ? 1 : 0;
+        const k =
+          c % 12 === 0 && r % 12 === 0 ? 3 : c % 6 === 0 && r % 6 === 0 ? 2 : c % 6 === 0 || r % 6 === 0 ? 1 : 0;
         L[k].push(x0 + c * cell, y0 + r * cell);
       }
     }
@@ -122,7 +138,8 @@ export function createField(reduce: boolean): Field | null {
   function update(dt: number, t: number): boolean {
     const P = st.sp;
     const k60 = Math.min(dt * 60, 3);
-    const flow = P < 1 && dt > 0;
+    const drift = calm.level; // the drift eases out when the visitor stops scrolling (calm.ts)
+    const flow = P < 1 && dt > 0 && drift > 0;
     const mx = mouse.x;
     const my = mouse.y;
     const R2 = R * R;
@@ -133,9 +150,11 @@ export function createField(reduce: boolean): Field | null {
       let x = cxp[i];
       let y = cyp[i];
       if (flow) {
-        const a = (Math.sin(x * 0.0021 + t * 0.21) + Math.sin(y * 0.0027 - t * 0.17) + Math.sin((x + y) * 0.0013 + t * 0.11)) * 2.1;
-        x += Math.cos(a) * spd[i] * dt;
-        y += Math.sin(a) * spd[i] * dt;
+        const a =
+          (Math.sin(x * 0.0021 + t * 0.21) + Math.sin(y * 0.0027 - t * 0.17) + Math.sin((x + y) * 0.0013 + t * 0.11)) *
+          2.1;
+        x += Math.cos(a) * spd[i] * dt * drift;
+        y += Math.sin(a) * spd[i] * dt * drift;
         if (x < -20) x += W + 40;
         else if (x > W + 20) x -= W + 40;
         if (y < -20) y += H + 40;
@@ -228,7 +247,7 @@ export function createField(reduce: boolean): Field | null {
     st.sp += (st.p - st.sp) * (1 - Math.exp(-dt * 7));
     if (Math.abs(st.p - st.sp) < 0.0005) st.sp = st.p;
     const act = update(dt, tClock);
-    const nowSettled = st.sp >= 1 && !act;
+    const nowSettled = (st.sp >= 1 || calm.level === 0) && !act;
     if (nowSettled && settled) return;
     settled = nowSettled;
     draw();

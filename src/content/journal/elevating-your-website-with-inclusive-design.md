@@ -1,6 +1,7 @@
 ---
 title: "Beyond Compliance: Elevating Your Website with Inclusive Design"
-description: "Transform your website's appeal with inclusive design. Improve accessibility, user experience, and reach a wider audience through thoughtful, inclusive strategies."
+seoTitle: "Inclusive Web Design: Beyond Compliance"
+description: "How inclusive design improves website accessibility and user experience, and helps you reach a wider audience through thoughtful, practical design choices."
 pubDate: 2024-01-08
 updatedDate: 2024-08-05
 author: "Dani Bottaro"

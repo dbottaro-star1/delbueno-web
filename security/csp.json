@@ -1,0 +1,36 @@
+{
+  "$comment": "Single source of truth for the Content-Security-Policy. BaseLayout emits it as a <meta> tag (security/csp.mjs drops the header-only directives), docs/security/cloudflare.md quotes it for the Cloudflare header, and scripts/check-csp.mjs checks the built site against it. When the boot script in src/layouts/BaseLayout.astro changes, run `npm run build && npm run check:csp`: the check prints the new hash. Paste it into script-src below and update the docs line, which the check also verifies.",
+  "headerOnly": ["frame-ancestors", "upgrade-insecure-requests"],
+  "directives": {
+    "default-src": ["'self'"],
+    "script-src": [
+      "'self'",
+      "https://static.hotjar.com",
+      "https://script.hotjar.com",
+      "https://static.cloudflareinsights.com",
+      "https://cloud.umami.is",
+      "'sha256-kSaX0iOryjpCQSkOMxVYvdTnp6BAnJysgVbj9wm/ERw='"
+    ],
+    "style-src": ["'self'", "https://static.hotjar.com", "https://script.hotjar.com"],
+    "style-src-attr": ["'unsafe-inline'"],
+    "img-src": ["'self'", "data:", "https://static.hotjar.com", "https://script.hotjar.com"],
+    "media-src": ["'self'", "https://cdn.dribbble.com"],
+    "font-src": ["'self'", "https://script.hotjar.com"],
+    "connect-src": [
+      "'self'",
+      "https://*.hotjar.com",
+      "https://*.hotjar.io",
+      "wss://*.hotjar.com",
+      "https://cloudflareinsights.com",
+      "https://gateway.umami.is"
+    ],
+    "manifest-src": ["'self'"],
+    "frame-src": ["'none'"],
+    "worker-src": ["'none'"],
+    "form-action": ["'self'"],
+    "base-uri": ["'none'"],
+    "object-src": ["'none'"],
+    "frame-ancestors": ["'none'"],
+    "upgrade-insecure-requests": []
+  }
+}

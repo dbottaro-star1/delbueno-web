@@ -1,0 +1,124 @@
+---
+/**
+ * EN / ES switcher. Each link points at the same page in the other language (or that language's home when the page has
+ * no twin), so it works without scripts. src/scripts/lang.ts remembers the choice so the suggestion banner stays away.
+ * "nav" is the compact pair in the header, "menu" the larger pair in the mobile menu and "footer" a plain text pair.
+ * Between 861 and 1079 px the header has no room for the pair (Spanish labels are longer), so it is hidden there and the
+ * footer carries the switcher.
+ */
+import { LANG_META, LANGS, type Lang } from '../i18n/config';
+import { SWITCH, SWITCH_GROUP } from '../i18n/switcher';
+import { url } from '../lib/url';
+
+interface Props {
+  lang: Lang;
+  /** Site-relative path of the equivalent page in each language. */
+  switchTo: Record<Lang, string>;
+  variant?: 'nav' | 'menu' | 'footer';
+}
+const { lang, switchTo, variant = 'nav' } = Astro.props;
+---
+
+<div class:list={['lang', `lang--${variant}`]} role="group" aria-label={SWITCH_GROUP[lang]}>
+  {LANGS.map((code) =>
+    code === lang ? (
+      <span class="lang__item is-current" lang={LANG_META[code].tag} aria-current="true">
+        {variant === 'nav' ? LANG_META[code].short : LANG_META[code].native}
+      </span>
+    ) : (
+      <a
+        class="lang__item"
+        href={url(switchTo[code])}
+        lang={LANG_META[code].tag}
+        hreflang={LANG_META[code].tag}
+        aria-label={SWITCH[code].link}
+        data-lang-switch={code}
+      >
+        {variant === 'nav' ? LANG_META[code].short : LANG_META[code].native}
+      </a>
+    ),
+  )}
+</div>
+
+<style>
+  .lang {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .lang__item {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font: 400 var(--fs-xs) / 1 var(--mono);
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--mute);
+    transition: color 0.4s;
+  }
+
+  .lang__item.is-current {
+    color: var(--ink);
+  }
+
+  .lang--nav .lang__item {
+    min-height: 44px;
+    padding-inline: 8px;
+  }
+
+  .lang--nav .lang__item.is-current {
+    position: relative;
+  }
+
+  .lang--nav .lang__item.is-current::after {
+    content: '';
+    position: absolute;
+    left: 8px;
+    right: 8px;
+    bottom: 12px;
+    height: 1px;
+    background: var(--lime);
+  }
+
+  .lang--nav a.lang__item {
+    min-width: 44px;
+  }
+
+  .lang--menu {
+    gap: 10px;
+  }
+
+  .lang--footer {
+    gap: 20px;
+  }
+
+  .lang--footer .lang__item {
+    min-height: 44px;
+    min-width: 44px;
+    font-size: 0.75rem;
+  }
+
+  @media (min-width: 861px) and (max-width: 1079px) {
+    .lang--nav {
+      display: none;
+    }
+  }
+
+  .lang--menu .lang__item {
+    min-height: 44px;
+    padding-inline: 20px;
+    border: 1px solid var(--line-2);
+    border-radius: 999px;
+    font-size: 0.8125rem;
+  }
+
+  .lang--menu .lang__item.is-current {
+    border-color: var(--lime);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    a.lang__item:hover {
+      color: var(--ink);
+    }
+  }
+</style>

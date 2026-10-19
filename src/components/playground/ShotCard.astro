@@ -4,16 +4,21 @@
  * to a lightbox trigger and loads the optional mp4 only when the visitor shows intent.
  */
 import { Image, getImage } from 'astro:assets';
-import type { ShotEntry } from '../../lib/content';
+import type { Lang } from '../../i18n/config';
+import { playgroundCopy } from '../../i18n/pages/playground';
+import { shotText, shotVideoSrc, type ShotEntry } from '../../lib/content';
 
 interface Props {
+  lang: Lang;
   shot: ShotEntry;
   variant: 'strip' | 'grid';
   /** Load the still eagerly (first cards of a strip). */
   eager?: boolean;
 }
-const { shot, variant, eager = false } = Astro.props;
+const { lang, shot, variant, eager = false } = Astro.props;
 const { data } = shot;
+const c = playgroundCopy[lang].card;
+const { alt, tags } = shotText(shot, lang);
 
 const full = await getImage({ src: data.image, width: 1600, format: 'webp' });
 const sizes =
@@ -22,43 +27,53 @@ const sizes =
     : '(min-width: 1500px) 25vw, (min-width: 1000px) 33vw, (min-width: 600px) 50vw, 100vw';
 ---
 
-<li class={`shot shot--${variant}`} data-shot-item data-tags={data.tags.join('|')} style={`--ar:${data.width} / ${data.height};--ar-n:${(data.width / data.height).toFixed(4)}`}>
+<li
+  class={`shot shot--${variant}`}
+  data-shot-item
+  data-tags={tags.join('|')}
+  style={`--ar:${data.width} / ${data.height};--ar-n:${(data.width / data.height).toFixed(4)}`}
+>
   <a
     class="shot__link"
     href={data.url}
     target="_blank"
     rel="noopener"
-    aria-label={`${data.title}, Dribbble shot`}
+    aria-label={`${data.title}, ${c.dribbbleShot}`}
     draggable="false"
     data-shot
-    data-cursor="Open"
     data-title={data.title}
-    data-alt={data.imageAlt}
+    data-alt={alt}
     data-full={full.src}
-    data-video={data.video}
-    data-tags={data.tags.join('|')}
+    data-video={shotVideoSrc(data.video)}
+    data-tags={tags.join('|')}
     data-w={data.width}
     data-h={data.height}
   >
     <span class="shot__media">
       <Image
         src={data.image}
-        alt={data.imageAlt}
+        alt={alt}
         widths={[600, 960, 1400]}
         sizes={sizes}
         loading={eager ? 'eager' : 'lazy'}
         decoding="async"
         draggable="false"
       />
-      {
-        data.video && (
-          <video muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" data-src={data.video} />
-        )
-      }
+      {data.video && (
+        <video
+          muted
+          loop
+          playsinline
+          preload="none"
+          aria-hidden="true"
+          tabindex="-1"
+          data-src={shotVideoSrc(data.video)}
+        />
+      )}
     </span>
     <span class="shot__chip" aria-hidden="true">
       <span class="shot__chip-t">{data.title}</span>
-      {data.video && <span class="shot__chip-k">Motion</span>}
+      {data.video && <span class="shot__chip-k">{c.motion}</span>}
     </span>
   </a>
 </li>

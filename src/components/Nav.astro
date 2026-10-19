@@ -1,52 +1,82 @@
 ---
+import type { Lang } from '../i18n/config';
+import { translator } from '../i18n';
+import { pagePath } from '../i18n/routes';
 import { BRAND, LINKS, NAV_LINKS } from '../lib/site';
 import { stripBase, url } from '../lib/url';
+import LangSwitch from './LangSwitch.astro';
+
+interface Props {
+  lang: Lang;
+  /** Site-relative path of the equivalent page in each language, for the language switcher. */
+  switchTo: Record<Lang, string>;
+}
+const { lang, switchTo } = Astro.props;
+const t = translator(lang);
 
 const current = stripBase(Astro.url.pathname);
+const links = NAV_LINKS.map((link) => ({ label: t(link.label), href: pagePath(link.page, lang) }));
 const isActive = (href: string) => current === href || current.startsWith(href);
 ---
 
 <header class="nav" id="nav" data-nav>
-  <a class="wordmark" href={url('/')} aria-label={`${BRAND.name}, home`}>delbueno<sup>™</sup></a>
+  <a class="wordmark" href={url(pagePath('home', lang))} aria-label={t('a11y.homeLink', { brand: BRAND.name })}>
+    delbueno<sup>™</sup>
+  </a>
 
-  <nav aria-label="Primary">
+  <nav aria-label={t('nav.primary')}>
     <ul class="nav-links">
-      {
-        NAV_LINKS.map((link) => (
-          <li>
-            <a href={url(link.href)} aria-current={isActive(link.href) ? 'page' : undefined}>
-              <span class="roll">
-                <span>{link.label}</span>
-                <span aria-hidden="true">{link.label}</span>
-              </span>
-            </a>
-          </li>
-        ))
-      }
+      {links.map((link) => (
+        <li>
+          <a href={url(link.href)} aria-current={isActive(link.href) ? 'page' : undefined}>
+            <span class="roll">
+              <span>{link.label}</span>
+              <span aria-hidden="true">{link.label}</span>
+            </span>
+          </a>
+        </li>
+      ))}
     </ul>
   </nav>
 
   <div class="nav-right">
-    <a class="btn btn-primary btn-sm" data-magnetic href={LINKS.book} rel="noopener">Book a call</a>
+    <LangSwitch lang={lang} switchTo={switchTo} />
+    <a class="btn btn-primary btn-sm" data-magnetic href={LINKS.book} rel="noopener">
+      {t('cta.book')}
+    </a>
     <button
       class="burger"
       id="burger"
       type="button"
       aria-expanded="false"
       aria-controls="menu"
-      aria-label="Menu"
-      data-nav-toggle><i></i><i></i></button
+      aria-label={t('nav.menu')}
+      data-label-open={t('nav.menu')}
+      data-label-close={t('nav.closeMenu')}
+      data-nav-toggle
     >
+      <i></i>
+      <i></i>
+    </button>
   </div>
 </header>
 
-<div class="menu" id="menu" aria-label="Menu" data-menu>
-  <nav aria-label="Mobile">
-    {NAV_LINKS.map((link) => <a class="m-link" href={url(link.href)}>{link.label}</a>)}
+<div class="menu" id="menu" role="dialog" aria-modal="true" aria-label={t('nav.menu')} data-menu>
+  <nav aria-label={t('nav.mobile')}>
+    {links.map((link) => (
+      <a class="m-link" href={url(link.href)} aria-current={isActive(link.href) ? 'page' : undefined}>
+        {link.label}
+      </a>
+    ))}
   </nav>
   <div class="menu-foot">
-    <a class="btn btn-primary" href={LINKS.book} rel="noopener">Book a call</a>
-    <a class="menu-mail" href={`mailto:${BRAND.email}`}>{BRAND.email}</a>
+    <LangSwitch lang={lang} switchTo={switchTo} variant="menu" />
+    <a class="btn btn-primary" href={LINKS.book} rel="noopener">
+      {t('cta.book')}
+    </a>
+    <a class="menu-mail" href={`mailto:${BRAND.email}`}>
+      {BRAND.email}
+    </a>
   </div>
 </div>
 
@@ -166,13 +196,17 @@ const isActive = (href: string) => current === href || current.startsWith(href);
     overscroll-behavior: contain;
     visibility: hidden;
     clip-path: inset(0 0 100% 0);
-    transition: clip-path 0.9s var(--in-out), visibility 0s 0.9s;
+    transition:
+      clip-path 0.9s var(--in-out),
+      visibility 0s 0.9s;
   }
 
   .menu.is-open {
     visibility: visible;
     clip-path: inset(0 0 0 0);
-    transition: clip-path 0.9s var(--in-out), visibility 0s;
+    transition:
+      clip-path 0.9s var(--in-out),
+      visibility 0s;
   }
 
   .m-link {
@@ -207,13 +241,16 @@ const isActive = (href: string) => current === href || current.startsWith(href);
     min-height: 44px;
   }
 
-  @media (max-width: 860px) {
-    :global(:root) {
-      --nav-h: 64px;
+  /* Seven links: tighten the gaps between 1024 and 1100 px so the row keeps room next to the wordmark and buttons.
+     Below 1024 px the links move into the menu (see below). */
+  @media (max-width: 1100px) {
+    .nav-links {
+      gap: clamp(14px, 1.9vw, 24px);
     }
+  }
 
-    .nav-links,
-    .nav-right .btn {
+  @media (max-width: 1023px) {
+    .nav-links {
       display: none;
     }
 
@@ -222,7 +259,17 @@ const isActive = (href: string) => current === href || current.startsWith(href);
     }
   }
 
-  @media (min-width: 861px) {
+  @media (max-width: 860px) {
+    :global(:root) {
+      --nav-h: 64px;
+    }
+
+    .nav-right .btn {
+      display: none;
+    }
+  }
+
+  @media (min-width: 1024px) {
     .menu {
       display: none;
     }

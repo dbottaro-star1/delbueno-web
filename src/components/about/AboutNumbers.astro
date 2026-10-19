@@ -1,0 +1,113 @@
+---
+/** The four headline numbers, counted up on enter. The HTML holds the final values. */
+import type { Lang } from '../../i18n/config';
+import { aboutCopy } from '../../i18n/pages/about';
+import { statsCopy } from '../../i18n/pages/shared';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const stats = statsCopy[lang];
+const numbers = [
+  { to: '10', unit: '+', label: stats.years },
+  { to: '58', unit: '+', label: stats.products },
+  { to: '85', unit: '%', label: stats.returning },
+  { to: '4.9', dec: 1, unit: '', star: true, label: stats.clutch },
+];
+---
+
+<section class="an" aria-labelledby="an-h">
+  <h2 class="sr-only" id="an-h">
+    {aboutCopy[lang].numbersHeading}
+  </h2>
+  <div class="wrap">
+    <dl class="an-grid">
+      {numbers.map((n) => (
+        <div class="an-item">
+          <dt class="an-l">{n.label}</dt>
+          <dd class="an-v">
+            <span data-count={n.to} data-dec={n.dec ?? 0}>
+              {n.to}
+            </span>
+            {n.unit && <span class="an-u">{n.unit}</span>}
+            {n.star && (
+              <svg class="an-star" viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M12 1.8l3 6.9 7.5.7-5.7 5 1.7 7.3L12 17.8 5.5 21.7l1.7-7.3-5.7-5 7.5-.7z"
+                  fill="currentColor"
+                />
+              </svg>
+            )}
+          </dd>
+        </div>
+      ))}
+    </dl>
+  </div>
+</section>
+
+<style>
+  .an {
+    border-top: 1px solid var(--line);
+  }
+
+  .an-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .an-item {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+    gap: clamp(14px, 1.6vw, 24px);
+    padding: clamp(28px, 4vw, 64px) clamp(16px, 2vw, 32px) clamp(28px, 4vw, 56px);
+    border-left: 1px solid var(--line);
+  }
+
+  .an-item:first-child {
+    border-left: 0;
+    padding-left: 0;
+  }
+
+  .an-v {
+    margin: 0;
+    font: 800 clamp(3rem, 6.6vw, 7.6rem) / 0.9 var(--display);
+    letter-spacing: -0.06em;
+    font-variant-numeric: tabular-nums;
+    white-space: nowrap;
+  }
+
+  .an-u,
+  .an-star {
+    color: var(--lime);
+  }
+
+  .an-star {
+    display: inline-block;
+    width: 0.62em;
+    height: 0.62em;
+    margin-left: 0.06em;
+    vertical-align: 0.12em;
+  }
+
+  .an-l {
+    max-width: 20ch;
+    color: var(--mute);
+  }
+
+  @media (max-width: 860px) {
+    .an-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .an-item:nth-child(3) {
+      border-left: 0;
+      padding-left: 0;
+    }
+
+    .an-item:nth-child(n + 3) {
+      border-top: 1px solid var(--line);
+    }
+  }
+</style>

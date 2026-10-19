@@ -69,7 +69,9 @@ export function initLightbox(): void {
   }
 
   function open(from: HTMLAnchorElement): void {
-    list = Array.from(document.querySelectorAll<HTMLAnchorElement>('a[data-shot]')).filter((a) => !a.closest('[hidden]'));
+    list = Array.from(document.querySelectorAll<HTMLAnchorElement>('a[data-shot]')).filter(
+      (a) => !a.closest('[hidden]'),
+    );
     const i = list.indexOf(from);
     if (i < 0) return;
     opener = from;
@@ -120,7 +122,10 @@ export function initLightbox(): void {
     e.preventDefault();
     close();
   });
-  dlg.addEventListener('close', () => dlg.classList.contains('is-closing') || !html.classList.contains('lb-open') || finish());
+  dlg.addEventListener(
+    'close',
+    () => dlg.classList.contains('is-closing') || !html.classList.contains('lb-open') || finish(),
+  );
   dlg.addEventListener('click', (e) => {
     if (!(e.target as Element).closest('.lb__stage, .lb__bar, .lb__close')) close();
   });

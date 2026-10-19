@@ -10,4 +10,9 @@ dist/
 
 # Private working notes (old-site audit, spam URLs). Never publish.
 research/
-.claude/
+# Local Claude settings stay private; project skills are shared.
+.claude/*
+!.claude/skills/
+
+# Local scratch copies of configs
+*.tmp.*

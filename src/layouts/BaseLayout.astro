@@ -1,20 +1,34 @@
 ---
 import '../styles/global.css';
+import '../styles/es.css';
 import syneBold from '@fontsource/syne/files/syne-latin-800-normal.woff2?url';
 import geistRegular from '@fontsource/geist/files/geist-latin-400-normal.woff2?url';
 
 import Footer from '../components/Footer.astro';
 import JsonLd from '../components/JsonLd.astro';
+import LangBanner from '../components/LangBanner.astro';
 import Nav from '../components/Nav.astro';
 import Seo from '../components/Seo.astro';
 import Sprite from '../components/Sprite.astro';
+import { LANG_META, LANGS, otherLang, type Lang } from '../i18n/config';
+import { translator } from '../i18n';
+import { alternates as alternatesFor, switchPath } from '../i18n/routes';
 import { breadcrumbSchema, sitewideSchema, type Crumb, type JsonLdNode } from '../lib/schema';
 import { BRAND, IS_PREVIEW } from '../lib/site';
+import { cspString } from '../../security/csp.mjs';
+import { ogCardFor } from '../lib/og';
 import { absoluteUrl, stripBase, url } from '../lib/url';
 
 interface Props {
   title: string;
   description: string;
+  /** Language of the page. English pages live at the root, Spanish pages under /es/. */
+  lang: Lang;
+  /**
+   * Where the language switcher goes when the page has no translation of its own. Defaults to the home page of the
+   * other language. Journal pages pass the Spanish blog, because posts exist in English only.
+   */
+  switchFallback?: string;
   /** Absolute image URL for social previews. Defaults to the site card. */
   image?: string;
   imageAlt?: string;
@@ -33,6 +47,8 @@ interface Props {
 const {
   title,
   description,
+  lang,
+  switchFallback,
   image,
   imageAlt,
   type,
@@ -45,26 +61,50 @@ const {
   section,
 } = Astro.props;
 
-const path = stripBase(Astro.url.pathname);
-const fullTitle = title.includes(BRAND.name) ? title : `${title} | ${BRAND.name}`;
-const ogImage = image ?? absoluteUrl('/og-default.png', Astro.site);
-const ogAlt = image ? imageAlt : (imageAlt ?? `${BRAND.name}: ${BRAND.tagline}`);
+const t = translator(lang);
+// Astro's i18n routing knows the locale from the URL. A page that passes the wrong `lang` fails the build here.
+if (Astro.currentLocale !== lang) {
+  throw new Error(
+    `Page ${Astro.url.pathname} is rendered with lang="${lang}" but its locale is "${Astro.currentLocale}".`,
+  );
+}
 
-const graph: JsonLdNode[] = [sitewideSchema(), ...(breadcrumbs ? [breadcrumbSchema(breadcrumbs)] : []), ...jsonLd];
+const path = stripBase(Astro.url.pathname);
+const twins = alternatesFor(path);
+const switchTo = Object.fromEntries(LANGS.map((code) => [code, switchPath(path, code, switchFallback)])) as Record<
+  Lang,
+  string
+>;
+// A page without its own image gets its generated card (src/lib/og.ts), or the default card of its language.
+const card = image ? undefined : await ogCardFor(path);
+const defaultCard = lang === 'en' ? '/og-default.png' : '/og/es-home.png';
+const ogImage = image ?? absoluteUrl(card ? `/og/${card.name}.png` : defaultCard, Astro.site);
+const ogAlt = imageAlt ?? card?.alt ?? `${BRAND.name}: ${t('brand.tagline')}`;
+
+const graph: JsonLdNode[] = [sitewideSchema(lang), ...(breadcrumbs ? [breadcrumbSchema(breadcrumbs)] : []), ...jsonLd];
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={LANG_META[lang].tag}>
   <head>
     <meta charset="utf-8" />
+    {
+      /* Defense in depth: the same policy as the Cloudflare header (security/csp.json), minus what a meta tag cannot
+         carry. It sits before everything executable, because a meta policy only covers what follows it. The dev server
+         injects its own inline scripts, so it is production only. */
+      import.meta.env.PROD && <meta http-equiv="Content-Security-Policy" content={cspString({ meta: true })} />
+    }
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content={BRAND.themeColor} />
     <meta name="color-scheme" content="dark" />
-    <meta name="generator" content={Astro.generator} />
+    <!-- Bing Webmaster Tools ownership check (a public token, not a secret). Google is verified through DNS. -->
+    <meta name="msvalidate.01" content="F83D226C9C9EE653CD4A543BA682623A" />
 
     <Seo
-      title={fullTitle}
+      title={title}
       description={description}
+      lang={lang}
+      alternates={twins}
       path={path}
       image={ogImage}
       imageAlt={ogAlt}
@@ -76,44 +116,65 @@ const graph: JsonLdNode[] = [sitewideSchema(), ...(breadcrumbs ? [breadcrumbSche
       section={section}
     />
 
-    <!-- Placeholder icons: replace public/favicon.svg and the PNGs with the final brand marks. -->
+    <!-- Icons are generated from src/assets/brand/mark.svg by scripts/build-icons.mjs. -->
     <link rel="icon" href={url('/favicon.svg')} type="image/svg+xml" />
+    <link rel="icon" href={url('/favicon.ico')} sizes="48x48" />
     <link rel="apple-touch-icon" href={url('/apple-touch-icon.png')} />
-    <link rel="alternate" type="application/rss+xml" title={`${BRAND.name} journal`} href={url('/journal/rss.xml')} />
+    <link rel="manifest" href={url('/site.webmanifest')} />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title={t('brand.siteLabel', { brand: BRAND.name })}
+      href={url('/blog/rss.xml')}
+    />
     {!IS_PREVIEW && <link rel="sitemap" href={url('/sitemap-index.xml')} />}
 
     <link rel="preload" as="font" type="font/woff2" href={syneBold} crossorigin />
     <link rel="preload" as="font" type="font/woff2" href={geistRegular} crossorigin />
 
-    <!-- Hidden start states exist only when JS runs and motion is allowed. "rm" marks reduced motion. -->
+    <!--
+      Hidden start states exist only when JS runs and motion is allowed. "rm" marks reduced motion.
+      With motion on, a reload starts at the top: the scroll-driven scenes are built from the top of
+      the page, so a restored mid-page position would open the hero halfway through its transition.
+      Links to an #anchor still land on their target.
+    -->
     <script is:inline>
-      document.documentElement.classList.add(
-        window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'rm' : 'js',
-      );
+      (() => {
+        const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        document.documentElement.classList.add(reduced ? 'rm' : 'js');
+        if (!reduced && 'scrollRestoration' in history) {
+          history.scrollRestoration = 'manual';
+          if (!location.hash) window.scrollTo(0, 0);
+        }
+      })();
     </script>
-
     <JsonLd data={graph} />
   </head>
   <body>
-    <a class="skip" href="#main">Skip to content</a>
+    <a class="skip" href="#main">
+      {t('a11y.skip')}
+    </a>
+    <LangBanner lang={lang} href={switchTo[otherLang(lang)]} />
     <Sprite />
     <div class="grain" aria-hidden="true"></div>
-    <div class="progress" aria-hidden="true"><i></i></div>
-    <div class="cursor" aria-hidden="true">
-      <div class="c-dot"></div>
-      <div class="c-ring"><div class="c-bg"></div><div class="c-label"></div></div>
+    <div class="progress" aria-hidden="true">
+      <i></i>
     </div>
-    <Nav />
+    <Nav lang={lang} switchTo={switchTo} />
     <main id="main" tabindex="-1">
       <slot />
     </main>
-    <Footer />
+    <Footer lang={lang} switchTo={switchTo} />
 
     <script>
       import { initMotion } from '../scripts/motion';
       import { initShell } from '../scripts/shell';
+      import { initLang } from '../scripts/lang';
+      import { initAnalytics } from '../scripts/analytics';
       void initMotion();
       initShell();
+      initLang();
+      initAnalytics();
     </script>
   </body>
 </html>

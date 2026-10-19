@@ -1,0 +1,266 @@
+---
+/**
+ * Layout for the legal pages: the shared hero, a "last updated" line, a sticky section index and a calm,
+ * well-measured reading column. The page supplies <section id="..."> blocks in the slot.
+ */
+import type { Lang } from '../../i18n/config';
+import { t } from '../../i18n';
+import type { Crumb } from '../../lib/schema';
+import InfoHero from './InfoHero.astro';
+
+interface Props {
+  lang: Lang;
+  title: string;
+  lede: string;
+  updated: string;
+  crumbs: Crumb[];
+  sections: { id: string; title: string }[];
+}
+const { lang, title, lede, updated, crumbs, sections } = Astro.props;
+---
+
+<InfoHero
+  lang={lang}
+  eyebrow={t(lang, 'info.legal')}
+  title={title}
+  lede={lede}
+  crumbs={crumbs}
+  size="clamp(2rem, 6.2vw, 6.6rem)"
+  maxWidth="100%"
+>
+  <p class="lg-updated ip-no" data-reveal>
+    {updated}
+  </p>
+</InfoHero>
+
+<div class="wrap lg">
+  <aside class="lg-index" aria-label={t(lang, 'info.onThisPage')}>
+    <details class="lg-box" data-spy-box>
+      <summary>
+        <span class="label">{t(lang, 'info.onThisPage')}</span>
+        <svg class="lg-chev" viewBox="0 0 16 16" aria-hidden="true">
+          <path
+            d="M3.5 6 8 10.5 12.5 6"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
+        </svg>
+      </summary>
+      <ol>
+        {sections.map((s) => (
+          <li>
+            <a href={`#${s.id}`} data-spy-link>
+              {s.title}
+            </a>
+          </li>
+        ))}
+      </ol>
+    </details>
+  </aside>
+  <div class="lg-body">
+    <slot />
+  </div>
+</div>
+
+<script>
+  import { initInfoReveals } from '../../scripts/info/reveal';
+  import { initToc } from '../../scripts/info/toc';
+  initInfoReveals();
+  initToc();
+</script>
+
+<style>
+  .lg-updated {
+    margin-top: 28px;
+  }
+
+  .lg {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+    padding-block: clamp(32px, 5vw, 72px) clamp(80px, 11vw, 168px);
+    border-top: 1px solid var(--line);
+  }
+
+  .lg-body {
+    min-width: 0;
+    max-width: 72ch;
+  }
+
+  .lg-box {
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    background: var(--bg-1);
+  }
+
+  summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 56px;
+    padding: 0 20px;
+    cursor: pointer;
+    list-style: none;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .lg-chev {
+    width: 16px;
+    height: 16px;
+    color: var(--mute);
+    transition: transform 0.5s var(--out);
+  }
+
+  [open] > summary .lg-chev {
+    transform: rotate(180deg);
+  }
+
+  ol {
+    padding: 4px 8px 12px;
+  }
+
+  a {
+    display: flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 12px 12px;
+    border-radius: 8px;
+    font-size: var(--fs-sm);
+    line-height: 1.35;
+    color: var(--mute);
+    transition:
+      color 0.3s,
+      background 0.3s;
+  }
+
+  a:hover {
+    color: var(--ink);
+  }
+
+  a[aria-current='true'] {
+    color: var(--ink);
+    background: rgb(255 255 255 / 0.05);
+  }
+
+  @media (min-width: 1100px) {
+    .lg {
+      display: grid;
+      grid-template-columns: 260px minmax(0, 72ch);
+      justify-content: center;
+      column-gap: clamp(48px, 6vw, 112px);
+    }
+
+    .lg-index {
+      position: sticky;
+      top: calc(var(--nav-h) + 24px);
+      align-self: start;
+    }
+
+    .lg-box {
+      border: 0;
+      border-left: 1px solid var(--line);
+      border-radius: 0;
+      background: none;
+    }
+
+    summary {
+      min-height: 0;
+      padding: 0 12px 14px;
+      pointer-events: none;
+      cursor: default;
+    }
+
+    .lg-chev {
+      display: none;
+    }
+
+    .lg-box::details-content {
+      content-visibility: visible;
+      display: block;
+    }
+
+    ol {
+      max-height: calc(100svh - var(--nav-h) - 140px);
+      overflow-y: auto;
+      padding: 0 0 0 4px;
+    }
+  }
+
+  /* Reading column. The page content is slotted, so these rules are global to the layout. */
+  .lg-body :global(section) {
+    padding-top: clamp(32px, 4vw, 56px);
+    scroll-margin-top: calc(var(--nav-h) + 16px);
+  }
+
+  .lg-body :global(section:first-child) {
+    padding-top: 0;
+  }
+
+  .lg-body :global(h2) {
+    font: 800 clamp(1.4rem, 1.1rem + 1.2vw, 2.1rem) / 1.05 var(--display);
+    letter-spacing: -0.04em;
+  }
+
+  .lg-body :global(p),
+  .lg-body :global(li) {
+    color: rgb(242 242 245 / 0.78);
+    line-height: 1.75;
+  }
+
+  .lg-body :global(p),
+  .lg-body :global(ul) {
+    margin-top: 1em;
+  }
+
+  .lg-body :global(h2 + p) {
+    margin-top: 1.1em;
+  }
+
+  .lg-body :global(ul) {
+    list-style: none;
+    padding: 0;
+  }
+
+  .lg-body :global(li) {
+    position: relative;
+    padding-left: 1.6em;
+  }
+
+  .lg-body :global(li + li) {
+    margin-top: 0.5em;
+  }
+
+  .lg-body :global(li::before) {
+    content: '';
+    position: absolute;
+    left: 0.2em;
+    top: 0.85em;
+    width: 0.38em;
+    height: 0.38em;
+    background: var(--violet-2);
+    transform: rotate(45deg);
+  }
+
+  .lg-body :global(a) {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: var(--violet-2);
+    text-underline-offset: 0.22em;
+    transition: text-decoration-color 0.3s;
+  }
+
+  .lg-body :global(a:hover) {
+    text-decoration-color: var(--lime);
+  }
+
+  .lg-body :global(strong) {
+    color: var(--ink);
+    font-weight: 600;
+  }
+</style>

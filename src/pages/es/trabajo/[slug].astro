@@ -1,0 +1,17 @@
+---
+import type { GetStaticPaths } from 'astro';
+import { getWork, workSlug, type WorkEntry } from '../../../lib/content';
+import WorkCase from '../../../views/WorkCase.astro';
+
+export const getStaticPaths = (async () => {
+  const entries = await getWork('es');
+  return entries.map((entry) => ({ params: { slug: workSlug(entry) }, props: { entry } }));
+}) satisfies GetStaticPaths;
+
+interface Props {
+  entry: WorkEntry;
+}
+const { entry } = Astro.props;
+---
+
+<WorkCase lang="es" entry={entry} />

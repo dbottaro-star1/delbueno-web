@@ -1,0 +1,44 @@
+---
+/** Page opening shared by the info pages: breadcrumbs, mono eyebrow, huge tight h1 with an optional gradient tail. */
+import Breadcrumbs from '../Breadcrumbs.astro';
+import type { Lang } from '../../i18n/config';
+import type { Crumb } from '../../lib/schema';
+import './info.css';
+
+interface Props {
+  lang: Lang;
+  eyebrow: string;
+  title: string;
+  /** Last words of the heading, set in the brand gradient. */
+  accent?: string;
+  lede?: string;
+  crumbs: Crumb[];
+  /** Largest h1 size, as a CSS length. Lower it for pages with a long single word. */
+  size?: string;
+  maxWidth?: string;
+}
+const { lang, eyebrow, title, accent, lede, crumbs, size, maxWidth } = Astro.props;
+const style = [size ? `--h1:${size}` : '', maxWidth ? `max-width:${maxWidth}` : ''].filter(Boolean).join(';');
+---
+
+<header class="ip-hero">
+  <div class="wrap">
+    <Breadcrumbs lang={lang} items={crumbs} />
+    <p class="label ip-eyebrow">{eyebrow}</p>
+    <h1 class="ip-h1" data-lines style={style || undefined}>
+      {title}
+      {accent && (
+        <>
+          {' '}
+          <span class="grad">{accent}</span>
+        </>
+      )}
+    </h1>
+    {lede && (
+      <p class="ip-lede" data-reveal>
+        {lede}
+      </p>
+    )}
+    <slot />
+  </div>
+</header>

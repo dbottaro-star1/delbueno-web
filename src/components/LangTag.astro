@@ -1,0 +1,35 @@
+---
+/**
+ * Small "En inglés" pill for journal posts listed on the Spanish pages. Posts without a Spanish translation are in
+ * English, so the pill says so before the visitor clicks. Renders nothing on the English pages.
+ */
+import type { Lang } from '../i18n/config';
+import { LANG_META } from '../i18n/config';
+import { t } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+---
+
+{lang !== 'en' && (
+  <span class="lang-tag" lang={LANG_META.en.tag}>
+    {t(lang, 'lang.inEnglish')}
+  </span>
+)}
+
+<style>
+  .lang-tag {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 9px;
+    border: 1px solid var(--line-2);
+    border-radius: 999px;
+    font: 400 0.6875rem / 1 var(--mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--mute);
+    white-space: nowrap;
+  }
+</style>

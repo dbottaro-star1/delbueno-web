@@ -1,6 +1,7 @@
 ---
 title: "UX Metrics That Actually Matter: Measuring Design Impact Beyond Aesthetics"
-description: "If design cannot connect to those outcomes, UX is treated like decoration. In reality, UX is a growth lever. You just need the right UX metrics to show it."
+seoTitle: "UX Metrics That Matter: Measure Design Impact"
+description: "UX metrics that connect design to growth. How to measure design impact beyond aesthetics, so UX is treated as a growth lever and not as decoration."
 pubDate: 2026-04-09
 author: "Dani Bottaro"
 category: "UX Strategy"
@@ -120,7 +121,7 @@ You can collect them through:
 
 These are core **UX metrics** because they connect directly to user effort.
 
-If you want a consistent approach to UX measurement across product work, our [**product design services**](/product-design/) include defining and tracking metrics that show whether design changes are actually improving the experience.
+If you want a consistent approach to UX measurement across product work, our [**product design services**](/services/product-design/) include defining and tracking metrics that show whether design changes are actually improving the experience.
 
 ### Metric Category 3: Engagement that reflects value
 
@@ -159,7 +160,7 @@ UX impacts retention through:
 
 If retention improves after UX changes, that is strong evidence that design is driving outcomes.
 
-For subscription platforms, retention-related measurement is a major part of our [**UX design for SaaS**](/ux-design/) approach when teams need to tie UX improvements to growth.
+For subscription platforms, retention-related measurement is a major part of our [**UX design for SaaS**](/services/product-design/) approach when teams need to tie UX improvements to growth.
 
 ### Metric Category 5: Support and operational cost
 

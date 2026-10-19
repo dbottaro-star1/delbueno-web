@@ -1,0 +1,32 @@
+---
+import type { Lang } from '../../i18n/config';
+import { isSpanishPost, postHref, type PostEntry } from '../../lib/content';
+import { url } from '../../lib/url';
+import LangTag from '../LangTag.astro';
+
+interface Props {
+  lang: Lang;
+  entry: PostEntry;
+}
+const { lang, entry } = Astro.props;
+const { data } = entry;
+---
+
+<a class="in-post" href={url(postHref(entry))} data-rv>
+  <span class="in-post__cat">
+    {data.category}
+    {lang !== 'en' && !isSpanishPost(entry) && (
+      <>
+        {' '}
+        <LangTag lang={lang} />
+      </>
+    )}
+  </span>
+  <span class="in-post__t">
+    {data.title}
+    <span class="in-post__d">{data.description}</span>
+  </span>
+  <svg class="arr" aria-hidden="true">
+    <use href="#i-arr"></use>
+  </svg>
+</a>

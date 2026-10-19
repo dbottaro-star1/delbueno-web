@@ -1,17 +1,35 @@
 ---
 import { Image } from 'astro:assets';
-import { testimonials } from '../../data/testimonials';
+import { getTestimonials } from '../../data/testimonials';
+import type { Lang } from '../../i18n/config';
+import { fill } from '../../i18n';
+import { homeCopy } from '../../i18n/pages/home';
+import TranslatedNote from '../TranslatedNote.astro';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const c = homeCopy[lang].testimonials;
+const testimonials = getTestimonials(lang);
 
 const featured = testimonials.find((t) => t.name === 'Yaron S.') ?? testimonials[0];
 const others = testimonials.filter((t) => t !== featured);
 ---
 
 <section class="quote" aria-labelledby="quote-h">
-  <h2 class="label" id="quote-h">Client words</h2>
+  <h2 class="label" id="quote-h">
+    {c.label}
+  </h2>
+  <TranslatedNote lang={lang} />
   <div class="quote-grid">
     <figure class="q-main">
-      <span class="q-mark" aria-hidden="true">“</span>
-      <blockquote><p id="quoteText">{featured.quote}</p></blockquote>
+      <span class="q-mark" aria-hidden="true">
+        “
+      </span>
+      <blockquote>
+        <p id="quoteText">{featured.quote}</p>
+      </blockquote>
       <figcaption class="who">
         <Image
           class="avatar avatar--lg"
@@ -19,46 +37,48 @@ const others = testimonials.filter((t) => t !== featured);
           width={144}
           height={144}
           fit="cover"
-          alt={`Portrait of ${featured.name}`}
+          alt={fill(c.portrait, { name: featured.name })}
           loading="lazy"
           decoding="async"
         />
         <div>
           <b>{featured.name}</b>
-          <span>{featured.role}, {featured.company}</span>
+          <span>
+            {featured.role}, {featured.company}
+          </span>
         </div>
       </figcaption>
     </figure>
   </div>
 
   <ul class="q-others">
-    {
-      others.map((t) => (
-        <li>
-          <figure>
-            <blockquote>
-              <p>{t.quote}</p>
-            </blockquote>
-            <figcaption class="who who--sm">
-              <Image
-                class="avatar"
-                src={t.photo}
-                width={112}
-                height={112}
-                fit="cover"
-                alt={`Portrait of ${t.name}`}
-                loading="lazy"
-                decoding="async"
-              />
-              <div>
-                <b>{t.name}</b>
-                <span>{t.role}, {t.company}</span>
-              </div>
-            </figcaption>
-          </figure>
-        </li>
-      ))
-    }
+    {others.map((q) => (
+      <li>
+        <figure>
+          <blockquote>
+            <p>{q.quote}</p>
+          </blockquote>
+          <figcaption class="who who--sm">
+            <Image
+              class="avatar"
+              src={q.photo}
+              width={112}
+              height={112}
+              fit="cover"
+              alt={fill(c.portrait, { name: q.name })}
+              loading="lazy"
+              decoding="async"
+            />
+            <div>
+              <b>{q.name}</b>
+              <span>
+                {q.role}, {q.company}
+              </span>
+            </div>
+          </figcaption>
+        </figure>
+      </li>
+    ))}
   </ul>
 </section>
 

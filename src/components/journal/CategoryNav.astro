@@ -1,0 +1,103 @@
+---
+/**
+ * The six blog categories as a filter row. Each one is a real page (/blog/category/<slug>/), so the
+ * filter works without scripts and every category is indexable. On narrow screens the row scrolls sideways.
+ */
+import { getCategories } from './reading';
+import { getJournal } from '../../lib/content';
+import { url } from '../../lib/url';
+
+interface Props {
+  /** Slug of the active category, or undefined for "All". */
+  active?: string;
+}
+const { active } = Astro.props;
+const categories = await getCategories();
+const total = (await getJournal()).length;
+---
+
+<nav class="cn" aria-label="Blog categories">
+  <ul>
+    <li>
+      <a href={url('/blog/')} aria-current={!active ? 'page' : undefined}>
+        All <sup>{total}</sup>
+      </a>
+    </li>
+    {categories.map((c) => (
+      <li>
+        <a href={url(`/blog/category/${c.slug}/`)} aria-current={active === c.slug ? 'page' : undefined}>
+          {c.name} <sup>{c.count}</sup>
+        </a>
+      </li>
+    ))}
+  </ul>
+</nav>
+
+<style>
+  .cn {
+    margin-inline: calc(var(--pad) * -1);
+    padding-inline: var(--pad);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .cn::-webkit-scrollbar {
+    display: none;
+  }
+
+  ul {
+    display: flex;
+    gap: 8px;
+    width: max-content;
+    padding-block: 4px;
+  }
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    min-height: 44px;
+    padding: 0 20px;
+    border: 1px solid var(--line-2);
+    border-radius: var(--radius-pill);
+    font-size: var(--fs-sm);
+    color: var(--mute);
+    white-space: nowrap;
+    transition:
+      background 0.4s,
+      border-color 0.4s,
+      color 0.4s;
+  }
+
+  sup {
+    font: 400 0.6875rem / 1 var(--mono);
+    color: var(--dim);
+    transform: translateY(-0.2em);
+  }
+
+  a:hover {
+    color: var(--ink);
+    border-color: rgb(255 255 255 / 0.3);
+  }
+
+  a[aria-current='page'] {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: #0a0a0f;
+  }
+
+  a[aria-current='page'] sup {
+    color: rgb(10 10 15 / 0.6);
+  }
+
+  @media (min-width: 900px) {
+    .cn {
+      overflow: visible;
+    }
+
+    ul {
+      flex-wrap: wrap;
+      width: auto;
+    }
+  }
+</style>

@@ -17,6 +17,8 @@ export function initFlip(scope: ParentNode = document): void {
   document.addEventListener('click', (e) => {
     if (!touch.matches) return;
     const hit = (e.target as Element).closest('[data-flip]');
-    scope.querySelectorAll<HTMLElement>('[data-flip].is-flipped').forEach((c) => c !== hit && c.classList.remove('is-flipped'));
+    scope
+      .querySelectorAll<HTMLElement>('[data-flip].is-flipped')
+      .forEach((c) => c !== hit && c.classList.remove('is-flipped'));
   });
 }

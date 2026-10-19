@@ -1,47 +1,83 @@
 ---
-import { BRAND, FOOTER_LINKS, LINKS, NAV_LINKS, SOCIALS } from '../lib/site';
+import type { Lang } from '../i18n/config';
+import { translator } from '../i18n';
+import { pagePath } from '../i18n/routes';
+import { BRAND, FOOTER_LINKS, LINKS, NAV_LINKS, SOCIALS, type SiteLink } from '../lib/site';
+import LangSwitch from './LangSwitch.astro';
+import Recognition from './Recognition.astro';
 import { url } from '../lib/url';
 
+interface Props {
+  lang: Lang;
+  /** Site-relative path of the equivalent page in each language, for the language switcher. */
+  switchTo: Record<Lang, string>;
+}
+const { lang, switchTo } = Astro.props;
+const t = translator(lang);
 const year = new Date().getFullYear();
+const link = (l: SiteLink) => ({
+  href: url(pagePath(l.page, lang)),
+  label: t(l.label),
+});
 ---
 
 <footer class="foot">
   <div class="foot-grid">
     <div class="foot-brand">
       <b>{BRAND.name}</b>
-      {BRAND.locality}, {BRAND.country}. Remote-first, synced with US hours.
+      {BRAND.locality}, {BRAND.country}. {t('footer.blurb')}
+      <Recognition lang={lang} height={52} class="foot-badge" />
     </div>
 
-    <nav class="foot-col" aria-label="Explore">
-      <h2>Explore</h2>
-      {NAV_LINKS.map((l) => <a href={url(l.href)}>{l.label}</a>)}
+    <nav class="foot-col" aria-label={t('footer.explore')}>
+      <h2>{t('footer.explore')}</h2>
+      {NAV_LINKS.map((l) => (
+        <a href={link(l).href}>{link(l).label}</a>
+      ))}
     </nav>
 
-    <nav class="foot-col" aria-label="Studio">
-      <h2>Studio</h2>
-      {FOOTER_LINKS.studio.map((l) => <a href={url(l.href)}>{l.label}</a>)}
+    <nav class="foot-col" aria-label={t('footer.studio')}>
+      <h2>{t('footer.studio')}</h2>
+      {FOOTER_LINKS.studio.map((l) => (
+        <a href={link(l).href}>{link(l).label}</a>
+      ))}
     </nav>
 
     <div class="foot-col foot-col--wide">
-      <h2>Contact</h2>
+      <h2>{t('footer.contact')}</h2>
       <a href={`mailto:${BRAND.email}`}>{BRAND.email}</a>
-      <a href={LINKS.book} rel="noopener">Book a call</a>
+      <a href={LINKS.book} rel="noopener">
+        {t('cta.book')}
+      </a>
     </div>
 
     <div class="foot-col">
-      <h2>Elsewhere</h2>
-      {SOCIALS.map((s) => <a href={s.href} rel="noopener me" target="_blank">{s.label}</a>)}
+      <h2>{t('footer.elsewhere')}</h2>
+      {SOCIALS.map((s) => (
+        <a href={s.href} rel="noopener me" target="_blank">
+          {s.label}
+        </a>
+      ))}
     </div>
   </div>
 
   <div class="foot-legal">
-    <span>© {year} {BRAND.name}</span>
+    <span>
+      © {year} {BRAND.name}
+    </span>
+    <LangSwitch lang={lang} switchTo={switchTo} variant="footer" />
     <ul>
-      {FOOTER_LINKS.legal.map((l) => <li><a href={url(l.href)}>{l.label}</a></li>)}
+      {FOOTER_LINKS.legal.map((l) => (
+        <li>
+          <a href={link(l).href}>{link(l).label}</a>
+        </li>
+      ))}
     </ul>
   </div>
 
-  <p class="foot-big" id="footBig" aria-hidden="true">delbueno<sup>™</sup></p>
+  <p class="foot-big" id="footBig" aria-hidden="true">
+    delbueno<sup>™</sup>
+  </p>
 </footer>
 
 <style>
@@ -65,6 +101,10 @@ const year = new Date().getFullYear();
     grid-column: 1 / 4;
     max-width: 34ch;
     color: var(--mute);
+  }
+
+  .foot-brand :global(.foot-badge) {
+    margin-top: 24px;
   }
 
   .foot-brand b {

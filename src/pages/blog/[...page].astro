@@ -1,0 +1,148 @@
+---
+import type { GetStaticPaths, Page } from 'astro';
+import BookCta from '../../components/BookCta.astro';
+import FeaturedPost from '../../components/journal/FeaturedPost.astro';
+import JournalList from '../../components/journal/JournalList.astro';
+import InfoHero from '../../components/info/InfoHero.astro';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getJournal, type JournalEntry } from '../../lib/content';
+import { pagePath } from '../../i18n/routes';
+import { crumbs } from '../../lib/schema';
+import { url } from '../../lib/url';
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const posts = await getJournal();
+  return paginate(posts, { pageSize: 12 });
+}) satisfies GetStaticPaths;
+
+interface Props {
+  page: Page<JournalEntry>;
+}
+const { page } = Astro.props;
+const first = page.currentPage === 1;
+const featured = first ? page.data[0] : undefined;
+const rows = first ? page.data.slice(1) : page.data;
+
+const trail = crumbs('en', { name: 'Blog', path: '/blog/' });
+const pageTrail = first ? trail : [...trail, { name: `Page ${page.currentPage}`, path: `/blog/${page.currentPage}/` }];
+const suffix = first ? '' : ` (page ${page.currentPage})`;
+const description =
+  'Articles from delbueno™ Studio on UX for cloud, cybersecurity, DevOps and AI products, design systems, and how to design and build B2B SaaS.';
+// Pagination links are built from the page number so they honour the base path.
+const pageUrl = (n: number) => url(n === 1 ? '/blog/' : `/blog/${n}/`);
+const numbers = Array.from({ length: page.lastPage }, (_, i) => i + 1);
+---
+
+<BaseLayout
+  lang="en"
+  switchFallback={pagePath('journal', 'es')}
+  title={`Blog${suffix}: notes on designing complex software`}
+  description={first ? description : `Page ${page.currentPage} of ${page.lastPage}: ${description}`}
+  breadcrumbs={pageTrail}
+>
+  <InfoHero
+    lang="en"
+    eyebrow={`Blog / ${page.total} articles`}
+    title="Notes on designing"
+    accent="complex software."
+    lede="Practical writing on UX for cloud, cybersecurity, DevOps and AI products, and on building B2B SaaS."
+    crumbs={pageTrail}
+    size="clamp(2.3rem, 6.4vw, 7.2rem)"
+    maxWidth="100%"
+  />
+
+  {first && featured && <FeaturedPost lang="en" entry={featured} />}
+
+  <JournalList lang="en" entries={rows}>
+    {page.lastPage > 1 && (
+      <nav class="pager" aria-label="Blog pages">
+        {page.currentPage > 1 ? (
+          <a class="btn btn-ghost btn-sm" href={pageUrl(page.currentPage - 1)} rel="prev">
+            Newer posts
+          </a>
+        ) : (
+          <span class="pager-spacer" aria-hidden="true" />
+        )}
+        <ol class="pager-nums">
+          {numbers.map((n) => (
+            <li>
+              <a href={pageUrl(n)} aria-current={n === page.currentPage ? 'page' : undefined} aria-label={`Page ${n}`}>
+                {String(n).padStart(2, '0')}
+              </a>
+            </li>
+          ))}
+        </ol>
+        {page.currentPage < page.lastPage ? (
+          <a class="btn btn-ghost btn-sm" href={pageUrl(page.currentPage + 1)} rel="next">
+            Older posts
+          </a>
+        ) : (
+          <span class="pager-spacer" aria-hidden="true" />
+        )}
+      </nav>
+    )}
+  </JournalList>
+
+  <BookCta lang="en" />
+
+  <script>
+    import { initInfoReveals } from '../../scripts/info/reveal';
+    initInfoReveals();
+  </script>
+</BaseLayout>
+
+<style>
+  .pager {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    margin-top: clamp(40px, 5vw, 72px);
+  }
+
+  .pager-spacer {
+    width: 1px;
+  }
+
+  .pager-nums {
+    display: flex;
+    gap: 4px;
+  }
+
+  .pager-nums a {
+    display: grid;
+    place-items: center;
+    min-width: 44px;
+    height: 44px;
+    border-radius: var(--radius-pill);
+    font: 400 var(--fs-xs) / 1 var(--mono);
+    letter-spacing: 0.08em;
+    color: var(--mute);
+    transition:
+      background 0.4s,
+      color 0.4s;
+  }
+
+  .pager-nums a:hover {
+    color: var(--ink);
+    background: rgb(255 255 255 / 0.06);
+  }
+
+  .pager-nums a[aria-current='page'] {
+    background: var(--ink);
+    color: #0a0a0f;
+  }
+
+  @media (max-width: 520px) {
+    .pager {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .pager-nums {
+      order: -1;
+      width: 100%;
+      justify-content: center;
+    }
+  }
+</style>

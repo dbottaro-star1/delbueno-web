@@ -1,0 +1,132 @@
+---
+/** "Start with a Sprint, roll into Design Partner": two large nodes joined by an arrow that draws with scroll. */
+import { getEngagementsCopy } from '../../data/engagements';
+import type { Lang } from '../../i18n/config';
+import { fill } from '../../i18n';
+import { engagementsPageCopy } from '../../i18n/pages/engagements';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const { path } = getEngagementsCopy(lang);
+const stepLabel = engagementsPageCopy[lang].path.step;
+---
+
+<div class="pth" data-path>
+  <div class="pth-nodes">
+    <div class="pth-node" data-pnode="0" data-rv>
+      <span class="pth-no">{fill(stepLabel, { n: '01' })}</span>
+      <p class="pth-name">{path.steps[0].name}</p>
+      <p class="pth-note">{path.steps[0].note}</p>
+    </div>
+    <div class="pth-arrow" aria-hidden="true">
+      <i class="pth-line" id="pthLine"></i>
+      <b class="pth-head" id="pthHead"></b>
+    </div>
+    <div class="pth-node" data-pnode="1" data-rv>
+      <span class="pth-no">{fill(stepLabel, { n: '02' })}</span>
+      <p class="pth-name">{path.steps[1].name}</p>
+      <p class="pth-note">{path.steps[1].note}</p>
+    </div>
+  </div>
+</div>
+
+<style is:global>
+  .pth-nodes {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(60px, 0.7fr) minmax(0, 1fr);
+    align-items: center;
+    gap: clamp(12px, 2vw, 32px);
+  }
+
+  .pth-node {
+    padding: clamp(22px, 2.6vw, 38px);
+    border: 1px solid var(--line-2);
+    border-radius: clamp(14px, 1.5vw, 22px);
+    background: var(--bg-1);
+    transition:
+      border-color 0.8s var(--out),
+      background 0.8s var(--out);
+  }
+
+  .pth-node.is-on {
+    border-color: rgb(186 251 68 / 0.6);
+    background: var(--bg-2);
+  }
+
+  .pth-no {
+    display: block;
+    margin-bottom: 28px;
+    font: 400 0.75rem / 1 var(--mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--dim);
+  }
+
+  .pth-name {
+    font: 800 clamp(1.6rem, 3.4vw, 3.6rem) / 0.98 var(--display);
+    letter-spacing: -0.045em;
+  }
+
+  .pth-note {
+    margin-top: 12px;
+    color: var(--mute);
+    max-width: 26ch;
+  }
+
+  .pth-arrow {
+    position: relative;
+    height: 24px;
+  }
+
+  .pth-arrow::before,
+  .pth-line {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 6px;
+    top: 11px;
+    height: 2px;
+    border-radius: 2px;
+  }
+
+  .pth-arrow::before {
+    background: var(--line-2);
+  }
+
+  .pth-line {
+    background: var(--grad);
+    transform-origin: left center;
+  }
+
+  .pth-head {
+    position: absolute;
+    right: 0;
+    top: 3px;
+    width: 16px;
+    height: 16px;
+    border-top: 2px solid var(--lime);
+    border-right: 2px solid var(--lime);
+    transform: rotate(45deg) translate(-4px, 4px);
+    transform-origin: center;
+  }
+
+  .js .pth-line {
+    transform: scaleX(0);
+  }
+
+  .js .pth-head {
+    opacity: 0;
+  }
+
+  @media (max-width: 760px) {
+    .pth-nodes {
+      grid-template-columns: 1fr;
+    }
+
+    .pth-arrow {
+      display: none;
+    }
+  }
+</style>

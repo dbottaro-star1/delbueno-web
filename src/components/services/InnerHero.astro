@@ -1,0 +1,64 @@
+---
+/** Hero shared by the services, industries and engagements pages. Exactly one h1. */
+import type { Lang } from '../../i18n/config';
+import { innerCopy } from '../../i18n/pages/services';
+import { t } from '../../i18n';
+import type { Crumb } from '../../lib/schema';
+import { LINKS } from '../../lib/site';
+import { url } from '../../lib/url';
+import Breadcrumbs from '../Breadcrumbs.astro';
+
+interface Props {
+  lang: Lang;
+  crumbs: Crumb[];
+  label: string;
+  title: string;
+  /** Smaller h1 for long titles. */
+  size?: 'lg' | 'md';
+  headline?: string;
+  /** The 40 to 60 word answer-first paragraph. */
+  answer: string;
+  /** Secondary button, for example the engagements link. */
+  secondary?: { label: string; href: string };
+}
+const { lang, crumbs, label, title, size = 'lg', headline, answer, secondary } = Astro.props;
+---
+
+<header class="in-hero">
+  <Breadcrumbs lang={lang} items={crumbs} />
+  <div class="in-hero__grid">
+    <div class="in-hero__copy">
+      <p class="label" data-rv>
+        {label}
+      </p>
+      <h1 class:list={['in-h1', size === 'md' && 'in-h1--md']} data-split>
+        {title}
+      </h1>
+      {headline && (
+        <p class="in-headline" data-rv>
+          {headline}
+        </p>
+      )}
+      <p class="in-answer" data-rv>
+        {answer}
+      </p>
+      <div class="in-actions" data-rv>
+        <a class="btn btn-primary" data-magnetic href={LINKS.book} rel="noopener noreferrer">
+          {innerCopy[lang].hero.book}{' '}
+          <svg class="arr" aria-hidden="true">
+            <use href="#i-arr"></use>
+          </svg>
+        </a>
+        {secondary && (
+          <a class="btn btn-ghost" href={url(secondary.href)}>
+            {secondary.label}
+          </a>
+        )}
+      </div>
+      <p class="in-speed" data-rv>
+        {t(lang, 'brand.speed')}
+      </p>
+    </div>
+    <slot />
+  </div>
+</header>

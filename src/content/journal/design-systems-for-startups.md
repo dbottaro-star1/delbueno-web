@@ -1,6 +1,7 @@
 ---
 title: "Design Systems for Fast-Growing Startups: How to Scale UX Without Slowing Teams Down"
-description: "Build startup design systems that scale UX fast-keeping teams aligned, consistent, and shipping without slowdown."
+seoTitle: "Design Systems for Fast-Growing Startups"
+description: "How startup design systems scale UX without slowing teams down: keep products consistent, align design and engineering, and avoid design debt."
 pubDate: 2026-03-02
 updatedDate: 2026-07-22
 author: "Dani Bottaro"
@@ -127,7 +128,7 @@ Once an experimental pattern repeats and proves value, you standardize it.
 
 This keeps innovation alive while preventing a messy UI explosion.
 
-If you want help setting up this approach, our [**product design services**](/product-design/) are built for teams that ship fast and want the system to grow with them.
+If you want help setting up this approach, our [**product design services**](/services/product-design/) are built for teams that ship fast and want the system to grow with them.
 
 ## **How do you prevent a design system from becoming “a graveyard” nobody uses?**
 
@@ -171,7 +172,7 @@ They help you:
 
 You do not have to over-engineer tokens early. But having a basic token approach helps your system scale cleanly, especially if you ship both web and mobile.
 
-If your product spans platforms, we often align system rules across experiences through our [**mobile app design**](/solutions/app-design-and-development/) work, so patterns remain consistent and users do not feel like they are using two different products.
+If your product spans platforms, we often align system rules across experiences through our [**mobile app design**](/services/product-design/) work, so patterns remain consistent and users do not feel like they are using two different products.
 
 ## **How do you measure whether a design system is working?**
 
@@ -194,7 +195,7 @@ Start with an audit of repeated patterns.
 
 Identify the top 10 components and flows used most often. Standardize them first. Build a small set of rules the team can follow without having to think. Then expand the system as new patterns repeat.
 
-If you want a practical way to implement this without pausing shipping, our [**SaaS UX design**](/ux-design/) approach often includes system governance, pattern libraries, and workflow alignment to support growth.
+If you want a practical way to implement this without pausing shipping, our [**SaaS UX design**](/services/product-design/) approach often includes system governance, pattern libraries, and workflow alignment to support growth.
 
 ## **Final question: What does a great startup design system feel like?**
 

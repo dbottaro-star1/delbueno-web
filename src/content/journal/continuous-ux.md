@@ -1,5 +1,6 @@
 ---
 title: "Continuous UX: Why Fast-Moving Teams Need Ongoing Design"
+seoTitle: "Continuous UX: Ongoing Design for Fast-Moving Teams"
 description: "A practical program for design quality at speed using design retainers, monthly design subscription, and continuous UX pods that plug into your roadmap."
 pubDate: 2025-11-17
 author: "Dani Bottaro"

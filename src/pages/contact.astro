@@ -1,33 +1,5 @@
 ---
-import PageHeader from '../components/PageHeader.astro';
-import BaseLayout from '../layouts/BaseLayout.astro';
-import { crumbs } from '../lib/schema';
-import { BRAND, LINKS, SOCIALS } from '../lib/site';
-
-const trail = crumbs({ name: 'Contact', path: '/contact/' });
+import Contact from '../views/Contact.astro';
 ---
 
-<BaseLayout
-  title="Contact"
-  description="Book a 15 minute call with delbueno™ Studio or write to hello@delbuenostudio.com. Based in Punta del Este, Uruguay, working with US hours."
-  breadcrumbs={trail}
->
-  <PageHeader
-    title="Contact"
-    eyebrow="Talk to us"
-    lede="The fastest way to start is a 15 minute call."
-    crumbs={trail}
-  />
-  <section class="section">
-    <div class="wrap stack">
-      <div class="cta-row">
-        <a class="btn btn-primary" href={LINKS.book} rel="noopener">Book a 15 minute call</a>
-        <a class="btn btn-ghost" href={`mailto:${BRAND.email}`}>{BRAND.email}</a>
-      </div>
-      <p>{BRAND.locality}, {BRAND.country}. Remote, with US hours.</p>
-      <ul class="tags">
-        {SOCIALS.map((s) => <li><a class="tag" href={s.href} rel="noopener me" target="_blank">{s.label}</a></li>)}
-      </ul>
-    </div>
-  </section>
-</BaseLayout>
+<Contact lang="en" />
