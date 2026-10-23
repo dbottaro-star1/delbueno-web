@@ -36,7 +36,7 @@ export const FOUNDER = {
 
 export const LINKS = {
   book: 'https://app.lemcal.com/@delbuenostudio/15-minutes',
-  linkedin: 'https://www.linkedin.com/company/delbueno-studio/',
+  linkedin: 'https://www.linkedin.com/company/we-are-delbueno-studio/',
   dribbble: 'https://dribbble.com/delbueno-studio',
   instagram: 'https://www.instagram.com/delbuenostudio/',
   clutch: 'https://clutch.co/profile/delbueno-studio',

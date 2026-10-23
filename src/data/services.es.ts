@@ -208,13 +208,13 @@ export const servicesEs: Record<Service['slug'], ServiceText> = {
     seoDescription:
       'MVPs no-code y low-code, automatizaciones y herramientas internas, más apps en Flutter, React o Next.js si hacen falta. Un MVP simple, en 1 a 4 semanas.',
     home: {
-      title: 'Desarrollo',
+      title: 'Desarrollo de MVP',
       kicker: 'Listo para producción en semanas',
       description:
         'MVPs no-code y low-code, automatizaciones y herramientas internas, listos para producción en semanas.',
       chips: ['MVPs no-code y low-code', 'Automatizaciones', 'Herramientas internas'],
     },
-    name: 'Desarrollo',
+    name: 'Desarrollo de MVP',
     summary:
       'MVPs no-code y low-code, automatización de flujos de trabajo, herramientas internas y desarrollo de apps.',
     headline: 'Lanza un producto que funciona sin esperar a un equipo completo de ingeniería.',

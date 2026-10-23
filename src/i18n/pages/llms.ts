@@ -150,7 +150,7 @@ export const llmsCopy: Localized<LlmsCopy> = {
   },
   es: {
     summary:
-      'Servicios: estrategia de producto, diseño de producto, diseño web, desarrollo y desarrollo con IA. Modelos de trabajo: Launch Sprint, Design Partner y Designer on Demand. Empezamos el mismo día y los primeros conceptos llegan en 48 horas. Contacto: {email}.',
+      'Servicios: estrategia de producto, diseño de producto, diseño web, desarrollo de MVP y desarrollo con IA. Modelos de trabajo: Launch Sprint, Design Partner y Designer on Demand. Empezamos el mismo día y los primeros conceptos llegan en 48 horas. Contacto: {email}.',
     bookLine: 'Agenda una llamada de 15 minutos en {url}.',
     h: {
       services: 'Servicios',

@@ -24,7 +24,7 @@ export const OG_STATIC: { page: PageKey; kicker: Localized<string>; title: Local
   {
     page: 'services',
     kicker: { en: 'Services', es: 'Servicios' },
-    title: { en: 'Strategy, design, web, build and AI.', es: 'Estrategia, diseño, web, desarrollo e IA.' },
+    title: { en: 'Strategy, design, web, build and AI.', es: 'Estrategia, diseño, web, MVP e IA.' },
   },
   {
     page: 'engagements',

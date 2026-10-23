@@ -182,14 +182,14 @@ export const innerCopy: Localized<InnerCopy> = {
     },
     index: {
       meta: {
-        title: 'Servicios: estrategia, diseño, web, desarrollo e IA',
+        title: 'Servicios: estrategia, diseño, web, MVP e IA',
         description:
           'delbueno™ Studio ofrece estrategia y diseño de producto, diseño web, desarrollo no-code y con IA para equipos B2B SaaS y startups. Conceptos en 48 h.',
       },
       answer:
-        'delbueno™ Studio ofrece cinco servicios a equipos B2B SaaS y startups: estrategia de producto, diseño de producto, diseño web, desarrollo y desarrollo con IA. Los equipos usan uno o los cinco, a través de un Launch Sprint de alcance fijo, una suscripción Design Partner o un diseñador dedicado. Empezamos el mismo día y los primeros conceptos llegan en 48 horas.',
+        'delbueno™ Studio ofrece cinco servicios a equipos B2B SaaS y startups: estrategia de producto, diseño de producto, diseño web, desarrollo de MVP y desarrollo con IA. Los equipos usan uno o los cinco, a través de un Launch Sprint de alcance fijo, una suscripción Design Partner o un diseñador dedicado. Empezamos el mismo día y los primeros conceptos llegan en 48 horas.',
       label: 'Servicios',
-      heading: 'Estrategia, diseño, web, desarrollo e IA.',
+      heading: 'Estrategia, diseño, web, MVP e IA.',
       secondary: 'Compara los modelos de trabajo',
       stackLabel: 'Los cinco servicios',
       kicker: 'Cinco disciplinas',
