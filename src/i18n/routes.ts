@@ -36,6 +36,7 @@ export const SERVICE_SLUGS = {
   'product-design': 'diseno-de-producto',
   'web-design': 'diseno-web',
   build: 'desarrollo-de-mvp',
+  'ai-development': 'desarrollo-con-ia',
 } as const;
 
 /** Industries: English slug to Spanish slug. */

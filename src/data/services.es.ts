@@ -265,4 +265,70 @@ export const servicesEs: Record<Service['slug'], ServiceText> = {
       },
     ],
   },
+  'ai-development': {
+    seoDescription:
+      'Desarrollo con IA para startups y B2B SaaS: funciones de IA, agentes, MVPs acelerados con IA y productos nativos de IA, diseñados y construidos juntos.',
+    home: {
+      title: 'Desarrollo con IA',
+      kicker: 'IA que se lanza',
+      description:
+        'IA a medida para startups y SaaS: funciones, agentes y productos nativos de IA, diseñados y construidos por un solo equipo.',
+      chips: ['Funciones de IA', 'Agentes de IA', 'MVPs acelerados con IA', 'Productos nativos de IA'],
+    },
+    name: 'Desarrollo con IA',
+    summary:
+      'Funciones de IA, agentes y automatizaciones, MVPs acelerados con IA y productos nativos de IA, diseñados y construidos por un solo equipo.',
+    headline: 'IA a medida, diseñada y construida por un solo equipo.',
+    answer:
+      'delbueno™ Studio construye IA a medida para startups y B2B SaaS: funciones de IA dentro de tu producto, agentes y automatizaciones de flujos de trabajo, MVPs construidos más rápido con herramientas de IA y productos nativos de IA desde cero. Un solo equipo diseña la experiencia y escribe el código, así que la interfaz, el modelo y tus datos encajan. Empezamos el mismo día.',
+    whoFor: {
+      lead: 'Fundadores y equipos de producto que quieren IA dentro de su producto o de sus operaciones, y quieren un solo equipo que la diseñe para que la gente confíe en ella y la construya para que funcione.',
+      points: [
+        'Quieres un copiloto, una búsqueda inteligente o resúmenes dentro de tu producto SaaS',
+        'Un flujo manual debería correr con un agente, con una persona que apruebe los pasos riesgosos',
+        'Necesitas una primera versión rápido y quieres construirla con herramientas de IA',
+        'Tienes datos propios y quieres un asistente que responda a partir de ellos',
+      ],
+    },
+    covers: [
+      'Funciones de IA dentro de productos SaaS: copilotos, búsqueda inteligente, resúmenes y asistentes',
+      'Agentes de IA y automatizaciones de flujos de trabajo',
+      'MVPs acelerados con IA, diseñados y construidos con herramientas como Claude Code y Cursor',
+      'Productos nativos de IA desde cero: apps con LLM y recuperación sobre tus propios datos',
+      'Diseño de interacción con IA: controles human-in-the-loop y resultados explicables',
+    ],
+    deliverables: [
+      'Prototipos interactivos en alta fidelidad de la experiencia de IA, con estados de carga, error y baja confianza',
+      'Un producto funcionando en producción, conectado a tus datos y herramientas',
+      'Pasos de revisión y aprobación para cada acción que un agente hace por su cuenta',
+      'Pruebas con ejemplos reales de tus propios datos antes del lanzamiento',
+      'Documentación y capacitación de traspaso',
+    ],
+    timing: {
+      title: 'Diseñado y construido juntos',
+      text: 'Empezamos el mismo día y los primeros conceptos llegan en 48 horas. Después construimos en ciclos cortos, con una versión funcional para que revises en el camino.',
+    },
+    faqs: [
+      {
+        q: '¿Qué incluye el desarrollo con IA a medida?',
+        a: 'Cuatro tipos de trabajo: funciones de IA dentro de tu producto SaaS (copilotos, búsqueda inteligente, resúmenes y asistentes), agentes de IA y automatizaciones de flujos de trabajo, MVPs acelerados con IA y productos nativos de IA desde cero, incluidas apps con LLM y recuperación sobre tus propios datos. El mismo equipo diseña y construye cada uno.',
+      },
+      {
+        q: '¿Qué es un MVP acelerado con IA?',
+        a: 'Un MVP que diseñamos y construimos con herramientas de IA como Claude Code y Cursor, para que la primera versión salga más rápido. Las personas de nuestro equipo siguen diseñando, revisando y decidiendo todo, y recibes el mismo traspaso que con cualquier otro desarrollo.',
+      },
+      {
+        q: '¿Diseñan la experiencia de IA además de construirla?',
+        a: 'Sí, ese es el sentido de ser un solo equipo. Diseñamos cómo las personas piden, revisan, corrigen y confían en la IA, y después la construimos. Nuestros artículos sobre UX de agentes de IA con human-in-the-loop y sobre UX de IA explicable muestran cómo lo abordamos.',
+      },
+      {
+        q: '¿La IA puede trabajar con nuestros datos y herramientas?',
+        a: 'Sí. Construimos recuperación sobre tus propios datos y conectamos agentes a las herramientas que tu equipo ya usa. Antes de escribir código acordamos qué puede leer la IA y qué puede hacer por su cuenta.',
+      },
+      {
+        q: '¿De quién es lo que construyen?',
+        a: 'Tuyo. El trabajo a medida se entrega como obra por encargo, y la propiedad intelectual se transfiere a ti con el pago final. Firmamos un NDA si lo pides.',
+      },
+    ],
+  },
 };

@@ -13,6 +13,7 @@ interface Props {
 const { lang } = Astro.props;
 const c = homeCopy[lang].services;
 const services = getServices(lang);
+const hasLongWord = (title: string) => Math.max(...title.split(' ').map((w) => w.length)) > 10;
 ---
 
 <section class="services" id="services" aria-labelledby="svc-h">
@@ -32,7 +33,7 @@ const services = getServices(lang);
           <div class="svc-top">
             <span class="svc-num">{s.home.kicker}</span>
           </div>
-          <h3 class="svc-title" id={`svc${i + 1}`} data-split>
+          <h3 class:list={['svc-title', hasLongWord(s.home.title) && 'svc-title--long']} id={`svc${i + 1}`} data-split>
             {s.home.title}
           </h3>
           <ServiceArt slug={s.slug} />
@@ -93,6 +94,10 @@ const services = getServices(lang);
     background: #181821;
   }
 
+  .svc:nth-child(5) {
+    background: #1d1d27;
+  }
+
   .svc::before {
     content: '';
     position: absolute;
@@ -142,6 +147,11 @@ const services = getServices(lang);
     font: 800 clamp(3rem, 8.8vw, 10rem) / 0.9 var(--display);
     letter-spacing: -0.05em;
     margin-left: -0.04em;
+  }
+
+  /* A title with a very long single word (Development) must not be clipped by the panel. */
+  .svc-title.svc-title--long {
+    font-size: clamp(2rem, 5.8vw, 7rem);
   }
 
   .svc-art {
@@ -240,6 +250,12 @@ const services = getServices(lang);
   @media (max-width: 1100px) {
     .svc-art {
       width: 100%;
+    }
+  }
+
+  @media (max-width: 860px) {
+    .svc-title.svc-title--long {
+      font-size: clamp(1.75rem, 7.6vw, 4rem);
     }
   }
 

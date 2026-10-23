@@ -3,7 +3,7 @@ import { processStepsEs, servicesEs } from './services.es';
 import type { FaqItem } from './types';
 
 export interface Service {
-  slug: 'product-strategy' | 'product-design' | 'web-design' | 'build';
+  slug: 'product-strategy' | 'product-design' | 'web-design' | 'build' | 'ai-development';
   name: string;
   /** Copy for the stacking panels on the homepage. */
   home: { title: string; kicker: string; description: string; chips: string[] };
@@ -22,11 +22,15 @@ export interface Service {
   timing: { title: string; text: string };
   /** Slugs of the case studies that used this service, strongest first. */
   cases: string[];
+  /** Journal post slugs shown as related reading on the service page. Most services have none. */
+  reading?: string[];
+  /** Links the service page to the tech stack page. */
+  stackLink?: boolean;
   faqs: FaqItem[];
 }
 
 /** The words of a service. Spanish versions are in services.es.ts, the slug and the case studies are shared. */
-export type ServiceText = Omit<Service, 'slug' | 'cases'>;
+export type ServiceText = Omit<Service, 'slug' | 'cases' | 'reading' | 'stackLink'>;
 
 /** The first 48 hours, shared by every service. Used by the scroll-drawn process diagram. */
 export const processSteps = [
@@ -294,6 +298,76 @@ export const services: Service[] = [
       {
         q: 'Who owns what you build?',
         a: 'You do. Custom work is delivered as work-for-hire, with the intellectual property transferred to you on final payment.',
+      },
+    ],
+  },
+  {
+    slug: 'ai-development',
+    seoDescription:
+      'Custom AI development for startups and B2B SaaS: AI features, agents, AI-accelerated MVPs and AI-native products, designed and built by one team.',
+    home: {
+      title: 'AI Development',
+      kicker: 'AI that ships',
+      description:
+        'Custom AI for startups and SaaS: features, agents and AI-native products, designed and built by one team.',
+      chips: ['AI features', 'AI agents', 'AI-accelerated MVPs', 'AI-native products'],
+    },
+    name: 'AI Development',
+    summary:
+      'AI features, agents and automations, AI-accelerated MVPs and AI-native products, designed and built by one team.',
+    headline: 'Custom AI, designed and built by one team.',
+    answer:
+      'delbueno™ Studio builds custom AI for startups and B2B SaaS: AI features inside your product, agents and workflow automations, MVPs built faster with AI tooling, and AI-native products from scratch. One team designs the experience and writes the code, so the interface, the model and your data fit together. Kickoff happens the same day.',
+    whoFor: {
+      lead: 'Founders and product teams who want AI inside their product or their operations, and want one team to design it so people trust it and build it so it works.',
+      points: [
+        'You want a copilot, smart search or summaries inside your SaaS product',
+        'A manual workflow should run on an agent, with a person approving the risky steps',
+        'You need a first version fast and want it built with AI tooling',
+        'You have your own data and want an assistant that answers from it',
+      ],
+    },
+    covers: [
+      'AI features inside SaaS products: copilots, smart search, summaries and assistants',
+      'AI agents and workflow automations',
+      'AI-accelerated MVPs, designed and built with tools such as Claude Code and Cursor',
+      'AI-native products from scratch: LLM apps and retrieval over your own data',
+      'AI interaction design: human-in-the-loop controls and explainable results',
+    ],
+    deliverables: [
+      'Interactive high-fidelity prototypes of the AI experience, including loading, error and low-confidence states',
+      'A working build in production, connected to your data and tools',
+      'Review and approval steps for every action an agent takes on its own',
+      'Testing against real examples from your own data before launch',
+      'Documentation and handover training',
+    ],
+    timing: {
+      title: 'Designed and built together',
+      text: 'Kickoff the same day and first concepts in 48 hours. After that we build in short cycles, with a working version for you to review along the way.',
+    },
+    cases: [],
+    reading: ['ai-agent-ux-human-in-the-loop', 'explainable-ai-ux'],
+    stackLink: true,
+    faqs: [
+      {
+        q: 'What does custom AI development include?',
+        a: 'Four kinds of work: AI features inside your SaaS product (copilots, smart search, summaries and assistants), AI agents and workflow automations, AI-accelerated MVPs, and AI-native products built from scratch, including LLM apps and retrieval over your own data. The same team designs and builds each of them.',
+      },
+      {
+        q: 'What is an AI-accelerated MVP?',
+        a: 'An MVP that we design and build with AI tooling such as Claude Code and Cursor, so the first version ships faster. People on our team still design, review and own every decision, and you get the same handover as with any other build.',
+      },
+      {
+        q: 'Do you design the AI experience as well as build it?',
+        a: 'Yes, that is the point of one team. We design how people ask, review, correct and trust the AI, then we build it. Our articles on human-in-the-loop agent UX and explainable AI UX show how we approach it.',
+      },
+      {
+        q: 'Can the AI work with our own data and tools?',
+        a: 'Yes. We build retrieval over your own data and connect agents to the tools your team already uses. Before we write code we agree on what the AI may read and what it may do on its own.',
+      },
+      {
+        q: 'Who owns what you build?',
+        a: 'You do. Custom work is delivered as work-for-hire, with the intellectual property transferred to you on final payment. We sign an NDA on request.',
       },
     ],
   },
