@@ -1,7 +1,7 @@
 ---
 title: "Fintech UX: Designing Actions Users Can’t Undo"
-seoTitle: "Fintech UX: Designing Irreversible Actions Users Trust"
-description: "One wrong tap can move money that cannot come back. How to design payee warnings, meaningful confirmations, previews and undo in fintech products."
+seoTitle: "Fintech UX for Irreversible Actions: Confirmations and Undo"
+description: "How to design irreversible actions in fintech UX: payee warnings, confirmations people actually read, previews and undo windows that prevent costly errors."
 pubDate: 2026-07-27
 author: "Dani Bottaro"
 category: "UX Strategy"
