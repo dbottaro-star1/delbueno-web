@@ -8,7 +8,7 @@ export const en = {
     tagline: 'Software that feels obvious.',
     speed: 'Kickoff today. First concepts in 48 hours.',
     description:
-      'delbueno™ Studio is a product design and development studio for B2B SaaS teams and startups, based in Punta del Este, Uruguay, working remote with US hours.',
+      'delbueno™ Studio is a product design and AI development studio for startups and B2B SaaS. We design and build websites, UX and custom AI products, from first concepts in 48 hours to launch. Based in Uruguay, working in US hours.',
     kicker: 'Product design studio',
     siteLabel: '{brand} blog',
   },

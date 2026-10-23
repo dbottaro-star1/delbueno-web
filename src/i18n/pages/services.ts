@@ -36,6 +36,12 @@ export interface InnerCopy {
     otherHeading: string;
     engagementsName: string;
     engagementsSummary: string;
+    /** Related reading and tech stack rows on a service page that has them. */
+    postsLabel: string;
+    postsHeading: string;
+    allPosts: string;
+    stackName: string;
+    stackSummary: string;
     /** {name} is the service name. */
     title: string;
   };
@@ -47,6 +53,8 @@ export interface InnerCopy {
     automate: string;
     shipped: string;
     mvp: string;
+    ask: string;
+    ai: string;
   };
   /** Words inside the decorative industry illustrations. */
   industryArt: {
@@ -79,24 +87,24 @@ export const innerCopy: Localized<InnerCopy> = {
     },
     index: {
       meta: {
-        title: 'Services: Product Strategy, Design, Web and Build',
+        title: 'Services: Strategy, Design, Web, Build and AI',
         description:
-          'delbueno™ Studio offers product strategy, product design, web design and no-code build services for B2B SaaS teams and startups. Concepts in 48 hours.',
+          'delbueno™ Studio offers product strategy, product design, web design, no-code build and AI development for B2B SaaS teams and startups. Concepts in 48 hours.',
       },
       answer:
-        'delbueno™ Studio offers four services to B2B SaaS teams and startups: product strategy, product design, web design and build. Teams use one or all four, working through a fixed-scope Launch Sprint, a Design Partner subscription or a dedicated designer. Kickoff happens the same day and first concepts arrive within 48 hours.',
+        'delbueno™ Studio offers five services to B2B SaaS teams and startups: product strategy, product design, web design, build and AI development. Teams use one or all five, working through a fixed-scope Launch Sprint, a Design Partner subscription or a dedicated designer. Kickoff happens the same day and first concepts arrive within 48 hours.',
       label: 'Services',
-      heading: 'Strategy, design, web and build.',
+      heading: 'Strategy, design, web, build and AI.',
       secondary: 'Compare engagements',
-      stackLabel: 'The four services',
-      kicker: 'Four disciplines',
+      stackLabel: 'The five services',
+      kicker: 'Five disciplines',
       about: 'About {name}',
       engagements: { label: 'Engagements', heading: 'Three ways to work together.' },
       ctaHeading: 'Not sure where to start? Book a call.',
       faqs: [
         {
           q: 'What services does delbueno™ Studio offer?',
-          a: 'Four: product strategy (audits, usability testing, research and roadmaps), product design (UX and UI for web and mobile, design systems), web design (marketing websites, launch assets and animation) and build (no-code and low-code MVPs, automations and internal tools). We specialize in UX for complex industries such as cloud, cybersecurity, DevOps, AI and fintech.',
+          a: 'Five: product strategy (audits, usability testing, research and roadmaps), product design (UX and UI for web and mobile, design systems), web design (marketing websites, launch assets and animation) build (no-code and low-code MVPs, automations and internal tools) and AI development (custom AI features, agents, AI-accelerated MVPs and AI-native products). We specialize in UX for complex industries such as cloud, cybersecurity, DevOps, AI and fintech.',
         },
         {
           q: 'Can we start with just one service?',
@@ -128,6 +136,11 @@ export const innerCopy: Localized<InnerCopy> = {
       otherHeading: 'Keep exploring.',
       engagementsName: 'Engagements',
       engagementsSummary: 'Launch Sprint, Design Partner or Designer on Demand.',
+      postsLabel: 'From the blog',
+      postsHeading: 'Go deeper.',
+      allPosts: 'All blog posts',
+      stackName: 'Tech stack',
+      stackSummary: 'The design, AI, frontend, backend and cloud tools we work with.',
       title: '{name} for B2B SaaS and startups',
     },
     art: {
@@ -138,6 +151,8 @@ export const innerCopy: Localized<InnerCopy> = {
       automate: '> automate ... ok',
       shipped: 'shipped',
       mvp: 'MVP, weeks not quarters',
+      ask: '> ask your data',
+      ai: 'AI, designed and built together',
     },
     industryArt: {
       cloud: 'regions, resources, cost',
@@ -167,24 +182,24 @@ export const innerCopy: Localized<InnerCopy> = {
     },
     index: {
       meta: {
-        title: 'Servicios: estrategia, diseño de producto, web y desarrollo',
+        title: 'Servicios: estrategia, diseño, web, desarrollo e IA',
         description:
-          'delbueno™ Studio ofrece estrategia de producto, diseño de producto, diseño web y desarrollo no-code para equipos B2B SaaS y startups. Conceptos en 48 h.',
+          'delbueno™ Studio ofrece estrategia y diseño de producto, diseño web, desarrollo no-code y con IA para equipos B2B SaaS y startups. Conceptos en 48 h.',
       },
       answer:
-        'delbueno™ Studio ofrece cuatro servicios a equipos B2B SaaS y startups: estrategia de producto, diseño de producto, diseño web y desarrollo. Los equipos usan uno o los cuatro, a través de un Launch Sprint de alcance fijo, una suscripción Design Partner o un diseñador dedicado. Empezamos el mismo día y los primeros conceptos llegan en 48 horas.',
+        'delbueno™ Studio ofrece cinco servicios a equipos B2B SaaS y startups: estrategia de producto, diseño de producto, diseño web, desarrollo y desarrollo con IA. Los equipos usan uno o los cinco, a través de un Launch Sprint de alcance fijo, una suscripción Design Partner o un diseñador dedicado. Empezamos el mismo día y los primeros conceptos llegan en 48 horas.',
       label: 'Servicios',
-      heading: 'Estrategia, diseño, web y desarrollo.',
+      heading: 'Estrategia, diseño, web, desarrollo e IA.',
       secondary: 'Compara los modelos de trabajo',
-      stackLabel: 'Los cuatro servicios',
-      kicker: 'Cuatro disciplinas',
+      stackLabel: 'Los cinco servicios',
+      kicker: 'Cinco disciplinas',
       about: 'Más sobre {name}',
       engagements: { label: 'Modelos de trabajo', heading: 'Tres formas de trabajar juntos.' },
       ctaHeading: '¿No sabes por dónde empezar? Agenda una llamada.',
       faqs: [
         {
           q: '¿Qué servicios ofrece delbueno™ Studio?',
-          a: 'Cuatro: estrategia de producto (auditorías, pruebas de usabilidad, investigación y roadmaps), diseño de producto (UX y UI para web y móvil, sistemas de diseño), diseño web (sitios de marketing, materiales de lanzamiento y animación) y desarrollo (MVPs no-code y low-code, automatizaciones y herramientas internas). Nos especializamos en UX para industrias complejas como nube, ciberseguridad, DevOps, IA y fintech.',
+          a: 'Cinco: estrategia de producto (auditorías, pruebas de usabilidad, investigación y roadmaps), diseño de producto (UX y UI para web y móvil, sistemas de diseño), diseño web (sitios de marketing, materiales de lanzamiento y animación) desarrollo (MVPs no-code y low-code, automatizaciones y herramientas internas) y desarrollo con IA (funciones de IA a medida, agentes, MVPs acelerados con IA y productos nativos de IA). Nos especializamos en UX para industrias complejas como nube, ciberseguridad, DevOps, IA y fintech.',
         },
         {
           q: '¿Podemos empezar con un solo servicio?',
@@ -216,6 +231,11 @@ export const innerCopy: Localized<InnerCopy> = {
       otherHeading: 'Sigue explorando.',
       engagementsName: 'Modelos de trabajo',
       engagementsSummary: 'Launch Sprint, Design Partner o Designer on Demand.',
+      postsLabel: 'Del blog',
+      postsHeading: 'Profundiza.',
+      allPosts: 'Todos los artículos del blog',
+      stackName: 'Tecnologías',
+      stackSummary: 'Las herramientas de diseño, IA, frontend, backend y nube con las que trabajamos.',
       title: '{name} para B2B SaaS y startups',
     },
     art: {
@@ -226,6 +246,8 @@ export const innerCopy: Localized<InnerCopy> = {
       automate: '> automate ... ok',
       shipped: 'listo',
       mvp: 'MVP en semanas, no trimestres',
+      ask: '> pregunta',
+      ai: 'IA, diseñada y construida juntas',
     },
     industryArt: {
       cloud: 'regiones, recursos, costo',

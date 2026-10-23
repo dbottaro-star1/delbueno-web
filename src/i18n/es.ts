@@ -12,7 +12,7 @@ export const es: Shape<typeof en> = {
     tagline: 'Software que se explica solo.',
     speed: 'Empezamos hoy. Primeros conceptos en 48 horas.',
     description:
-      'delbueno™ Studio es un estudio de diseño y desarrollo de producto para equipos B2B SaaS y startups, con sede en Punta del Este, Uruguay, que trabaja en remoto en horario de EE. UU.',
+      'delbueno™ Studio es un estudio de diseño de producto y desarrollo con IA para startups y B2B SaaS. Diseñamos y construimos sitios web, UX y productos de IA a medida, con los primeros conceptos en 48 horas. Desde Uruguay, en horario de EE. UU.',
     kicker: 'Estudio de diseño de producto',
     siteLabel: 'Blog de {brand}',
   },

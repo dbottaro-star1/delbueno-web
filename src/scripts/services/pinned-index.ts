@@ -1,7 +1,7 @@
 /**
- * /services/ signature moment. On wide screens the four disciplines are a list that stays pinned while you scroll:
+ * /services/ signature moment. On wide screens the disciplines are a list that stays pinned while you scroll:
  * the active service lights up, its hairline illustration draws itself and its description swaps in.
- * On phones and tablets (and with reduced motion) it is four plain stacked blocks, each drawing when it scrolls in.
+ * On phones and tablets (and with reduced motion) it is plain stacked blocks, each drawing when it scrolls in.
  */
 import type { Motion } from '../motion';
 

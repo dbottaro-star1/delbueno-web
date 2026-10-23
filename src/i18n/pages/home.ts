@@ -85,7 +85,7 @@ export const homeCopy: Localized<HomeCopy> = {
     services: {
       label: 'Services',
       heading: 'What we do',
-      sub: 'Four disciplines, one team. Start with any of them.',
+      sub: 'Five disciplines, one team. Start with any of them.',
       about: 'About {name}',
     },
     numbers: { heading: 'delbueno in numbers' },
@@ -157,7 +157,7 @@ export const homeCopy: Localized<HomeCopy> = {
     services: {
       label: 'Servicios',
       heading: 'Qué hacemos',
-      sub: 'Cuatro disciplinas, un solo equipo. Empieza por la que quieras.',
+      sub: 'Cinco disciplinas, un solo equipo. Empieza por la que quieras.',
       about: 'Más sobre {name}',
     },
     numbers: { heading: 'delbueno en cifras' },

@@ -13,8 +13,8 @@ interface Props {
   crumbs: Crumb[];
   label: string;
   title: string;
-  /** Smaller h1 for long titles. */
-  size?: 'lg' | 'md';
+  /** Smaller h1 for long titles. `sm` is for a title with a very long single word. */
+  size?: 'lg' | 'md' | 'sm';
   headline?: string;
   /** The 40 to 60 word answer-first paragraph. */
   answer: string;
@@ -31,7 +31,7 @@ const { lang, crumbs, label, title, size = 'lg', headline, answer, secondary } =
       <p class="label" data-rv>
         {label}
       </p>
-      <h1 class:list={['in-h1', size === 'md' && 'in-h1--md']} data-split>
+      <h1 class:list={['in-h1', size !== 'lg' && `in-h1--${size}`]} data-split>
         {title}
       </h1>
       {headline && (
