@@ -98,7 +98,9 @@ const { lang, switchTo, variant = 'nav' } = Astro.props;
     font-size: 0.75rem;
   }
 
-  @media (min-width: 861px) and (max-width: 1079px) {
+  /* Between the burger breakpoint and 1080 px, and on the narrowest phones, the header has no room for it: the switch
+     stays in the menu and the footer. */
+  @media (min-width: 861px) and (max-width: 1079px), (max-width: 380px) {
     .lang--nav {
       display: none;
     }
