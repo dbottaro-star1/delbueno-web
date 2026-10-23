@@ -22,10 +22,10 @@ const minutes = readingMinutes(entry.body);
 <article class="ft" aria-labelledby="ft-title">
   <div class="wrap">
     {data.heroImage && (
-      <a class="ft-media" href={href} data-clip tabindex="-1" aria-hidden="true">
+      <a class="ft-media" href={href} data-clip tabindex="-1" aria-label={data.title}>
         <Image
           src={data.heroImage}
-          alt=""
+          alt={data.heroAlt ?? ''}
           widths={[800, 1200, 1800, 2400]}
           sizes="(min-width: 1440px) 1312px, 94vw"
           loading="eager"
