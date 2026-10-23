@@ -51,6 +51,21 @@ export const SOCIALS = [
   { label: 'Dribbble', href: LINKS.dribbble },
   { label: 'Instagram', href: LINKS.instagram },
   { label: 'Clutch', href: LINKS.clutch },
+  { label: 'YouTube', href: LINKS.youtube },
+  { label: 'Google', href: LINKS.google },
+] as const;
+
+/** What the studio is known for, published as the Organization knowsAbout list. */
+export const KNOWS_ABOUT = [
+  'UX design for startups',
+  'Web design for startups',
+  'Product design',
+  'B2B SaaS design',
+  'Custom AI development',
+  'AI agents',
+  'AI product design',
+  'Design systems',
+  'Dashboard design',
 ] as const;
 
 /** Profiles used for schema.org sameAs. */
