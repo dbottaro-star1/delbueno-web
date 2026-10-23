@@ -41,6 +41,9 @@ export const LINKS = {
   instagram: 'https://www.instagram.com/delbuenostudio/',
   clutch: 'https://clutch.co/profile/delbueno-studio',
   youtube: 'https://www.youtube.com/@DelbuenoUXStudio',
+  techbehemoths: 'https://techbehemoths.com/company/delbueno-studio',
+  /** The studio's Google Business Profile, by its Knowledge Graph id (a direct URL, unlike the share.google link). */
+  google: 'https://www.google.com/search?q=Delbueno+Studio&kgmid=/g/11wfgggbpm',
 } as const;
 
 export const SOCIALS = [
@@ -51,7 +54,15 @@ export const SOCIALS = [
 ] as const;
 
 /** Profiles used for schema.org sameAs. */
-export const SAME_AS: string[] = [LINKS.linkedin, LINKS.dribbble, LINKS.instagram, LINKS.clutch, LINKS.youtube];
+export const SAME_AS: string[] = [
+  LINKS.linkedin,
+  LINKS.dribbble,
+  LINKS.instagram,
+  LINKS.clutch,
+  LINKS.youtube,
+  LINKS.techbehemoths,
+  LINKS.google,
+];
 
 /** A link to a page of the site: the page key gives the URL in each language, the label key the text. */
 export interface SiteLink {
