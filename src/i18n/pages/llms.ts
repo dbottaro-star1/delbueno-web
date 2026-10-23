@@ -2,7 +2,7 @@ import type { Localized } from '../config';
 
 /** Labels and sentences for /llms.txt and /llms-full.txt (English) and /es/llms.txt and /es/llms-full.txt. */
 export interface LlmsCopy {
-  /** {brand}, {locality}, {country}, {email} */
+  /** Follows the positioning sentence (brand.description). {email} */
   summary: string;
   /** {url} is the booking link. */
   bookLine: string;
@@ -66,7 +66,7 @@ export interface LlmsCopy {
 export const llmsCopy: Localized<LlmsCopy> = {
   en: {
     summary:
-      '{brand} is a product design and development studio for B2B SaaS teams and startups, based in {locality}, {country}, working remote with US hours. Services: product strategy, product design, web design and build. Engagement models: Launch Sprint, Design Partner and Designer on Demand. Kickoff is the same day and first concepts arrive in 48 hours. Contact: {email}.',
+      'Services: product strategy, product design, web design, build and AI development. Engagement models: Launch Sprint, Design Partner and Designer on Demand. Kickoff is the same day and first concepts arrive in 48 hours. Contact: {email}.',
     bookLine: 'Book a 15 minute call at {url}.',
     h: {
       services: 'Services',
@@ -126,7 +126,7 @@ export const llmsCopy: Localized<LlmsCopy> = {
   },
   es: {
     summary:
-      '{brand} es un estudio de diseño y desarrollo de producto para equipos B2B SaaS y startups, con sede en {locality}, {country}, que trabaja en remoto en horario de EE. UU. Servicios: estrategia de producto, diseño de producto, diseño web y desarrollo. Modelos de trabajo: Launch Sprint, Design Partner y Designer on Demand. Empezamos el mismo día y los primeros conceptos llegan en 48 horas. Contacto: {email}.',
+      'Servicios: estrategia de producto, diseño de producto, diseño web, desarrollo y desarrollo con IA. Modelos de trabajo: Launch Sprint, Design Partner y Designer on Demand. Empezamos el mismo día y los primeros conceptos llegan en 48 horas. Contacto: {email}.',
     bookLine: 'Agenda una llamada de 15 minutos en {url}.',
     h: {
       services: 'Servicios',

@@ -1,9 +1,10 @@
 /** schema.org JSON-LD builders. Identity URLs always use the production origin. */
 import { recognition } from '../data/recognition';
+import { getServices } from '../data/services';
 import { LANG_META, type Lang } from '../i18n/config';
 import { t } from '../i18n';
-import { pagePath } from '../i18n/routes';
-import { BRAND, FOUNDER, PROD_ORIGIN, SAME_AS } from './site';
+import { pagePath, servicePath } from '../i18n/routes';
+import { BRAND, FOUNDER, KNOWS_ABOUT, PROD_ORIGIN, SAME_AS } from './site';
 import { canonicalUrl } from './url';
 
 export type JsonLdNode = Record<string, unknown>;
@@ -55,6 +56,8 @@ export function sitewideSchema(lang: Lang = 'en'): JsonLdNode {
         image: LOGO.url,
         email: BRAND.email,
         description,
+        slogan: t(lang, 'brand.tagline'),
+        knowsAbout: [...KNOWS_ABOUT],
         address,
         founder: { '@id': FOUNDER_ID },
         award: recognition.map((r) => r.name),
@@ -70,6 +73,19 @@ export function sitewideSchema(lang: Lang = 'en'): JsonLdNode {
         description,
         address,
         areaServed: 'Worldwide',
+        hasOfferCatalog: {
+          '@type': 'OfferCatalog',
+          name: t(lang, 'pageName.services'),
+          itemListElement: getServices(lang).map((s) => ({
+            '@type': 'Offer',
+            itemOffered: {
+              '@type': 'Service',
+              name: s.name,
+              description: s.summary,
+              url: canonicalUrl(servicePath(s.slug, lang)),
+            },
+          })),
+        },
         parentOrganization: { '@id': ORG_ID },
         sameAs: SAME_AS,
       },

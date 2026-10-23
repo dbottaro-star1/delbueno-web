@@ -7,7 +7,7 @@ import { getIndustries } from '../data/industries';
 import { getServices } from '../data/services';
 import { STACK_SLUGS, stack } from '../data/stack';
 import type { Lang } from '../i18n/config';
-import { fill, t } from '../i18n';
+import { fill, t, type Vars } from '../i18n';
 import { llmsCopy } from '../i18n/pages/llms';
 import { stackPageCopy } from '../i18n/pages/stack';
 import { industryPath, pagePath, servicePath, workPath } from '../i18n/routes';
@@ -30,6 +30,9 @@ const demote = (body: string): string => body.replace(/^(#{1,4}) /gm, '$1## ');
 
 const link = (title: string, href: string, note?: string) => `- [${title}](${href})${note ? `: ${note}` : ''}`;
 
+/** The blockquote at the top of both files: the positioning sentence, then the services, models and contact line. */
+const summary = (lang: Lang, rest: string, vars: Vars): string => `${t(lang, 'brand.description')} ${fill(rest, vars)}`;
+
 const llmsPath = (lang: Lang, file: 'llms.txt' | 'llms-full.txt'): string =>
   lang === 'en' ? `/${file}` : `/es/${file}`;
 
@@ -44,7 +47,7 @@ export async function buildLlmsTxt(site: URL | undefined, lang: Lang = 'en'): Pr
   const lines: string[] = [
     `# ${BRAND.name}`,
     '',
-    `> ${fill(c.summary, vars)}`,
+    `> ${summary(lang, c.summary, vars)}`,
     '',
     `${t(lang, 'brand.speed')} ${fill(c.bookLine, { url: LINKS.book })}`,
     '',
@@ -114,7 +117,7 @@ export async function buildLlmsFullTxt(site: URL | undefined, lang: Lang = 'en')
   const out: string[] = [
     `# ${BRAND.name}`,
     '',
-    `> ${fill(c.summary, vars)}`,
+    `> ${summary(lang, c.summary, vars)}`,
     '',
     `## ${c.h.company}`,
     '',
