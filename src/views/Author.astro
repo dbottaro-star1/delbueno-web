@@ -52,7 +52,16 @@ const place = { brand: BRAND.name, locality: BRAND.locality, country: BRAND.coun
       inLanguage: LANG_META[lang].tag,
       isPartOf: { '@id': websiteId(lang) },
       publisher: { '@id': ORG_ID },
-      mainEntity: { '@id': FOUNDER_ID },
+      ...(posts[0] ? { dateModified: posts[0].data.pubDate.toISOString() } : {}),
+      // Google's ProfilePage check wants the type and name on mainEntity itself, not only a reference to the
+      // sitewide Person node, so the essentials are repeated here under the same @id.
+      mainEntity: {
+        '@type': 'Person',
+        '@id': FOUNDER_ID,
+        name: FOUNDER.name,
+        url: canonicalUrl(path),
+        sameAs: [FOUNDER.linkedin],
+      },
     },
   ]}
 >
