@@ -102,7 +102,7 @@ No honest guide can give you a number before scoping, but the drivers are predic
 
 Build in-house when AI is your core product for the long term and you can hire people who have shipped AI features before. Work with a specialized partner when you need a first version in weeks, your team is light on AI product design, or you want to validate before committing headcount. Many teams do both: a partner builds and documents the MVP, then the in-house team takes over.
 
-delbueno™ Studio designs and builds AI features, agents and AI-native MVPs with one team, so the UX, the evaluation and the code get decided together instead of handed across a wall. Our [Build service](/services/build/) shows how we ship working MVPs. If you are weighing your options, [book a call](/contact/) and we will tell you honestly whether you need a partner at all.
+delbueno™ Studio designs and builds AI features, agents and AI-native MVPs with one team, so the UX, the evaluation and the code get decided together instead of handed across a wall. Our [AI development service](/services/ai-development/) covers how we design and build AI products, and the [Build service](/services/build/) shows how we ship working MVPs. If you are weighing your options, [book a call](/contact/) and we will tell you honestly whether you need a partner at all.
 
 ## Frequently asked questions
 

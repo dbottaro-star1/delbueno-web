@@ -102,7 +102,7 @@ Ninguna guía honesta puede darte una cifra antes de definir el alcance, pero lo
 
 Construye internamente cuando la IA es tu producto central a largo plazo y puedes contratar a gente que ya lanzó funciones de IA. Trabaja con un socio especializado cuando necesitas una primera versión en semanas, a tu equipo le falta experiencia en diseño de producto con IA, o quieres validar antes de sumar headcount. Muchos equipos hacen las dos cosas: un socio construye y documenta el MVP, y después lo toma el equipo interno.
 
-delbueno™ Studio diseña y construye funciones de IA, agentes y MVP nativos de IA con un solo equipo, así que el UX, la evaluación y el código se deciden juntos en lugar de pasarse por encima de una pared. Nuestro [servicio de desarrollo de MVP](/es/servicios/desarrollo-de-mvp/) explica cómo lanzamos MVP que funcionan. Si estás evaluando opciones, [agenda una llamada](/es/contacto/) y te diremos con honestidad si de verdad necesitas un socio.
+delbueno™ Studio diseña y construye funciones de IA, agentes y MVP nativos de IA con un solo equipo, así que el UX, la evaluación y el código se deciden juntos en lugar de pasarse por encima de una pared. Nuestro [servicio de desarrollo con IA](/es/servicios/desarrollo-con-ia/) explica cómo diseñamos y construimos productos de IA, y el [servicio de desarrollo de MVP](/es/servicios/desarrollo-de-mvp/) muestra cómo lanzamos MVP que funcionan. Si estás evaluando opciones, [agenda una llamada](/es/contacto/) y te diremos con honestidad si de verdad necesitas un socio.
 
 ## Preguntas frecuentes
 
