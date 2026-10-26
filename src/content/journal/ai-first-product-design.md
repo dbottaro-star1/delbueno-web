@@ -66,7 +66,7 @@ A release management tool added assisted rollback suggestions based on commit me
 
 ## **Implementation plan you can start this month**
 
-Pick one journey with high toil or high risk. Map the user questions and the points where help would remove steps. Add suggestions with previews and confidence. Add undo and rollback with simple language. Record inputs and outcomes for each assisted action. Test with a handful of users and convert findings into small changes. Repeat for the next journey. With each cycle, **ML interface design** improves and your **AI product UX patterns** become a stable system.
+Pick one journey with high toil or high risk. Map the user questions and the points where help would remove steps. Add suggestions with previews and confidence. Add undo and rollback with simple language. Record inputs and outcomes for each assisted action. Test with a handful of users and convert findings into small changes. Repeat for the next journey. If the product does not exist yet, start with our guide on [how to build an AI MVP](/how-to-build-an-ai-mvp/). With each cycle, **ML interface design** improves and your **AI product UX patterns** become a stable system.
 
 ## **Final take and next step**
 

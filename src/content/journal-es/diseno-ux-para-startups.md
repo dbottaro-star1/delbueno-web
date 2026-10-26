@@ -46,7 +46,7 @@ Haz tú todo lo que dependa de tu criterio sobre el mercado: hablar con clientes
 
 Contrata para todo lo que la experiencia acorta: diseño de interacción complejo, visualización de datos, design systems y los estados en los que nadie piensa hasta que ingeniería pregunta (vacío, cargando, error, permisos parciales). Un diseñador senior ya resolvió eso antes, y tú todavía no.
 
-Si estás decidiendo entre una agencia, un freelancer o una primera contratación, los comparamos en [agencia, freelancer o equipo interno según la etapa del SaaS](/ux-agency-vs-freelancer-vs-in-house/) (en inglés), y publicamos una lista honesta de [las mejores agencias de diseño UX para startups B2B SaaS](/es/blog/mejores-agencias-diseno-ux-b2b-saas/).
+Si estás decidiendo entre una agencia, un freelancer o una primera contratación, los comparamos en [agencia, freelancer o equipo interno según la etapa del SaaS](/ux-agency-vs-freelancer-vs-in-house/) (en inglés), y publicamos una lista honesta de [las mejores agencias de diseño UX para startups B2B SaaS](/es/blog/mejores-agencias-diseno-ux-b2b-saas/). Antes de firmar con alguien, repasa los criterios y las señales de alerta en [cómo elegir una agencia de diseño UX para B2B SaaS](/how-to-choose-ux-design-agency-saas/) (en inglés).
 
 ## ¿Cómo hacer investigación de usuarios con presupuesto de startup?
 
@@ -59,7 +59,7 @@ No necesitas un equipo de investigación. Necesitas un hábito. Una forma práct
 3. **Pregunta por la última vez, no por el futuro.** "Cuéntame la última vez que investigaste una alerta" muestra comportamiento real. "¿Usarías esto?" solo consigue cortesía.
 4. **Escribe una oración por hallazgo.** Si el equipo no lo recuerda, es como si no hubiera pasado.
 
-En productos B2B, donde el usuario y el comprador suelen ser personas distintas, habla con los dos. Profundizamos en [investigación UX para productos B2B complejos](/ux-research-for-b2b-saas/) (en inglés).
+En productos B2B, donde el usuario y el comprador suelen ser personas distintas, habla con los dos. Profundizamos en nuestra guía de [investigación de usuarios B2B para SaaS](/ux-research-for-b2b-saas/) (en inglés).
 
 ## ¿Qué hace que el UX de un MVP convierta?
 
@@ -72,11 +72,13 @@ Un MVP convierte cuando un usuario nuevo puede hacer la única cosa valiosa sin 
 
 **Un ejemplo rápido de antes y después.** Antes: un MVP de monitoreo abre en un dashboard en blanco con un botón "Crear widget". Después: abre en un paso guiado de "Conecta tu primer servicio" y luego muestra un dashboard precargado con las tres métricas que la mayoría de los equipos revisa primero. Las mismas funciones, unos primeros cinco minutos muy distintos.
 
+La misma regla aplica antes del registro. Si el producto está listo pero el sitio de lanzamiento no, mira lo que necesita en [diseño web para startups](/es/blog/diseno-web-para-startups/).
+
 ## ¿Cómo diseñar un onboarding que lleve a la activación?
 
 Empieza por definir la activación como una acción concreta, no como una sensación: "creó un proyecto e invitó a un compañero", o "conectó una fuente de datos y vio el primer resultado". Después quita cada paso entre el registro y esa acción que no sea estrictamente necesario. Pide la información cuando la necesites, no al principio.
 
-En productos B2B, planea dos recorridos: el del admin que configura todo y el del usuario final que llega después por una invitación. Los dos necesitan un camino al primer valor. Los patrones que funcionan están en [por qué la mayoría de los productos SaaS falla en el onboarding](/es/blog/onboarding-saas-patrones-ux/).
+En productos B2B, planea dos recorridos: el del admin que configura todo y el del usuario final que llega después por una invitación. Los dos necesitan un camino al primer valor. Los patrones que funcionan están en nuestra guía de [patrones de UX para el onboarding SaaS](/es/blog/onboarding-saas-patrones-ux/).
 
 ## ¿Cuándo debería una startup construir un design system?
 
@@ -122,7 +124,7 @@ Los desarrolladores juzgan una herramienta en minutos, muchas veces desde la CLI
 
 ### Productos de IA
 
-Las funciones de IA tienen que mostrar qué hicieron, por qué y cómo deshacerlo. Lo difícil es decidir cuándo el sistema actúa solo y cuándo le pregunta a una persona. Mira [UX de agentes de IA y controles human-in-the-loop](/es/blog/ux-agentes-ia-human-in-the-loop/) y [UX de IA explicable](/explainable-ai-ux/) (en inglés).
+Las funciones de IA tienen que mostrar qué hicieron, por qué y cómo deshacerlo. Lo difícil es decidir cuándo el sistema actúa solo y cuándo le pregunta a una persona. Mira [UX de agentes de IA y controles human-in-the-loop](/es/blog/ux-agentes-ia-human-in-the-loop/) y [UX de IA explicable](/explainable-ai-ux/) (en inglés). Si estás definiendo la primera versión, empieza por [cómo construir un MVP de IA](/es/blog/como-construir-un-mvp-de-ia/).
 
 En todas estas verticales, el dashboard suele ser la pantalla que define el producto. Nuestros [principios de UX para dashboards SaaS complejos](/es/blog/ux-dashboards-saas-complejos/) aplican a cualquiera de ellas.
 

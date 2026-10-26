@@ -1,7 +1,7 @@
 ---
 title: "RBAC UX: Designing Permissions People Understand"
-seoTitle: "RBAC UX: 3 Questions Every Permissions UI Must Answer"
-description: "Admins often cannot answer who can delete production data. RBAC UX patterns that help: effective permissions views, job-based roles, readable audit logs."
+seoTitle: "Beyond the RBAC Matrix: Role and Permission Design UX"
+description: "Who can delete production data? Role and permission design beyond the RBAC matrix: effective permissions views, job-based roles and readable audit logs."
 pubDate: 2026-07-22
 author: "Dani Bottaro"
 category: "DevOps & Security"
@@ -38,7 +38,7 @@ Access without provenance is a mystery. When an admin sees that someone can reac
 
 Editing a role is a blast-radius action, and admins usually make the change blind. They toggle a permission on the Manager role with no idea that forty people hold it. Before you save a role change, show the count and the consequence: “This affects 40 users. 12 of them will gain access to financial reports.” Give people the preview, then let them commit. The same instinct that makes irreversible actions safe in any product applies squarely to permissions.
 
-## Roles that match how the org actually works
+## Role and permission design that matches the org
 
 Here’s a trap teams fall into: they design roles around the database, not the org. You end up with roles like “read\_write\_billing” that map perfectly to backend scopes and mean nothing to the office manager assigning them. Or the opposite failure, where there are only three roles (Admin, Member, Viewer) and half the company is Admin because Member can’t do enough.
 
@@ -48,7 +48,7 @@ Good roles read like job descriptions, because that’s how the person assigning
 
 A few concrete moves separate a permissions system people trust from one they route around.
 
-**Lead with people, not the matrix.** The default screen should be a list of users and what each can do, not an abstract role-permission grid. Let admins drill into roles when they want to, but answer the everyday question first.
+**Lead with people, not the RBAC matrix.** The default screen should be a list of users and what each can do, not an abstract role-permission grid. Let admins drill into roles when they want to, but answer the everyday question first.
 
 **Make roles composable, and show the result.** Real people hold more than one role. The moment you allow that, you owe the admin a combined view of what those roles add up to, including conflicts. Don’t make them do the math.
 

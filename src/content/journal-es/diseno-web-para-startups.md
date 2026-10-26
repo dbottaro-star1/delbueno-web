@@ -16,7 +16,7 @@ El error habitual no es un diseño feo. Es un sitio muy pulido que, después de 
 
 ## ¿Para quién es esta guía?
 
-Para founders y primeras personas de marketing en startups B2B, de pre-seed a Serie A, que están por lanzar, relanzar después de un pivote o reemplazar un sitio que ya no refleja el producto que hay detrás.
+Para founders y primeras personas de marketing en startups B2B, de pre-seed a Serie A, que están por lanzar, relanzar después de un pivote o reemplazar un sitio que ya no refleja el producto que hay detrás. Esta guía cubre el sitio de marketing. Para el producto en sí, lee nuestra [guía de diseño UX para startups](/es/blog/diseno-ux-para-startups/).
 
 ## ¿Qué tiene que lograr tu sitio en cada etapa?
 

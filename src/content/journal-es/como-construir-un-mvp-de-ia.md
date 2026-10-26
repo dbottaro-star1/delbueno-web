@@ -65,7 +65,7 @@ Lo necesitas cuando las respuestas tienen que salir de tu contenido, cuando ese 
 
 Con evaluación, no con intuición. Convierte tu conjunto de ejemplos en una batería de pruebas: entradas, resultados esperados y una forma de puntuarlos, ya sea una verificación exacta, una rúbrica que aplica una persona o un segundo modelo que califica contra esa rúbrica. Córrela con cada cambio de prompt, modelo o recuperación, y suma cada mala respuesta que reporten los usuarios.
 
-Los guardrails rodean al modelo: validan las entradas, revisan las salidas contra reglas (formato, contenido prohibido, números que deben coincidir con la fuente), limitan qué herramientas puede usar un agente y lo defienden de la inyección de prompts. El [OWASP Top 10 for LLM Applications](https://owasp.org/www-project-top-10-for-large-language-model-applications/) es una buena lista de lo que puede salir mal.
+Los guardrails rodean al modelo: validan las entradas, revisan las salidas contra reglas (formato, contenido prohibido, números que deben coincidir con la fuente), limitan qué herramientas puede usar un agente y lo defienden de la inyección de prompts. El [OWASP Top 10 for LLM Applications](https://owasp.org/projects/top-10-for-large-language-model-applications) es una buena lista de lo que puede salir mal.
 
 ## ¿Dónde debe quedarse una persona en el circuito?
 

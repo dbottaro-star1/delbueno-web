@@ -65,7 +65,7 @@ You need it when answers must come from your content, that content changes often
 
 With evaluation, not gut feel. Turn your example set into a test suite: inputs, expected outputs and a way to score them (an exact check, a rubric a person applies, or a second model grading against that rubric). Run it on every change to a prompt, model or retrieval, and add every bad answer users report.
 
-Guardrails sit around the model: validating inputs, checking outputs against rules (format, banned content, numbers that must match the source), limiting which tools an agent can call, and blocking prompt injection. The [OWASP Top 10 for LLM Applications](https://owasp.org/www-project-top-10-for-large-language-model-applications/) is a solid checklist of what can go wrong.
+Guardrails sit around the model: validating inputs, checking outputs against rules (format, banned content, numbers that must match the source), limiting which tools an agent can call, and blocking prompt injection. The [OWASP Top 10 for LLM Applications](https://owasp.org/projects/top-10-for-large-language-model-applications) is a solid checklist of what can go wrong.
 
 ## Where should a human stay in the loop?
 

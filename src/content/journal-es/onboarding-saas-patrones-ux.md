@@ -329,6 +329,8 @@ Luego:
 -   Valida con pruebas de usabilidad rápidas
 -   Publica y mide
 
+Si eres un equipo en etapa temprana, nuestra [guía de diseño UX para startups](/es/blog/diseno-ux-para-startups/) muestra dónde encaja el onboarding junto a la investigación, el UX del MVP y las métricas.
+
 Si además quieres que tu sitio de marketing y tu onboarding se sientan como un solo recorrido continuo, ayuda alinear el mensaje, los patrones de diseño y las llamadas a la acción en ambos. Nuestro trabajo de [**diseño web**](/es/servicios/diseno-web/) acompaña a equipos de SaaS que quieren que la captación de leads y la experiencia de onboarding se mantengan consistentes.
 
 ---
