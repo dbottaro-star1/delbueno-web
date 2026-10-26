@@ -83,7 +83,7 @@ Let’s break them into categories, using a Q&A format that teams can actually a
 
 Because activation is where growth starts. If users do not reach value early, retention is almost impossible.
 
-These metrics support **measuring UX impact** in onboarding, setup flows, empty states, and guidance.
+These metrics support **measuring UX impact** in onboarding, setup flows, empty states, and guidance. If you are choosing what to change first, start with these [SaaS onboarding UX patterns](/saas-onboarding-ux-patterns/).
 
 #### What is a practical example?
 

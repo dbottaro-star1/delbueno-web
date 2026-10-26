@@ -4,11 +4,14 @@
  */
 import { getEngagementsCopy } from '../data/engagements';
 import { getIndustries } from '../data/industries';
+import { googleRating, recognition } from '../data/recognition';
 import { getServices } from '../data/services';
+import { STUDIO_STATS } from '../data/stats';
 import { STACK_SLUGS, stack } from '../data/stack';
 import type { Lang } from '../i18n/config';
-import { fill, t } from '../i18n';
+import { fill, t, type Vars } from '../i18n';
 import { llmsCopy } from '../i18n/pages/llms';
+import { CLIENT_NAMES } from '../i18n/pages/shared';
 import { stackPageCopy } from '../i18n/pages/stack';
 import { industryPath, pagePath, servicePath, workPath } from '../i18n/routes';
 import {
@@ -22,6 +25,7 @@ import {
   shotText,
   workSlug,
 } from './content';
+import { CONCEPT_SLUGS } from '../components/work/metric';
 import { BRAND, LINKS, SAME_AS } from './site';
 import { absoluteUrl } from './url';
 
@@ -29,6 +33,48 @@ import { absoluteUrl } from './url';
 const demote = (body: string): string => body.replace(/^(#{1,4}) /gm, '$1## ');
 
 const link = (title: string, href: string, note?: string) => `- [${title}](${href})${note ? `: ${note}` : ''}`;
+
+/** The blockquote at the top of both files: the positioning sentence, then the services, models and contact line. */
+const summary = (lang: Lang, rest: string, vars: Vars): string => `${t(lang, 'brand.description')} ${fill(rest, vars)}`;
+
+/** "a, b and c" in English, "a, b y c" in Spanish. */
+const listOf = (items: readonly string[], lang: Lang): string =>
+  items.length < 2 ? items.join('') : `${items.slice(0, -1).join(', ')} ${lang === 'en' ? 'and' : 'y'} ${items.at(-1)}`;
+
+/**
+ * The company profile right under the summary, modeled on what answer engines quote when asked to describe an agency:
+ * who runs it and where, the studio numbers, clients, recognition, the founder, the approach and the best fit.
+ */
+function profileLines(lang: Lang, work: Awaited<ReturnType<typeof getWork>>, authorUrl: string): string[] {
+  const p = llmsCopy[lang].profile;
+  const startups = work.filter((w) => !CONCEPT_SLUGS.has(workSlug(w))).map((w) => w.data.client);
+  const enterprise = CLIENT_NAMES.filter((name) => !startups.includes(name));
+  const vars = {
+    brand: BRAND.name,
+    founder: BRAND.founder,
+    locality: BRAND.locality,
+    country: BRAND.country,
+    years: STUDIO_STATS.years,
+    products: STUDIO_STATS.products,
+    returning: STUDIO_STATS.returningPct,
+    clutch: STUDIO_STATS.clutch,
+    google: googleRating.score,
+    enterprise: listOf(enterprise, lang),
+    startups: listOf(startups, lang),
+    // Award names contain commas of their own, so they are separated with semicolons.
+    awards: recognition.map((r) => r.name).join('; '),
+    bio: t(lang, 'founder.bio'),
+    author: authorUrl,
+  };
+  return [
+    `## ${fill(p.heading, vars)}`,
+    '',
+    fill(p.intro, vars),
+    '',
+    ...[p.numbers, p.clients, p.recognition, p.founder, p.approach, p.fit].map((line) => `- ${fill(line, vars)}`),
+    '',
+  ];
+}
 
 const llmsPath = (lang: Lang, file: 'llms.txt' | 'llms-full.txt'): string =>
   lang === 'en' ? `/${file}` : `/es/${file}`;
@@ -44,10 +90,11 @@ export async function buildLlmsTxt(site: URL | undefined, lang: Lang = 'en'): Pr
   const lines: string[] = [
     `# ${BRAND.name}`,
     '',
-    `> ${fill(c.summary, vars)}`,
+    `> ${summary(lang, c.summary, vars)}`,
     '',
     `${t(lang, 'brand.speed')} ${fill(c.bookLine, { url: LINKS.book })}`,
     '',
+    ...profileLines(lang, work, u(pagePath('author', lang))),
     `## ${c.h.services}`,
     ...getServices(lang).map((s) => link(s.name, u(servicePath(s.slug, lang)), s.summary)),
     '',
@@ -68,12 +115,7 @@ export async function buildLlmsTxt(site: URL | undefined, lang: Lang = 'en'): Pr
   }
 
   if (shots.length) {
-    lines.push(
-      `## ${c.h.playground}`,
-      link('Playground', u(pagePath('playground', lang)), c.playgroundNote),
-      ...shots.map((p) => link(p.data.title, p.data.url, shotText(p, lang).tags.join(', '))),
-      '',
-    );
+    lines.push(`## ${c.h.playground}`, link('Playground', u(pagePath('playground', lang)), c.playgroundNote), '');
   }
 
   if (journal.length) {
@@ -114,8 +156,9 @@ export async function buildLlmsFullTxt(site: URL | undefined, lang: Lang = 'en')
   const out: string[] = [
     `# ${BRAND.name}`,
     '',
-    `> ${fill(c.summary, vars)}`,
+    `> ${summary(lang, c.summary, vars)}`,
     '',
+    ...profileLines(lang, work, u(pagePath('author', lang))),
     `## ${c.h.company}`,
     '',
     `${f.name}: ${BRAND.name}`,

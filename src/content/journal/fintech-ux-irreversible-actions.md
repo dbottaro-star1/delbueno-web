@@ -1,7 +1,7 @@
 ---
 title: "Fintech UX: Designing Actions Users Can’t Undo"
-seoTitle: "Fintech UX: Designing Irreversible Actions Users Trust"
-description: "One wrong tap can move money that cannot come back. How to design payee warnings, meaningful confirmations, previews and undo in fintech products."
+seoTitle: "Fintech UX for Irreversible Actions: Confirmations and Undo"
+description: "How to design irreversible actions in fintech UX: payee warnings, confirmations people actually read, previews and undo windows that prevent costly errors."
 pubDate: 2026-07-27
 author: "Dani Bottaro"
 category: "UX Strategy"
@@ -69,4 +69,4 @@ Two numbers tell you whether this is working. Reversal and dispute rate: how oft
 
 Money movement is where a fintech product earns trust or quietly loses it. Users forgive a clunky dashboard. They do not forgive losing $2,000 because a screen let them tap through a mistake. Designing for the actions people can’t take back is not a polish task you get to later. It’s the core of whether they’ll move real money through you at all.
 
-If you’re building a fintech product and the money-movement flows are getting more complex than the “add a confirm dialog” approach can carry, and you’re weighing whether to solve it in-house or bring in a partner who has shipped this kind of high-stakes product UX in Fintech and Cloud, [talk to delbueno™ Studio](/contact). It costs less to design the irreversible moments well than to run damage control after one goes wrong.
+If you’re building a fintech product and the money-movement flows are getting more complex than the “add a confirm dialog” approach can carry, and you’re weighing whether to solve it in-house or bring in a partner who has shipped this kind of high-stakes product UX in Fintech and Cloud, [talk to delbueno™ Studio](/contact/). It costs less to design the irreversible moments well than to run damage control after one goes wrong.

@@ -13,6 +13,7 @@
  *     disagrees with it
  *   - hreflang alternates that are incomplete (en, es and x-default are all required once any is present), that do
  *     not include the page itself, that point at a missing page, or that are not reciprocal
+ *   - an internal link to a page path without its trailing slash (GitHub Pages answers it with a redirect)
  *   - on Spanish pages only, the tighter authoring targets: a title over 60 characters, a description outside 140 to 155
  *
  * The authoring targets are tighter than the gate (titles of 60 or fewer, descriptions of 140 to 155), so a
@@ -105,6 +106,14 @@ for (const file of files) {
   rows.push({ page, title, description });
   const lang = langOfPage(page);
   const spanish = lang === 'es';
+
+  // Internal page links must end in a slash: GitHub Pages redirects /contact to /contact/, and every page that links
+  // to a redirect is flagged by crawlers. Files (a dot in the last segment) and fragments are left alone.
+  for (const [, href] of html.matchAll(/<a\b[^>]*\shref="([^"]+)"/gi)) {
+    const path = href.replace(/^https:\/\/delbuenostudio\.com/, '').split(/[?#]/)[0];
+    if (path.startsWith('/') && !path.endsWith('/') && !/\.[a-z0-9]+$/i.test(path))
+      fail(page, `link to ${href} has no trailing slash (it redirects)`);
+  }
 
   if (!title) fail(page, 'missing <title>');
   else if (title.length > TITLE_MAX) fail(page, `title is ${title.length} characters (max ${TITLE_MAX}): ${title}`);

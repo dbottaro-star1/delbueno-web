@@ -1,7 +1,7 @@
 ---
 title: "Why Most SaaS Products Fail at Onboarding: UX Patterns That Increase Activation Rates"
-seoTitle: "8 Onboarding UX Patterns That Increase SaaS Activation"
-description: "Eight onboarding UX patterns for SaaS, from value-first setup to empty states and microcopy, plus how to pick one and which metrics to track."
+seoTitle: "8 SaaS Onboarding UX Patterns for Activation"
+description: "8 SaaS onboarding UX patterns, from value-first setup to empty states and microcopy, plus how to pick the right one and which activation metrics to track."
 pubDate: 2026-02-16
 updatedDate: 2026-03-09
 author: "Dani Bottaro"
@@ -328,6 +328,8 @@ Then:
 -   Design empty states and guidance
 -   Validate with quick usability testing
 -   Ship and measure
+
+If you are an early-stage team, our [UX design for startups guide](/ux-design-for-startups/) shows where onboarding fits next to research, MVP UX and metrics.
 
 If you also want your marketing site and onboarding to feel like one continuous journey, it helps to align messaging, design patterns, and calls to action across both. Our [**web design**](/services/web-design/) work supports SaaS teams that want lead capture and onboarding experience to stay consistent.
 

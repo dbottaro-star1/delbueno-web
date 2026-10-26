@@ -36,6 +36,7 @@ export const SERVICE_SLUGS = {
   'product-design': 'diseno-de-producto',
   'web-design': 'diseno-web',
   build: 'desarrollo-de-mvp',
+  'ai-development': 'desarrollo-con-ia',
 } as const;
 
 /** Industries: English slug to Spanish slug. */
@@ -59,6 +60,10 @@ export const POST_SLUGS: Readonly<Record<string, string>> = {
   'saas-onboarding-ux-patterns': 'onboarding-saas-patrones-ux',
   'ai-agent-ux-human-in-the-loop': 'ux-agentes-ia-human-in-the-loop',
   'fintech-ux-irreversible-actions': 'ux-fintech-acciones-irreversibles',
+  'best-ux-design-agencies-b2b-saas': 'mejores-agencias-diseno-ux-b2b-saas',
+  'ux-design-for-startups': 'diseno-ux-para-startups',
+  'how-to-build-an-ai-mvp': 'como-construir-un-mvp-de-ia',
+  'web-design-for-startups': 'diseno-web-para-startups',
 };
 
 /** Sections whose pages are `<prefix><slug>/`. Without a `slugs` table the slug is the same in both languages. */

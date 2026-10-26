@@ -36,11 +36,14 @@ export const FOUNDER = {
 
 export const LINKS = {
   book: 'https://app.lemcal.com/@delbuenostudio/15-minutes',
-  linkedin: 'https://www.linkedin.com/company/delbueno-studio/',
+  linkedin: 'https://www.linkedin.com/company/we-are-delbueno-studio/',
   dribbble: 'https://dribbble.com/delbueno-studio',
   instagram: 'https://www.instagram.com/delbuenostudio/',
   clutch: 'https://clutch.co/profile/delbueno-studio',
   youtube: 'https://www.youtube.com/@DelbuenoUXStudio',
+  techbehemoths: 'https://techbehemoths.com/company/delbueno-studio',
+  /** The studio's Google Business Profile, by its Knowledge Graph id (a direct URL, unlike the share.google link). */
+  google: 'https://www.google.com/search?q=Delbueno+Studio&kgmid=/g/11wfgggbpm',
 } as const;
 
 export const SOCIALS = [
@@ -48,10 +51,33 @@ export const SOCIALS = [
   { label: 'Dribbble', href: LINKS.dribbble },
   { label: 'Instagram', href: LINKS.instagram },
   { label: 'Clutch', href: LINKS.clutch },
+  { label: 'YouTube', href: LINKS.youtube },
+  { label: 'Google', href: LINKS.google },
+] as const;
+
+/** What the studio is known for, published as the Organization knowsAbout list. */
+export const KNOWS_ABOUT = [
+  'UX design for startups',
+  'Web design for startups',
+  'Product design',
+  'B2B SaaS design',
+  'Custom AI development',
+  'AI agents',
+  'AI product design',
+  'Design systems',
+  'Dashboard design',
 ] as const;
 
 /** Profiles used for schema.org sameAs. */
-export const SAME_AS: string[] = [LINKS.linkedin, LINKS.dribbble, LINKS.instagram, LINKS.clutch, LINKS.youtube];
+export const SAME_AS: string[] = [
+  LINKS.linkedin,
+  LINKS.dribbble,
+  LINKS.instagram,
+  LINKS.clutch,
+  LINKS.youtube,
+  LINKS.techbehemoths,
+  LINKS.google,
+];
 
 /** A link to a page of the site: the page key gives the URL in each language, the label key the text. */
 export interface SiteLink {

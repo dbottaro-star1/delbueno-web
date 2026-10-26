@@ -1,6 +1,7 @@
 ---
 import type { Lang } from '../../i18n/config';
 import { homeCopy } from '../../i18n/pages/home';
+import { STUDIO_STATS } from '../../data/stats';
 import { statsCopy } from '../../i18n/pages/shared';
 
 interface Props {
@@ -9,10 +10,10 @@ interface Props {
 const { lang } = Astro.props;
 const stats = statsCopy[lang];
 const numbers = [
-  { to: '10', unit: '+', label: stats.years },
-  { to: '58', unit: '+', label: stats.products },
-  { to: '85', unit: '%', label: stats.returning },
-  { to: '4.9', dec: 1, star: true, label: stats.clutch },
+  { to: String(STUDIO_STATS.years), unit: '+', label: stats.years },
+  { to: String(STUDIO_STATS.products), unit: '+', label: stats.products },
+  { to: String(STUDIO_STATS.returningPct), unit: '%', label: stats.returning },
+  { to: String(STUDIO_STATS.clutch), dec: 1, star: true, label: stats.clutch },
 ];
 ---
 

@@ -37,7 +37,7 @@ export const recognition: Recognition[] = [
   {
     id: 'techbehemoths-2025',
     name: 'TechBehemoths Awards 2025',
-    url: 'https://techbehemoths.com/company/delbueno-studio',
+    url: LINKS.techbehemoths,
     image: techBehemoths,
   },
 ];
@@ -46,6 +46,6 @@ export const recognition: Recognition[] = [
 export const googleRating = {
   score: '4.9',
   outOf: '5',
-  /** Google Business Profile reviews (share link supplied by Dani). */
-  url: 'https://share.google/nutjLbNTJkfYcFYER' as string | undefined,
+  /** Google Business Profile reviews. */
+  url: LINKS.google as string | undefined,
 };

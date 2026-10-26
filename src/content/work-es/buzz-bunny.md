@@ -1,8 +1,8 @@
 ---
 translationOf: "buzz-bunny"
 title: "Del 62% al 91% de onboarding completado en la app de acciones con IA de Buzz Bunny"
-seoTitle: "Buzz Bunny: caso de estudio de una app de acciones con IA"
-description: "Diseñamos Buzz Bunny, una app de recomendación de acciones con IA, y la construimos en Flutter. El onboarding pasó de 62% a 91% en la beta cerrada."
+seoTitle: "Buzz Bunny, la app de acciones con IA: caso de estudio"
+description: "Buzz Bunny es una app de recomendación de acciones con IA. Así la diseñamos y construimos en Flutter: el onboarding pasó de 62% a 91% en la beta cerrada."
 client: "Buzz Bunny"
 summary: "Diseñamos Buzz Bunny, una app de recomendación de acciones con IA para inversionistas comunes, y la construimos en Flutter para iOS y Android. La finalización del onboarding subió de 62% a 91%, y la beta cerrada llegó a más de 1000 usuarios tempranos."
 industry: "Fintech"

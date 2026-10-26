@@ -5,8 +5,9 @@ import CaseCard from '../components/services/CaseCard.astro';
 import InnerCta from '../components/services/InnerCta.astro';
 import InnerHero from '../components/services/InnerHero.astro';
 import NextRows from '../components/services/NextRows.astro';
+import PostLink from '../components/services/PostLink.astro';
 import Process from '../components/services/Process.astro';
-import { casesFor } from '../components/services/related';
+import { casesFor, postsFor } from '../components/services/related';
 import '../components/services/inner.css';
 import { getServices, type Service } from '../data/services';
 import type { Lang } from '../i18n/config';
@@ -15,6 +16,7 @@ import { innerCopy } from '../i18n/pages/services';
 import { pagePath, servicePath } from '../i18n/routes';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { crumbs, serviceSchema } from '../lib/schema';
+import { url } from '../lib/url';
 
 interface Props {
   lang: Lang;
@@ -30,6 +32,9 @@ const trail = crumbs(
   { name: service.name, path },
 );
 const cases = await casesFor(service.cases, lang);
+const posts = await postsFor(service.reading ?? [], [], 3, lang);
+// A name with a very long single word (Development) would break mid-word at the large size.
+const heroSize = Math.max(...service.name.split(' ').map((w) => w.length)) > 10 ? 'sm' : 'lg';
 const others = services.filter((s) => s.slug !== service.slug);
 ---
 
@@ -45,6 +50,7 @@ const others = services.filter((s) => s.slug !== service.slug);
     crumbs={trail}
     label={c.label}
     title={service.name}
+    size={heroSize}
     headline={service.headline}
     answer={service.answer}
     secondary={{ label: c.secondary, href: pagePath('engagements', lang) }}
@@ -129,6 +135,30 @@ const others = services.filter((s) => s.slug !== service.slug);
     </section>
   )}
 
+  {posts.length > 0 && (
+    <section class="in-sec" aria-labelledby="post-h">
+      <div class="in-head">
+        <p class="label">{c.postsLabel}</p>
+        <h2 class="in-h2" id="post-h" data-split>
+          {c.postsHeading}
+        </h2>
+      </div>
+      <div class="in-posts">
+        {posts.map((entry) => (
+          <PostLink lang={lang} entry={entry} />
+        ))}
+      </div>
+      <p style="margin-top: 24px" data-rv>
+        <a class="in-more" href={url(pagePath('journal', lang))}>
+          {c.allPosts}
+          <svg class="arr" aria-hidden="true">
+            <use href="#i-arr" />
+          </svg>
+        </a>
+      </p>
+    </section>
+  )}
+
   <section class="in-sec in-faq">
     <Faq lang={lang} items={service.faqs} />
   </section>
@@ -140,6 +170,7 @@ const others = services.filter((s) => s.slug !== service.slug);
     items={[
       ...others.map((s) => ({ name: s.name, summary: s.summary, href: servicePath(s.slug, lang) })),
       { name: c.engagementsName, summary: c.engagementsSummary, href: pagePath('engagements', lang) },
+      ...(service.stackLink ? [{ name: c.stackName, summary: c.stackSummary, href: pagePath('stack', lang) }] : []),
     ]}
   />
 

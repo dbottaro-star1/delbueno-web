@@ -97,4 +97,4 @@ If you’re seeing broader friction in how your platform handles incidents, our 
 
 Pick your ten loudest alerts and run them through the four questions. You’ll probably demote half of them and rewrite the rest. That alone buys back a lot of trust from the people carrying the pager.
 
-The harder part is fixing it at the product level, so new alerts are born well-designed instead of cleaned up later. That takes someone who understands both the infrastructure and the interface. If your team is deciding whether to build that capability in-house or bring in a partner who has done it in Cloud, DevOps and security products before, [let’s talk](/contact).
+The harder part is fixing it at the product level, so new alerts are born well-designed instead of cleaned up later. That takes someone who understands both the infrastructure and the interface. If your team is deciding whether to build that capability in-house or bring in a partner who has done it in Cloud, DevOps and security products before, [let’s talk](/contact/).

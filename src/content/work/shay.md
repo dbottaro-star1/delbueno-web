@@ -1,7 +1,7 @@
 ---
 title: "Lifting customer retention 37% for Shay, LATAM's loyalty app"
-seoTitle: "Shay: Loyalty App Case Study for LATAM Businesses"
-description: "We designed Shay, a dual-sided loyalty app with an AI-powered CRM and promotion manager for neighborhood businesses. Retention rose 37% and sales 18%."
+seoTitle: "Shay App: Loyalty and AI CRM for Neighborhood Businesses"
+description: "Shay is a loyalty app that replaces paper stamp cards for neighborhood businesses. We designed its AI-powered CRM, promotion manager and customer app."
 client: "Shay"
 summary: "We designed Shay, a dual-sided loyalty app that replaces paper stamp cards with an AI-powered CRM and a real-time promotion manager for neighborhood businesses. Customer retention rose 37% and sales grew 18%."
 industry: "Retail and loyalty"

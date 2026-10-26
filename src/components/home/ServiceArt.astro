@@ -1,6 +1,8 @@
 ---
+import type { Service } from '../../data/services';
+
 interface Props {
-  slug: 'product-strategy' | 'product-design' | 'web-design' | 'build';
+  slug: Service['slug'];
 }
 const { slug } = Astro.props;
 ---
@@ -103,6 +105,39 @@ const { slug } = Astro.props;
     <path class="a-l" d="M14 252h236" />
     <text x="14" y="276">
       MVP, weeks not quarters
+    </text>
+  </svg>
+)}
+{slug === 'ai-development' && (
+  <svg class="svc-art art" viewBox="0 0 360 300" aria-hidden="true" focusable="false">
+    <rect class="a-s" x="14" y="20" width="164" height="204" rx="8" />
+    <rect class="a-s" x="62" y="38" width="104" height="24" rx="12" />
+    <path class="a-s" d="M76 50h60" />
+    <rect class="a-v" x="26" y="76" width="128" height="62" rx="10" />
+    <path class="a-s" d="M40 92h92M40 106h70M40 120h82" />
+    <rect class="a-s" x="26" y="182" width="140" height="28" rx="14" />
+    <text x="40" y="200">
+      &gt; ask your data
+    </text>
+    <circle class="a-fl" cx="152" cy="196" r="7" />
+    <path class="a-s" d="M178 62H242" />
+    <circle class="a-v" cx="268" cy="62" r="26" />
+    <text x="268" y="66" text-anchor="middle">
+      LLM
+    </text>
+    <path class="a-v" d="M268 88V108M268 108H241V128M268 108H317V128" />
+    <rect class="a-s" x="206" y="128" width="70" height="26" rx="5" />
+    <rect class="a-s" x="288" y="128" width="58" height="26" rx="5" />
+    <path class="a-s" d="M218 141h30M300 141h30" />
+    <path class="a-s" d="M241 154V170H268V184M317 154V170H268" />
+    <rect class="a-l" x="226" y="184" width="84" height="32" rx="16" />
+    <path class="a-l" d="M254 200l7 7 14-14" />
+    <path class="a-s" d="M268 216V230" />
+    <circle class="a-fv" cx="268" cy="236" r="6" />
+    <path class="a-s" d="M14 252h332" />
+    <path class="a-l" d="M14 252h236" />
+    <text x="14" y="276">
+      AI, designed and built together
     </text>
   </svg>
 )}

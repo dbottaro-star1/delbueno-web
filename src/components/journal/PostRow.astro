@@ -22,7 +22,14 @@ const minutes = readingMinutes(entry.body);
   <a class="pr-link" href={url(postHref(entry))}>
     <span class="pr-media">
       {data.heroImage && (
-        <Image src={data.heroImage} alt="" widths={[240, 480]} sizes="240px" loading="lazy" decoding="async" />
+        <Image
+          src={data.heroImage}
+          alt={data.heroAlt ?? ''}
+          widths={[240, 480]}
+          sizes="240px"
+          loading="lazy"
+          decoding="async"
+        />
       )}
     </span>
     <span class="pr-main">
