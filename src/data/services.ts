@@ -22,7 +22,7 @@ export interface Service {
   timing: { title: string; text: string };
   /** Slugs of the case studies that used this service, strongest first. */
   cases: string[];
-  /** Journal post slugs shown as related reading on the service page. Most services have none. */
+  /** Journal post slugs shown as related reading on the service page, at most three. */
   reading?: string[];
   /** Links the service page to the tech stack page. */
   stackLink?: boolean;
@@ -96,6 +96,7 @@ export const services: Service[] = [
       text: 'A product audit takes 5 to 7 business days and ends with a live presentation. Usability testing takes 7 to 10 days.',
     },
     cases: ['cloudguardia', 'buzz-bunny', 'flapz'],
+    reading: ['ux-research-for-b2b-saas', 'how-to-choose-ux-design-agency-saas', 'best-ux-design-agencies-b2b-saas'],
     faqs: [
       {
         q: 'What does a product audit include?',
@@ -158,6 +159,7 @@ export const services: Service[] = [
       text: 'A high-fidelity feature typically takes 1 to 2 weeks, and we stay on during implementation to review builds.',
     },
     cases: ['cloudguardia', 'uleadz', '1to1000'],
+    reading: ['ux-design-for-startups', 'saas-onboarding-ux-patterns', 'complex-ux-design'],
     faqs: [
       {
         q: 'How fast can you start?',
@@ -221,6 +223,7 @@ export const services: Service[] = [
       text: 'Concepts in 48 hours, then built in the platform that fits your team. Animation projects take 2 to 6 weeks.',
     },
     cases: ['flapz', 'uleadz', 'vzari', 'toyota'],
+    reading: ['web-design-for-startups', 'website-redesign', 'significance-of-page-speed-and-performance'],
     faqs: [
       {
         q: 'Which platforms do you build on?',
@@ -282,6 +285,7 @@ export const services: Service[] = [
       text: 'Simple MVPs ship in 1 to 4 weeks, with a working version to review along the way.',
     },
     cases: ['buzz-bunny', 'shay', 'vzari'],
+    reading: ['how-to-build-an-ai-mvp', 'ux-design-for-startups', 'design-systems-for-startups'],
     faqs: [
       {
         q: 'When is no-code the right choice?',
@@ -346,7 +350,7 @@ export const services: Service[] = [
       text: 'Kickoff the same day and first concepts in 48 hours. After that we build in short cycles, with a working version for you to review along the way.',
     },
     cases: [],
-    reading: ['ai-agent-ux-human-in-the-loop', 'explainable-ai-ux'],
+    reading: ['how-to-build-an-ai-mvp', 'ai-agent-ux-human-in-the-loop', 'explainable-ai-ux'],
     stackLink: true,
     faqs: [
       {

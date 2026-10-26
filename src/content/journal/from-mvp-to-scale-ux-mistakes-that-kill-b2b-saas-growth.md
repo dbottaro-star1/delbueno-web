@@ -48,7 +48,7 @@ Because many products treat onboarding as a checklist instead of a value path. U
 
 ### **How do you fix it?**
 
-Start by defining one clear activation moment. Not ten. One. Then shape onboarding around it.
+Start by defining one clear activation moment. Not ten. One. Then shape onboarding around it. Our guide to [SaaS onboarding UX patterns](/saas-onboarding-ux-patterns/) covers eight ways to do that.
 
 A simple litmus test: can a first-time user complete the core job in under 10 minutes without needing a call?
 

@@ -67,7 +67,7 @@ delbueno™ Studio, the author of this article, is a product design and AI devel
 
 ### Fuselab Creative: best for data visualization and regulated, data-heavy platforms
 
-Fuselab Creative was founded in 2017 in McLean, Virginia. Its focus is products where the interface carries technical or regulatory weight: enterprise dashboards, AI interfaces, data visualization and healthcare platforms. Named clients include Google, Uber, NIH and Corelight. Its site states that projects start at $25,000 and that hourly work, where it applies, runs $100 to $149. See [fuselabcreative.com](https://www.fuselabcreative.com/).
+Fuselab Creative was founded in 2017 in McLean, Virginia. Its focus is products where the interface carries technical or regulatory weight: enterprise dashboards, AI interfaces, data visualization and healthcare platforms. Named clients include Google, Uber, NIH and Corelight. Its site states that projects start at $25,000 and that hourly work, where it applies, runs $100 to $149. See [fuselabcreative.com](https://fuselabcreative.com/).
 
 ### Eleken: best for a predictable monthly budget with embedded designers
 

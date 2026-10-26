@@ -46,7 +46,7 @@ Do yourself anything that depends on your judgment of the market: talking to cus
 
 Hire for anything where experience compresses time: complex interaction design, data visualization, design systems and the states nobody thinks about until engineering asks (empty, loading, error, partial permissions). A senior designer has solved those before, and you have not.
 
-If you are deciding between an agency, a freelancer or a first hire, we compared them in [UX agency vs freelancer vs in-house by SaaS stage](/ux-agency-vs-freelancer-vs-in-house/), and we published an honest shortlist of [the best UX design agencies for B2B SaaS startups](/best-ux-design-agencies-b2b-saas/).
+If you are deciding between an agency, a freelancer or a first hire, we compared them in [UX agency vs freelancer vs in-house by SaaS stage](/ux-agency-vs-freelancer-vs-in-house/), and we published an honest shortlist of [the best UX design agencies for B2B SaaS startups](/best-ux-design-agencies-b2b-saas/). Before you sign with anyone, run through the criteria and red flags in [how to choose a UX design agency for B2B SaaS](/how-to-choose-ux-design-agency-saas/).
 
 ## How do you run user research on a startup budget?
 
@@ -59,7 +59,7 @@ You do not need a research team. You need a habit. A practical setup for a start
 3. **Ask about the last time, not the future.** "Walk me through the last time you investigated an alert" gets real behavior. "Would you use this?" gets politeness.
 4. **Write one sentence per finding.** If the team cannot remember it, it did not happen.
 
-For B2B products, where your user and your buyer are often different people, talk to both. We go deeper in [UX research for complex B2B products](/ux-research-for-b2b-saas/).
+For B2B products, where your user and your buyer are often different people, talk to both. We go deeper in our guide to [B2B user research for SaaS](/ux-research-for-b2b-saas/).
 
 ## What makes MVP UX convert?
 
@@ -72,11 +72,13 @@ An MVP converts when a new user can do the one valuable thing without asking you
 
 **Before and after, a quick example.** Before: a monitoring MVP opens on a blank dashboard with a "Create widget" button. After: it opens on a guided "Connect your first service" step, then shows a prefilled dashboard with the three metrics most teams check first. Same features, a very different first five minutes.
 
+The same rule applies before sign-up. If the product is ready but the launch website is not, see what a launch site needs in [web design for startups](/web-design-for-startups/).
+
 ## How do you design onboarding that leads to activation?
 
 Start by defining activation as a specific action, not a feeling: "created a project and invited a teammate", or "connected a data source and saw the first result". Then remove every step between sign-up and that action that is not strictly required. Ask for information when you need it, not up front.
 
-For B2B products, plan for two journeys: the admin who sets things up and the end user who arrives later through an invite. Both need a path to first value. The patterns that work are in [why most SaaS products fail at onboarding](/saas-onboarding-ux-patterns/).
+For B2B products, plan for two journeys: the admin who sets things up and the end user who arrives later through an invite. Both need a path to first value. The patterns that work are in our guide to [SaaS onboarding UX patterns](/saas-onboarding-ux-patterns/).
 
 ## When should a startup build a design system?
 
@@ -122,7 +124,7 @@ Developers judge a tool in minutes, often from the CLI or the docs before the UI
 
 ### AI products
 
-AI features need to show what they did, why, and how to undo it. The hard part is deciding when the system acts alone and when it asks a person. See [AI agent UX and human-in-the-loop controls](/ai-agent-ux-human-in-the-loop/) and [explainable AI UX](/explainable-ai-ux/).
+AI features need to show what they did, why, and how to undo it. The hard part is deciding when the system acts alone and when it asks a person. See [AI agent UX and human-in-the-loop controls](/ai-agent-ux-human-in-the-loop/) and [explainable AI UX](/explainable-ai-ux/). If you are scoping the first version, start with [how to build an AI MVP](/how-to-build-an-ai-mvp/).
 
 Across all of these, the dashboard is usually the screen that makes or breaks the product. Our [UX principles for complex SaaS dashboards](/complex-ux-design/) apply to every vertical.
 

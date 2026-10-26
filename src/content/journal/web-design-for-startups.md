@@ -16,7 +16,7 @@ The usual failure is not ugly design. It is a polished site that leaves a visito
 
 ## Who is this guide for?
 
-Founders and first marketing hires at pre-seed to Series A B2B startups who are launching, relaunching after a pivot, or replacing a site that no longer matches the product behind it.
+Founders and first marketing hires at pre-seed to Series A B2B startups who are launching, relaunching after a pivot, or replacing a site that no longer matches the product behind it. This guide covers the marketing site. For the product itself, read our [UX design for startups guide](/ux-design-for-startups/).
 
 ## What should your website do at each stage?
 

@@ -24,7 +24,7 @@ Ask to see dashboards, tables, settings, permissions, onboarding for technical u
 
 ### Research they actually run
 
-Good agencies talk to users before they draw. Ask what research they would do in the first two weeks, and with whom. For B2B products, that usually means interviews with a handful of real customers, a look at support tickets and session recordings, and time with your sales and success teams. If you want a deeper view of what that should look like, we wrote about [UX research for complex B2B products](/ux-research-for-b2b-saas/).
+Good agencies talk to users before they draw. Ask what research they would do in the first two weeks, and with whom. For B2B products, that usually means interviews with a handful of real customers, a look at support tickets and session recordings, and time with your sales and success teams. If you want a deeper view of what that should look like, we wrote about [B2B user research for SaaS](/ux-research-for-b2b-saas/).
 
 ### Design that engineers can build
 
@@ -85,7 +85,7 @@ If you want a lighter first step, a [free UX audit](/free-ux-audit/) is another 
 
 ## What is the short version?
 
-Pick the agency whose thinking you trust on your hardest screens, not the one with the shiniest portfolio. If you are weighing whether to build design in-house or bring in a specialized partner for a complex product in Cloud, DevOps, Security, AI or Fintech, [book a call with delbueno™ Studio](/contact/). We will tell you honestly whether we are a fit.
+Pick the agency whose thinking you trust on your hardest screens, not the one with the shiniest portfolio. If you still need names to compare, start with our shortlist of [the best UX design agencies for B2B SaaS](/best-ux-design-agencies-b2b-saas/). If you are weighing whether to build design in-house or bring in a specialized partner for a complex product in Cloud, DevOps, Security, AI or Fintech, [book a call with delbueno™ Studio](/contact/). We will tell you honestly whether we are a fit.
 
 ## Frequently asked questions
 

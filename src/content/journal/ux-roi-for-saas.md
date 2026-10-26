@@ -50,7 +50,7 @@ If your customers say service, use service. If they think in environments and st
 
 ## **Onboarding that proves value quickly**
 
-An effective first hour is the most reliable driver of activation and retention. Build a start here view that states overall status, shows the top drivers, and offers the next action. Include a single copy and run command for popular stacks plus a guided mode that validates the connection. When you measure the lift in first run success, you are measuring **UX ROI for SaaS** in a way that everyone can see.
+An effective first hour is the most reliable driver of activation and retention. Build a start here view that states overall status, shows the top drivers, and offers the next action. Include a single copy and run command for popular stacks plus a guided mode that validates the connection. When you measure the lift in first run success, you are measuring **UX ROI for SaaS** in a way that everyone can see. For the patterns that shorten that first hour, see our guide to [SaaS onboarding UX patterns](/saas-onboarding-ux-patterns/).
 
 ### **What to measure during the first hour**
 

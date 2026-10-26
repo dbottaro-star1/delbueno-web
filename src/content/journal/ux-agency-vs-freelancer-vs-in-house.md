@@ -29,7 +29,7 @@ None of these is better in general. Each one is a bet on where your bottleneck i
 
 ## What fits at pre-seed?
 
-At pre-seed you are trying to learn whether anyone wants the thing. The design job is narrow: a credible MVP, a clickable prototype for customer conversations, a landing page that explains the product.
+At pre-seed you are trying to learn whether anyone wants the thing. The design job is narrow: a credible MVP, a clickable prototype for customer conversations, a landing page that explains the product. Our [UX design for startups guide](/ux-design-for-startups/) breaks down what matters at each stage.
 
 ![Person typing on a laptop at a wooden desk, the setup of a solo freelance designer](../../assets/journal/ux-agency-vs-freelancer-vs-in-house/freelancer-laptop.jpg)
 
@@ -43,7 +43,7 @@ At pre-seed you are trying to learn whether anyone wants the thing. The design j
 
 Seed is when the product starts to sprawl. You have early customers, a backlog that changes every week, and the first signs of [UX debt that slows growth](/from-mvp-to-scale-ux-mistakes-that-kill-b2b-saas-growth/): inconsistent screens, onboarding that leaks, features bolted on without a system.
 
-This is where a specialized agency usually earns its place. You need someone to run research with real customers, set up the foundations of a design system and keep pace with engineering, and you probably cannot hire a senior designer who does all three fast enough. A continuous model, where you send requests into a queue instead of renegotiating a scope each time, matches how seed-stage roadmaps behave. We explain why in our piece on [continuous UX for fast-moving teams](/continuous-ux/), and if you go this route, here is [how to choose a UX design agency for B2B SaaS](/how-to-choose-ux-design-agency-saas/).
+This is where a specialized agency usually earns its place. You need someone to run research with real customers, set up the foundations of a design system and keep pace with engineering, and you probably cannot hire a senior designer who does all three fast enough. A continuous model, where you send requests into a queue instead of renegotiating a scope each time, matches how seed-stage roadmaps behave. We explain why in our piece on [continuous UX for fast-moving teams](/continuous-ux/), and if you go this route, here is [how to choose a UX design agency for B2B SaaS](/how-to-choose-ux-design-agency-saas/), plus our shortlist of [the best UX design agencies for B2B SaaS](/best-ux-design-agencies-b2b-saas/).
 
 A freelancer still works at seed if the product is simple and someone in-house can act as design lead. The risk is continuity: when your one designer gets busy or moves on, the context goes with them.
 
