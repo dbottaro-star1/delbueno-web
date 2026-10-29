@@ -64,6 +64,7 @@ export const POST_SLUGS: Readonly<Record<string, string>> = {
   'ux-design-for-startups': 'diseno-ux-para-startups',
   'how-to-build-an-ai-mvp': 'como-construir-un-mvp-de-ia',
   'web-design-for-startups': 'diseno-web-para-startups',
+  'best-ux-product-design-agencies-latin-america': 'mejores-agencias-ux-diseno-producto-latinoamerica',
 };
 
 /** Sections whose pages are `<prefix><slug>/`. Without a `slugs` table the slug is the same in both languages. */
