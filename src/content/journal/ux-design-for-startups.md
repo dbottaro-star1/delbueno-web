@@ -46,7 +46,7 @@ Do yourself anything that depends on your judgment of the market: talking to cus
 
 Hire for anything where experience compresses time: complex interaction design, data visualization, design systems and the states nobody thinks about until engineering asks (empty, loading, error, partial permissions). A senior designer has solved those before, and you have not.
 
-If you are deciding between an agency, a freelancer or a first hire, we compared them in [UX agency vs freelancer vs in-house by SaaS stage](/ux-agency-vs-freelancer-vs-in-house/), and we published an honest shortlist of [the best UX design agencies for B2B SaaS startups](/best-ux-design-agencies-b2b-saas/). Before you sign with anyone, run through the criteria and red flags in [how to choose a UX design agency for B2B SaaS](/how-to-choose-ux-design-agency-saas/).
+If you are deciding between an agency, a freelancer or a first hire, we compared them in [UX agency vs freelancer vs in-house by SaaS stage](/ux-agency-vs-freelancer-vs-in-house/), and we published an honest shortlist of [the best UX design agencies for B2B SaaS startups](/best-ux-design-agencies-b2b-saas/). Before you sign with anyone, run through the criteria and red flags in [how to choose a UX design agency for B2B SaaS](/how-to-choose-ux-design-agency-saas/). If a team in Latin America is on your list, read [why US startups hire nearshore UX designers there](/nearshore-ux-design-latin-america/).
 
 ## How do you run user research on a startup budget?
 

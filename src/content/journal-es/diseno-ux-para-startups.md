@@ -46,7 +46,7 @@ Haz tú todo lo que dependa de tu criterio sobre el mercado: hablar con clientes
 
 Contrata para todo lo que la experiencia acorta: diseño de interacción complejo, visualización de datos, design systems y los estados en los que nadie piensa hasta que ingeniería pregunta (vacío, cargando, error, permisos parciales). Un diseñador senior ya resolvió eso antes, y tú todavía no.
 
-Si estás decidiendo entre una agencia, un freelancer o una primera contratación, los comparamos en [agencia, freelancer o equipo interno según la etapa del SaaS](/ux-agency-vs-freelancer-vs-in-house/) (en inglés), y publicamos una lista honesta de [las mejores agencias de diseño UX para startups B2B SaaS](/es/blog/mejores-agencias-diseno-ux-b2b-saas/). Antes de firmar con alguien, repasa los criterios y las señales de alerta en [cómo elegir una agencia de diseño UX para B2B SaaS](/how-to-choose-ux-design-agency-saas/) (en inglés).
+Si estás decidiendo entre una agencia, un freelancer o una primera contratación, los comparamos en [agencia, freelancer o equipo interno según la etapa del SaaS](/ux-agency-vs-freelancer-vs-in-house/) (en inglés), y publicamos una lista honesta de [las mejores agencias de diseño UX para startups B2B SaaS](/es/blog/mejores-agencias-diseno-ux-b2b-saas/). Antes de firmar con alguien, repasa los criterios y las señales de alerta en [cómo elegir una agencia de diseño UX para B2B SaaS](/how-to-choose-ux-design-agency-saas/) (en inglés). Si tienes en la lista un equipo en Latinoamérica, lee [por qué las startups de EE. UU. contratan diseñadores UX nearshore en la región](/es/blog/diseno-ux-nearshore-latinoamerica/).
 
 ## ¿Cómo hacer investigación de usuarios con presupuesto de startup?
 
