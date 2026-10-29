@@ -37,6 +37,8 @@ const toc = headings.filter((h) => h.depth === 2);
 const isFounder = data.author === FOUNDER.name;
 const faq = postFaq(entry.body);
 const minutes = readingMinutes(entry.body);
+// Characters in the longest title word, so the title can shrink on phones instead of splitting that word.
+const longestWord = Math.max(...data.title.split(/\s+/).map((w) => [...w].length));
 // Related posts are picked from the English originals (the categories are English), then shown in the post's language.
 const original = isSpanishPost(entry) ? await getEntry('journal', entry.data.translationOf) : entry;
 const related = original ? await inLang(await getRelated(original, 3), lang) : [];
@@ -112,7 +114,7 @@ const articleImage = ogImage ?? absoluteUrl(card ? `/og/${card.name}.png` : '/og
             <span class="label">{data.category}</span>
           )}
         </p>
-        <h1 class="ph-title" data-lines>
+        <h1 class="ph-title" data-lines style={`--lw: ${longestWord}`}>
           {data.title}
         </h1>
         <p class="ph-meta">
@@ -241,6 +243,8 @@ const articleImage = ogImage ?? absoluteUrl(card ? `/og/${card.name}.png` : '/og
     margin-top: clamp(16px, 2vw, 28px);
     max-width: 21ch;
     font: 800 clamp(2rem, 1rem + 4.5vw, 5.4rem) / 0.97 var(--display);
+    /* A word in this face is about 0.87em per character, so the longest word always fits the column. */
+    font-size: min(clamp(2rem, 1rem + 4.5vw, 5.4rem), calc((100vw - 2 * var(--pad)) / (var(--lw, 10) * 0.87)));
     letter-spacing: -0.05em;
     text-wrap: balance;
     overflow-wrap: break-word;
@@ -347,6 +351,11 @@ const articleImage = ogImage ?? absoluteUrl(card ? `/og/${card.name}.png` : '/og
     margin-top: 16px;
     font: 800 clamp(2rem, 1.2rem + 3.4vw, 4.4rem) / 0.95 var(--display);
     letter-spacing: -0.045em;
+  }
+
+  /* "relacionados" is about 10.5em wide, so on 320px phones the Spanish heading shrinks to fit the column. */
+  :global(html[lang='es']) .rel-h {
+    font-size: min(clamp(2rem, 1.2rem + 3.4vw, 4.4rem), calc((100vw - 2 * var(--pad)) / 10.6));
   }
 
   .rel-grid {
