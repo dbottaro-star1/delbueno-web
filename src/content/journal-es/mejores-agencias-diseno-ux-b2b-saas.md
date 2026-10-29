@@ -18,7 +18,7 @@ Las agencias de diseño UX que más vale la pena considerar para una startup B2B
 
 Para founders, responsables de producto y líderes de ingeniería en startups B2B SaaS, más o menos desde pre-seed hasta Serie B, que están decidiendo si sumar un socio de diseño externo. Parte de la base de que tu producto es más que una landing page: tiene dashboards, configuración, roles, integraciones y usuarios que hacen trabajo serio en tu herramienta todos los días.
 
-Si todavía estás decidiendo entre una agencia, un freelancer y una primera contratación interna, lee primero nuestra comparación de [agencia, freelancer o equipo interno según la etapa del SaaS](/ux-agency-vs-freelancer-vs-in-house/) (en inglés). Esta lista es para el paso siguiente a esa decisión.
+Si todavía estás decidiendo entre una agencia, un freelancer y una primera contratación interna, lee primero nuestra comparación de [agencia, freelancer o equipo interno según la etapa del SaaS](/ux-agency-vs-freelancer-vs-in-house/) (en inglés). Esta lista es para el paso siguiente a esa decisión. Si buscas un socio en Latinoamérica en particular, mira nuestra lista de [las mejores agencias de UX y diseño de producto en Latinoamérica](/es/blog/mejores-agencias-ux-diseno-producto-latinoamerica/).
 
 ## ¿Cómo elegimos las agencias de esta lista?
 

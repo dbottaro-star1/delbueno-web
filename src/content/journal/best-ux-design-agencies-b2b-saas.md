@@ -18,7 +18,7 @@ The UX design agencies most worth shortlisting for a B2B SaaS startup in 2026 in
 
 This is for founders, heads of product and engineering leaders at B2B SaaS startups, roughly from pre-seed to Series B, who are deciding whether to bring in an outside design partner. It assumes your product is more than a landing page: there are dashboards, settings, roles, integrations, and users who do serious work in your tool every day.
 
-If you are still deciding between an agency, a freelancer and a first in-house hire, read our comparison of [UX agency vs freelancer vs in-house by SaaS stage](/ux-agency-vs-freelancer-vs-in-house/) first. This list is for the step after that decision.
+If you are still deciding between an agency, a freelancer and a first in-house hire, read our comparison of [UX agency vs freelancer vs in-house by SaaS stage](/ux-agency-vs-freelancer-vs-in-house/) first. This list is for the step after that decision. If you want a partner in Latin America specifically, see our shortlist of [the best UX and product design agencies in Latin America](/best-ux-product-design-agencies-latin-america/).
 
 ## How did we choose the agencies on this list?
 
