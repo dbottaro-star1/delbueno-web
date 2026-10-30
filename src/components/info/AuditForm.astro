@@ -122,7 +122,10 @@ const whatsapp = copy.whatsapp ? `${LINKS.whatsapp}?text=${encodeURIComponent(co
 
   <div class="af-alt">
     {whatsapp && copy.whatsapp ? (
-      <a class="btn btn-ghost btn-sm" href={whatsapp} rel="noopener noreferrer" target="_blank">
+      <a class="btn btn-sm af-wa" href={whatsapp} rel="noopener noreferrer" target="_blank">
+        <svg class="af-wa-icon" aria-hidden="true">
+          <use href="#i-whatsapp"></use>
+        </svg>
         {copy.whatsapp.label}
       </a>
     ) : (
@@ -265,6 +268,26 @@ const whatsapp = copy.whatsapp ? `${LINKS.whatsapp}?text=${encodeURIComponent(co
 
   .af-alt {
     margin-top: 18px;
+  }
+
+  /* WhatsApp brand green. Dark text instead of white: white on #25d366 is under 2:1, dark text is over 10:1. */
+  .af-wa {
+    gap: 10px;
+    background: #25d366;
+    color: #0a0a0f;
+    font-weight: 600;
+    transition: background var(--dur-fast);
+  }
+
+  .af-wa:hover,
+  .af-wa:focus-visible {
+    background: #1ebe5b;
+  }
+
+  .af-wa-icon {
+    width: 20px;
+    height: 20px;
+    flex: none;
   }
 
   .af-book {
