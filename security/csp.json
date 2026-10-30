@@ -22,12 +22,13 @@
       "https://*.hotjar.io",
       "wss://*.hotjar.com",
       "https://cloudflareinsights.com",
-      "https://gateway.umami.is"
+      "https://gateway.umami.is",
+      "https://formsubmit.co"
     ],
     "manifest-src": ["'self'"],
     "frame-src": ["'none'"],
     "worker-src": ["'none'"],
-    "form-action": ["'self'"],
+    "form-action": ["'self'", "https://formsubmit.co"],
     "base-uri": ["'none'"],
     "object-src": ["'none'"],
     "frame-ancestors": ["'none'"],

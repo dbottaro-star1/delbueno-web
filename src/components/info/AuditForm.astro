@@ -1,0 +1,242 @@
+---
+/**
+ * Request form for the free UX audit. Posts to FormSubmit (formsubmit.co), which forwards each request to the
+ * studio inbox. With scripts on it submits in place and shows the confirmation inline; without scripts the browser
+ * posts the form and FormSubmit redirects back to the page with ?sent=1.
+ *
+ * The submit behavior lives in src/scripts/info/audit-form.ts, started by the page script in Audit.astro.
+ *
+ * Spam: `_honey` is a honeypot field hidden from people. FormSubmit drops any submission that fills it.
+ * The endpoint host must be allowed in security/csp.json (form-action and connect-src) and in the Cloudflare header.
+ */
+import type { Lang } from '../../i18n/config';
+import type { AuditCopy } from '../../i18n/pages/audit';
+import { BRAND, LINKS } from '../../lib/site';
+import { canonicalUrl } from '../../lib/url';
+
+interface Props {
+  lang: Lang;
+  copy: AuditCopy['form'];
+  /** Page path, used for the no-script redirect back to the page. */
+  path: string;
+}
+const { lang, copy, path } = Astro.props;
+
+const endpoint = `https://formsubmit.co/${BRAND.email}`;
+const ajaxEndpoint = `https://formsubmit.co/ajax/${BRAND.email}`;
+const next = `${canonicalUrl(path)}?sent=1#audit-form`;
+const whatsapp = copy.whatsapp ? `${LINKS.whatsapp}?text=${encodeURIComponent(copy.whatsapp.message)}` : undefined;
+---
+
+<div class="af" id="audit-form" data-reveal>
+  <form
+    class="af-form"
+    action={endpoint}
+    method="POST"
+    data-audit-form
+    data-ajax={ajaxEndpoint}
+    data-sending={copy.sending}
+  >
+    <p class="af-h">{copy.heading}</p>
+
+    <input type="hidden" name="_subject" value={copy.subject} />
+    <input type="hidden" name="_template" value="table" />
+    <input type="hidden" name="_captcha" value="false" />
+    <input type="hidden" name="_next" value={next} />
+    <input type="hidden" name="language" value={lang} />
+    <input type="hidden" name="page" value={canonicalUrl(path)} />
+    <input type="hidden" name="source" value="" data-source />
+    <div class="af-honey" aria-hidden="true">
+      <label>
+        Leave this empty
+        <input type="text" name="_honey" tabindex="-1" autocomplete="off" />
+      </label>
+    </div>
+
+    <div class="af-field">
+      <label for="af-email">{copy.email}</label>
+      <input id="af-email" name="email" type="email" required autocomplete="email" placeholder={copy.emailPh} />
+    </div>
+
+    <div class="af-field">
+      <label for="af-stage">{copy.stage}</label>
+      <select id="af-stage" name="stage" required>
+        <option value="" disabled selected>
+          {copy.stagePh}
+        </option>
+        {copy.stages.map((s) => (
+          <option value={s}>{s}</option>
+        ))}
+      </select>
+    </div>
+
+    <div class="af-field">
+      <label for="af-link">
+        {copy.link} <span class="af-opt">{copy.optional}</span>
+      </label>
+      <input
+        id="af-link"
+        name="product_link"
+        type="text"
+        inputmode="url"
+        autocomplete="url"
+        placeholder={copy.linkPh}
+      />
+      <p class="af-hint">{copy.linkHint}</p>
+    </div>
+
+    <div class="af-field">
+      <label for="af-goal">
+        {copy.goal} <span class="af-opt">{copy.optional}</span>
+      </label>
+      <textarea id="af-goal" name="improve" rows="3" placeholder={copy.goalPh}></textarea>
+    </div>
+
+    <button class="btn btn-primary af-submit" type="submit">
+      <span data-label>{copy.submit}</span>
+      <svg class="arr" aria-hidden="true">
+        <use href="#i-arr"></use>
+      </svg>
+    </button>
+    <p class="af-note">{copy.privacy}</p>
+    <p class="af-error" role="alert" hidden data-error>
+      {copy.error}
+    </p>
+  </form>
+
+  <div class="af-done" role="status" hidden data-done>
+    <p class="af-h">{copy.successTitle}</p>
+    <p>{copy.success}</p>
+  </div>
+
+  <div class="af-alt">
+    {whatsapp && copy.whatsapp ? (
+      <a class="btn btn-ghost btn-sm" href={whatsapp} rel="noopener noreferrer" target="_blank">
+        {copy.whatsapp.label}
+      </a>
+    ) : (
+      <a class="af-book" href={LINKS.book} rel="noopener noreferrer">
+        {copy.book}
+      </a>
+    )}
+  </div>
+</div>
+
+<style>
+  .af {
+    margin-top: clamp(32px, 4.4vw, 64px);
+    max-width: 560px;
+  }
+
+  .af-form,
+  .af-done {
+    display: grid;
+    gap: 18px;
+    padding: clamp(22px, 2.6vw, 34px);
+    border-radius: var(--radius);
+    background:
+      linear-gradient(var(--bg-1), var(--bg-1)) padding-box,
+      linear-gradient(140deg, var(--violet-2), var(--line) 45%, var(--lime)) border-box;
+    border: 1px solid transparent;
+  }
+
+  .af-h {
+    font: 700 clamp(1.25rem, 1.05rem + 0.8vw, 1.75rem) / 1.15 var(--display);
+    letter-spacing: -0.03em;
+  }
+
+  .af-field {
+    display: grid;
+    gap: 8px;
+  }
+
+  .af-field label {
+    font-size: var(--fs-sm);
+    font-weight: 500;
+  }
+
+  .af-opt,
+  .af-hint,
+  .af-note {
+    color: var(--dim);
+    font-size: var(--fs-xs);
+    font-weight: 400;
+  }
+
+  .af-field input,
+  .af-field select,
+  .af-field textarea {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid var(--line-2);
+    border-radius: 10px;
+    background: var(--bg-2);
+    color: var(--ink);
+    font: 400 var(--fs-base) / 1.4 var(--sans);
+    transition: border-color var(--dur-fast);
+  }
+
+  .af-field textarea {
+    resize: vertical;
+    min-height: 88px;
+  }
+
+  .af-field input::placeholder,
+  .af-field textarea::placeholder {
+    color: var(--dim);
+  }
+
+  .af-field input:focus-visible,
+  .af-field select:focus-visible,
+  .af-field textarea:focus-visible {
+    outline: none;
+    border-color: var(--violet-2);
+  }
+
+  .af-submit {
+    width: 100%;
+    margin-top: 4px;
+  }
+
+  .af-submit:disabled {
+    opacity: 0.7;
+    cursor: progress;
+  }
+
+  .af-error {
+    color: #ff8a8a;
+    font-size: var(--fs-sm);
+  }
+
+  .af-done p:not(.af-h) {
+    color: var(--mute);
+  }
+
+  .af [hidden] {
+    display: none;
+  }
+
+  .af-honey {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+  }
+
+  .af-alt {
+    margin-top: 18px;
+  }
+
+  .af-book {
+    color: var(--mute);
+    font-size: var(--fs-sm);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-color: var(--line-2);
+  }
+
+  .af-book:hover {
+    color: var(--ink);
+  }
+</style>

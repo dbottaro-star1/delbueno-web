@@ -1,4 +1,5 @@
 ---
+import AuditForm from '../components/info/AuditForm.astro';
 import InfoCta from '../components/info/InfoCta.astro';
 import InfoFaq from '../components/info/InfoFaq.astro';
 import InfoHero from '../components/info/InfoHero.astro';
@@ -9,7 +10,6 @@ import { auditCopy } from '../i18n/pages/audit';
 import { pagePath } from '../i18n/routes';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { ORG_ID, crumbs } from '../lib/schema';
-import { BRAND, LINKS } from '../lib/site';
 import { canonicalUrl } from '../lib/url';
 
 interface Props {
@@ -21,10 +21,6 @@ const c = auditCopy[lang];
 const path = pagePath('audit', lang);
 const trail = crumbs(lang, { name: t(lang, 'pageName.audit'), path });
 const { description } = c.meta;
-
-const mailto = `mailto:${BRAND.email}?subject=${encodeURIComponent(c.mail.subject)}&body=${encodeURIComponent(
-  c.mail.lines.join('\n'),
-)}`;
 ---
 
 <BaseLayout
@@ -52,30 +48,26 @@ const mailto = `mailto:${BRAND.email}?subject=${encodeURIComponent(c.mail.subjec
     eyebrow={c.eyebrow}
     title={c.title}
     accent={c.accent}
-    lede={c.lede}
     crumbs={trail}
     size="clamp(2.2rem, 6.4vw, 7.4rem)"
     maxWidth="100%"
   >
-    <div class="fa-cta" data-reveal>
-      <a class="btn btn-primary ip-cta-btn" data-magnetic href={LINKS.book} rel="noopener noreferrer">
-        {c.book}{' '}
-        <svg class="arr" aria-hidden="true">
-          <use href="#i-arr"></use>
-        </svg>
-      </a>
-      <a class="btn btn-ghost ip-cta-btn" href={mailto}>
-        {c.email}
-      </a>
+    <div class="fa-top">
+      <div class="fa-intro">
+        <p class="ip-lede" data-reveal>
+          {c.lede}
+        </p>
+        <ul class="tags fa-tags" data-reveal>
+          {c.tags.map((tag) => (
+            <li class="tag">{tag}</li>
+          ))}
+        </ul>
+        <p class="fa-limit" data-reveal>
+          {c.limit}
+        </p>
+      </div>
+      <AuditForm lang={lang} copy={c.form} path={path} />
     </div>
-    <ul class="tags fa-tags" data-reveal>
-      {c.tags.map((tag) => (
-        <li class="tag">{tag}</li>
-      ))}
-    </ul>
-    <p class="fa-limit" data-reveal>
-      {c.limit}
-    </p>
   </InfoHero>
 
   <section class="ip-sec" aria-labelledby="fa-pain-h">
@@ -183,17 +175,23 @@ const mailto = `mailto:${BRAND.email}?subject=${encodeURIComponent(c.mail.subjec
   <InfoCta lang={lang} heading={c.cta.heading} label={c.cta.label} sub={c.cta.sub} />
 
   <script>
+    import { initAuditForm } from '../scripts/info/audit-form';
     import { initInfoReveals } from '../scripts/info/reveal';
+    initAuditForm();
     initInfoReveals();
   </script>
 </BaseLayout>
 
 <style>
-  .fa-cta {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 14px;
-    margin-top: clamp(32px, 4.4vw, 64px);
+  .fa-top {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 520px);
+    column-gap: clamp(32px, 5vw, 96px);
+    align-items: start;
+  }
+
+  .fa-top :global(.af) {
+    margin-top: clamp(24px, 3vw, 44px);
   }
 
   .fa-tags {
@@ -353,6 +351,10 @@ const mailto = `mailto:${BRAND.email}?subject=${encodeURIComponent(c.mail.subjec
   }
 
   @media (max-width: 1000px) {
+    .fa-top {
+      grid-template-columns: 1fr;
+    }
+
     .fa-get {
       grid-template-columns: 1fr;
       row-gap: 56px;
