@@ -50,6 +50,8 @@ export interface AuditCopy {
     successTitle: string;
     success: string;
     book: string;
+    /** Who reviews the product, shown with the founder photo at the top of the form. */
+    reviewer: { lead: string; role: string };
     /** Only on pages that offer WhatsApp. */
     whatsapp?: { label: string; message: string };
   };
@@ -222,6 +224,10 @@ export const auditCopy: Localized<AuditCopy> = {
       successTitle: 'Request received.',
       success: 'We will send your audit within 48 hours. Keep an eye on your inbox.',
       book: 'Prefer to talk? Book a 15 minute call',
+      reviewer: {
+        lead: 'Your audit is done by Dani Bottaro',
+        role: 'Founder. 10 years designing B2B products, ex JFrog.',
+      },
     },
   },
   es: {
@@ -394,6 +400,10 @@ export const auditCopy: Localized<AuditCopy> = {
       successTitle: '¡Listo, la recibimos!',
       success: 'Te enviamos la auditoría en menos de 48 horas. Revisa tu correo.',
       book: '¿Prefieres hablar? Agenda una llamada de 15 minutos',
+      reviewer: {
+        lead: 'Tu auditoría la hace Dani Bottaro',
+        role: 'Fundador. 10 años diseñando productos B2B, ex JFrog.',
+      },
       whatsapp: {
         label: 'O escríbenos por WhatsApp',
         message: 'Hola, quiero la auditoría UX gratis para mi producto.',
