@@ -1,6 +1,6 @@
 /**
- * Free UX audit form (src/components/info/AuditForm.astro): submits in place to FormSubmit's AJAX endpoint and shows
- * the confirmation inline. Without scripts the browser posts the form and FormSubmit redirects back with ?sent=1.
+ * Free UX audit form (src/components/info/AuditForm.astro): submits in place to the Web3Forms API and shows
+ * the confirmation inline. Without scripts the browser posts the form and Web3Forms redirects back with ?sent=1.
  */
 export function initAuditForm(): void {
   const forms = document.querySelectorAll<HTMLFormElement>('[data-audit-form]');
@@ -45,7 +45,8 @@ export function initAuditForm(): void {
           headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
           body: JSON.stringify(body),
         });
-        if (!response.ok) throw new Error(`Status ${response.status}`);
+        const result = (await response.json().catch(() => ({}))) as { success?: boolean };
+        if (!response.ok || result.success === false) throw new Error(`Status ${response.status}`);
         showDone();
       } catch (err) {
         console.error('Audit form failed', err);

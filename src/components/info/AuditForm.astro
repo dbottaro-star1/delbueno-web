@@ -1,17 +1,18 @@
 ---
 /**
- * Request form for the free UX audit. Posts to FormSubmit (formsubmit.co), which forwards each request to the
- * studio inbox. With scripts on it submits in place and shows the confirmation inline; without scripts the browser
- * posts the form and FormSubmit redirects back to the page with ?sent=1.
+ * Request form for the free UX audit. Posts to Web3Forms (api.web3forms.com), which forwards each request to the
+ * studio inbox (account hello@delbuenostudio.com). With scripts on it submits in place and shows the confirmation
+ * inline; without scripts the browser posts the form and Web3Forms redirects back to the page with ?sent=1.
  *
  * The submit behavior lives in src/scripts/info/audit-form.ts, started by the page script in Audit.astro.
  *
- * Spam: `_honey` is a honeypot field hidden from people. FormSubmit drops any submission that fills it.
+ * Spam: `botcheck` is a honeypot checkbox hidden from people. Web3Forms drops any submission that ticks it.
+ * The access key is public by design (Web3Forms ties it to the account's inbox, not to a secret).
  * The endpoint host must be allowed in security/csp.json (form-action and connect-src) and in the Cloudflare header.
  */
 import type { Lang } from '../../i18n/config';
 import type { AuditCopy } from '../../i18n/pages/audit';
-import { BRAND, LINKS } from '../../lib/site';
+import { LINKS } from '../../lib/site';
 import { canonicalUrl } from '../../lib/url';
 
 interface Props {
@@ -22,8 +23,8 @@ interface Props {
 }
 const { lang, copy, path } = Astro.props;
 
-const endpoint = `https://formsubmit.co/${BRAND.email}`;
-const ajaxEndpoint = `https://formsubmit.co/ajax/${BRAND.email}`;
+const endpoint = 'https://api.web3forms.com/submit';
+const ACCESS_KEY = '9184f1f3-9b78-4c90-914a-22a74f0ea081';
 const next = `${canonicalUrl(path)}?sent=1#audit-form`;
 const whatsapp = copy.whatsapp ? `${LINKS.whatsapp}?text=${encodeURIComponent(copy.whatsapp.message)}` : undefined;
 ---
@@ -34,22 +35,22 @@ const whatsapp = copy.whatsapp ? `${LINKS.whatsapp}?text=${encodeURIComponent(co
     action={endpoint}
     method="POST"
     data-audit-form
-    data-ajax={ajaxEndpoint}
+    data-ajax={endpoint}
     data-sending={copy.sending}
   >
     <p class="af-h">{copy.heading}</p>
 
-    <input type="hidden" name="_subject" value={copy.subject} />
-    <input type="hidden" name="_template" value="table" />
-    <input type="hidden" name="_captcha" value="false" />
-    <input type="hidden" name="_next" value={next} />
+    <input type="hidden" name="access_key" value={ACCESS_KEY} />
+    <input type="hidden" name="subject" value={copy.subject} />
+    <input type="hidden" name="from_name" value="delbuenostudio.com" />
+    <input type="hidden" name="redirect" value={next} />
     <input type="hidden" name="language" value={lang} />
     <input type="hidden" name="page" value={canonicalUrl(path)} />
     <input type="hidden" name="source" value="" data-source />
     <div class="af-honey" aria-hidden="true">
       <label>
-        Leave this empty
-        <input type="text" name="_honey" tabindex="-1" autocomplete="off" />
+        Leave this unchecked
+        <input type="checkbox" name="botcheck" tabindex="-1" />
       </label>
     </div>
 
