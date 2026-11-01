@@ -6,7 +6,12 @@
  *   - Umami Cloud: cookieless page views with country, region, city and device, plus three click events (see
  *     trackClicks). It loads from cloud.umami.is and reports to gateway.umami.is.
  *
- * Both vendor snippets are moved into this bundled module, so they need no inline script and no new CSP hash. The hosts
+ *   - OpenAI Ads Measurement Pixel: measures which visits from ads in ChatGPT end in a request (see trackConversion).
+ *     Sets first party cookies (__oppref, __obref), so like Hotjar it is skipped when the browser sends Global Privacy
+ *     Control. It loads from bzrcdn.openai.com and reports to bzr.openai.com. Docs:
+ *     https://developers.openai.com/ads/measurement-pixel
+ *
+ * All vendor snippets are moved into this bundled module, so they need no inline script and no new CSP hash. The hosts
  * they use are listed in security/csp.json. Nothing here runs outside the production domain: previews, localhost and
  * the dev server never load either tool. (Cloudflare Web Analytics is the third tool; Cloudflare injects it at the
  * edge, so it is not here.)
@@ -16,6 +21,10 @@ import { LINKS, PROD_ORIGIN } from '../lib/site';
 const HOTJAR_ID = 5084351;
 const HOTJAR_SNIPPET_VERSION = 6;
 const UMAMI_WEBSITE_ID = '676bd6aa-68b4-482c-834d-8bc45ad807e7';
+/** Pixel ID from OpenAI Ads Manager, Conversions, Data Source. Empty means the pixel does not load. */
+const OPENAI_PIXEL_ID = '';
+
+type OaiqQueue = ((...args: unknown[]) => void) & { q: unknown[][] };
 
 type HotjarQueue = ((...args: unknown[]) => void) & { q?: unknown[][] };
 
@@ -23,6 +32,7 @@ declare global {
   interface Window {
     umami?: { track: (event: string, data?: Record<string, string>) => void };
     hj?: HotjarQueue;
+    oaiq?: OaiqQueue;
     _hjSettings?: { hjid: number; hjsv: number };
   }
   interface Navigator {
@@ -56,8 +66,31 @@ function initUmami(): void {
   });
 }
 
+function initOpenAIPixel(): void {
+  if (!OPENAI_PIXEL_ID || navigator.globalPrivacyControl === true || window.oaiq) return;
+  const queue = ((...args: unknown[]) => {
+    queue.q.push(args);
+  }) as OaiqQueue;
+  queue.q = [];
+  window.oaiq = queue;
+  loadScript('https://bzrcdn.openai.com/sdk/oaiq.min.js');
+  window.oaiq('init', { pixelId: OPENAI_PIXEL_ID });
+}
+
 /**
- * Click events for the weekly report: "Book a call", "Email" and "Outbound link" (with the host). One delegated
+ * Conversion events for ChatGPT Ads. `lead` is a free audit request sent through the form (standard event
+ * lead_created). WhatsApp and booking link clicks are custom events, because a click is not yet a lead.
+ * Does nothing when the pixel is not loaded (other domains, Global Privacy Control, no Pixel ID).
+ */
+export function trackConversion(event: 'lead' | 'whatsapp_click' | 'booking_click'): void {
+  if (!window.oaiq) return;
+  if (event === 'lead') window.oaiq('measure', 'lead_created', { type: 'customer_action' });
+  else window.oaiq('measure', 'custom', { type: 'custom' }, { custom_event_name: event });
+}
+
+/**
+ * Click events for the weekly report: "Book a call", "WhatsApp", "Email" and "Outbound link" (with the host). The
+ * booking and WhatsApp clicks also go to the OpenAI pixel. One delegated
  * listener, so no template needs tracking attributes. Umami sends with fetch keepalive, so the event survives the
  * navigation that follows the click.
  */
@@ -66,9 +99,13 @@ function trackClicks(): void {
     'click',
     (event) => {
       const link = (event.target as Element | null)?.closest?.('a[href]');
-      if (!(link instanceof HTMLAnchorElement) || !window.umami) return;
+      if (!(link instanceof HTMLAnchorElement)) return;
       const href = link.href;
+      if (href.startsWith(LINKS.book)) trackConversion('booking_click');
+      else if (href.startsWith(LINKS.whatsapp)) trackConversion('whatsapp_click');
+      if (!window.umami) return;
       if (href.startsWith(LINKS.book)) window.umami.track('Book a call', { page: location.pathname });
+      else if (href.startsWith(LINKS.whatsapp)) window.umami.track('WhatsApp', { page: location.pathname });
       else if (href.startsWith('mailto:')) window.umami.track('Email', { page: location.pathname });
       else if (link.origin !== location.origin && /^https?:/.test(href))
         window.umami.track('Outbound link', { host: link.hostname });
@@ -80,6 +117,7 @@ function trackClicks(): void {
 export function initAnalytics(): void {
   if (!import.meta.env.PROD || __PREVIEW__) return;
   if (location.origin !== PROD_ORIGIN) return;
+  initOpenAIPixel();
   initUmami();
   trackClicks();
   initHotjar();

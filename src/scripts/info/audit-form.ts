@@ -2,6 +2,8 @@
  * Free UX audit form (src/components/info/AuditForm.astro): submits in place to the Web3Forms API and shows
  * the confirmation inline. Without scripts the browser posts the form and Web3Forms redirects back with ?sent=1.
  */
+import { trackConversion } from '../analytics';
+
 export function initAuditForm(): void {
   const forms = document.querySelectorAll<HTMLFormElement>('[data-audit-form]');
   const params = new URLSearchParams(window.location.search);
@@ -47,6 +49,7 @@ export function initAuditForm(): void {
         });
         const result = (await response.json().catch(() => ({}))) as { success?: boolean };
         if (!response.ok || result.success === false) throw new Error(`Status ${response.status}`);
+        trackConversion('lead');
         showDone();
       } catch (err) {
         console.error('Audit form failed', err);

@@ -9,4 +9,4 @@ export interface LegalPage {
 }
 
 /** Date shown as "Last updated" on every legal page. Change it when the text of a legal page changes. */
-export const LEGAL_UPDATED = new Date('2026-10-13T00:00:00Z');
+export const LEGAL_UPDATED = new Date('2026-11-01T00:00:00Z');
