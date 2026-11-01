@@ -22,7 +22,7 @@ const HOTJAR_ID = 5084351;
 const HOTJAR_SNIPPET_VERSION = 6;
 const UMAMI_WEBSITE_ID = '676bd6aa-68b4-482c-834d-8bc45ad807e7';
 /** Pixel ID from OpenAI Ads Manager, Conversions, Data Source. Empty means the pixel does not load. */
-const OPENAI_PIXEL_ID = '';
+const OPENAI_PIXEL_ID = '7wedYDL5oAEYhHqRCUse44';
 
 type OaiqQueue = ((...args: unknown[]) => void) & { q: unknown[][] };
 
