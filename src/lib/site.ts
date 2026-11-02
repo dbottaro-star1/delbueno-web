@@ -36,6 +36,8 @@ export const FOUNDER = {
 
 export const LINKS = {
   book: 'https://app.lemcal.com/@delbuenostudio/15-minutes',
+  /** The studio's WhatsApp, used on the Spanish free audit page. */
+  whatsapp: 'https://wa.me/59899677738',
   linkedin: 'https://www.linkedin.com/company/we-are-delbueno-studio/',
   dribbble: 'https://dribbble.com/delbueno-studio',
   instagram: 'https://www.instagram.com/delbuenostudio/',

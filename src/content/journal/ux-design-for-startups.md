@@ -46,7 +46,7 @@ Do yourself anything that depends on your judgment of the market: talking to cus
 
 Hire for anything where experience compresses time: complex interaction design, data visualization, design systems and the states nobody thinks about until engineering asks (empty, loading, error, partial permissions). A senior designer has solved those before, and you have not.
 
-If you are deciding between an agency, a freelancer or a first hire, we compared them in [UX agency vs freelancer vs in-house by SaaS stage](/ux-agency-vs-freelancer-vs-in-house/), and we published an honest shortlist of [the best UX design agencies for B2B SaaS startups](/best-ux-design-agencies-b2b-saas/). Before you sign with anyone, run through the criteria and red flags in [how to choose a UX design agency for B2B SaaS](/how-to-choose-ux-design-agency-saas/).
+If you are deciding between an agency, a freelancer or a first hire, we compared them in [UX agency vs freelancer vs in-house by SaaS stage](/ux-agency-vs-freelancer-vs-in-house/), and we published an honest shortlist of [the best UX design agencies for B2B SaaS startups](/best-ux-design-agencies-b2b-saas/), plus one focused on [UX and product design agencies in Latin America](/best-ux-product-design-agencies-latin-america/). Before you sign with anyone, run through the criteria and red flags in [how to choose a UX design agency for B2B SaaS](/how-to-choose-ux-design-agency-saas/). If a team in Latin America is on your list, read [why US startups hire nearshore UX designers there](/nearshore-ux-design-latin-america/).
 
 ## How do you run user research on a startup budget?
 
@@ -72,7 +72,7 @@ An MVP converts when a new user can do the one valuable thing without asking you
 
 **Before and after, a quick example.** Before: a monitoring MVP opens on a blank dashboard with a "Create widget" button. After: it opens on a guided "Connect your first service" step, then shows a prefilled dashboard with the three metrics most teams check first. Same features, a very different first five minutes.
 
-The same rule applies before sign-up. If the product is ready but the launch website is not, see what a launch site needs in [web design for startups](/web-design-for-startups/).
+The same rule applies before sign-up. If the product is ready but the launch website is not, our [startup web design](/web-design-for-startups/) guide covers what a launch site needs.
 
 ## How do you design onboarding that leads to activation?
 

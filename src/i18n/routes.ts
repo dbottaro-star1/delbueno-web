@@ -64,6 +64,12 @@ export const POST_SLUGS: Readonly<Record<string, string>> = {
   'ux-design-for-startups': 'diseno-ux-para-startups',
   'how-to-build-an-ai-mvp': 'como-construir-un-mvp-de-ia',
   'web-design-for-startups': 'diseno-web-para-startups',
+  'nearshore-ux-design-latin-america': 'diseno-ux-nearshore-latinoamerica',
+  'best-ux-product-design-agencies-latin-america': 'mejores-agencias-ux-diseno-producto-latinoamerica',
+  'how-to-add-ai-features-to-saas': 'como-agregar-funciones-de-ia-a-un-saas',
+  'how-long-to-design-a-saas-mvp': 'cuanto-tiempo-lleva-disenar-un-mvp-saas',
+  'one-team-design-and-build-ai-mvp': 'un-equipo-para-disenar-y-construir-un-mvp-de-ia',
+  'how-to-get-recommended-by-chatgpt': 'como-lograr-que-chatgpt-recomiende-tu-startup',
 };
 
 /** Sections whose pages are `<prefix><slug>/`. Without a `slugs` table the slug is the same in both languages. */

@@ -46,7 +46,7 @@ Before anything changes in the real system, show the proposed effect using curre
 
 ## **Onboarding for intelligence without confusion**
 
-New users do not need algorithm talk. They need a straight path to one meaningful success. Seed realistic sample data, present one guided flow, and explain how suggestions are formed at a high level. As people return, unfold depth on demand. This measured approach keeps **AI first product design** friendly to beginners and fast for experts.
+New users do not need algorithm talk. They need a straight path to one meaningful success. Seed realistic sample data, present one guided flow, and explain how suggestions are formed at a high level. As people return, unfold depth on demand. This measured approach keeps **AI first product design** friendly to beginners and fast for experts. The same ideas, from value-first setup to smart empty states, are covered in our [SaaS onboarding UX patterns](/saas-onboarding-ux-patterns/).
 
 ## **Writing for UX for intelligent software**
 

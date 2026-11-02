@@ -1,7 +1,7 @@
 ---
 title: "Alert Fatigue UX: How to Design Alerts Engineers Trust"
-seoTitle: "Alert Fatigue UX: Designing Alerts Engineers Trust"
-description: "Alert fatigue starts in the product, not the pager. A practical framework for designing alerts that on-call engineers actually trust and act on."
+seoTitle: "How to Fix Alert Fatigue: A 4-Question Test for Alerts"
+description: "Why do on-call engineers ignore alerts? A 4-question test for every alert, design patterns that cut noise, and the metrics that prove the redesign worked."
 pubDate: 2026-10-09
 author: "Dani Bottaro"
 category: "DevOps & Security"

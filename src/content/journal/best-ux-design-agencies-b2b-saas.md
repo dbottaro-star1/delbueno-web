@@ -1,7 +1,7 @@
 ---
 title: "What Are the Best UX Design Agencies for B2B SaaS Startups in 2026?"
-seoTitle: "Best UX Design Agencies for B2B SaaS in 2026"
-description: "An honest shortlist of UX design agencies for B2B SaaS startups in 2026, sorted by what each one is best for, with locations, focus and public pricing."
+seoTitle: "Best SaaS UX Design Agencies for B2B Startups in 2026"
+description: "An honest shortlist of SaaS UX design agencies for B2B startups in 2026, sorted by what each one is best for, with locations, focus and public pricing."
 pubDate: 2026-10-23
 author: "Dani Bottaro"
 category: "B2B SaaS"
@@ -18,7 +18,7 @@ The UX design agencies most worth shortlisting for a B2B SaaS startup in 2026 in
 
 This is for founders, heads of product and engineering leaders at B2B SaaS startups, roughly from pre-seed to Series B, who are deciding whether to bring in an outside design partner. It assumes your product is more than a landing page: there are dashboards, settings, roles, integrations, and users who do serious work in your tool every day.
 
-If you are still deciding between an agency, a freelancer and a first in-house hire, read our comparison of [UX agency vs freelancer vs in-house by SaaS stage](/ux-agency-vs-freelancer-vs-in-house/) first. This list is for the step after that decision.
+If you are still deciding between an agency, a freelancer and a first in-house hire, read our comparison of [UX agency vs freelancer vs in-house by SaaS stage](/ux-agency-vs-freelancer-vs-in-house/) first. This list is for the step after that decision. If you want a partner in Latin America specifically, see our shortlist of [the best UX and product design agencies in Latin America](/best-ux-product-design-agencies-latin-america/).
 
 ## How did we choose the agencies on this list?
 
@@ -31,7 +31,7 @@ We included an agency only if it met all of these criteria:
 
 We left out pure branding studios and pure development shops, and we did not rank the list. Instead, each agency gets a "best for" label based on what it publicly emphasizes. Treat the labels as a starting point for your own calls, not a verdict.
 
-## Which UX agency fits which need?
+## Which SaaS UX design agency fits which need?
 
 | Agency | Based in | Best for | Public pricing |
 | --- | --- | --- | --- |
@@ -99,11 +99,11 @@ Netguru is a software company headquartered in Poznań, Poland, with more than 4
 
 A shortlist is only useful if you test it. Three steps work for most B2B startups:
 
-1. **Name the hardest screen in your product.** A permissions matrix, a usage dashboard, an integration setup. Ask every agency to show you the closest thing they have shipped.
+1. **Name the hardest screen in your product.** A [permissions matrix](/rbac-ux-permissions-design/), a usage dashboard, an integration setup. Ask every agency to show you the closest thing they have shipped.
 2. **Check the working rhythm.** Time zone overlap, who does the work day to day, and how requests reach the team matter as much as the portfolio.
 3. **Run a small paid test** on a real problem before signing anything large.
 
-We go deeper on the criteria, red flags and first-call questions in [how to choose a UX design agency for B2B SaaS](/how-to-choose-ux-design-agency-saas/), and on writing the brief in [how to brief a design agency](/how-to-brief-a-design-agency/). If you are earlier than this and want the full picture of what UX work matters at each stage, start with our [guide to UX design for startups](/ux-design-for-startups/).
+We go deeper on the criteria, red flags and first-call questions in [how to choose a UX design agency for B2B SaaS](/how-to-choose-ux-design-agency-saas/), and on writing the brief in [how to brief a design agency](/how-to-brief-a-design-agency/). If you are earlier than this and want the full picture of what UX work matters at each stage, start with our [guide to UX design for startups](/ux-design-for-startups/). And if you are weighing a team outside the US, here is [why US startups hire nearshore UX designers in Latin America](/nearshore-ux-design-latin-america/).
 ## How much do UX design agencies for B2B SaaS cost?
 
 Most agencies on this list do not publish prices and quote after a scoping call. The two that do: Eleken's subscription starts at $4,599 per month for a part-time designer, and Fuselab Creative's projects start at $25,000. delbueno™ Studio does not publish prices either; it scopes each project, and the engagement models are on the [engagements page](/engagements/). Compare quotes on the same brief, or the numbers will not mean much.

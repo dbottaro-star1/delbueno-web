@@ -22,7 +22,7 @@ Para founders, líderes de producto y líderes de ingeniería de startups en eta
 
 Responde esto primero, porque cambia casi todas las decisiones que vienen después.
 
-**La IA es una función** cuando el producto funciona sin ella y el modelo hace una parte más rápida: resumir tickets, redactar una respuesta, sugerir etiquetas. La IA tiene que encajar en un flujo que ya existe sin frenar a nadie.
+**La IA es una función** cuando el producto funciona sin ella y el modelo hace una parte más rápida: resumir tickets, redactar una respuesta, sugerir etiquetas. La IA tiene que encajar en un flujo que ya existe sin frenar a nadie. Para ese caso, nuestra guía sobre [cómo agregar funciones de IA a un producto SaaS](/es/blog/como-agregar-funciones-de-ia-a-un-saas/) repasa copilotos, búsqueda con IA y resúmenes.
 
 **La IA es el producto** cuando, si quitas el modelo, no queda nada: un revisor de contratos, un asistente de investigación, un motor de coincidencias. La calidad de la respuesta es el producto, así que la evaluación, la confianza y el manejo de errores van al centro del roadmap, no a una fase de pulido al final.
 

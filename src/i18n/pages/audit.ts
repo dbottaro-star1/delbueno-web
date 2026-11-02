@@ -29,6 +29,32 @@ export interface AuditCopy {
   faq: { q: string; a: string }[];
   disclaimer: string;
   cta: { heading: string; label: string; sub: string };
+  form: {
+    heading: string;
+    subject: string;
+    email: string;
+    emailPh: string;
+    stage: string;
+    stagePh: string;
+    stages: string[];
+    link: string;
+    linkPh: string;
+    linkHint: string;
+    goal: string;
+    goalPh: string;
+    optional: string;
+    submit: string;
+    sending: string;
+    privacy: string;
+    error: string;
+    successTitle: string;
+    success: string;
+    book: string;
+    /** Who reviews the product, shown with the founder photo at the top of the form. */
+    reviewer: { lead: string; role: string };
+    /** Only on pages that offer WhatsApp. */
+    whatsapp?: { label: string; message: string };
+  };
 }
 
 export const auditCopy: Localized<AuditCopy> = {
@@ -176,6 +202,32 @@ export const auditCopy: Localized<AuditCopy> = {
       heading: 'Ready to fix your onboarding?',
       label: 'Start',
       sub: 'Book a call, or email your product URL. We start the clock when it arrives.',
+    },
+    form: {
+      heading: 'Request your free UX audit',
+      subject: 'New free UX audit request (EN)',
+      email: 'Work email',
+      emailPh: 'you@company.com',
+      stage: 'Where is your product today?',
+      stagePh: 'Choose one',
+      stages: ['Live in production', 'Prototype or MVP', 'Still an idea'],
+      link: 'Link to your product or prototype',
+      linkPh: 'https://',
+      linkHint: 'Website, App Store, Figma or a demo. Anything works.',
+      goal: 'What would you like to improve?',
+      goalPh: 'Onboarding, retention, a confusing dashboard',
+      optional: '(optional)',
+      submit: 'Get my free audit',
+      sending: 'Sending',
+      privacy: 'No spam. We only use your email to send the audit.',
+      error: 'Something went wrong. Email us at hello@delbuenostudio.com and we will take it from there.',
+      successTitle: 'Request received.',
+      success: 'We will send your audit within 48 hours. Keep an eye on your inbox.',
+      book: 'Prefer to talk? Book a 15 minute call',
+      reviewer: {
+        lead: 'Your audit is done by Dani Bottaro',
+        role: 'Founder. 10 years designing B2B products, ex JFrog.',
+      },
     },
   },
   es: {
@@ -326,6 +378,36 @@ export const auditCopy: Localized<AuditCopy> = {
       heading: '¿Listo para arreglar tu onboarding?',
       label: 'Empezar',
       sub: 'Agenda una llamada o envíanos la URL de tu producto. Empezamos a contar el tiempo cuando llega.',
+    },
+    form: {
+      heading: 'Pide tu auditoría UX gratis',
+      subject: 'Nueva solicitud de auditoría UX gratis (ES)',
+      email: 'Email de trabajo',
+      emailPh: 'tu@empresa.com',
+      stage: '¿En qué etapa está tu producto?',
+      stagePh: 'Elige una opción',
+      stages: ['En producción', 'Prototipo o MVP', 'Todavía es una idea'],
+      link: 'Link a tu producto o prototipo',
+      linkPh: 'https://',
+      linkHint: 'Web, App Store, Figma o una demo. Lo que tengas.',
+      goal: '¿Qué te gustaría mejorar?',
+      goalPh: 'Onboarding, retención, un dashboard confuso',
+      optional: '(opcional)',
+      submit: 'Pedir mi auditoría gratis',
+      sending: 'Enviando',
+      privacy: 'Sin spam. Solo usamos tu email para enviarte la auditoría.',
+      error: 'No se pudo enviar. Escríbenos a hello@delbuenostudio.com y lo vemos por ahí.',
+      successTitle: '¡Listo, la recibimos!',
+      success: 'Te enviamos la auditoría en menos de 48 horas. Revisa tu correo.',
+      book: '¿Prefieres hablar? Agenda una llamada de 15 minutos',
+      reviewer: {
+        lead: 'Tu auditoría la hace Dani Bottaro',
+        role: 'Fundador. 10 años diseñando productos B2B, ex JFrog.',
+      },
+      whatsapp: {
+        label: 'O escríbenos por WhatsApp',
+        message: 'Hola, quiero la auditoría UX gratis para mi producto.',
+      },
     },
   },
 };
