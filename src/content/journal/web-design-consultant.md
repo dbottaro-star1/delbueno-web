@@ -13,7 +13,7 @@ legacyPath: "/web-design-consultant/"
 
 ## The importance of the web design consultant
 
-Having a strong online presence is crucial for any business. Whether you’re a startup looking to establish your brand or an established company seeking to revamp your website, the design of your site plays a pivotal role in how your audience perceives you. However, creating a website that not only looks good but also performs well requires more than just basic design skills. It demands strategic planning and expert guidance. This is where a web design consultant comes in.
+Having a strong online presence is crucial for any business. Whether you’re a startup looking to establish your brand or an established company seeking to revamp your website, the design of your site plays a pivotal role in how your audience perceives you. However, creating a website that not only looks good but also performs well requires more than just basic design skills. It demands strategic planning and expert guidance. This is where a web design consultant comes in. If you are a startup building your first site, our [startup web design](/web-design-for-startups/) guide lists the pages a launch website needs.
 
 ### Why You Need a Web Design Consultant
 

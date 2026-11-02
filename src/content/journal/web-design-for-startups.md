@@ -1,7 +1,7 @@
 ---
-title: "Web design for startups: what does a launch website need? (2026)"
-seoTitle: "Web Design for Startups: What a Launch Site Needs"
-description: "What a startup launch website needs in 2026: the essential pages, clear messaging, conversion basics, AI search readiness, and Webflow vs Framer vs code."
+title: "Startup web design: what does a launch website need in 2026?"
+seoTitle: "Startup Web Design: What a Launch Website Needs"
+description: "Web design for startups in 2026: the pages a launch website needs, clear messaging, conversion basics, AI search readiness, and Webflow vs Framer vs code."
 pubDate: 2026-10-23
 author: "Dani Bottaro"
 category: "Web Design"
@@ -28,7 +28,9 @@ Founders and first marketing hires at pre-seed to Series A B2B startups who are 
 
 Match the scope to the job. A pre-launch team that builds a growth-stage site spends weeks on pages nobody visits.
 
-## Which pages does a launch website actually need?
+## What should a startup website design include?
+
+A short set of pages, each with one job. These are the ones most launch websites need:
 
 - **Homepage:** what it is, who it is for, the outcome, and one call to action.
 - **Product or How it works:** real screenshots or a short video of the actual interface.

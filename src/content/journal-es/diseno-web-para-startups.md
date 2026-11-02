@@ -28,7 +28,9 @@ Para founders y primeras personas de marketing en startups B2B, de pre-seed a Se
 
 Ajusta el alcance al trabajo. Un equipo que todavía no lanzó y arma un sitio de etapa de crecimiento se pasa semanas en páginas que nadie visita.
 
-## ¿Qué páginas necesita de verdad un sitio de lanzamiento?
+## ¿Qué debe incluir el diseño web de una startup?
+
+Un conjunto corto de páginas, cada una con una sola tarea. Estas son las que necesitan la mayoría de los sitios de lanzamiento:
 
 - **Home:** qué es, para quién es, qué resultado da y una sola llamada a la acción.
 - **Producto o Cómo funciona:** capturas reales o un video corto de la interfaz real.

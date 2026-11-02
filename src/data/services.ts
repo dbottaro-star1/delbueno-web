@@ -159,7 +159,7 @@ export const services: Service[] = [
       text: 'A high-fidelity feature typically takes 1 to 2 weeks, and we stay on during implementation to review builds.',
     },
     cases: ['cloudguardia', 'uleadz', '1to1000'],
-    reading: ['ux-design-for-startups', 'saas-onboarding-ux-patterns', 'complex-ux-design'],
+    reading: ['ux-design-for-startups', 'saas-onboarding-ux-patterns', 'best-ux-design-agencies-b2b-saas'],
     faqs: [
       {
         q: 'How fast can you start?',

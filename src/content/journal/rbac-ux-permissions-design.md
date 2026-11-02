@@ -63,3 +63,25 @@ Two signals tell you whether your RBAC UX is working. First, the rate of over-pr
 Permissions are where trust in a B2B product gets tested, quietly, by the one person on the customer’s side who’s accountable for security. Get the model right and they barely notice it. Get the interface wrong and they feel it every review cycle, then they start asking whether your product is safe to expand.
 
 If you’re building a platform where access control is getting harder to reason about as you add customers and roles, and you’re weighing whether to untangle it in-house or bring in a partner who has shipped this kind of complex product UX in Cloud, DevOps, and Security, [talk to delbueno™ Studio](/contact/). It’s cheaper to design permissions people understand now than to explain a bad grant to an auditor later.
+
+## Frequently asked questions
+
+### What is a role and permission matrix?
+
+It is a grid of roles against permissions, usually a set of checkboxes. It shows the raw state of the system, but it does not answer the questions admins actually bring to the screen: who can do what, why a person has a given access, and what happens if a role changes.
+
+### What should a permissions screen show instead of the RBAC matrix?
+
+Lead with people. The default screen should list users and what each one can do, with the role and permission grid one click away for admins who want it. Add an effective permissions view that shows what a user can really do once all their roles stack up, including conflicts.
+
+### How do you show why someone has a permission?
+
+Trace every permission back to its source: the role it came through, who granted it and when. A line such as “Dana can export invoices because she’s in Finance, added by Marco on March 3” turns an access review from an investigation into a quick decision.
+
+### How should you name roles in a B2B product?
+
+Like job descriptions, because that is how the person assigning them thinks: Support Agent, Billing Manager, Read-only Auditor. Under the hood each role still maps to granular scopes, but the label speaks the language of the org chart, which makes least privilege the obvious default.
+
+### How do you know if your RBAC UX is working?
+
+Track two signals. The rate of over-provisioning, meaning how many users sit in roles broader than their job needs, especially Admin. And the time it takes an admin to answer an access question such as who can delete production data: if it takes more than a few seconds and a couple of clicks, the interface is hiding what it should show.

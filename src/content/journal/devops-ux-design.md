@@ -33,7 +33,7 @@ First session success shapes every opinion that follows. A great first hour show
 
 ### **Sample data and least privilege**
 
-Blank screens force random clicking. Seed a demo space with realistic data so people can learn without risk. Use least privilege defaults so experiments feel safe. When the first journey feels obvious, you have evidence that **DevOps UX design** choices are paying off.
+Blank screens force random clicking. Seed a demo space with realistic data so people can learn without risk. Use least privilege defaults so experiments feel safe. When the first journey feels obvious, you have evidence that **DevOps UX design** choices are paying off. For more first-session patterns, see our [SaaS onboarding UX patterns](/saas-onboarding-ux-patterns/).
 
 ### **Setup that discovers the real estate**
 
@@ -51,7 +51,7 @@ If customers say service, keep service. If they say stages and environments, use
 
 ### **Roles and permissions you can verify**
 
-Explain what each role can do in plain language at the moment of assignment. Offer a preview mode to see the product as that role. Role clarity lowers support load and improves **technical user experience** because people stop guessing.
+Explain what each role can do in plain language at the moment of assignment. Offer a preview mode to see the product as that role. Role clarity lowers support load and improves **technical user experience** because people stop guessing. Our guide to [RBAC UX and permission design](/rbac-ux-permissions-design/) covers effective permissions views and job-based roles in depth.
 
 ## **Feedback loops that make state legible**
 
