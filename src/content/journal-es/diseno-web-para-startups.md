@@ -3,6 +3,7 @@ title: "Diseño web para startups: ¿qué necesita un sitio de lanzamiento? (202
 seoTitle: "Diseño web para startups: qué necesita tu web al lanzar"
 description: "Qué necesita el sitio de lanzamiento de una startup en 2026: páginas clave, mensaje claro, conversión, búsqueda con IA, y Webflow, Framer o código propio."
 pubDate: 2026-10-23
+updatedDate: 2026-11-02
 author: "Dani Bottaro"
 category: "Diseño web"
 heroImage: "../../assets/journal/web-design-for-startups/wireframe-sketches.jpg"
@@ -10,13 +11,15 @@ heroAlt: "Bocetos en acuarela de los wireframes de tres páginas web sobre papel
 translationOf: "web-design-for-startups"
 ---
 
-El sitio de lanzamiento de una startup necesita una home que diga en una frase qué haces y para quién, una página que muestre cómo funciona el producto, pruebas de que gente real lo usa, un único paso siguiente claro (una demo, una prueba gratis o una lista de espera) y las bases técnicas para que Google y los asistentes de IA puedan leerlo y citarlo. La mayoría de los sitios de lanzamiento necesitan entre cinco y ocho páginas, no veinte. Constrúyelo en una plataforma que tu equipo pueda editar sin un desarrollador, y lánzalo antes de sentir que está terminado.
+El diseño web para startups consiste en construir un sitio que le diga a un visitante, en segundos, qué hace tu producto, para quién es y cuál es el siguiente paso: pedir una demo, empezar una prueba o sumarse a una lista de espera. Un buen diseño web para una startup son entre cinco y ocho páginas enfocadas, en una plataforma que tu equipo pueda editar sin un desarrollador y con las bases técnicas para que Google y los asistentes de IA puedan leerlo y citarlo.
+
+Esas páginas son una home que diga en una frase qué haces y para quién, una página que muestre cómo funciona el producto, pruebas de que gente real lo usa y una sola llamada a la acción clara. Lánzalo antes de sentir que está terminado.
 
 El error habitual no es un diseño feo. Es un sitio muy pulido que, después de diez segundos de lectura, deja al visitante sin saber qué hace el producto.
 
 ## ¿Para quién es esta guía?
 
-Para founders y primeras personas de marketing en startups B2B, de pre-seed a Serie A, que están por lanzar, relanzar después de un pivote o reemplazar un sitio que ya no refleja el producto que hay detrás. Esta guía cubre el sitio de marketing. Para el producto en sí, lee nuestra [guía de diseño UX para startups](/es/blog/diseno-ux-para-startups/).
+Para founders y primeras personas de marketing en startups B2B, de pre-seed a Serie A, que están por lanzar, relanzar después de un pivote o reemplazar un sitio que ya no refleja el producto que hay detrás. Esta guía cubre el sitio de marketing. Para el producto en sí, lee nuestra [guía de diseño UX para startups](/es/blog/diseno-ux-para-startups/) y, si el producto se basa en IA, nuestra guía sobre [cómo construir un MVP de IA](/es/blog/como-construir-un-mvp-de-ia/).
 
 ## ¿Qué tiene que lograr tu sitio en cada etapa?
 
@@ -64,8 +67,8 @@ Google y asistentes de IA como ChatGPT, Perplexity y Gemini favorecen las págin
 
 1. **Respuestas claras.** Cada página clave responde su pregunta principal en el primer párrafo, con palabras que alguien podría citar.
 2. **Datos estructurados.** Marca tu organización, tu producto, tus artículos y tus preguntas frecuentes con tipos de [schema.org](https://schema.org/) para que las máquinas sepan qué es cada página.
-3. **llms.txt.** Un [estándar propuesto](https://llmstxt.org/): un archivo Markdown en la raíz de tu dominio que resume el sitio para los modelos de lenguaje. No todas las empresas de IA lo usan todavía, así que tómalo como un seguro barato, no como un truco para posicionar. Este sitio publica uno.
-4. **Velocidad.** Las páginas rápidas se rastrean, se leen y se comparten. Las [Core Web Vitals](https://web.dev/articles/vitals) de Google son la vara de medida estándar, y nuestro artículo sobre [velocidad y rendimiento](/significance-of-page-speed-and-performance/) (en inglés) explica por qué importa.
+3. **llms.txt.** Un [estándar propuesto](https://llmstxt.org/), publicado por primera vez por Jeremy Howard en septiembre de 2024: un archivo Markdown en la raíz de tu dominio que resume el sitio para los modelos de lenguaje. No todas las empresas de IA lo usan todavía, así que tómalo como un seguro barato, no como un truco para posicionar. Este sitio publica uno.
+4. **Velocidad.** Las páginas rápidas se rastrean, se leen y se comparten. Las [Core Web Vitals](https://web.dev/articles/vitals) de Google son la vara de medida estándar: Largest Contentful Paint en 2,5 segundos o menos, Interaction to Next Paint de 200 milisegundos o menos y Cumulative Layout Shift de 0,1 o menos, medidos en el percentil 75 de las visitas reales. Nuestro artículo sobre [velocidad y rendimiento](/significance-of-page-speed-and-performance/) (en inglés) explica por qué importa.
 5. **Una estructura rastreable.** URLs limpias, un sitemap, un solo H1 por página, un título y una meta descripción únicos en cada página, y texto alternativo en las imágenes.
 
 La accesibilidad se cruza con todo esto. Los encabezados semánticos y un buen contraste ayudan tanto a los lectores de pantalla como a los rastreadores, como explicamos en [la esencia de la accesibilidad web](/essence-of-web-accessibility/) (en inglés).
@@ -116,6 +119,12 @@ Instala la analítica antes del lanzamiento, con un banner de consentimiento don
 - [ ] Los eventos de analítica se registran
 - [ ] Revisado en un teléfono y una tablet reales, no solo en un navegador de escritorio
 
+## ¿Conviene que un mismo equipo haga el diseño y el desarrollo web de la startup?
+
+En el lanzamiento, casi siempre sí. Cuando el mensaje, el diseño y el desarrollo están en manos de un mismo equipo, las decisiones no se pierden en los traspasos, y quien diseña una página sabe lo que la plataforma puede hacer. Separa el trabajo cuando ya tienes un desarrollador a cargo del sitio, o cuando el sitio vive dentro del código del producto.
+
+Contrates a quien contrates, un buen brief ahorra semanas. Nuestra guía sobre [cómo preparar el brief para una agencia de diseño](/how-to-brief-a-design-agency/) (en inglés) enumera qué incluir, y [agencia, freelance o equipo interno](/ux-agency-vs-freelancer-vs-in-house/) (en inglés) te ayuda a elegir el modelo. Muchas startups de Estados Unidos también trabajan con equipos nearshore por la coincidencia horaria, algo que explicamos en [por qué las startups de EE. UU. contratan diseñadores UX nearshore en Latinoamérica](/es/blog/diseno-ux-nearshore-latinoamerica/).
+
 ## ¿Cuáles son los errores más comunes en el sitio de una startup?
 
 - Un titular ingenioso en lugar de uno claro.
@@ -134,20 +143,22 @@ delbueno™ Studio diseña y construye sitios de lanzamiento para startups B2B e
 
 En general, entre cinco y ocho: home, producto, una o dos páginas de casos de uso, precios o cómo comprar, nosotros, contacto y las páginas legales. Suma más cuando tengas algo concreto que decir en cada una.
 
+### ¿Qué incluye un paquete inicial de diseño web para startups?
+
+Un paquete inicial razonable cubre las páginas de lanzamiento, los textos de esas páginas, un conjunto chico de componentes reutilizables, diseños que funcionen en teléfono, tablet y escritorio, SEO básico y datos estructurados, eventos de analítica y una entrega que le permita a tu equipo editar el sitio sin ayuda. Pregunta también qué queda afuera: la redacción, las capturas del producto y las ilustraciones son donde más varían los alcances.
+
+Los tiempos dependen de la cantidad de páginas, de si los textos están listos y de qué tan rápido llega el feedback. Los textos son el cuello de botella más común, así que escríbelos temprano.
+
+### ¿Una startup debería contratar a un solo equipo para el diseño y el desarrollo web?
+
+En el lanzamiento, casi siempre sí. Un solo equipo a cargo del mensaje, el diseño y el desarrollo evita los huecos entre traspasos y mantiene las decisiones ágiles. Separa el trabajo cuando ya tienes un desarrollador a cargo del sitio, o cuando el sitio es parte del producto y vive en tu código principal.
+
 ### ¿Una startup debería usar Webflow o Framer?
 
 Elige Framer si el sitio lo va a manejar diseño y quieres avanzar rápido con movimiento. Elige Webflow si marketing necesita un CMS más completo para mucho contenido estructurado. Cualquiera de los dos funciona bien para un sitio de lanzamiento, así que deja que decidan quienes lo van a editar cada semana.
 
 ### ¿Qué es llms.txt y lo necesito?
 
-Es un estándar propuesto: un archivo Markdown en la raíz de tu dominio que resume el sitio y enlaza sus páginas clave para los modelos de lenguaje. Se agrega rápido y no hace daño, pero no todas las empresas de IA lo usan todavía, así que las respuestas claras en tus páginas siguen importando más.
-
-### ¿Cuánto tiempo toma diseñar y construir el sitio de una startup?
-
-Depende de la cantidad de páginas, de si los textos están listos y de qué tan rápido llega el feedback. Los textos son el cuello de botella más común, así que escríbelos temprano. Una vez definido el mensaje, el diseño y el desarrollo avanzan rápido.
-
-### ¿Necesito un blog para el lanzamiento?
-
-No. Lanza con las páginas que explican y venden el producto. Empieza un blog cuando puedas publicar respuestas útiles a las preguntas de tus compradores con un ritmo constante, porque un blog abandonado le resta más credibilidad que no tener blog.
+Es un estándar propuesto, publicado por primera vez por Jeremy Howard en septiembre de 2024: un archivo Markdown en la raíz de tu dominio que resume el sitio y enlaza sus páginas clave para los modelos de lenguaje. Se agrega rápido y no hace daño, pero no todas las empresas de IA lo usan todavía, así que las respuestas claras en tus páginas siguen importando más.
 
 *Fotos de Hal Gatewood y Amper en Unsplash.*
