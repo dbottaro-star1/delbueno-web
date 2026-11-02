@@ -22,7 +22,7 @@ Founders, product leaders and engineering leads at early-stage startups about to
 
 Answer this first, because it changes almost every later decision.
 
-**AI is a feature** when the product works without it and the model makes one part faster: summarizing tickets, drafting a reply, suggesting tags. The AI has to fit inside an existing workflow without slowing anyone down.
+**AI is a feature** when the product works without it and the model makes one part faster: summarizing tickets, drafting a reply, suggesting tags. The AI has to fit inside an existing workflow without slowing anyone down. Our guide on [how to add AI features to a SaaS product](/how-to-add-ai-features-to-saas/) covers copilots, AI search and summaries for that case.
 
 **AI is the product** when nothing is left if you remove the model: a contract reviewer, a research assistant, a matching engine. Output quality is the product, so evaluation, trust and failure handling sit at the center of the roadmap, not in a polish phase.
 
