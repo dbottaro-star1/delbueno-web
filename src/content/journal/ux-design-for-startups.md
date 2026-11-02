@@ -72,7 +72,7 @@ An MVP converts when a new user can do the one valuable thing without asking you
 
 **Before and after, a quick example.** Before: a monitoring MVP opens on a blank dashboard with a "Create widget" button. After: it opens on a guided "Connect your first service" step, then shows a prefilled dashboard with the three metrics most teams check first. Same features, a very different first five minutes.
 
-The same rule applies before sign-up. If the product is ready but the launch website is not, see what a launch site needs in [web design for startups](/web-design-for-startups/).
+The same rule applies before sign-up. If the product is ready but the launch website is not, our [startup web design](/web-design-for-startups/) guide covers what a launch site needs.
 
 ## How do you design onboarding that leads to activation?
 

@@ -1,7 +1,7 @@
 ---
 title: "How AI Is Changing the Role of Product Designers in 2026"
-seoTitle: "How AI Is Changing the Role of Product Designers"
-description: "AI is not replacing product designers, it is changing the job: less screen production, more judgment, strategy and trust. What to focus on in 2026."
+seoTitle: "Will AI Replace Product Designers? What Changes in 2026"
+description: "Is AI replacing product designers? No, the job is moving from screens to judgment. The 5 skills that matter in 2026 and how product teams should adapt."
 pubDate: 2026-04-02
 author: "Dani Bottaro"
 category: "AI & UX"

@@ -1,7 +1,7 @@
 ---
 title: "What Are the Best UX and Product Design Agencies in Latin America in 2026?"
 seoTitle: "Best UX and Product Design Agencies in Latin America"
-description: "A transparent shortlist of UX and product design agencies in Latin America for 2026: what each is best for, where it is based, and a source for every fact."
+description: "Nine UX and product design agencies in Uruguay, Argentina, Mexico and Colombia, picked on four verifiable criteria, with what each is best for in 2026."
 pubDate: 2026-10-29
 author: "Dani Bottaro"
 category: "B2B SaaS"

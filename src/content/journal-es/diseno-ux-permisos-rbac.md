@@ -62,3 +62,25 @@ Dos señales te dicen si tu UX para RBAC funciona. La primera es la tasa de sobr
 Los permisos son donde se pone a prueba, en silencio, la confianza en un producto B2B, por parte de la única persona del lado del cliente que responde por la seguridad. Si el modelo está bien, casi no lo nota. Si la interfaz está mal, lo siente en cada ciclo de revisión y después empieza a preguntarse si tu producto es seguro para ampliarlo.
 
 Si estás construyendo una plataforma donde el control de acceso se vuelve más difícil de razonar a medida que agregas clientes y roles, y estás evaluando si desenredarlo internamente o sumar a un socio que ya haya entregado este tipo de UX de producto complejo en Cloud, DevOps y Seguridad, [habla con delbueno™ Studio](/es/contacto/). Es más barato diseñar hoy permisos que la gente entienda que explicarle un mal permiso a un auditor más adelante.
+
+## Preguntas frecuentes
+
+### ¿Qué es una matriz de roles y permisos?
+
+Es una grilla de roles contra permisos, casi siempre un conjunto de casillas. Muestra el estado crudo del sistema, pero no responde las preguntas con las que los admins llegan a esa pantalla: quién puede hacer qué, por qué una persona tiene cierto acceso y qué pasa si cambia un rol.
+
+### ¿Qué debería mostrar una pantalla de permisos en lugar de la matriz de RBAC?
+
+Empieza por las personas. La pantalla por defecto debería listar a los usuarios y lo que cada uno puede hacer, con la grilla de roles y permisos a un clic para los admins que la quieran. Suma una vista de permisos efectivos que muestre lo que un usuario puede hacer de verdad cuando se combinan todos sus roles, incluidos los conflictos.
+
+### ¿Cómo muestras por qué alguien tiene un permiso?
+
+Rastrea cada permiso hasta su origen: el rol por el que llegó, quién lo otorgó y cuándo. Una línea como “Dana puede exportar facturas porque está en Finanzas, agregada por Marco el 3 de marzo” convierte una revisión de accesos de una investigación en una decisión rápida.
+
+### ¿Cómo deberías nombrar los roles en un producto B2B?
+
+Como descripciones de puesto, porque así piensa quien los asigna: Agente de soporte, Responsable de facturación, Auditor de solo lectura. Por dentro cada rol sigue apuntando a alcances granulares, pero el nombre habla el idioma del organigrama, y eso hace que el mínimo privilegio sea la opción obvia.
+
+### ¿Cómo sabes si tu UX para RBAC funciona?
+
+Mide dos señales. La tasa de sobreasignación, es decir, cuántos usuarios están en roles más amplios de lo que su trabajo necesita, sobre todo Admin. Y el tiempo que tarda un admin en responder una pregunta de acceso como quién puede borrar datos de producción: si le lleva más de unos segundos y un par de clics, la interfaz está escondiendo lo que debería mostrar.
