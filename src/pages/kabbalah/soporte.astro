@@ -1,0 +1,139 @@
+---
+import KabbalahLayout from '../../layouts/KabbalahLayout.astro';
+import { APP, KABBALAH_PATHS } from '../../kabbalah/app';
+import { url } from '../../lib/url';
+
+const title = `Soporte de la app ${APP.name}`;
+const description =
+  'Ayuda con la app Kabbalah: el código para entrar, los recordatorios, tu diario, cambiar de teléfono y borrar la cuenta. Y cómo escribirnos si hace falta.';
+const mail = `mailto:${APP.email}?subject=${encodeURIComponent(`Soporte ${APP.name}`)}`;
+
+interface Pregunta {
+  q: string;
+  a: string[];
+  link?: { label: string; href: string };
+}
+
+const grupos: { titulo: string; preguntas: Pregunta[] }[] = [
+  {
+    titulo: 'Entrar a la App',
+    preguntas: [
+      {
+        q: 'No me llega el código',
+        a: [
+          'Revisá la carpeta de spam o de promociones, y que el correo esté bien escrito.',
+          'El código vence a los 10 minutos. Si pasó más tiempo, pedí otro: el botón “Reenviar” se habilita al minuto.',
+          'Si después de eso sigue sin llegar, escribinos y lo vemos.',
+        ],
+      },
+      {
+        q: 'Cambié de teléfono, ¿pierdo lo que hice?',
+        a: [
+          'No. Instalá la App, tocá “Ya tengo cuenta” y entrá con el mismo correo. Tu Árbol, tus respuestas y tu diario están en tu cuenta.',
+          'Los recordatorios viven en cada teléfono: si no te llegan en el nuevo, revisá los permisos de notificaciones.',
+        ],
+      },
+      {
+        q: '¿Cómo cierro sesión?',
+        a: ['Tocá tu avatar, arriba a la derecha del Árbol, y después “Cerrar sesión”.'],
+      },
+    ],
+  },
+  {
+    titulo: 'El recorrido',
+    preguntas: [
+      {
+        q: '¿Tengo que seguir un orden?',
+        a: [
+          'Te sugerimos ir de abajo hacia arriba, empezando por Maljut. Pero todo está abierto: podés ir a la energía que más te llame.',
+        ],
+      },
+      {
+        q: 'No cumplí un compromiso',
+        a: [
+          'No pasa nada. En el check-in elegí “todavía no” o “a medias” y seguí. No hay rachas ni puntajes que se pierdan.',
+        ],
+      },
+      {
+        q: 'No me llegan los recordatorios',
+        a: [
+          'Revisá que las notificaciones de la App estén permitidas en los ajustes del teléfono, y que el modo “No molestar” o “Concentración” no las esté frenando.',
+        ],
+      },
+      {
+        q: '¿Necesito saber de Kabbalah o creer en algo?',
+        a: ['No. La App no da nada por sabido y no pide ninguna creencia.'],
+      },
+    ],
+  },
+  {
+    titulo: 'Privacidad y cuenta',
+    preguntas: [
+      {
+        q: '¿Quién puede leer mi diario?',
+        a: [
+          'Solo vos. Tu diario y tus respuestas se guardan en tu cuenta, cada persona solo puede acceder a lo suyo y el contenido nunca se manda a herramientas de análisis.',
+        ],
+        link: { label: 'Leer la política de privacidad', href: KABBALAH_PATHS.privacy },
+      },
+      {
+        q: '¿Puedo borrar una entrada del diario?',
+        a: ['Sí. Tocá la entrada y después “Borrar entrada”. No se puede recuperar.'],
+      },
+      {
+        q: '¿Cómo borro mi cuenta?',
+        a: ['Desde la App: avatar, “Borrar mi cuenta” y “Borrar todo”. Se borra todo en el momento.'],
+        link: { label: 'Ver todos los pasos', href: KABBALAH_PATHS.deleteAccount },
+      },
+      {
+        q: '¿Cuánto cuesta?',
+        a: ['La App es gratis.'],
+      },
+    ],
+  },
+];
+---
+
+<KabbalahLayout title={title} description={description} trail={[{ name: 'Soporte', path: KABBALAH_PATHS.support }]}>
+  <article class="k-envoltura k-doc">
+    <header class="k-doc-cabeza">
+      <p class="k-etiqueta">Soporte</p>
+      <h1>¿En qué te ayudamos?</h1>
+      <p class="k-doc-lede">Las preguntas más comunes sobre la App, y cómo escribirnos si no encontrás la respuesta.</p>
+    </header>
+
+    {grupos.map((g) => (
+      <section>
+        <h2>{g.titulo}</h2>
+        <div class="k-preguntas">
+          {g.preguntas.map((p) => (
+            <details>
+              <summary>{p.q}</summary>
+              <div>
+                {p.a.map((parrafo) => (
+                  <p>{parrafo}</p>
+                ))}
+                {p.link && (
+                  <p>
+                    <a href={url(p.link.href)}>{p.link.label}</a>
+                  </p>
+                )}
+              </div>
+            </details>
+          ))}
+        </div>
+      </section>
+    ))}
+
+    <section id="contacto">
+      <h2>Escribinos</h2>
+      <div class="k-tarjeta k-recuadro">
+        <p>
+          Mandanos un mail a <a href={mail}>{APP.email}</a>. Contanos qué pasó y, si podés, el modelo de tu teléfono y
+          el correo con el que entrás a la App. Te respondemos en días hábiles.
+        </p>
+        <p>Nunca te vamos a pedir el código de acceso: no lo compartas con nadie.</p>
+      </div>
+    </section>
+  </article>
+</KabbalahLayout>
