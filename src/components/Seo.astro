@@ -24,6 +24,10 @@ interface Props {
   modifiedTime?: Date;
   author?: string;
   section?: string;
+  /** og:site_name. Defaults to the studio. Product pages hosted here (such as /kabbalah/) pass their own name. */
+  siteName?: string;
+  /** Adds " | delbueno" when the title fits. Product pages hosted here turn it off. */
+  brandSuffix?: boolean;
 }
 
 const {
@@ -42,12 +46,15 @@ const {
   modifiedTime,
   author,
   section,
+  siteName = BRAND.name,
+  brandSuffix = true,
 } = Astro.props;
 
 // The brand suffix is added only when the whole title still fits in TITLE_MAX characters. A title that already
 // names the brand (the home page) is left alone.
 const named = /delbueno/i.test(pageTitle);
-const title = named || pageTitle.length + TITLE_SUFFIX.length > TITLE_MAX ? pageTitle : pageTitle + TITLE_SUFFIX;
+const title =
+  !brandSuffix || named || pageTitle.length + TITLE_SUFFIX.length > TITLE_MAX ? pageTitle : pageTitle + TITLE_SUFFIX;
 
 const canonical = canonicalUrl(path);
 // hreflang is published only for pages that exist in every language: each language, plus x-default (English).
@@ -72,7 +79,7 @@ const robots =
 {translated && defaultHref && <link rel="alternate" hreflang="x-default" href={defaultHref} />}
 
 <meta property="og:type" content={type} />
-<meta property="og:site_name" content={BRAND.name} />
+<meta property="og:site_name" content={siteName} />
 <meta property="og:locale" content={LANG_META[lang].og} />
 {otherLocales.map((locale) => (
   <meta property="og:locale:alternate" content={locale} />

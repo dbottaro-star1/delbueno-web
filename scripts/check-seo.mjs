@@ -9,7 +9,7 @@
  *   - a missing og:image width, height or alt
  *   - an <h1> count other than 1
  *   - a JSON-LD block that does not parse, or an inner page without a BreadcrumbList
- *   - a <html lang> that does not match the page's language (Spanish pages live under /es/), or an og:locale that
+ *   - a <html lang> that does not match the page's language (Spanish pages live under /es/ and /kabbalah/), or an og:locale that
  *     disagrees with it
  *   - hreflang alternates that are incomplete (en, es and x-default are all required once any is present), that do
  *     not include the page itself, that point at a missing page, or that are not reciprocal
@@ -44,7 +44,8 @@ const ES_DESC_MIN = 140;
 const ES_DESC_MAX = 155;
 
 const LANGS = { en: 'en_US', es: 'es_LA' };
-const langOfPage = (page) => (/^\/es(\/|$)/.test(page) ? 'es' : 'en');
+// The Kabbalah app pages (/kabbalah/) are Spanish only and have no English twin.
+const langOfPage = (page) => (/^\/(?:es|kabbalah)(\/|$)/.test(page) ? 'es' : 'en');
 
 const ENTITIES = { amp: '&', lt: '<', gt: '>', quot: '"', apos: "'", nbsp: ' ', trade: '™' };
 

@@ -1,0 +1,541 @@
+/*
+ * The Kabbalah app pages (/kabbalah/). Their own look, taken from the app's design tokens (design/README.md in the
+ * app repo): paper, ink, slate and a blue "hand" accent; EB Garamond for the voice, IBM Plex Mono for labels and
+ * Nanum Pen Script for hand-written notes. Nothing here touches the studio pages.
+ */
+@import '@fontsource/eb-garamond/latin-400.css';
+@import '@fontsource/eb-garamond/latin-500.css';
+@import '@fontsource/eb-garamond/latin-400-italic.css';
+@import '@fontsource/ibm-plex-mono/latin-400.css';
+@import '@fontsource/ibm-plex-mono/latin-500.css';
+@import '@fontsource/nanum-pen-script/latin-400.css';
+@import '@fontsource/frank-ruhl-libre/hebrew-400.css';
+
+:root {
+  --k-papel: #f4f1ea;
+  --k-papel-claro: #fbfaf6;
+  --k-papel-tarjeta: #ece8e0;
+  --k-tinta: #1e2530;
+  --k-tinta-cuerpo: #2e3540;
+  --k-tinta-suave: #4a5260;
+  --k-tinta-secundaria: #5c626c;
+  --k-tinta-apagada: #8a8f98;
+  --k-pizarra: #2f4560;
+  --k-pizarra-oscura: #2a3d55;
+  --k-noche: #3e5674;
+  --k-acento: #2b4fb3;
+  --k-acento-noche: #f2eba0;
+  --k-zona1: #a9c4de;
+  --k-zona2: #d8c29e;
+  --k-zona3: #cfe2f1;
+  --k-postit: #f28baa;
+  --k-postit-tinta: #3a1f2a;
+  --k-borde: rgba(30, 37, 48, 0.12);
+  --k-borde-fuerte: rgba(30, 37, 48, 0.22);
+  --k-sombra: 0 18px 30px -24px rgba(30, 37, 48, 0.7);
+
+  --k-serif: 'EB Garamond', 'Iowan Old Style', Georgia, serif;
+  --k-mono: 'IBM Plex Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  --k-mano: 'Nanum Pen Script', 'Bradley Hand', cursive;
+  --k-hebreo: 'Frank Ruhl Libre', 'Times New Roman', serif;
+
+  --k-ancho: 1120px;
+  --k-margen: clamp(20px, 5vw, 48px);
+  --k-ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  color-scheme: light;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+body {
+  margin: 0;
+  background: var(--k-papel);
+  color: var(--k-tinta);
+  font: 400 1.1875rem/1.45 var(--k-serif);
+  font-kerning: normal;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Paper grain over everything, like the app screens. */
+.k-grano {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+  opacity: 0.55;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.12 0 0 0 0 0.14 0 0 0 0 0.19 0 0 0 0.09 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+h1,
+h2,
+h3,
+p,
+ul,
+ol,
+dl,
+dd,
+figure,
+blockquote {
+  margin: 0;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+a {
+  color: inherit;
+}
+
+img,
+svg {
+  max-width: 100%;
+}
+
+:focus-visible {
+  outline: 2px solid var(--k-acento);
+  outline-offset: 3px;
+}
+
+.k-salto {
+  position: fixed;
+  left: 12px;
+  top: -60px;
+  z-index: 60;
+  padding: 10px 16px;
+  background: var(--k-tinta);
+  color: var(--k-papel);
+  font: 500 0.8125rem/1 var(--k-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  text-decoration: none;
+  transition: top 0.2s;
+}
+
+.k-salto:focus {
+  top: 12px;
+}
+
+main:focus {
+  outline: none;
+}
+
+.k-envoltura {
+  width: 100%;
+  max-width: calc(var(--k-ancho) + 2 * var(--k-margen));
+  margin: 0 auto;
+  padding: 0 var(--k-margen);
+}
+
+/* Labels, buttons and metadata: mono, uppercase, tracked out. */
+.k-etiqueta {
+  font: 500 0.75rem/1.3 var(--k-mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--k-tinta-secundaria);
+}
+
+.k-mano {
+  font-family: var(--k-mano);
+  font-weight: 400;
+  color: var(--k-acento);
+}
+
+.k-boton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 56px;
+  padding: 0 26px;
+  border: 1px solid var(--k-pizarra);
+  border-radius: 4px;
+  background: var(--k-pizarra);
+  color: var(--k-papel);
+  font: 500 0.8125rem/1 var(--k-mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background 0.2s,
+    border-color 0.2s,
+    transform 0.2s var(--k-ease);
+}
+
+.k-boton:hover {
+  background: var(--k-pizarra-oscura);
+  border-color: var(--k-pizarra-oscura);
+}
+
+.k-boton:active {
+  transform: translateY(1px);
+}
+
+.k-boton-secundario {
+  background: transparent;
+  color: var(--k-tinta);
+  border-color: var(--k-borde-fuerte);
+}
+
+.k-boton-secundario:hover {
+  background: var(--k-papel-claro);
+  border-color: var(--k-tinta);
+}
+
+.k-boton-chico {
+  min-height: 44px;
+  padding: 0 18px;
+  font-size: 0.75rem;
+}
+
+.k-boton:disabled {
+  opacity: 0.7;
+  cursor: progress;
+}
+
+/* Header */
+.k-cabecera {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: rgba(244, 241, 234, 0.9);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s;
+}
+
+.k-cabecera-in {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  min-height: 72px;
+}
+
+.k-marca {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.k-marca-nombre {
+  font: 500 1.625rem/1 var(--k-serif);
+  letter-spacing: -0.01em;
+}
+
+.k-marca-por {
+  font: 400 0.6875rem/1 var(--k-mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--k-tinta-secundaria);
+}
+
+.k-nav {
+  display: flex;
+  align-items: center;
+  gap: clamp(14px, 2.4vw, 30px);
+}
+
+.k-nav a:not(.k-boton) {
+  font: 500 0.75rem/1 var(--k-mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--k-tinta-suave);
+  padding: 14px 0;
+}
+
+.k-nav a:not(.k-boton):hover {
+  color: var(--k-tinta);
+}
+
+@media (max-width: 760px) {
+  .k-nav a:not(.k-boton) {
+    display: none;
+  }
+
+  .k-marca-por {
+    display: none;
+  }
+}
+
+/* Footer */
+.k-pie {
+  margin-top: clamp(64px, 10vw, 140px);
+  padding: 44px 0 40px;
+  border-top: 1px solid var(--k-borde);
+}
+
+.k-pie-in {
+  display: grid;
+  gap: 28px;
+  grid-template-columns: 1.2fr 1fr;
+  align-items: start;
+}
+
+.k-pie-marca {
+  display: grid;
+  gap: 10px;
+}
+
+.k-pie-marca p {
+  font-size: 1rem;
+  color: var(--k-tinta-suave);
+  max-width: 34ch;
+}
+
+.k-pie-links {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 6px 26px;
+  list-style: none;
+  padding: 0;
+}
+
+.k-pie-links a {
+  display: inline-block;
+  padding: 10px 0;
+  font: 500 0.75rem/1.2 var(--k-mono);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--k-tinta-suave);
+}
+
+.k-pie-links a:hover,
+.k-pie-links a[aria-current='page'] {
+  color: var(--k-tinta);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.k-pie-legal {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 10px 24px;
+  padding-top: 22px;
+  border-top: 1px solid var(--k-borde);
+  font: 400 0.75rem/1.5 var(--k-mono);
+  letter-spacing: 0.04em;
+  color: var(--k-tinta-secundaria);
+}
+
+.k-pie-legal a {
+  text-underline-offset: 3px;
+}
+
+@media (max-width: 760px) {
+  .k-pie-in {
+    grid-template-columns: 1fr;
+  }
+
+  .k-pie-links {
+    justify-content: flex-start;
+  }
+}
+
+/* Long text pages: privacy, support, account deletion. */
+.k-doc {
+  max-width: 720px;
+  padding-top: clamp(40px, 7vw, 88px);
+}
+
+.k-doc-cabeza {
+  display: grid;
+  gap: 18px;
+  padding-bottom: 34px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid var(--k-borde);
+}
+
+.k-doc h1 {
+  font-size: clamp(2.375rem, 1.8rem + 2.6vw, 3.5rem);
+  line-height: 1;
+}
+
+.k-doc-lede {
+  font-size: 1.3125rem;
+  font-style: italic;
+  color: var(--k-tinta-suave);
+}
+
+.k-doc section {
+  padding-top: 40px;
+  scroll-margin-top: 90px;
+}
+
+.k-doc h2 {
+  font-size: 1.75rem;
+  line-height: 1.15;
+  margin-bottom: 14px;
+}
+
+.k-doc h3 {
+  font-size: 1.25rem;
+  font-weight: 500;
+  margin: 22px 0 8px;
+}
+
+.k-doc p + p,
+.k-doc p + ul,
+.k-doc ul + p,
+.k-doc p + ol,
+.k-doc ol + p {
+  margin-top: 14px;
+}
+
+.k-doc p,
+.k-doc li {
+  color: var(--k-tinta-cuerpo);
+}
+
+.k-doc ul,
+.k-doc ol {
+  padding-left: 1.2em;
+  display: grid;
+  gap: 8px;
+}
+
+.k-doc li::marker {
+  color: var(--k-tinta-apagada);
+}
+
+.k-doc a {
+  color: var(--k-acento);
+  text-underline-offset: 3px;
+}
+
+.k-doc strong {
+  font-weight: 500;
+  color: var(--k-tinta);
+}
+
+.k-doc-fecha {
+  margin-top: 44px;
+}
+
+.k-tarjeta {
+  background: var(--k-papel-claro);
+  border: 1px solid rgba(30, 37, 48, 0.08);
+  box-shadow: var(--k-sombra);
+  border-radius: 4px;
+  padding: clamp(22px, 3vw, 32px);
+}
+
+.k-recuadro {
+  margin-top: 22px;
+  display: grid;
+  gap: 12px;
+}
+
+.k-recuadro p {
+  margin: 0;
+}
+
+.k-doc .k-pasos {
+  list-style: none;
+  counter-reset: paso;
+  padding: 0;
+  gap: 14px;
+}
+
+.k-pasos li {
+  counter-increment: paso;
+  display: grid;
+  grid-template-columns: 40px 1fr;
+  gap: 12px;
+  align-items: baseline;
+}
+
+.k-pasos li::before {
+  content: counter(paso, decimal-leading-zero);
+  font: 500 0.8125rem/1 var(--k-mono);
+  letter-spacing: 0.1em;
+  color: var(--k-acento);
+}
+
+/* Questions and answers (support page and landing) */
+.k-preguntas {
+  border-top: 1px solid var(--k-borde);
+}
+
+.k-preguntas details {
+  border-bottom: 1px solid var(--k-borde);
+}
+
+.k-preguntas summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 18px;
+  padding: 20px 0;
+  font-size: 1.25rem;
+  line-height: 1.3;
+  cursor: pointer;
+  list-style: none;
+}
+
+.k-preguntas summary::-webkit-details-marker {
+  display: none;
+}
+
+.k-preguntas summary::after {
+  content: '+';
+  flex: none;
+  font: 400 1.375rem/1 var(--k-mono);
+  color: var(--k-tinta-secundaria);
+  transition: transform 0.25s var(--k-ease);
+}
+
+.k-preguntas details[open] summary::after {
+  transform: rotate(45deg);
+}
+
+.k-preguntas details > div {
+  display: grid;
+  gap: 12px;
+  padding: 0 0 22px;
+  max-width: 62ch;
+  color: var(--k-tinta-cuerpo);
+}
+
+.k-preguntas details a {
+  color: var(--k-acento);
+  text-underline-offset: 3px;
+}
+
+.k-cabecera[data-scrolled] {
+  border-bottom-color: var(--k-borde);
+}

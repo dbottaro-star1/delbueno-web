@@ -119,5 +119,10 @@ export default defineConfig({
     define: {
       __PREVIEW__: JSON.stringify(IS_PREVIEW),
     },
+    build: {
+      // Astro inlines a page script that bundles under 4 KB, and an inline script needs its own hash in the CSP.
+      // Scripts always ship as files instead (script-src 'self'); other assets keep Vite's default.
+      assetsInlineLimit: (/** @type {string} */ file) => (file.endsWith('.js') ? false : undefined),
+    },
   },
 });

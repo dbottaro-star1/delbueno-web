@@ -1,0 +1,200 @@
+---
+import KabbalahLayout from '../../layouts/KabbalahLayout.astro';
+import { APP, KABBALAH_PATHS } from '../../kabbalah/app';
+import { url } from '../../lib/url';
+
+const title = `Política de privacidad de la app ${APP.name}`;
+const description =
+  'Qué datos guarda la app Kabbalah, para qué, con quién se comparten y cómo borrarlos. Tu diario y tus respuestas son privados y nunca van a analytics.';
+const mail = `mailto:${APP.email}`;
+---
+
+<KabbalahLayout title={title} description={description} trail={[{ name: 'Privacidad', path: KABBALAH_PATHS.privacy }]}>
+  <article class="k-envoltura k-doc">
+    <header class="k-doc-cabeza">
+      <p class="k-etiqueta">Privacidad</p>
+      <h1>{title}</h1>
+      <p class="k-doc-lede">
+        En la app escribís cosas personales. Por eso guardamos lo mínimo, no lo usamos para nada que no sea darte el
+        servicio y podés borrarlo todo cuando quieras.
+      </p>
+    </header>
+
+    <section id="resumen">
+      <h2>En pocas palabras</h2>
+      <ul>
+        <li>Lo que escribís en la app (respuestas, compromisos, diario) es tuyo y privado. Solo vos lo ves.</li>
+        <li>
+          No vendemos tus datos, no mostramos publicidad y no usamos lo que escribís para entrenar inteligencia
+          artificial.
+        </li>
+        <li>
+          El contenido de tu diario y de tus respuestas nunca se manda a herramientas de análisis ni a registros de
+          errores.
+        </li>
+        <li>
+          Podés borrar tu cuenta y todo lo que escribiste desde la app, en cualquier momento. Ver{' '}
+          <a href={url(KABBALAH_PATHS.deleteAccount)}>cómo borrar tu cuenta</a>.
+        </li>
+      </ul>
+    </section>
+
+    <section id="quienes">
+      <h2>Quiénes somos</h2>
+      <p>
+        La app {APP.name} (la “App”) y estas páginas las publica <strong>{APP.publisher}</strong> (“nosotros”), una
+        sociedad de {APP.publisherCountry}, que es la responsable de los datos. El método y los textos de la App son de
+        {APP.teacher}.
+      </p>
+      <p>
+        Para cualquier consulta sobre tus datos, escribinos a <a href={mail}>{APP.email}</a>.
+      </p>
+    </section>
+
+    <section id="datos">
+      <h2>Qué datos tratamos</h2>
+      <h3>Tu cuenta</h3>
+      <p>
+        Tu correo electrónico. Lo usamos para que entres con un código de 6 dígitos que te mandamos por mail. No usamos
+        contraseñas.
+      </p>
+      <h3>Lo que respondés y escribís</h3>
+      <p>
+        Tu radar (del 1 al 10 en cada área), el diagnóstico y el estado de cada energía del Árbol, tus respuestas a los
+        autodiagnósticos y ejercicios, tus compromisos y cómo te fue con ellos, tu diario, el Inventario de Luz y tus
+        respuestas a la vasija y a Daat. Se guardan en tu cuenta para que no las pierdas si cambiás de teléfono.
+      </p>
+      <p>
+        Lo que respondés antes de crear la cuenta queda guardado solo en tu teléfono, y se pasa a tu cuenta cuando
+        entrás.
+      </p>
+      <h3>Recordatorios</h3>
+      <p>
+        Los recordatorios de tus compromisos se programan en tu teléfono, con tu permiso, como notificaciones locales.
+        Podés apagarlos desde los ajustes del teléfono.
+      </p>
+      <h3>Datos técnicos</h3>
+      <p>
+        Los necesarios para que la App funcione: un identificador de usuario y la sesión guardada en tu teléfono. Los
+        servidores de nuestros proveedores registran además datos técnicos como la dirección IP y la fecha de cada
+        conexión, para operar y proteger el servicio.
+      </p>
+      <h3>Lista de espera</h3>
+      <p>
+        Si te anotás en la lista de espera de esta web, recibimos tu correo y, si los completás, tu nombre y si ya
+        hiciste algo con {APP.teacher}.
+      </p>
+      <h3>Lo que no pedimos</h3>
+      <p>
+        La App es gratis, así que no pedimos ni guardamos datos de pago. Hoy no usa tu ubicación, tus contactos, tus
+        fotos ni el micrófono. Si una versión futura necesitara alguno de esos permisos, te lo va a pedir antes y vamos
+        a actualizar esta política.
+      </p>
+    </section>
+
+    <section id="para-que">
+      <h2>Para qué los usamos</h2>
+      <ul>
+        <li>
+          Para darte el servicio: guardar tu Árbol, tus respuestas y tu diario, y mostrártelos en cualquier teléfono.
+        </li>
+        <li>Para mandarte el código de acceso por mail.</li>
+        <li>Para los recordatorios que vos programás.</li>
+        <li>Para responderte cuando nos escribís a soporte.</li>
+        <li>Si te anotaste en la lista de espera, para avisarte cuando la App salga.</li>
+      </ul>
+      <p>
+        No armamos perfiles publicitarios, no vendemos ni alquilamos datos y no leemos tu diario. Tratamos tus datos con
+        tu consentimiento, que das al crear la cuenta, y porque son necesarios para darte el servicio que nos pedís,
+        según la Ley 18.331 de Protección de Datos Personales de Uruguay.
+      </p>
+    </section>
+
+    <section id="proveedores">
+      <h2>Con quién se comparten</h2>
+      <p>
+        Usamos proveedores que procesan datos en nuestro nombre, solo para lo que se describe acá y con sus propias
+        medidas de seguridad:
+      </p>
+      <ul>
+        <li>
+          <strong>Supabase</strong>: base de datos, inicio de sesión y funciones del servidor. Tu cuenta y lo que
+          escribís se alojan en sus servidores de São Paulo, Brasil.
+        </li>
+        <li>
+          <strong>Resend</strong>: envía el mail con tu código de acceso.
+        </li>
+        <li>
+          <strong>Apple y Google</strong>: distribuyen la App a través de App Store y Google Play.
+        </li>
+        <li>
+          <strong>Web3Forms</strong>: procesa el formulario de la lista de espera y lo reenvía a nuestro correo.
+        </li>
+        <li>
+          <strong>GitHub Pages y Cloudflare</strong>: sirven y protegen estas páginas web.
+        </li>
+      </ul>
+      <p>
+        Fuera de eso, solo compartiríamos datos si una ley o una autoridad competente nos lo exige. Algunos de estos
+        proveedores pueden procesar datos fuera de Uruguay, por ejemplo en Brasil o en Estados Unidos.
+      </p>
+    </section>
+
+    <section id="plazos">
+      <h2>Cuánto tiempo los guardamos</h2>
+      <ul>
+        <li>
+          Mientras tengas tu cuenta. Cuando la borrás, se borran en el momento tu usuario y todo lo que escribiste en la
+          App.
+        </li>
+        <li>
+          Pueden quedar por un tiempo limitado, hasta 30 días, en copias de seguridad de los proveedores, que se
+          renuevan y se descartan solas.
+        </li>
+        <li>Los datos de la lista de espera, hasta que salga la App o hasta que nos pidas que te saquemos.</li>
+        <li>Los correos que nos mandás a soporte, mientras haga falta para responderte.</li>
+      </ul>
+    </section>
+
+    <section id="seguridad">
+      <h2>Cómo los protegemos</h2>
+      <p>
+        Las conexiones van cifradas. En la base de datos, cada persona solo puede leer y escribir lo suyo: las reglas
+        están en la propia base, no solo en la App. Las claves de administración nunca están en la App. Ningún sistema
+        es infalible: si ocurriera un incidente que afecte tus datos, te vamos a avisar.
+      </p>
+    </section>
+
+    <section id="derechos">
+      <h2>Tus derechos</h2>
+      <p>
+        Podés pedirnos acceder a tus datos, corregirlos, actualizarlos o suprimirlos, y retirar tu consentimiento,
+        escribiendo a <a href={mail}>{APP.email}</a> desde el correo de tu cuenta. Te respondemos dentro de los 5 días
+        hábiles que fija la Ley 18.331. Para borrar todo, lo más rápido es hacerlo desde la App (
+        <a href={url(KABBALAH_PATHS.deleteAccount)}>ver cómo</a>).
+      </p>
+      <p>
+        Si creés que no respetamos tus derechos, podés hacer un reclamo ante la Unidad Reguladora y de Control de Datos
+        Personales (URCDP) de Uruguay. Si vivís en otro país, también tenés los derechos que te dé la ley de tu país.
+      </p>
+    </section>
+
+    <section id="menores">
+      <h2>Menores de edad</h2>
+      <p>
+        La App está pensada para personas mayores de 18 años. Si sabemos que una cuenta es de un menor sin permiso de
+        sus padres o tutores, la borramos.
+      </p>
+    </section>
+
+    <section id="cambios">
+      <h2>Cambios en esta política</h2>
+      <p>
+        Si cambiamos algo, publicamos la nueva versión en esta página con su fecha. Si el cambio es importante, también
+        te avisamos en la App o por mail.
+      </p>
+    </section>
+
+    <p class="k-etiqueta k-doc-fecha">Última actualización: {APP.legalUpdated}</p>
+  </article>
+</KabbalahLayout>
