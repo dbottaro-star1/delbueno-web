@@ -1,7 +1,7 @@
 ---
 title: "AI Agent UX: Designing Human-in-the-Loop Controls"
-seoTitle: "Human-in-the-Loop AI Agents: UX for Approvals"
-description: "How to design human-in-the-loop approvals for AI agents: preview before, interruptibility during, audit and undo after. A UX framework for trust."
+seoTitle: "When Should an AI Agent Ask a Human? A UX Framework"
+description: "When should an AI agent ask a human first? Sort actions by reversibility and blast radius, then design the preview, the stop and the undo users can trust."
 pubDate: 2026-06-29
 updatedDate: 2026-07-22
 author: "Dani Bottaro"

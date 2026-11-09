@@ -40,7 +40,7 @@ const others = services.filter((s) => s.slug !== service.slug);
 
 <BaseLayout
   lang={lang}
-  title={fill(c.title, { name: service.name })}
+  title={service.seoTitle ?? fill(c.title, { name: service.name })}
   description={service.seoDescription}
   breadcrumbs={trail}
   jsonLd={[serviceSchema({ path, name: service.name, description: service.answer })]}

@@ -87,9 +87,9 @@ export const innerCopy: Localized<InnerCopy> = {
     },
     index: {
       meta: {
-        title: 'Services: Strategy, Design, Web, Build and AI',
+        title: 'SaaS Design Services: Concepts in 48 Hours',
         description:
-          'delbueno™ Studio offers product strategy, product design, web design, no-code build and AI development for B2B SaaS teams and startups. Concepts in 48 hours.',
+          'Which service does your SaaS need? Product strategy, product design, web design, no-code build or AI development. Same day kickoff, concepts in 48 hours.',
       },
       answer:
         'delbueno™ Studio offers five services to B2B SaaS teams and startups: product strategy, product design, web design, build and AI development. Teams use one or all five, working through a fixed-scope Launch Sprint, a Design Partner subscription or a dedicated designer. Kickoff happens the same day and first concepts arrive within 48 hours.',
