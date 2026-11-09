@@ -70,6 +70,7 @@ export const POST_SLUGS: Readonly<Record<string, string>> = {
   'how-long-to-design-a-saas-mvp': 'cuanto-tiempo-lleva-disenar-un-mvp-saas',
   'one-team-design-and-build-ai-mvp': 'un-equipo-para-disenar-y-construir-un-mvp-de-ia',
   'how-to-get-recommended-by-chatgpt': 'como-lograr-que-chatgpt-recomiende-tu-startup',
+  'ux-design-for-fintech-startups': 'diseno-ux-para-startups-fintech',
 };
 
 /** Sections whose pages are `<prefix><slug>/`. Without a `slugs` table the slug is the same in both languages. */
