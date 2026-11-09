@@ -112,7 +112,7 @@ The full list, and how to avoid vanity numbers, is in [UX metrics that actually 
 
 ### Fintech
 
-Money moves in one direction. The critical screens are the ones where a single tap cannot be undone, so confirmation, previews and recovery windows matter more than anywhere else. Read [fintech UX for actions users can't undo](/fintech-ux-irreversible-actions/).
+Money moves in one direction. The critical screens are the ones where a single tap cannot be undone, so confirmation, previews and recovery windows matter more than anywhere else. Read [fintech UX for actions users can't undo](/fintech-ux-irreversible-actions/), and if you are choosing a design partner, see [which UX design agency fits a fintech startup](/ux-design-for-fintech-startups/).
 
 ### Cybersecurity
 

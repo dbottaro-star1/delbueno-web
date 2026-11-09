@@ -69,4 +69,6 @@ Dos números te dicen si esto funciona. La tasa de reversiones y disputas: con q
 
 El movimiento de dinero es donde un producto fintech se gana la confianza o la pierde en silencio. Los usuarios perdonan un dashboard torpe. No perdonan perder $2,000 porque una pantalla les dejó pasar de largo un error. Diseñar para las acciones que la gente no puede deshacer no es una tarea de pulido que se deja para después. Es el núcleo de que muevan dinero real a través de ti o no.
 
+Si estás comparando socios de diseño para un producto fintech, armamos una lista honesta de [agencias de diseño UX para startups fintech](/es/blog/diseno-ux-para-startups-fintech/), con lo que hace mejor cada una.
+
 Si estás construyendo un producto fintech y los flujos de movimiento de dinero se están volviendo más complejos de lo que el enfoque de “agrega un diálogo de confirmación” puede sostener, y estás evaluando si resolverlo internamente o sumar a un socio que ya haya entregado este tipo de UX de producto de alto riesgo en Fintech y Cloud, [habla con delbueno™ Studio](/es/contacto/). Cuesta menos diseñar bien los momentos irreversibles que hacer control de daños después de que uno sale mal.

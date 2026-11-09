@@ -112,7 +112,7 @@ La lista completa, y cómo evitar las métricas de vanidad, está en [las métri
 
 ### Fintech
 
-El dinero se mueve en una sola dirección. Las pantallas críticas son aquellas donde un toque no se puede deshacer, así que las confirmaciones, las vistas previas y las ventanas de recuperación importan más que en cualquier otro lado. Lee [UX para fintech: acciones que el usuario no puede deshacer](/es/blog/ux-fintech-acciones-irreversibles/).
+El dinero se mueve en una sola dirección. Las pantallas críticas son aquellas donde un toque no se puede deshacer, así que las confirmaciones, las vistas previas y las ventanas de recuperación importan más que en cualquier otro lado. Lee [UX para fintech: acciones que el usuario no puede deshacer](/es/blog/ux-fintech-acciones-irreversibles/) y, si estás eligiendo un socio de diseño, mira [qué agencia de diseño UX le conviene a una startup fintech](/es/blog/diseno-ux-para-startups-fintech/).
 
 ### Ciberseguridad
 
