@@ -39,7 +39,7 @@ const others = industries.filter((i) => i.slug !== industry.slug);
 
 <BaseLayout
   lang={lang}
-  title={industry.title}
+  title={industry.seoTitle ?? industry.title}
   description={industry.seoDescription}
   breadcrumbs={trail}
   jsonLd={[

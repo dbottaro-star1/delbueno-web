@@ -19,7 +19,10 @@ export function legacyRedirects() {
   for (const line of readFileSync(CSV, 'utf8').split('\n')) {
     const [source, target] = line.trim().split(',');
     if (!source || !target || !source.startsWith('https://')) continue;
-    const from = new URL(source).pathname;
+    const path = new URL(source).pathname;
+    // A slashless row (kept for Cloudflare, which matches exactly) shares the page of its slashed twin, since the
+    // build uses trailingSlash: 'always' and GitHub Pages adds the slash before serving the folder.
+    const from = path.endsWith('/') || /\.\w+$/.test(path) ? path : `${path}/`;
     const to = new URL(target).pathname;
     // Feeds and old XML sitemaps are not pages; an HTML refresh at those paths would not help.
     if (from === '/' || from === to || /\.xml$|\/feed\/$/.test(from)) continue;

@@ -84,8 +84,9 @@ export const servicesEs: Record<Service['slug'], ServiceText> = {
     ],
   },
   'product-design': {
+    seoTitle: '¿Necesitas diseño de producto B2B SaaS? Conceptos en 48 h',
     seoDescription:
-      'Diseño de producto para B2B SaaS: web y móvil, desde los primeros conceptos hasta un sistema de diseño en producción, con dashboards, permisos y alertas.',
+      '¿Tu producto B2B SaaS necesita un diseño más claro? Diseñamos web, móvil y sistema de diseño, con dashboards y permisos. Primeros conceptos en 48 horas.',
     home: {
       title: 'Diseño de producto',
       kicker: 'Diseño que se lanza',

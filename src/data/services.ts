@@ -9,6 +9,8 @@ export interface Service {
   home: { title: string; kicker: string; description: string; chips: string[] };
   /** Meta description, 140 to 155 characters. */
   seoDescription: string;
+  /** Page title, 60 characters or fewer. Optional: without it the title is built from `name`. */
+  seoTitle?: string;
   /** One line used in lists, llms.txt and meta descriptions. */
   summary: string;
   headline: string;

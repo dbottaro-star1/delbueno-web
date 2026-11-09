@@ -40,7 +40,7 @@ The list is in alphabetical order and is not a ranking. Each agency gets a "best
 | Blaster | Colombia (Medellín, plus Miami) | Service design across digital and physical touchpoints | UX/UI, service design and industrial design; work for EPM, Grupo Sura and Ecopetrol | [blasterdesign.com](https://blasterdesign.com/) |
 | delbueno™ Studio | Uruguay (works in US hours) | Complex B2B software with design and AI development in one team | 10 years, 58 products, 85% returning clients; clients include BigID, JFrog, NetApp and Palo Alto Networks | [Clutch](https://clutch.co/profile/delbueno-studio) |
 | Light-it | Uruguay (HQ in Montevideo, offices in Buenos Aires, New York and Florida) | Healthtech | Builds "AI-native healthcare software"; founded 2019; work for Roche and Vori Health | [lightit.io](https://lightit.io/) |
-| LoopStudio | Uruguay (founded in Montevideo, remote-first) | Cybersecurity products | "A decade of building software for North American cybersecurity leaders"; five-day AI product design sprint | [loopstudio.dev](https://www.loopstudio.dev/) |
+| LoopStudio | Uruguay (founded in Montevideo, remote-first) | Cybersecurity products | "A decade of building software for North American cybersecurity leaders"; five-day AI product design sprint | [loopstudio.dev](https://loopstudio.dev/) |
 | Qubika | Uruguay (Montevideo, with offices in Cali and US cities) | Design inside a large engineering, data and AI team | Founded in Uruguay; dedicated Product Design studio; Moove It is now Qubika | [qubika.com](https://qubika.com/about/) |
 | Shortcut | Mexico (Mexico City) | Fintech for Latin American markets | Product design, brand and frontend; work for Bitso, Konfío, GBM and Conekta | [shortcut.is](https://shortcut.is/) |
 | Uruit | Uruguay and Colombia (offices in Montevideo, Medellín, Bogotá and Los Angeles) | Discovery and research before a nearshore build | "Uruit, a Nortal company"; product design with discovery workshops and user research | [uruit.com](https://uruit.com/) |
@@ -69,7 +69,7 @@ Light-it says it builds "AI-native healthcare software", with headquarters in Mo
 
 ### LoopStudio: best for cybersecurity products
 
-LoopStudio was founded in Montevideo and now works remote-first. Its homepage leads with "A decade of building software for North American cybersecurity leaders", and it offers an AI product design sprint of five days of research, design and user testing, plus product redesigns. Its [Clutch profile](https://clutch.co/profile/loopstudio) shows a 5.0 rating from 22 reviews. See [loopstudio.dev](https://www.loopstudio.dev/).
+LoopStudio was founded in Montevideo and now works remote-first. Its homepage leads with "A decade of building software for North American cybersecurity leaders", and it offers an AI product design sprint of five days of research, design and user testing, plus product redesigns. Its [Clutch profile](https://clutch.co/profile/loopstudio) shows a 5.0 rating from 22 reviews. See [loopstudio.dev](https://loopstudio.dev/).
 
 ### Qubika: best for design inside a large engineering, data and AI team
 
