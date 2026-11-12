@@ -1,0 +1,121 @@
+---
+/**
+ * A phone with a real screen of the app. The captures in public/kabbalah/pantallas/ are 780 by 1688 (390 by 844 at
+ * 2x), taken from the app's own onboarding with the answers filled in, with room at the top for the status bar drawn
+ * here. To refresh them, capture the screens again at that size.
+ */
+import { url } from '../../lib/url';
+
+interface Props {
+  /** File name in public/kabbalah/pantallas/, without extension. */
+  pantalla: string;
+  alt: string;
+  /** Dark screens (the welcome) get a light status bar. */
+  oscura?: boolean;
+  /** Eager for the hero; lazy everywhere else. */
+  eager?: boolean;
+  class?: string;
+}
+const { pantalla, alt, oscura = false, eager = false, class: className } = Astro.props;
+---
+
+<div class:list={['telefono', { oscura }, className]}>
+  <div class="telefono-pantalla">
+    <img
+      src={url(`/kabbalah/pantallas/${pantalla}.webp`)}
+      alt={alt}
+      width="780"
+      height="1688"
+      loading={eager ? 'eager' : 'lazy'}
+      decoding="async"
+      fetchpriority={eager ? 'high' : undefined}
+    />
+    <div class="telefono-estado" aria-hidden="true">
+      <span>9:41</span>
+      <svg viewBox="0 0 66 12" width="66" height="12">
+        <rect x="0" y="7" width="3" height="5" rx="1"></rect>
+        <rect x="5" y="5" width="3" height="7" rx="1"></rect>
+        <rect x="10" y="3" width="3" height="9" rx="1"></rect>
+        <rect x="15" y="0.5" width="3" height="11.5" rx="1"></rect>
+        <path d="M30 4.2a8 8 0 0 1 10 0l-1.4 1.6a6 6 0 0 0-7.2 0zM32.4 7.2a4.5 4.5 0 0 1 5.2 0L35 10.2z"></path>
+        <rect x="45" y="1" width="18" height="10" rx="3" fill="none" stroke-width="1"></rect>
+        <rect x="47" y="3" width="13" height="6" rx="1.5"></rect>
+        <rect x="64" y="4.5" width="1.6" height="3.5" rx="0.8"></rect>
+      </svg>
+    </div>
+    <span class="telefono-isla" aria-hidden="true"></span>
+  </div>
+</div>
+
+<style>
+  .telefono {
+    --ancho: 280px;
+    position: relative;
+    width: var(--ancho);
+    max-width: 100%;
+    aspect-ratio: 390 / 844;
+    padding: calc(var(--ancho) * 0.034);
+    border-radius: calc(var(--ancho) * 0.16);
+    background: linear-gradient(145deg, #2c3442, #11151c);
+    box-shadow:
+      inset 0 0 0 1.5px rgba(255, 255, 255, 0.12),
+      0 40px 60px -32px rgba(30, 37, 48, 0.65),
+      0 18px 30px -24px rgba(30, 37, 48, 0.5);
+  }
+
+  .telefono-pantalla {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border-radius: calc(var(--ancho) * 0.13);
+    background: var(--k-papel);
+  }
+
+  .telefono img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+  }
+
+  .telefono-estado {
+    position: absolute;
+    top: calc(var(--ancho) * 0.045);
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 calc(var(--ancho) * 0.085) 0 calc(var(--ancho) * 0.1);
+    font:
+      600 calc(var(--ancho) * 0.042) / 1 -apple-system,
+      'SF Pro Text',
+      'Helvetica Neue',
+      sans-serif;
+    color: var(--k-tinta);
+  }
+
+  .telefono-estado svg {
+    width: calc(var(--ancho) * 0.2);
+    height: auto;
+    fill: currentColor;
+    stroke: currentColor;
+  }
+
+  .oscura .telefono-estado {
+    color: #fff;
+  }
+
+  .telefono-isla {
+    position: absolute;
+    top: calc(var(--ancho) * 0.03);
+    left: 50%;
+    width: calc(var(--ancho) * 0.31);
+    height: calc(var(--ancho) * 0.09);
+    transform: translateX(-50%);
+    border-radius: 999px;
+    background: #0b0e13;
+  }
+</style>

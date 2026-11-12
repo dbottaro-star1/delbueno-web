@@ -2,6 +2,7 @@
  * Scripts for the Kabbalah app pages (src/layouts/KabbalahLayout.astro). Bundled modules, so the CSP needs no new hash.
  */
 import { initLista } from './lista';
+import { initBarra, initRevelar } from './revelar';
 
 export function initKabbalah(): void {
   // The header gets its bottom rule once the page scrolls under it.
@@ -12,4 +13,6 @@ export function initKabbalah(): void {
     window.addEventListener('scroll', marcar, { passive: true });
   }
   initLista();
+  initRevelar();
+  initBarra();
 }

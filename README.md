@@ -268,6 +268,12 @@ page that Google Play requires. The landing collects a waitlist through Web3Form
   `src/kabbalah/app.ts`. The logo, the same as the app icon, is `src/components/kabbalah/LogoVasija.astro` (favicon:
   `public/kabbalah/icono.svg`).
 - The social card `/kabbalah/og.png` is drawn at build time by `src/kabbalah/og.ts`.
+- The phones show real screens of the app (`public/kabbalah/pantallas/*.webp`, 780 by 1688), captured from its
+  onboarding with answers filled in. Refresh them when the app's screens change.
+- Kevin's quotes come from texts he approved for the app (`VOZ_DE_KEVIN` in `src/kabbalah/app.ts`). Testimonials
+  (`TESTIMONIOS`) must be real and published with permission; while the list is empty the section does not show.
+- Scroll reveals and the sticky phone call to action live in `src/scripts/kabbalah/revelar.ts`; every animation stops
+  with prefers-reduced-motion.
 - When the app changes what it stores, which providers it uses or how an account is deleted, update
   `src/pages/kabbalah/privacidad.astro` and `borrar-cuenta.astro`, and `legalUpdated` in `src/kabbalah/app.ts`.
 

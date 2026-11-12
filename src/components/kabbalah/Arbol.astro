@@ -98,6 +98,8 @@ const descripcion = `Árbol de la Vida con sus diez energías. En este ejemplo y
     ))}
   </g>
 
+  {note && <circle class="luz-maljut" cx={NODOS.maljut.x} cy={NODOS.maljut.y} r="17" aria-hidden="true" />}
+
   <g class="nodo daat">
     <circle cx={daat.x} cy={daat.y} r="13" />
     <text x={daat.x + 22} y={daat.y + 4}>
@@ -203,6 +205,34 @@ const descripcion = `Árbol de la Vida con sus diez energías. En este ejemplo y
 
   .halo-2 {
     fill: rgba(47, 69, 96, 0.07);
+  }
+
+  /* A yellow light breathing behind Maljut, where the walk starts. */
+  .luz-maljut {
+    fill: var(--k-sol);
+    opacity: 0.55;
+    transform-box: fill-box;
+    transform-origin: center;
+    transform: scale(1.7);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .luz-maljut {
+      animation: respirar 3.2s ease-in-out 3s infinite;
+    }
+  }
+
+  @keyframes respirar {
+    0%,
+    100% {
+      transform: scale(1.4);
+      opacity: 0.35;
+    }
+
+    50% {
+      transform: scale(2);
+      opacity: 0.7;
+    }
   }
 
   .nota text {

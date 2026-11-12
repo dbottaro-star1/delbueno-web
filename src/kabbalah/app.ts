@@ -66,3 +66,26 @@ export const ZONAS = [
   { n: 2, nombre: 'Tu yo interior emocional' },
   { n: 3, nombre: 'Tu yo mental y espiritual' },
 ] as const;
+
+/**
+ * Lines of Kevin's that the app shows and that he approved (docs/aprobaciones/2026-11-06-kevin-textos.md in the app
+ * repo: welcome and "Somos una vasija"). Quote only approved text here.
+ */
+export const VOZ_DE_KEVIN = {
+  lema: ['Esto no es para saber más.', 'Es para vivir mejor.'],
+  vasija: 'Diseñados para recibir, sostener y compartir. La pregunta no es cuánto tenés, sino cuánto podés sostener.',
+} as const;
+
+export interface Testimonio {
+  texto: string;
+  /** As the person agreed to be named, for example "Laura, Montevideo". */
+  nombre: string;
+  /** Where it comes from, for example "Beta de la app" or "Curso de Kevin". */
+  contexto: string;
+}
+
+/**
+ * Real quotes only, from people who tried the app, the workbook or Kevin's course, with their permission to publish.
+ * While the list is empty the testimonials section does not show.
+ */
+export const TESTIMONIOS: readonly Testimonio[] = [];

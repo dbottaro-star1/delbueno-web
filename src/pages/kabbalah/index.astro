@@ -1,8 +1,10 @@
 ---
 import Arbol from '../../components/kabbalah/Arbol.astro';
 import ListaDeEspera from '../../components/kabbalah/ListaDeEspera.astro';
+import LogoVasija from '../../components/kabbalah/LogoVasija.astro';
+import Telefono from '../../components/kabbalah/Telefono.astro';
 import KabbalahLayout from '../../layouts/KabbalahLayout.astro';
-import { APP, DAAT, ENERGIAS, KABBALAH_PATHS, ZONAS } from '../../kabbalah/app';
+import { APP, DAAT, ENERGIAS, KABBALAH_PATHS, TESTIMONIOS, VOZ_DE_KEVIN, ZONAS } from '../../kabbalah/app';
 import { url } from '../../lib/url';
 
 const title = `${APP.fullName}, con ${APP.teacher}`;
@@ -13,6 +15,28 @@ const nav = [
   { label: 'Cómo funciona', href: '#como-funciona' },
   { label: 'Tu mapa', href: '#mapa' },
   { label: 'Preguntas', href: '#preguntas' },
+];
+
+// The start of the app, with real screens (public/kabbalah/pantallas/).
+const comienzo = [
+  {
+    pantalla: 'vasija',
+    titulo: 'Somos una vasija',
+    texto: 'Tres preguntas para ver cómo llegás: más completo o más vacío, qué se te desborda, qué querés cambiar.',
+    alt: 'Pantalla "Somos una vasija" de la app, con las respuestas elegidas.',
+  },
+  {
+    pantalla: 'radar',
+    titulo: 'Dónde estás hoy',
+    texto: 'Puntuás del 1 al 10 las diez áreas de tu vida. El radar se dibuja mientras respondés.',
+    alt: 'Pantalla del radar inicial de la app, con las diez áreas puntuadas.',
+  },
+  {
+    pantalla: 'tu-arbol',
+    titulo: 'Tu Árbol, hoy',
+    texto: 'Con el radar y 24 situaciones cotidianas, la app pinta una primera lectura de tu Árbol.',
+    alt: 'Pantalla "Tu Árbol, hoy" de la app: el Árbol pintado y una primera lectura.',
+  },
 ];
 
 const pasos = [
@@ -39,6 +63,9 @@ const estados = [
   { clase: 'exceso', nombre: 'En exceso' },
   { clase: 'sin', nombre: 'Sin recorrer' },
 ];
+
+// The energies in a loop for the moving band under the hero.
+const cinta = [...ENERGIAS, DAAT];
 
 const principios = [
   {
@@ -125,54 +152,102 @@ const etiquetas = ENERGIAS.map((e, i) => {
         <p class="k-etiqueta hero-kicker">
           <span class="pastilla">Muy pronto</span> App para iPhone y Android
         </p>
-        <h1>Kabbalah para hacer, no para leer.</h1>
+        <h1>
+          Kabbalah para <mark class="k-resalte">hacer</mark>, no para leer.
+        </h1>
         <p class="hero-lede">
           El cuaderno de trabajo de {APP.teacher}, vivo en tu teléfono. Recorrés las diez energías del Árbol de la Vida,
           te autodiagnosticás, hacés un ejercicio y asumís un compromiso. A medida que respondés, tu Árbol se pinta.
         </p>
-        <div class="hero-acciones">
+        <div class="hero-acciones" data-hero-cta>
           <a class="k-boton" href="#lista">
-            Sumarme a la lista
+            Sumarme a la lista{' '}
+            <span class="k-flecha" aria-hidden="true">
+              →
+            </span>
           </a>
           <a class="k-boton k-boton-secundario" href="#como-funciona">
-            Cómo funciona
+            Ver cómo funciona
           </a>
         </div>
-        <p class="hero-nota">Gratis. Sin rachas que se rompen. No hace falta creer en nada.</p>
+        <ul class="hero-sellos">
+          <li>Gratis</li>
+          <li>Sin rachas que se rompen</li>
+          <li>No hace falta creer en nada</li>
+        </ul>
       </div>
 
-      <figure class="hero-hoja" aria-label="Así se ve tu Árbol a medida que avanzás">
+      <div class="hero-visual">
+        <figure class="hero-hoja" aria-label="Así se ve tu Árbol a medida que avanzás">
+          <Arbol animated note class="hero-arbol" />
+          <figcaption class="k-etiqueta">Tu Árbol, en el recorrido</figcaption>
+        </figure>
+        <Telefono
+          pantalla="bienvenida"
+          oscura
+          eager
+          class="hero-telefono"
+          alt="Pantalla de bienvenida de Vasija: el Árbol de la Vida, un mensaje de Kevin y el botón para empezar."
+        />
         <div class="postit" aria-hidden="true">
           <span class="k-etiqueta">La pregunta que abre</span>
           <span class="k-mano">¿Qué parte de tu vida te está pidiendo atención?</span>
         </div>
-        <Arbol animated note class="hero-arbol" />
-        <figcaption class="k-etiqueta">Tu Árbol, en el recorrido</figcaption>
-      </figure>
+      </div>
     </div>
   </section>
 
+  <div class="cinta" aria-hidden="true">
+    <div class="cinta-pista">
+      {[0, 1].map(() => (
+        <ul>
+          {cinta.map((e) => (
+            <li>
+              <span class="cinta-nombre">{e.nombre}</span>
+              <span class="cinta-hebreo" lang="he" dir="rtl">
+                {e.hebreo}
+              </span>
+              <span class="cinta-luz" />
+            </li>
+          ))}
+        </ul>
+      ))}
+    </div>
+  </div>
+
   <section class="banda banda-celeste" id="como-funciona" aria-labelledby="como-funciona-h">
     <div class="k-envoltura">
-      <div class="seccion-cabeza">
+      <div class="seccion-cabeza" data-revelar>
         <p class="k-etiqueta">Cómo funciona</p>
-        <h2 id="como-funciona-h">Diez energías, de abajo hacia arriba.</h2>
-        <p>
-          Empezás con un radar: del 1 al 10, cómo estás hoy en cada área de tu vida. Con eso tu Árbol aparece
-          prepintado, como una primera hipótesis. Después, en cada energía:
-        </p>
+        <h2 id="como-funciona-h">
+          Diez minutos y tu Árbol <mark class="k-resalte">ya tiene color</mark>.
+        </h2>
+        <p>Así empieza la app. Son las pantallas reales, con las respuestas de alguien que recién arranca.</p>
       </div>
-      <ol class="pasos">
-        {pasos.map((p, i) => (
-          <li class="k-tarjeta paso">
-            <span class="paso-n">{String(i + 1).padStart(2, '0')}</span>
-            <h3>{p.titulo}</h3>
-            <p>{p.texto}</p>
+      <ol class="comienzo" data-revelar-grupo>
+        {comienzo.map((c, i) => (
+          <li>
+            <Telefono pantalla={c.pantalla} alt={c.alt} class="comienzo-telefono" />
+            <div class="comienzo-texto">
+              <span class="paso-n">{String(i + 1).padStart(2, '0')}</span>
+              <h3>{c.titulo}</h3>
+              <p>{c.texto}</p>
+            </div>
           </li>
         ))}
       </ol>
-      <div class="estados">
-        <p class="k-mano estados-titulo">y tu Árbol se pinta</p>
+
+      <div class="despues" data-revelar>
+        <p class="k-mano despues-titulo">y después, en cada energía:</p>
+        <ol class="pasos" data-revelar-grupo>
+          {pasos.map((p, i) => (
+            <li class="k-tarjeta paso">
+              <span class="paso-n">{String(i + 1).padStart(2, '0')}</span>
+              <h3>{p.titulo}</h3>
+              <p>{p.texto}</p>
+            </li>
+          ))}
+        </ol>
         <ul class="estados-lista">
           {estados.map((e) => (
             <li>
@@ -182,12 +257,22 @@ const etiquetas = ENERGIAS.map((e, i) => {
           ))}
         </ul>
       </div>
+
+      <div class="k-llamado" data-revelar>
+        <p class="k-llamado-texto">¿Querés ver tu Árbol pintarse?</p>
+        <a class="k-boton" href="#lista">
+          Quiero probarla{' '}
+          <span class="k-flecha" aria-hidden="true">
+            →
+          </span>
+        </a>
+      </div>
     </div>
   </section>
 
   <section class="banda banda-blanca" id="mapa" aria-labelledby="mapa-h">
     <div class="k-envoltura">
-      <div class="seccion-cabeza">
+      <div class="seccion-cabeza" data-revelar>
         <p class="k-etiqueta">Tu mapa</p>
         <h2 id="mapa-h">Tres zonas, diez energías y un hilo.</h2>
         <p>
@@ -195,7 +280,7 @@ const etiquetas = ENERGIAS.map((e, i) => {
           sentido.
         </p>
       </div>
-      <div class="zonas">
+      <div class="zonas" data-revelar-grupo>
         {ZONAS.map((z) => (
           <div class:list={['zona', `zona-${z.n}`]}>
             <p class="k-etiqueta">Zona {z.n}</p>
@@ -222,27 +307,72 @@ const etiquetas = ENERGIAS.map((e, i) => {
           <strong>{DAAT.nombre}</strong> no se trabaja: es el hilo que une todo. Te espera con una sola pregunta.
         </span>
       </p>
+      <div class="k-llamado" data-revelar>
+        <p class="k-llamado-texto">Se empieza por los cimientos: Maljut.</p>
+        <a class="k-boton" href="#lista">
+          Avisame cuando salga{' '}
+          <span class="k-flecha" aria-hidden="true">
+            →
+          </span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="banda banda-sol voz" aria-labelledby="voz-h">
+    <div class="k-envoltura voz-in">
+      <div class="voz-marca" aria-hidden="true">
+        <LogoVasija size={150} />
+      </div>
+      <figure class="voz-cita" data-revelar>
+        <h2 id="voz-h" class="k-etiqueta">
+          La voz de {APP.teacher}
+        </h2>
+        <blockquote>
+          <p class="voz-lema">
+            {VOZ_DE_KEVIN.lema[0]}
+            <span>{VOZ_DE_KEVIN.lema[1]}</span>
+          </p>
+          <p class="voz-texto">“{VOZ_DE_KEVIN.vasija}”</p>
+        </blockquote>
+        <figcaption>
+          <strong>{APP.teacher}</strong>, maestro de Kabbalah. En la app, sus textos y sus audios te acompañan en cada
+          energía.
+        </figcaption>
+      </figure>
     </div>
   </section>
 
   <section class="banda banda-noche principios" aria-labelledby="principios-h">
     <div class="k-envoltura">
-      <p class="k-etiqueta">Cómo está pensada</p>
-      <h2 id="principios-h">Hecha para acompañarte, no para engancharte.</h2>
-      <ul class="principios-lista">
-        {principios.map((p) => (
+      <div data-revelar>
+        <p class="k-etiqueta">Cómo está pensada</p>
+        <h2 id="principios-h">Hecha para acompañarte, no para engancharte.</h2>
+      </div>
+      <ul class="principios-lista" data-revelar-grupo>
+        {principios.map((p, i) => (
           <li>
+            <span class="principio-n">{String(i + 1).padStart(2, '0')}</span>
             <h3>{p.titulo}</h3>
             <p>{p.texto}</p>
           </li>
         ))}
       </ul>
+      <div class="k-llamado" data-revelar>
+        <p class="k-llamado-texto">Gratis, a tu ritmo y sin culpa.</p>
+        <a class="k-boton" href="#lista">
+          Anotarme gratis{' '}
+          <span class="k-flecha" aria-hidden="true">
+            →
+          </span>
+        </a>
+      </div>
     </div>
   </section>
 
   <section class="banda banda-gris" aria-labelledby="seguir-h">
     <div class="k-envoltura seguir">
-      <div class="seguir-texto">
+      <div class="seguir-texto" data-revelar>
         <p class="k-etiqueta">Con {APP.teacher}</p>
         <h2 id="seguir-h">Lo que el cuaderno en papel no puede hacer.</h2>
         <p>
@@ -250,7 +380,7 @@ const etiquetas = ENERGIAS.map((e, i) => {
           Árbol de la Vida escribiendo, no leyendo. La app es ese cuaderno, vivo: te recuerda tus compromisos, mide cómo
           cambiás con el tiempo y te muestra tu Árbol completo.
         </p>
-        <ul class="extras">
+        <ul class="extras" data-revelar-grupo>
           {extras.map((e) => (
             <li>
               <h3>{e.titulo}</h3>
@@ -258,49 +388,98 @@ const etiquetas = ENERGIAS.map((e, i) => {
             </li>
           ))}
         </ul>
+        <div class="k-llamado">
+          <a class="k-boton" href="#lista">
+            Sumarme a la lista{' '}
+            <span class="k-flecha" aria-hidden="true">
+              →
+            </span>
+          </a>
+        </div>
       </div>
-      <figure class="radar k-tarjeta">
-        <svg
-          viewBox="-40 -24 320 288"
-          role="img"
-          aria-label="Ejemplo de radar: al final del recorrido, el área cubierta es más grande que al principio."
-        >
-          {anillos.map((a) => (
-            <polygon class="radar-anillo" points={a} />
-          ))}
-          {ejes.map((e) => (
-            <line class="radar-eje" x1="120" y1="120" x2={e.split(',')[0]} y2={e.split(',')[1]} />
-          ))}
-          <polygon class="radar-inicial" points={poligono(RADAR_INICIAL)} />
-          <polygon class="radar-final" points={poligono(RADAR_FINAL)} />
-          {etiquetas.map((t) => (
-            <text x={t.x} y={t.y + 3} text-anchor={t.x < 115 ? 'end' : t.x > 125 ? 'start' : 'middle'}>
-              {t.nombre}
-            </text>
-          ))}
-        </svg>
-        <figcaption class="radar-leyenda">
-          <span>
-            <i class="radar-muestra inicial" aria-hidden="true"></i> Radar inicial
-          </span>
-          <span>
-            <i class="radar-muestra final" aria-hidden="true"></i> Radar final
-          </span>
-        </figcaption>
-      </figure>
+      <div class="seguir-visual">
+        <figure class="radar k-tarjeta" data-revelar>
+          <svg
+            viewBox="-40 -24 320 288"
+            role="img"
+            aria-label="Ejemplo de radar: al final del recorrido, el área cubierta es más grande que al principio."
+          >
+            {anillos.map((a) => (
+              <polygon class="radar-anillo" points={a} />
+            ))}
+            {ejes.map((e) => (
+              <line class="radar-eje" x1="120" y1="120" x2={e.split(',')[0]} y2={e.split(',')[1]} />
+            ))}
+            <polygon class="radar-inicial" points={poligono(RADAR_INICIAL)} />
+            <polygon class="radar-final" points={poligono(RADAR_FINAL)} />
+            {etiquetas.map((t) => (
+              <text x={t.x} y={t.y + 3} text-anchor={t.x < 115 ? 'end' : t.x > 125 ? 'start' : 'middle'}>
+                {t.nombre}
+              </text>
+            ))}
+          </svg>
+          <figcaption class="radar-leyenda">
+            <span>
+              <i class="radar-muestra inicial" aria-hidden="true"></i> Radar inicial
+            </span>
+            <span>
+              <i class="radar-muestra final" aria-hidden="true"></i> Radar final
+            </span>
+          </figcaption>
+        </figure>
+        <Telefono
+          pantalla="diagnostico"
+          class="seguir-telefono"
+          alt="Pantalla del diagnóstico de la app: una situación cotidiana con tres respuestas posibles."
+        />
+      </div>
     </div>
   </section>
+
+  {TESTIMONIOS.length > 0 && (
+    <section class="banda banda-blanca" aria-labelledby="testimonios-h">
+      <div class="k-envoltura">
+        <div class="seccion-cabeza" data-revelar>
+          <p class="k-etiqueta">Quienes ya la probaron</p>
+          <h2 id="testimonios-h">Lo que cuentan.</h2>
+        </div>
+        <ul class="testimonios" data-revelar-grupo>
+          {TESTIMONIOS.map((t) => (
+            <li class="k-tarjeta">
+              <blockquote>
+                <p>“{t.texto}”</p>
+              </blockquote>
+              <p class="testimonio-quien">
+                <strong>{t.nombre}</strong>
+                <span>{t.contexto}</span>
+              </p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
 
   <section class="banda banda-pizarra" id="lista" aria-labelledby="lista-h">
     <div class="k-envoltura">
       <div class="lista-in">
         <div class="lista-texto">
           <p class="k-etiqueta">Lista de espera</p>
-          <h2 id="lista-h">Enterate primero.</h2>
+          <h2 id="lista-h">
+            Enterate <mark class="k-resalte">primero</mark>.
+          </h2>
           <p>
             La app está en las últimas pruebas para iPhone y Android. Dejanos tu correo y te avisamos el día que esté en
             las tiendas.
           </p>
+          <ul class="lista-tiendas" aria-label="Sale para">
+            <li>
+              <span class="lista-tienda-n">iPhone</span> App Store, muy pronto
+            </li>
+            <li>
+              <span class="lista-tienda-n">Android</span> Google Play, muy pronto
+            </li>
+          </ul>
           <p class="k-mano lista-mano">un solo correo, cuando salga</p>
         </div>
         <div class="k-tarjeta lista-tarjeta">
@@ -312,7 +491,7 @@ const etiquetas = ENERGIAS.map((e, i) => {
 
   <section class="banda banda-celeste" id="preguntas" aria-labelledby="preguntas-h">
     <div class="k-envoltura preguntas">
-      <div class="seccion-cabeza">
+      <div class="seccion-cabeza" data-revelar>
         <p class="k-etiqueta">Preguntas</p>
         <h2 id="preguntas-h">Lo que suelen preguntar.</h2>
       </div>
@@ -332,6 +511,29 @@ const etiquetas = ENERGIAS.map((e, i) => {
       </p>
     </div>
   </section>
+
+  <section class="banda banda-sol final" aria-labelledby="final-h">
+    <div class="k-envoltura final-in" data-revelar>
+      <LogoVasija size={64} />
+      <h2 id="final-h">Tu Árbol te espera.</h2>
+      <p>Empezá por los cimientos. Lo demás se va pintando.</p>
+      <a class="k-boton k-boton-oscuro" href="#lista">
+        Sumarme a la lista{' '}
+        <span class="k-flecha" aria-hidden="true">
+          →
+        </span>
+      </a>
+    </div>
+  </section>
+
+  <div class="k-barra" data-barra>
+    <a class="k-boton" href="#lista">
+      Sumarme a la lista de espera{' '}
+      <span class="k-flecha" aria-hidden="true">
+        →
+      </span>
+    </a>
+  </div>
 </KabbalahLayout>
 
 <style>
@@ -363,8 +565,8 @@ const etiquetas = ENERGIAS.map((e, i) => {
     min-height: 26px;
     padding: 0 12px;
     border-radius: 999px;
-    background: var(--k-acento);
-    color: var(--k-papel);
+    background: var(--k-sol);
+    color: var(--k-tinta);
     font-size: 0.6875rem;
   }
 
@@ -387,8 +589,38 @@ const etiquetas = ENERGIAS.map((e, i) => {
     gap: 12px;
   }
 
-  .hero-nota {
+  .hero-sellos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 22px;
+    list-style: none;
+    padding: 0;
     color: var(--k-tinta-suave);
+    font-size: 1.0625rem;
+  }
+
+  .hero-sellos li {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .hero-sellos li::before {
+    content: '';
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--k-sol);
+    box-shadow: 0 0 0 3px rgba(244, 220, 99, 0.3);
+  }
+
+  /* The paper tree behind, the phone with the real welcome screen in front. */
+  .hero-visual {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr;
+    min-height: 600px;
+    align-items: center;
   }
 
   .hero-hoja {
@@ -408,7 +640,47 @@ const etiquetas = ENERGIAS.map((e, i) => {
   }
 
   .hero-hoja :global(.hero-arbol) {
-    max-width: 440px;
+    max-width: 400px;
+  }
+
+  .hero-visual .hero-hoja {
+    width: min(100%, 400px);
+    justify-self: start;
+    transform: rotate(-3deg);
+  }
+
+  .hero-visual :global(.hero-telefono) {
+    --ancho: 240px;
+    position: absolute;
+    right: -24px;
+    bottom: -30px;
+    transform: rotate(4deg);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-visual :global(.hero-telefono) {
+      animation:
+        entrar-telefono 1s cubic-bezier(0.22, 1, 0.36, 1) 0.2s backwards,
+        flotar 7s ease-in-out 1.4s infinite;
+    }
+  }
+
+  @keyframes entrar-telefono {
+    from {
+      opacity: 0;
+      transform: translateY(40px) rotate(8deg);
+    }
+  }
+
+  @keyframes flotar {
+    0%,
+    100% {
+      transform: rotate(4deg) translateY(0);
+    }
+
+    50% {
+      transform: rotate(4deg) translateY(-10px);
+    }
   }
 
   .hero-hoja figcaption {
@@ -417,15 +689,15 @@ const etiquetas = ENERGIAS.map((e, i) => {
 
   .postit {
     position: absolute;
-    top: -26px;
-    right: clamp(-10px, -1vw, 0px);
+    top: -34px;
+    left: -26px;
     width: 196px;
     display: grid;
     gap: 6px;
     padding: 14px 16px 18px;
     background: var(--k-postit);
     color: var(--k-postit-tinta);
-    transform: rotate(-4deg);
+    transform: rotate(-6deg);
     box-shadow: 0 16px 24px -18px rgba(58, 31, 42, 0.8);
     z-index: 2;
   }
@@ -463,13 +735,30 @@ const etiquetas = ENERGIAS.map((e, i) => {
       margin-top: 24px;
     }
 
+    .hero-visual {
+      min-height: 0;
+      padding-bottom: 40px;
+    }
+
+    .hero-visual .hero-hoja {
+      width: 88%;
+    }
+
+    .hero-visual :global(.hero-telefono) {
+      --ancho: min(46vw, 230px);
+      bottom: 0;
+      right: -4px;
+    }
+
     .postit {
-      position: relative;
-      top: auto;
-      right: auto;
-      justify-self: end;
-      width: 190px;
-      margin: -58px -14px 6px 0;
+      top: -40px;
+      left: -6px;
+      width: 150px;
+      padding: 10px 12px 14px;
+    }
+
+    .postit .k-mano {
+      font-size: 1.25rem;
     }
   }
 
@@ -556,19 +845,6 @@ const etiquetas = ENERGIAS.map((e, i) => {
     .pasos {
       grid-template-columns: 1fr;
     }
-  }
-
-  .estados {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
-    gap: 14px 28px;
-    margin-top: 30px;
-  }
-
-  .estados-titulo {
-    font-size: 2rem;
-    line-height: 1;
   }
 
   .estados-lista {
@@ -907,6 +1183,13 @@ const etiquetas = ENERGIAS.map((e, i) => {
     align-items: start;
   }
 
+  /* On the dark band the highlighted word turns yellow instead of carrying a marker. */
+  .lista-texto .k-resalte {
+    background: none;
+    color: var(--k-sol);
+    animation: none;
+  }
+
   .lista-texto .k-etiqueta,
   .lista-mano {
     color: var(--k-acento-noche);
@@ -959,5 +1242,378 @@ const etiquetas = ENERGIAS.map((e, i) => {
   .preguntas-mas a {
     color: var(--k-acento);
     text-underline-offset: 3px;
+  }
+
+  /* Moving band of the energies under the hero. */
+  .cinta {
+    overflow: hidden;
+    background: var(--k-pizarra-oscura);
+    color: var(--k-papel);
+    padding: 16px 0;
+  }
+
+  .cinta-pista {
+    display: flex;
+    width: max-content;
+  }
+
+  .cinta ul {
+    display: flex;
+    flex: none;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .cinta li {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 12px;
+    padding: 0 22px;
+    white-space: nowrap;
+  }
+
+  .cinta-nombre {
+    font: 500 1.375rem/1 var(--k-serif);
+  }
+
+  .cinta-hebreo {
+    font: 400 1.25rem/1 var(--k-hebreo);
+    color: var(--k-sol);
+  }
+
+  .cinta-luz {
+    align-self: center;
+    width: 7px;
+    height: 7px;
+    margin-left: 22px;
+    border-radius: 50%;
+    background: var(--k-sol);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .cinta-pista {
+      animation: cinta 46s linear infinite;
+    }
+
+    .cinta:hover .cinta-pista {
+      animation-play-state: paused;
+    }
+  }
+
+  @keyframes cinta {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  /* How it starts: three real screens. */
+  .comienzo {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(20px, 3vw, 40px);
+  }
+
+  .comienzo li {
+    display: grid;
+    gap: 22px;
+    justify-items: center;
+    align-content: start;
+  }
+
+  .comienzo :global(.comienzo-telefono) {
+    --ancho: min(100%, 250px);
+    transition: transform 0.4s var(--k-ease);
+  }
+
+  .comienzo li:nth-child(2) :global(.comienzo-telefono) {
+    margin-top: 36px;
+  }
+
+  .comienzo li:hover :global(.comienzo-telefono) {
+    transform: translateY(-8px);
+  }
+
+  .comienzo-texto {
+    display: grid;
+    gap: 8px;
+    max-width: 290px;
+    text-align: center;
+    justify-items: center;
+  }
+
+  .comienzo-texto h3 {
+    font-size: 1.625rem;
+    line-height: 1.1;
+  }
+
+  .comienzo-texto p {
+    color: var(--k-tinta-cuerpo);
+  }
+
+  @media (max-width: 860px) {
+    .comienzo {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+
+    .comienzo li:nth-child(2) :global(.comienzo-telefono) {
+      margin-top: 0;
+    }
+
+    .comienzo :global(.comienzo-telefono) {
+      --ancho: min(70vw, 260px);
+    }
+  }
+
+  .despues {
+    margin-top: clamp(56px, 7vw, 88px);
+    display: grid;
+    gap: 20px;
+  }
+
+  .despues-titulo {
+    font-size: 2.125rem;
+    line-height: 1;
+  }
+
+  /* Yellow band: Kevin's voice and the closing call. */
+  .banda-sol {
+    background: var(--k-sol);
+    color: var(--k-tinta);
+  }
+
+  .banda-sol .k-etiqueta {
+    color: var(--k-tinta-suave);
+  }
+
+  .voz-in {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: clamp(28px, 6vw, 80px);
+    align-items: center;
+  }
+
+  .voz-marca {
+    display: grid;
+    place-items: center;
+    width: clamp(150px, 20vw, 230px);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: var(--k-papel-claro);
+    box-shadow: 0 30px 50px -36px rgba(30, 37, 48, 0.7);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .voz-marca :global(circle) {
+      animation: latir 3.6s ease-in-out infinite;
+      transform-origin: 16px 8px;
+      transform-box: view-box;
+    }
+  }
+
+  @keyframes latir {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+
+    50% {
+      transform: scale(1.18);
+    }
+  }
+
+  .voz-cita h2.k-etiqueta {
+    font-size: 0.75rem;
+    line-height: 1.3;
+    letter-spacing: 0.14em;
+  }
+
+  .voz-cita {
+    margin: 0;
+    display: grid;
+    gap: 22px;
+  }
+
+  .voz-cita blockquote {
+    margin: 0;
+    display: grid;
+    gap: 18px;
+  }
+
+  .voz-lema {
+    font: 400 clamp(2.5rem, 1.6rem + 3.6vw, 4.25rem) / 1 var(--k-serif);
+    letter-spacing: -0.02em;
+  }
+
+  .voz-lema span {
+    display: block;
+    font-family: var(--k-mano);
+    color: var(--k-acento);
+    font-size: 1.05em;
+    margin-top: 6px;
+  }
+
+  .voz-texto {
+    font-size: 1.375rem;
+    line-height: 1.35;
+    max-width: 40ch;
+    color: var(--k-tinta-cuerpo);
+  }
+
+  .voz-cita figcaption {
+    font-size: 1.0625rem;
+    color: var(--k-tinta-suave);
+    max-width: 52ch;
+  }
+
+  .voz-cita figcaption strong {
+    color: var(--k-tinta);
+    font-weight: 500;
+  }
+
+  @media (max-width: 760px) {
+    .voz-in {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .principio-n {
+    font: 500 0.8125rem/1 var(--k-mono);
+    letter-spacing: 0.12em;
+    color: var(--k-sol);
+  }
+
+  .principios .k-llamado-texto {
+    color: var(--k-papel);
+  }
+
+  /* Radar card and a phone, overlapped. */
+  .seguir-visual {
+    position: relative;
+    padding-bottom: 60px;
+  }
+
+  .seguir-visual .radar {
+    width: 88%;
+  }
+
+  .seguir-visual :global(.seguir-telefono) {
+    --ancho: 200px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    transform: rotate(5deg);
+  }
+
+  @media (max-width: 560px) {
+    .seguir-visual .radar {
+      width: 100%;
+    }
+
+    .seguir-visual :global(.seguir-telefono) {
+      display: none;
+    }
+  }
+
+  /* The final polygon grows from the center when the radar comes into view. */
+  .radar-final {
+    transform-box: view-box;
+    transform-origin: 120px 120px;
+    transition: transform 1.3s cubic-bezier(0.22, 1, 0.36, 1) 0.35s;
+  }
+
+  .radar:global(.k-revelar) .radar-final {
+    transform: scale(0.55);
+  }
+
+  .radar:global(.k-visible) .radar-final {
+    transform: none;
+  }
+
+  .testimonios {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+  }
+
+  .testimonios li {
+    display: grid;
+    gap: 18px;
+    align-content: space-between;
+  }
+
+  .testimonios blockquote {
+    margin: 0;
+    font-size: 1.25rem;
+    line-height: 1.4;
+  }
+
+  .testimonio-quien {
+    display: grid;
+    gap: 2px;
+    font-size: 1rem;
+  }
+
+  .testimonio-quien strong {
+    font-weight: 500;
+  }
+
+  .testimonio-quien span {
+    font: 400 0.75rem/1.4 var(--k-mono);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--k-tinta-secundaria);
+  }
+
+  .lista-tiendas {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .lista-tiendas li {
+    display: grid;
+    gap: 4px;
+    padding: 12px 18px;
+    border: 1px solid rgba(242, 243, 243, 0.3);
+    border-radius: 10px;
+    font: 400 0.6875rem/1.2 var(--k-mono);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(242, 243, 243, 0.75);
+  }
+
+  .lista-tienda-n {
+    font: 500 1.25rem/1 var(--k-serif);
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--k-papel);
+  }
+
+  .final-in {
+    display: grid;
+    justify-items: center;
+    text-align: center;
+    gap: 18px;
+  }
+
+  .final-in h2 {
+    font-size: clamp(2.75rem, 1.8rem + 4vw, 4.75rem);
+  }
+
+  .final-in p {
+    font-size: 1.375rem;
+    color: var(--k-tinta-cuerpo);
+  }
+
+  .final-in .k-boton {
+    margin-top: 8px;
   }
 </style>

@@ -24,6 +24,10 @@
   --k-noche: #3e5674;
   --k-acento: #2b4fb3;
   --k-acento-noche: #f2eba0;
+  /* Energy yellow: the light of the Vasija logo, a step brighter for buttons and highlights. */
+  --k-sol: #f4dc63;
+  --k-sol-hover: #eccd3c;
+  --k-sol-suave: #f8eeb4;
   --k-zona1: #a9c4de;
   --k-zona2: #d8c29e;
   --k-zona3: #cfe2f1;
@@ -170,42 +174,72 @@ main:focus {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 12px;
   min-height: 56px;
   padding: 0 26px;
-  border: 1px solid var(--k-pizarra);
+  border: 1px solid var(--k-sol);
   border-radius: 4px;
-  background: var(--k-pizarra);
-  color: var(--k-papel);
+  background: var(--k-sol);
+  color: var(--k-tinta);
   font: 500 0.8125rem/1 var(--k-mono);
   letter-spacing: 0.14em;
   text-transform: uppercase;
   text-decoration: none;
   cursor: pointer;
+  box-shadow: 0 10px 22px -16px rgba(30, 37, 48, 0.55);
   transition:
     background 0.2s,
     border-color 0.2s,
-    transform 0.2s var(--k-ease);
+    box-shadow 0.25s var(--k-ease),
+    transform 0.25s var(--k-ease);
 }
 
 .k-boton:hover {
-  background: var(--k-pizarra-oscura);
-  border-color: var(--k-pizarra-oscura);
+  background: var(--k-sol-hover);
+  border-color: var(--k-sol-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 16px 26px -16px rgba(30, 37, 48, 0.6);
 }
 
 .k-boton:active {
-  transform: translateY(1px);
+  transform: translateY(0);
+}
+
+.k-flecha {
+  display: inline-block;
+  font-family: var(--k-serif);
+  font-size: 1.25rem;
+  line-height: 0;
+  transition: transform 0.25s var(--k-ease);
+}
+
+.k-boton:hover .k-flecha {
+  transform: translateX(4px);
+}
+
+/* Dark button, for yellow bands. */
+.k-boton-oscuro {
+  background: var(--k-tinta);
+  border-color: var(--k-tinta);
+  color: var(--k-papel);
+}
+
+.k-boton-oscuro:hover {
+  background: var(--k-pizarra-oscura);
+  border-color: var(--k-pizarra-oscura);
 }
 
 .k-boton-secundario {
   background: transparent;
   color: var(--k-tinta);
   border-color: var(--k-borde-fuerte);
+  box-shadow: none;
 }
 
 .k-boton-secundario:hover {
   background: var(--k-papel-claro);
   border-color: var(--k-tinta);
+  box-shadow: none;
 }
 
 .k-boton-chico {
@@ -217,6 +251,84 @@ main:focus {
 .k-boton:disabled {
   opacity: 0.7;
   cursor: progress;
+  transform: none;
+}
+
+/* Yellow highlighter behind a word; it sweeps in when the element becomes visible. */
+.k-resalte {
+  background: linear-gradient(transparent 58%, var(--k-sol) 58%, var(--k-sol) 92%, transparent 92%) no-repeat 0 0 / 100%
+    100%;
+  color: inherit;
+  padding: 0 0.06em;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .k-resalte {
+    animation: k-resaltar 0.9s var(--k-ease) 0.5s backwards;
+  }
+}
+
+@keyframes k-resaltar {
+  from {
+    background-size: 0% 100%;
+  }
+}
+
+/* Reveal on scroll (src/scripts/kabbalah/revelar.ts). Only elements below the fold at load get hidden. */
+.k-revelar {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.8s var(--k-ease),
+    transform 0.8s var(--k-ease);
+}
+
+.k-revelar.k-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* A call to action at the end of a section. */
+.k-llamado {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px 26px;
+  margin-top: clamp(36px, 5vw, 56px);
+}
+
+.k-llamado-texto {
+  font-size: 1.375rem;
+  line-height: 1.25;
+}
+
+/* Sticky call to action on phones (landing only). */
+.k-barra {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 45;
+  padding: 12px var(--k-margen) calc(12px + env(safe-area-inset-bottom));
+  background: rgba(42, 61, 85, 0.94);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transform: translateY(110%);
+  transition: transform 0.35s var(--k-ease);
+}
+
+.k-barra .k-boton {
+  width: 100%;
+}
+
+.k-barra.k-mostrar {
+  transform: none;
+}
+
+@media (min-width: 761px) {
+  .k-barra {
+    display: none;
+  }
 }
 
 /* Header */
