@@ -605,7 +605,7 @@ const etiquetas = ENERGIAS.map((e, i) => {
 
   <div class="k-barra" data-barra>
     <a class="k-boton" href="#lista">
-      Sumarme a la lista de espera{' '}
+      Sumarme a la lista{' '}
       <span class="k-flecha" aria-hidden="true">
         →
       </span>
@@ -2121,5 +2121,64 @@ const etiquetas = ENERGIAS.map((e, i) => {
   .final-in:global(.k-visible) :global(.luz) {
     transform: none;
     opacity: 1;
+  }
+
+  /* Phones: headings, paragraphs and calls to action centered. Lists, cards and the form stay left-aligned. */
+  @media (max-width: 760px) {
+    .hero-texto,
+    .seccion-cabeza,
+    .seguir-texto,
+    .lista-texto,
+    .voz-cita,
+    .principios-cabeza > div:first-child,
+    .final-in {
+      text-align: center;
+      justify-items: center;
+    }
+
+    .hero-lede,
+    .seccion-cabeza > p,
+    .lista-texto > p,
+    .voz-texto,
+    .voz-cita figcaption {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero-kicker,
+    .hero-acciones,
+    .hero-sellos,
+    .estados-lista,
+    .lista-tiendas,
+    .k-llamado {
+      justify-content: center;
+    }
+
+    .k-llamado {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .despues-titulo,
+    .daat {
+      text-align: center;
+      justify-content: center;
+    }
+
+    .lista-mano {
+      transform-origin: center;
+    }
+
+    .lista-foto :global(img) {
+      margin: 0 auto;
+    }
+
+    .voz-in {
+      justify-items: center;
+    }
+
+    .principios h2 {
+      max-width: none;
+    }
   }
 </style>

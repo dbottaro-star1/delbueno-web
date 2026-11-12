@@ -346,6 +346,7 @@ main:focus {
 
 .k-barra .k-boton {
   width: 100%;
+  white-space: nowrap;
 }
 
 .k-barra.k-mostrar {
@@ -521,10 +522,20 @@ main:has(> .banda:last-child) + .k-pie {
 @media (max-width: 760px) {
   .k-pie-in {
     grid-template-columns: 1fr;
+    text-align: center;
   }
 
-  .k-pie-links {
-    justify-content: flex-start;
+  .k-pie-marca {
+    justify-items: center;
+  }
+
+  .k-pie-marca p {
+    margin: 0 auto;
+  }
+
+  .k-pie-links,
+  .k-pie-legal {
+    justify-content: center;
   }
 }
 
