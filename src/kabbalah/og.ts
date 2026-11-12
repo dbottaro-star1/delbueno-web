@@ -13,7 +13,7 @@ import { APP } from './app';
 const W = 1200;
 const H = 630;
 /** Side of the logo tile, bottom left. The text column runs from y 58 to 572. */
-const LOGO = 56;
+const LOGO = 60;
 
 type Element = Parameters<typeof satori>[0];
 
@@ -75,13 +75,15 @@ function arbol(): string {
   );
 }
 
-/** The Vasija mark (src/components/kabbalah/LogoVasija.astro), LOGO px wide at (x, y). */
+/** The Tikún mark, light version (src/components/kabbalah/LogoVasija.astro), LOGO px wide at (x, y). */
 function logo(x: number, y: number): string {
+  const scale = LOGO / 24;
   return (
-    `<g transform="translate(${x}, ${y}) scale(${LOGO / 64})">` +
-    `<rect width="64" height="64" rx="14" fill="#3E5674"/>` +
-    `<path d="M14.5 23.9a17.5 17.5 0 0 0 35 0" fill="none" stroke="#F2F3F3" stroke-width="3.2" stroke-linecap="round"/>` +
-    `<circle cx="32" cy="29.5" r="5.8" fill="#F2EBA0"/></g>`
+    `<g transform="translate(${x}, ${y}) scale(${scale}) translate(-4, -4)" fill="none" stroke-linecap="round">` +
+    `<path d="M6 13 A10 10 0 0 0 10.1 21.1" stroke="#2F4560" stroke-width="1.6"/>` +
+    `<path d="M12.2 22.2 A10 10 0 0 0 26 13" stroke="#2F4560" stroke-width="1.6"/>` +
+    `<path d="M10.1 21.1 L12.2 22.2" stroke="#C9A75E" stroke-width="2.3"/>` +
+    `<circle cx="16" cy="8" r="2.4" fill="#2B4FB3"/></g>`
   );
 }
 
@@ -129,20 +131,19 @@ function card(): Element {
           ),
           h('div', { display: 'flex', alignItems: 'center', gap: 18, width: '100%', height: LOGO }, [
             // Room for the logo, drawn after layout.
-            h('div', { display: 'flex', width: LOGO, height: LOGO }),
-            h('div', { display: 'flex', fontFamily: 'EB Garamond', fontWeight: 500, fontSize: 50 }, APP.name),
+            h('div', { display: 'flex', width: LOGO, height: (LOGO * 21) / 24 }),
+            h('div', { display: 'flex', fontFamily: 'EB Garamond', fontWeight: 500, fontSize: 46 }, APP.name),
             h(
               'div',
               {
                 display: 'flex',
-                marginLeft: 8,
-                fontFamily: 'IBM Plex Mono',
-                fontSize: 20,
-                letterSpacing: '0.14em',
-                textTransform: 'uppercase',
-                color: '#5C626C',
+                marginLeft: -6,
+                fontFamily: 'EB Garamond',
+                fontWeight: 500,
+                fontSize: 46,
+                color: '#4A5260',
               },
-              APP.tagline,
+              `- ${APP.tagline}`,
             ),
           ]),
         ],
@@ -172,7 +173,10 @@ export async function renderKabbalahOg(): Promise<Uint8Array<ArrayBuffer>> {
       },
     ],
   });
-  const withArt = svg.replace(/<\/svg>\s*$/, `${arbol()}${logo(72, H - 58 - LOGO)}</svg>`);
+  const withArt = svg.replace(
+    /<\/svg>\s*$/,
+    `${arbol()}${logo(72, H - 58 - LOGO + (LOGO - (LOGO * 21) / 24) / 2)}</svg>`,
+  );
   const png = new Resvg(withArt, { fitTo: { mode: 'width', value: W } }).render().asPng();
   return sharp(png)
     .png({ palette: true, quality: 90, effort: 10 })

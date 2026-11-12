@@ -1,25 +1,37 @@
 ---
 /**
- * The Vasija mark, the same as the app icon (assets/images/marca in the app repo): the bowl in paper and the light
- * inside, on night blue. Decorative next to the name, so it is hidden from screen readers.
+ * Vasija's brand mark for web and social: "Tikún", the repaired vessel (the bowl with its golden repair and the
+ * light above), as in the brand pack's horizontal logo (redes-y-web/logo-horizontal-claro). The app icon is a
+ * different mark, "Recibir" (public/kabbalah/icono.svg).
+ *
+ * Decorative next to the name, so it is hidden from screen readers.
  */
 interface Props {
   size?: number;
+  /** "claro" for light backgrounds (the default), "oscuro" for night blue ones. */
+  tono?: 'claro' | 'oscuro';
   class?: string;
 }
-const { size = 32, class: className } = Astro.props;
+const { size = 32, tono = 'claro', class: className } = Astro.props;
+const color =
+  tono === 'claro'
+    ? { trazo: '#2F4560', reparo: '#C9A75E', luz: '#2B4FB3' }
+    : { trazo: '#F2F3F3', reparo: '#D8C29E', luz: '#F2EBA0' };
 ---
 
-<svg class:list={['logo-vasija', className]} viewBox="0 0 64 64" width={size} height={size} aria-hidden="true">
-  <rect width="64" height="64" rx="14" fill="#3E5674"></rect>
-  <path
-    d="M14.5 23.9a17.5 17.5 0 0 0 35 0"
-    fill="none"
-    stroke="#F2F3F3"
-    stroke-width="3.2"
-    stroke-linecap="round"
-  ></path>
-  <circle cx="32" cy="29.5" r="5.8" fill="#F2EBA0"></circle>
+<svg
+  class:list={['logo-vasija', className]}
+  viewBox="4 4 24 21"
+  width={size}
+  height={(size * 21) / 24}
+  fill="none"
+  stroke-linecap="round"
+  aria-hidden="true"
+>
+  <path d="M6 13 A10 10 0 0 0 10.1 21.1" stroke={color.trazo} stroke-width="1.6"></path>
+  <path d="M12.2 22.2 A10 10 0 0 0 26 13" stroke={color.trazo} stroke-width="1.6"></path>
+  <path d="M10.1 21.1 L12.2 22.2" stroke={color.reparo} stroke-width="2.3"></path>
+  <circle cx="16" cy="8" r="2.4" fill={color.luz}></circle>
 </svg>
 
 <style>

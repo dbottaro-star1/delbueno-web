@@ -31,7 +31,7 @@ const { title, description, trail = [], nav, jsonLd = [] } = Astro.props;
 
 const path = stripBase(Astro.url.pathname);
 const ogImage = absoluteUrl('/kabbalah/og.png', Astro.site);
-const ogAlt = `${APP.storeName}, con el método de ${APP.teacher}. El Árbol de la Vida pintándose.`;
+const ogAlt = `${APP.fullName}, con el método de ${APP.teacher}. El Árbol de la Vida pintándose.`;
 const crumbs: Crumb[] = [{ name: BRAND.name, path: '/es/' }, { name: APP.name, path: KABBALAH_PATHS.home }, ...trail];
 const graph: JsonLdNode[] = [sitewideSchema('es'), breadcrumbSchema(crumbs), ...jsonLd];
 
@@ -81,9 +81,10 @@ const copyright = `© ${new Date().getFullYear()} ${APP.publisher}, ${APP.publis
 
     <header class="k-cabecera" data-cabecera>
       <div class="k-envoltura k-cabecera-in">
-        <a class="k-marca" href={url(KABBALAH_PATHS.home)} aria-label={`${APP.name}, inicio`}>
-          <LogoVasija size={34} />
+        <a class="k-marca" href={url(KABBALAH_PATHS.home)} aria-label={`${APP.fullName}, inicio`}>
+          <LogoVasija size={40} />
           <span class="k-marca-nombre">{APP.name}</span>
+          <span class="k-marca-bajada">- {APP.tagline}</span>
         </a>
         <nav class="k-nav" aria-label="Principal">
           {enlaces.map((l) => (
@@ -102,8 +103,9 @@ const copyright = `© ${new Date().getFullYear()} ${APP.publisher}, ${APP.publis
       <div class="k-envoltura k-pie-in">
         <div class="k-pie-marca">
           <span class="k-marca">
-            <LogoVasija size={30} />
+            <LogoVasija size={40} />
             <span class="k-marca-nombre">{APP.name}</span>
+            <span class="k-marca-bajada">- {APP.tagline}</span>
           </span>
           <p>
             {APP.tagline}. El método y los textos son de {APP.teacher}.

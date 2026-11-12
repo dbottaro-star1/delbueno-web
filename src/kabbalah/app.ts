@@ -3,13 +3,16 @@
  * Its pages live under /kabbalah/: a landing with the waitlist, and the privacy, support and account deletion pages
  * that the App Store and Google Play ask for. They are Spanish only (Rioplatense, "vos"), like the app.
  *
- * Name and logo agreed with Kevin on 12 Nov 2026. The logo is drawn in src/components/kabbalah/LogoVasija.astro.
+ * Name agreed with Kevin on 12 Nov 2026. Brand: the "Tikún" mark with the full name on the web and social media
+ * (src/components/kabbalah/LogoVasija.astro), the "Recibir" mark as the app icon and favicon.
  */
 
 export const APP = {
   name: 'Vasija',
   tagline: 'Kabbalah cotidiana',
-  /** Name in the stores. */
+  /** Full name next to the logo, on the web and in social media materials. */
+  fullName: 'Vasija - Kabbalah cotidiana',
+  /** Name in the stores (App Store and Google Play). */
   storeName: 'Vasija: Kabbalah cotidiana',
   /** Title of Kevin's workbook, the method behind the app. */
   workbook: 'Kabbalah aplicada a tu vida cotidiana',

@@ -5,7 +5,7 @@ import KabbalahLayout from '../../layouts/KabbalahLayout.astro';
 import { APP, DAAT, ENERGIAS, KABBALAH_PATHS, ZONAS } from '../../kabbalah/app';
 import { url } from '../../lib/url';
 
-const title = `${APP.storeName}, con ${APP.teacher}`;
+const title = `${APP.fullName}, con ${APP.teacher}`;
 const description =
   'Vasija, la app de Kabbalah de Kevin Jakter para iPhone y Android: recorrés las diez energías del Árbol de la Vida y ves cómo se pinta tu Árbol.';
 
@@ -119,106 +119,113 @@ const etiquetas = ENERGIAS.map((e, i) => {
     Lista de espera
   </a>
 
-  <section class="hero k-envoltura">
-    <div class="hero-texto">
-      <p class="k-etiqueta hero-kicker">
-        <span class="pastilla">Muy pronto</span> App para iPhone y Android
-      </p>
-      <h1>Kabbalah para hacer, no para leer.</h1>
-      <p class="hero-lede">
-        El cuaderno de trabajo de {APP.teacher}, vivo en tu teléfono. Recorrés las diez energías del Árbol de la Vida,
-        te autodiagnosticás, hacés un ejercicio y asumís un compromiso. A medida que respondés, tu Árbol se pinta.
-      </p>
-      <div class="hero-acciones">
-        <a class="k-boton" href="#lista">
-          Sumarme a la lista
-        </a>
-        <a class="k-boton k-boton-secundario" href="#como-funciona">
-          Cómo funciona
-        </a>
+  <section class="banda banda-gris banda-hero">
+    <div class="hero k-envoltura">
+      <div class="hero-texto">
+        <p class="k-etiqueta hero-kicker">
+          <span class="pastilla">Muy pronto</span> App para iPhone y Android
+        </p>
+        <h1>Kabbalah para hacer, no para leer.</h1>
+        <p class="hero-lede">
+          El cuaderno de trabajo de {APP.teacher}, vivo en tu teléfono. Recorrés las diez energías del Árbol de la Vida,
+          te autodiagnosticás, hacés un ejercicio y asumís un compromiso. A medida que respondés, tu Árbol se pinta.
+        </p>
+        <div class="hero-acciones">
+          <a class="k-boton" href="#lista">
+            Sumarme a la lista
+          </a>
+          <a class="k-boton k-boton-secundario" href="#como-funciona">
+            Cómo funciona
+          </a>
+        </div>
+        <p class="hero-nota">Gratis. Sin rachas que se rompen. No hace falta creer en nada.</p>
       </div>
-      <p class="hero-nota">Gratis. Sin rachas que se rompen. No hace falta creer en nada.</p>
-    </div>
 
-    <figure class="hero-hoja" aria-label="Así se ve tu Árbol a medida que avanzás">
-      <div class="postit" aria-hidden="true">
-        <span class="k-etiqueta">La pregunta que abre</span>
-        <span class="k-mano">¿Qué parte de tu vida te está pidiendo atención?</span>
-      </div>
-      <Arbol animated note class="hero-arbol" />
-      <figcaption class="k-etiqueta">Tu Árbol, en el recorrido</figcaption>
-    </figure>
+      <figure class="hero-hoja" aria-label="Así se ve tu Árbol a medida que avanzás">
+        <div class="postit" aria-hidden="true">
+          <span class="k-etiqueta">La pregunta que abre</span>
+          <span class="k-mano">¿Qué parte de tu vida te está pidiendo atención?</span>
+        </div>
+        <Arbol animated note class="hero-arbol" />
+        <figcaption class="k-etiqueta">Tu Árbol, en el recorrido</figcaption>
+      </figure>
+    </div>
   </section>
 
-  <section class="seccion k-envoltura" id="como-funciona" aria-labelledby="como-funciona-h">
-    <div class="seccion-cabeza">
-      <p class="k-etiqueta">Cómo funciona</p>
-      <h2 id="como-funciona-h">Diez energías, de abajo hacia arriba.</h2>
-      <p>
-        Empezás con un radar: del 1 al 10, cómo estás hoy en cada área de tu vida. Con eso tu Árbol aparece prepintado,
-        como una primera hipótesis. Después, en cada energía:
-      </p>
-    </div>
-    <ol class="pasos">
-      {pasos.map((p, i) => (
-        <li class="k-tarjeta paso">
-          <span class="paso-n">{String(i + 1).padStart(2, '0')}</span>
-          <h3>{p.titulo}</h3>
-          <p>{p.texto}</p>
-        </li>
-      ))}
-    </ol>
-    <div class="estados">
-      <p class="k-mano estados-titulo">y tu Árbol se pinta</p>
-      <ul class="estados-lista">
-        {estados.map((e) => (
-          <li>
-            <span class:list={['estado-punto', e.clase]} aria-hidden="true" />
-            {e.nombre}
+  <section class="banda banda-celeste" id="como-funciona" aria-labelledby="como-funciona-h">
+    <div class="k-envoltura">
+      <div class="seccion-cabeza">
+        <p class="k-etiqueta">Cómo funciona</p>
+        <h2 id="como-funciona-h">Diez energías, de abajo hacia arriba.</h2>
+        <p>
+          Empezás con un radar: del 1 al 10, cómo estás hoy en cada área de tu vida. Con eso tu Árbol aparece
+          prepintado, como una primera hipótesis. Después, en cada energía:
+        </p>
+      </div>
+      <ol class="pasos">
+        {pasos.map((p, i) => (
+          <li class="k-tarjeta paso">
+            <span class="paso-n">{String(i + 1).padStart(2, '0')}</span>
+            <h3>{p.titulo}</h3>
+            <p>{p.texto}</p>
           </li>
         ))}
-      </ul>
+      </ol>
+      <div class="estados">
+        <p class="k-mano estados-titulo">y tu Árbol se pinta</p>
+        <ul class="estados-lista">
+          {estados.map((e) => (
+            <li>
+              <span class:list={['estado-punto', e.clase]} aria-hidden="true" />
+              {e.nombre}
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   </section>
 
-  <section class="seccion k-envoltura" id="mapa" aria-labelledby="mapa-h">
-    <div class="seccion-cabeza">
-      <p class="k-etiqueta">Tu mapa</p>
-      <h2 id="mapa-h">Tres zonas, diez energías y un hilo.</h2>
-      <p>
-        El Árbol de la Vida ordena tu vida en tres zonas. Se recorre desde los cimientos, lo material, hasta el sentido.
+  <section class="banda banda-blanca" id="mapa" aria-labelledby="mapa-h">
+    <div class="k-envoltura">
+      <div class="seccion-cabeza">
+        <p class="k-etiqueta">Tu mapa</p>
+        <h2 id="mapa-h">Tres zonas, diez energías y un hilo.</h2>
+        <p>
+          El Árbol de la Vida ordena tu vida en tres zonas. Se recorre desde los cimientos, lo material, hasta el
+          sentido.
+        </p>
+      </div>
+      <div class="zonas">
+        {ZONAS.map((z) => (
+          <div class:list={['zona', `zona-${z.n}`]}>
+            <p class="k-etiqueta">Zona {z.n}</p>
+            <h3>{z.nombre}</h3>
+            <ul>
+              {ENERGIAS.filter((e) => e.zona === z.n).map((e) => (
+                <li>
+                  <span class="zona-nombre">{e.nombre}</span>
+                  <span class="zona-hebreo" lang="he" dir="rtl">
+                    {e.hebreo}
+                  </span>
+                  <span class="zona-area">{e.area}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+      <p class="daat">
+        <span class="zona-hebreo" lang="he" dir="rtl">
+          {DAAT.hebreo}
+        </span>
+        <span>
+          <strong>{DAAT.nombre}</strong> no se trabaja: es el hilo que une todo. Te espera con una sola pregunta.
+        </span>
       </p>
     </div>
-    <div class="zonas">
-      {ZONAS.map((z) => (
-        <div class:list={['zona', `zona-${z.n}`]}>
-          <p class="k-etiqueta">Zona {z.n}</p>
-          <h3>{z.nombre}</h3>
-          <ul>
-            {ENERGIAS.filter((e) => e.zona === z.n).map((e) => (
-              <li>
-                <span class="zona-nombre">{e.nombre}</span>
-                <span class="zona-hebreo" lang="he" dir="rtl">
-                  {e.hebreo}
-                </span>
-                <span class="zona-area">{e.area}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ))}
-    </div>
-    <p class="daat">
-      <span class="zona-hebreo" lang="he" dir="rtl">
-        {DAAT.hebreo}
-      </span>
-      <span>
-        <strong>{DAAT.nombre}</strong> no se trabaja: es el hilo que une todo. Te espera con una sola pregunta.
-      </span>
-    </p>
   </section>
 
-  <section class="principios" aria-labelledby="principios-h">
+  <section class="banda banda-noche principios" aria-labelledby="principios-h">
     <div class="k-envoltura">
       <p class="k-etiqueta">Cómo está pensada</p>
       <h2 id="principios-h">Hecha para acompañarte, no para engancharte.</h2>
@@ -233,56 +240,58 @@ const etiquetas = ENERGIAS.map((e, i) => {
     </div>
   </section>
 
-  <section class="seccion k-envoltura seguir" aria-labelledby="seguir-h">
-    <div class="seguir-texto">
-      <p class="k-etiqueta">Con {APP.teacher}</p>
-      <h2 id="seguir-h">Lo que el cuaderno en papel no puede hacer.</h2>
-      <p>
-        {APP.teacher} es maestro de Kabbalah uruguayo. Su cuaderno de trabajo, “{APP.workbook}”, propone recorrer el
-        Árbol de la Vida escribiendo, no leyendo. La app es ese cuaderno, vivo: te recuerda tus compromisos, mide cómo
-        cambiás con el tiempo y te muestra tu Árbol completo.
-      </p>
-      <ul class="extras">
-        {extras.map((e) => (
-          <li>
-            <h3>{e.titulo}</h3>
-            <p>{e.texto}</p>
-          </li>
-        ))}
-      </ul>
+  <section class="banda banda-gris" aria-labelledby="seguir-h">
+    <div class="k-envoltura seguir">
+      <div class="seguir-texto">
+        <p class="k-etiqueta">Con {APP.teacher}</p>
+        <h2 id="seguir-h">Lo que el cuaderno en papel no puede hacer.</h2>
+        <p>
+          {APP.teacher} es maestro de Kabbalah uruguayo. Su cuaderno de trabajo, “{APP.workbook}”, propone recorrer el
+          Árbol de la Vida escribiendo, no leyendo. La app es ese cuaderno, vivo: te recuerda tus compromisos, mide cómo
+          cambiás con el tiempo y te muestra tu Árbol completo.
+        </p>
+        <ul class="extras">
+          {extras.map((e) => (
+            <li>
+              <h3>{e.titulo}</h3>
+              <p>{e.texto}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <figure class="radar k-tarjeta">
+        <svg
+          viewBox="-40 -24 320 288"
+          role="img"
+          aria-label="Ejemplo de radar: al final del recorrido, el área cubierta es más grande que al principio."
+        >
+          {anillos.map((a) => (
+            <polygon class="radar-anillo" points={a} />
+          ))}
+          {ejes.map((e) => (
+            <line class="radar-eje" x1="120" y1="120" x2={e.split(',')[0]} y2={e.split(',')[1]} />
+          ))}
+          <polygon class="radar-inicial" points={poligono(RADAR_INICIAL)} />
+          <polygon class="radar-final" points={poligono(RADAR_FINAL)} />
+          {etiquetas.map((t) => (
+            <text x={t.x} y={t.y + 3} text-anchor={t.x < 115 ? 'end' : t.x > 125 ? 'start' : 'middle'}>
+              {t.nombre}
+            </text>
+          ))}
+        </svg>
+        <figcaption class="radar-leyenda">
+          <span>
+            <i class="radar-muestra inicial" aria-hidden="true"></i> Radar inicial
+          </span>
+          <span>
+            <i class="radar-muestra final" aria-hidden="true"></i> Radar final
+          </span>
+        </figcaption>
+      </figure>
     </div>
-    <figure class="radar k-tarjeta">
-      <svg
-        viewBox="-40 -24 320 288"
-        role="img"
-        aria-label="Ejemplo de radar: al final del recorrido, el área cubierta es más grande que al principio."
-      >
-        {anillos.map((a) => (
-          <polygon class="radar-anillo" points={a} />
-        ))}
-        {ejes.map((e) => (
-          <line class="radar-eje" x1="120" y1="120" x2={e.split(',')[0]} y2={e.split(',')[1]} />
-        ))}
-        <polygon class="radar-inicial" points={poligono(RADAR_INICIAL)} />
-        <polygon class="radar-final" points={poligono(RADAR_FINAL)} />
-        {etiquetas.map((t) => (
-          <text x={t.x} y={t.y + 3} text-anchor={t.x < 115 ? 'end' : t.x > 125 ? 'start' : 'middle'}>
-            {t.nombre}
-          </text>
-        ))}
-      </svg>
-      <figcaption class="radar-leyenda">
-        <span>
-          <i class="radar-muestra inicial" aria-hidden="true"></i> Radar inicial
-        </span>
-        <span>
-          <i class="radar-muestra final" aria-hidden="true"></i> Radar final
-        </span>
-      </figcaption>
-    </figure>
   </section>
 
-  <section class="seccion lista-seccion" id="lista" aria-labelledby="lista-h">
+  <section class="banda banda-pizarra" id="lista" aria-labelledby="lista-h">
     <div class="k-envoltura">
       <div class="lista-in">
         <div class="lista-texto">
@@ -301,25 +310,27 @@ const etiquetas = ENERGIAS.map((e, i) => {
     </div>
   </section>
 
-  <section class="seccion k-envoltura preguntas" id="preguntas" aria-labelledby="preguntas-h">
-    <div class="seccion-cabeza">
-      <p class="k-etiqueta">Preguntas</p>
-      <h2 id="preguntas-h">Lo que suelen preguntar.</h2>
+  <section class="banda banda-celeste" id="preguntas" aria-labelledby="preguntas-h">
+    <div class="k-envoltura preguntas">
+      <div class="seccion-cabeza">
+        <p class="k-etiqueta">Preguntas</p>
+        <h2 id="preguntas-h">Lo que suelen preguntar.</h2>
+      </div>
+      <div class="k-preguntas">
+        {preguntas.map((p) => (
+          <details>
+            <summary>{p.q}</summary>
+            <div>
+              <p>{p.a}</p>
+            </div>
+          </details>
+        ))}
+      </div>
+      <p class="preguntas-mas">
+        ¿Algo más? Mirá la página de <a href={url(KABBALAH_PATHS.support)}>soporte</a> o escribinos a{' '}
+        <a href={`mailto:${APP.email}`}>{APP.email}</a>.
+      </p>
     </div>
-    <div class="k-preguntas">
-      {preguntas.map((p) => (
-        <details>
-          <summary>{p.q}</summary>
-          <div>
-            <p>{p.a}</p>
-          </div>
-        </details>
-      ))}
-    </div>
-    <p class="preguntas-mas">
-      ¿Algo más? Mirá la página de <a href={url(KABBALAH_PATHS.support)}>soporte</a> o escribinos a{' '}
-      <a href={`mailto:${APP.email}`}>{APP.email}</a>.
-    </p>
   </section>
 </KabbalahLayout>
 
@@ -462,9 +473,36 @@ const etiquetas = ENERGIAS.map((e, i) => {
     }
   }
 
-  /* Sections */
-  .seccion {
-    padding-top: clamp(64px, 9vw, 128px);
+  /* Sections: each one on its own color band, light and dark in turn. */
+  .banda {
+    padding: clamp(64px, 9vw, 120px) 0;
+    scroll-margin-top: 72px;
+  }
+
+  .banda-hero {
+    padding: 0;
+  }
+
+  .banda-gris {
+    background: var(--k-papel);
+  }
+
+  .banda-celeste {
+    background: #e3ecf4;
+  }
+
+  .banda-blanca {
+    background: var(--k-papel-claro);
+  }
+
+  .banda-noche {
+    background: var(--k-noche);
+    color: var(--k-papel);
+  }
+
+  .banda-pizarra {
+    background: var(--k-pizarra-oscura);
+    color: var(--k-papel);
   }
 
   .seccion-cabeza {
@@ -696,13 +734,6 @@ const etiquetas = ENERGIAS.map((e, i) => {
   }
 
   /* Principles: the dark night blue of the welcome screen. */
-  .principios {
-    margin-top: clamp(64px, 8vw, 112px);
-    padding: clamp(64px, 9vw, 120px) 0;
-    background: var(--k-noche);
-    color: var(--k-papel);
-  }
-
   .principios .k-etiqueta {
     color: var(--k-acento-noche);
   }
@@ -874,8 +905,16 @@ const etiquetas = ENERGIAS.map((e, i) => {
     grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr);
     gap: clamp(32px, 6vw, 88px);
     align-items: start;
-    padding-top: clamp(40px, 6vw, 72px);
-    border-top: 1px solid var(--k-tinta);
+  }
+
+  .lista-texto .k-etiqueta,
+  .lista-mano {
+    color: var(--k-acento-noche);
+  }
+
+  /* The form card is light paper on the dark band: its text goes back to ink. */
+  .lista-tarjeta {
+    color: var(--k-tinta);
   }
 
   .lista-texto {
@@ -887,7 +926,7 @@ const etiquetas = ENERGIAS.map((e, i) => {
 
   .lista-texto > p:not(.k-etiqueta):not(.k-mano) {
     font-size: 1.25rem;
-    color: var(--k-tinta-cuerpo);
+    color: rgba(242, 243, 243, 0.85);
     max-width: 34ch;
   }
 

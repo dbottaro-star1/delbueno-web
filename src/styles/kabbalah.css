@@ -251,6 +251,35 @@ main:focus {
   letter-spacing: -0.01em;
 }
 
+.k-marca-bajada {
+  margin-left: -4px;
+  font: 400 1.625rem/1 var(--k-serif);
+  letter-spacing: -0.01em;
+  color: var(--k-tinta-suave);
+  white-space: nowrap;
+}
+
+/* On phones the full name stays, slightly smaller; the header button gives way (the hero has its own). */
+@media (max-width: 560px) {
+  .k-marca {
+    gap: 9px;
+  }
+
+  .k-marca .logo-vasija {
+    width: 32px;
+    height: 28px;
+  }
+
+  .k-marca-nombre,
+  .k-marca-bajada {
+    font-size: 1.3125rem;
+  }
+
+  .k-nav .k-boton {
+    display: none;
+  }
+}
+
 .k-nav {
   display: flex;
   align-items: center;
@@ -281,6 +310,12 @@ main:focus {
   margin-top: clamp(64px, 10vw, 140px);
   padding: 44px 0 40px;
   border-top: 1px solid var(--k-borde);
+}
+
+/* After the landing's last color band the footer sits right below it. */
+main:has(> .banda:last-child) + .k-pie {
+  margin-top: 0;
+  border-top: 0;
 }
 
 .k-pie-in {
