@@ -1,0 +1,305 @@
+---
+/**
+ * The Tree of Life as the app draws it (design/README.md in the app repo: 320 by 450 canvas, 34 px nodes).
+ * Shown as an example of a tree in progress: the first zones painted, the top still to walk.
+ * With `animated`, the nodes paint from the bottom up on load (off for prefers-reduced-motion).
+ */
+import { DAAT, ENERGIAS, type EnergiaId } from '../../kabbalah/app';
+
+interface Props {
+  animated?: boolean;
+  /** Shows the hand-written "empezás acá" note next to Maljut. */
+  note?: boolean;
+  class?: string;
+}
+const { animated = false, note = false, class: className } = Astro.props;
+
+type Estado = 'sin' | 'equilibrio' | 'falta' | 'exceso';
+
+const NODOS: Record<EnergiaId, { x: number; y: number }> = {
+  keter: { x: 160, y: 34 },
+  bina: { x: 70, y: 104 },
+  jojma: { x: 250, y: 104 },
+  daat: { x: 160, y: 152 },
+  gevura: { x: 70, y: 214 },
+  jesed: { x: 250, y: 214 },
+  tiferet: { x: 160, y: 270 },
+  hod: { x: 70, y: 334 },
+  netzaj: { x: 250, y: 334 },
+  yesod: { x: 160, y: 382 },
+  maljut: { x: 160, y: 428 },
+};
+
+const SENDEROS: [EnergiaId, EnergiaId][] = [
+  ['keter', 'jojma'],
+  ['keter', 'bina'],
+  ['keter', 'tiferet'],
+  ['jojma', 'bina'],
+  ['jojma', 'tiferet'],
+  ['jojma', 'jesed'],
+  ['bina', 'tiferet'],
+  ['bina', 'gevura'],
+  ['jesed', 'gevura'],
+  ['jesed', 'tiferet'],
+  ['jesed', 'netzaj'],
+  ['gevura', 'tiferet'],
+  ['gevura', 'hod'],
+  ['tiferet', 'netzaj'],
+  ['tiferet', 'yesod'],
+  ['tiferet', 'hod'],
+  ['netzaj', 'hod'],
+  ['netzaj', 'yesod'],
+  ['netzaj', 'maljut'],
+  ['hod', 'yesod'],
+  ['hod', 'maljut'],
+  ['yesod', 'maljut'],
+];
+
+/** An example tree: state of each energy and the step at which it paints (bottom up). */
+const EJEMPLO: Partial<Record<EnergiaId, { estado: Estado; paso: number }>> = {
+  maljut: { estado: 'equilibrio', paso: 1 },
+  yesod: { estado: 'falta', paso: 2 },
+  hod: { estado: 'equilibrio', paso: 3 },
+  netzaj: { estado: 'exceso', paso: 3 },
+  gevura: { estado: 'falta', paso: 4 },
+  jesed: { estado: 'equilibrio', paso: 4 },
+  tiferet: { estado: 'equilibrio', paso: 5 },
+};
+
+const nodos = ENERGIAS.map((e) => {
+  const { x, y } = NODOS[e.id];
+  const ejemplo = EJEMPLO[e.id];
+  // Labels sit outside the tree: left column to the left, everything else to the right.
+  const izquierda = x < 160;
+  return {
+    ...e,
+    x,
+    y,
+    estado: ejemplo?.estado ?? 'sin',
+    paso: ejemplo?.paso,
+    label: { x: izquierda ? x - 26 : x + 26, anchor: izquierda ? 'end' : 'start' },
+  };
+});
+const daat = NODOS.daat;
+
+const pintadas = nodos.filter((n) => n.estado !== 'sin').map((n) => n.nombre);
+const descripcion = `Árbol de la Vida con sus diez energías. En este ejemplo ya se pintaron ${pintadas.join(', ')}; Biná, Jojmá y Keter todavía están sin recorrer.`;
+---
+
+<svg
+  class:list={['arbol', { animado: animated }, className]}
+  viewBox="-80 0 480 462"
+  role="img"
+  aria-label={descripcion}
+>
+  <g class="senderos">
+    {SENDEROS.map(([a, b]) => (
+      <line x1={NODOS[a].x} y1={NODOS[a].y} x2={NODOS[b].x} y2={NODOS[b].y} />
+    ))}
+  </g>
+
+  {note && <circle class="luz-maljut" cx={NODOS.maljut.x} cy={NODOS.maljut.y} r="17" aria-hidden="true" />}
+
+  <g class="nodo daat">
+    <circle cx={daat.x} cy={daat.y} r="13" />
+    <text x={daat.x + 22} y={daat.y + 4}>
+      {DAAT.nombre}
+    </text>
+  </g>
+
+  {nodos.map((n) => (
+    <g class:list={['nodo', `z${n.zona}`, n.estado, n.paso && `paso-${n.paso}`]}>
+      {n.estado === 'exceso' && (
+        <>
+          <circle class="halo halo-2" cx={n.x} cy={n.y} r="28" />
+          <circle class="halo halo-1" cx={n.x} cy={n.y} r="22" />
+        </>
+      )}
+      <circle class="punto" cx={n.x} cy={n.y} r="17" />
+      <text x={n.label.x} y={n.y + 4} text-anchor={n.label.anchor}>
+        {n.nombre}
+      </text>
+    </g>
+  ))}
+
+  {note && (
+    <g class="nota" aria-hidden="true">
+      <text x="-44" y="452">
+        empezás acá
+      </text>
+      <path d="M 62 440 C 92 424, 112 420, 134 426" />
+      <path d="M 124 418 L 135 426 L 123 432" />
+    </g>
+  )}
+</svg>
+
+<style>
+  .arbol {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+
+  .senderos line {
+    stroke: rgba(30, 37, 48, 0.22);
+    stroke-width: 1;
+  }
+
+  .nodo text {
+    font: 500 10.5px/1 var(--k-mono);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    fill: var(--k-tinta-suave);
+  }
+
+  .punto {
+    fill: var(--k-papel-claro);
+    stroke: rgba(30, 37, 48, 0.45);
+    stroke-width: 1;
+  }
+
+  .daat circle {
+    fill: transparent;
+    stroke: rgba(30, 37, 48, 0.4);
+    stroke-dasharray: 3 3;
+  }
+
+  .daat text {
+    fill: var(--k-tinta-apagada);
+  }
+
+  .equilibrio .punto {
+    stroke: var(--k-tinta);
+    stroke-width: 1.5;
+  }
+
+  .equilibrio.z1 .punto {
+    fill: var(--k-zona1);
+  }
+
+  .equilibrio.z2 .punto {
+    fill: var(--k-zona2);
+  }
+
+  .equilibrio.z3 .punto {
+    fill: var(--k-zona3);
+  }
+
+  .falta .punto {
+    fill: var(--k-papel);
+    stroke: var(--k-pizarra);
+    stroke-width: 1.5;
+    stroke-dasharray: 4 3;
+  }
+
+  .exceso .punto {
+    fill: var(--k-pizarra);
+    stroke: var(--k-pizarra);
+    stroke-width: 1.5;
+  }
+
+  .halo-1 {
+    fill: rgba(47, 69, 96, 0.16);
+  }
+
+  .halo-2 {
+    fill: rgba(47, 69, 96, 0.07);
+  }
+
+  /* A yellow light breathing behind Maljut, where the walk starts. */
+  .luz-maljut {
+    fill: var(--k-sol);
+    opacity: 0.55;
+    transform-box: fill-box;
+    transform-origin: center;
+    transform: scale(1.7);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .luz-maljut {
+      animation: respirar 3.2s ease-in-out 3s infinite;
+    }
+  }
+
+  @keyframes respirar {
+    0%,
+    100% {
+      transform: scale(1.4);
+      opacity: 0.35;
+    }
+
+    50% {
+      transform: scale(2);
+      opacity: 0.7;
+    }
+  }
+
+  .nota text {
+    font: 400 25px/1 var(--k-mano);
+    fill: var(--k-acento);
+  }
+
+  .nota path {
+    fill: none;
+    stroke: var(--k-acento);
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  /* On load, each painted energy goes from "not walked yet" to its state, from the bottom up. */
+  @media (prefers-reduced-motion: no-preference) {
+    .animado .paso-1 .punto,
+    .animado .paso-2 .punto,
+    .animado .paso-3 .punto,
+    .animado .paso-4 .punto,
+    .animado .paso-5 .punto {
+      animation: pintar 0.9s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+    }
+
+    .animado .halo {
+      animation: aparecer 1.2s ease-out backwards;
+      animation-delay: 1.9s;
+    }
+
+    .animado .nota {
+      animation: aparecer 0.8s ease-out backwards;
+      animation-delay: 2.9s;
+    }
+
+    .animado .paso-1 .punto {
+      animation-delay: 0.5s;
+    }
+
+    .animado .paso-2 .punto {
+      animation-delay: 0.85s;
+    }
+
+    .animado .paso-3 .punto {
+      animation-delay: 1.2s;
+    }
+
+    .animado .paso-4 .punto {
+      animation-delay: 1.55s;
+    }
+
+    .animado .paso-5 .punto {
+      animation-delay: 1.9s;
+    }
+  }
+
+  @keyframes pintar {
+    from {
+      fill: var(--k-papel-claro);
+      stroke: rgba(30, 37, 48, 0.45);
+      stroke-width: 1;
+    }
+  }
+
+  @keyframes aparecer {
+    from {
+      opacity: 0;
+    }
+  }
+</style>

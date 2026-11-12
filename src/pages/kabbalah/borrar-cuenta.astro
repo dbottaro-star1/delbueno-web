@@ -1,0 +1,88 @@
+---
+/**
+ * Account deletion page. Google Play asks for a web link where people can request deletion without the app, naming
+ * the app and the developer, the steps, and what is deleted or kept. App Store Connect accepts the same page.
+ * Keep it in step with the app: specs/cuentas.md ("Borrar cuenta") in dbottaro-star1/app-kabbalah.
+ */
+import KabbalahLayout from '../../layouts/KabbalahLayout.astro';
+import { APP, KABBALAH_PATHS } from '../../kabbalah/app';
+import { url } from '../../lib/url';
+
+const title = `Cómo borrar tu cuenta de la app ${APP.name}`;
+const description =
+  'Cómo borrar tu cuenta de la app Vasija y todos tus datos, desde la app o por mail si ya no la tenés instalada. Qué se borra y qué puede quedar un tiempo.';
+const asunto = `Borrar mi cuenta de ${APP.name}`;
+const mail = `mailto:${APP.email}?subject=${encodeURIComponent(asunto)}`;
+---
+
+<KabbalahLayout
+  title={title}
+  description={description}
+  trail={[{ name: 'Borrar cuenta', path: KABBALAH_PATHS.deleteAccount }]}
+>
+  <article class="k-envoltura k-doc">
+    <header class="k-doc-cabeza">
+      <p class="k-etiqueta">Cuenta</p>
+      <h1>Borrar tu cuenta</h1>
+      <p class="k-doc-lede">
+        Podés borrar tu cuenta de la app {APP.name}, de {APP.publisher}, y todo lo que escribiste, cuando quieras. No se
+        puede deshacer.
+      </p>
+    </header>
+
+    <section id="desde-la-app">
+      <h2>Desde la App</h2>
+      <ol class="k-pasos">
+        <li>Abrí la App y tocá tu avatar, arriba a la derecha del Árbol.</li>
+        <li>Tocá “Borrar mi cuenta”.</li>
+        <li>Confirmá con “Borrar todo”.</li>
+      </ol>
+      <p>
+        Se borra todo en el momento, en nuestros servidores y en tu teléfono, y la App vuelve a la pantalla de
+        bienvenida.
+      </p>
+    </section>
+
+    <section id="sin-la-app">
+      <h2>Si ya no tenés la App</h2>
+      <div class="k-tarjeta k-recuadro">
+        <p>
+          Escribinos a <a href={mail}>{APP.email}</a> <strong>desde el correo con el que entrabas</strong>, con el
+          asunto “{asunto}”.
+        </p>
+        <p>
+          Te confirmamos por mail y borramos la cuenta y todos sus datos dentro de los 5 días hábiles. Si nos escribís
+          desde otro correo, te vamos a pedir que confirmes que la cuenta es tuya.
+        </p>
+      </div>
+    </section>
+
+    <section id="que-se-borra">
+      <h2>Qué se borra</h2>
+      <ul>
+        <li>Tu usuario y tu correo.</li>
+        <li>Tu radar, el estado de cada energía y tu Árbol.</li>
+        <li>Tus respuestas a los autodiagnósticos y ejercicios, la vasija y Daat.</li>
+        <li>Tus compromisos y sus check-ins.</li>
+        <li>Tu diario y tus Inventarios de Luz.</li>
+      </ul>
+      <p>No queda nada asociado a tu cuenta.</p>
+    </section>
+
+    <section id="que-puede-quedar">
+      <h2>Qué puede quedar un tiempo</h2>
+      <ul>
+        <li>
+          Copias de seguridad de nuestros proveedores, hasta 30 días, hasta que se renuevan y se descartan solas. No se
+          usan para nada más.
+        </li>
+        <li>Registros técnicos de los servidores (como la IP de una conexión), por un tiempo limitado.</li>
+        <li>Si nos escribiste a soporte, esos correos.</li>
+      </ul>
+      <p>
+        Si solo querés borrar algo puntual, como una entrada del diario, lo podés hacer desde la App sin borrar la
+        cuenta. Más detalles en la <a href={url(KABBALAH_PATHS.privacy)}>política de privacidad</a>.
+      </p>
+    </section>
+  </article>
+</KabbalahLayout>

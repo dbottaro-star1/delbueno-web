@@ -1,0 +1,2169 @@
+---
+import { Image } from 'astro:assets';
+import fotoAmanecer from '../../assets/kabbalah/amanecer.jpg';
+import fotoCuaderno from '../../assets/kabbalah/cuaderno.jpg';
+import fotoCuenco from '../../assets/kabbalah/cuenco.jpg';
+import fotoEscribir from '../../assets/kabbalah/escribir-ventana.jpg';
+import Arbol from '../../components/kabbalah/Arbol.astro';
+import ListaDeEspera from '../../components/kabbalah/ListaDeEspera.astro';
+import LogoVasija from '../../components/kabbalah/LogoVasija.astro';
+import Telefono from '../../components/kabbalah/Telefono.astro';
+import VasijaProgreso from '../../components/kabbalah/VasijaProgreso.astro';
+import KabbalahLayout from '../../layouts/KabbalahLayout.astro';
+import { APP, DAAT, ENERGIAS, KABBALAH_PATHS, TESTIMONIOS, VOZ_DE_KEVIN, ZONAS } from '../../kabbalah/app';
+import { url } from '../../lib/url';
+
+const title = `${APP.fullName}, con ${APP.teacher}`;
+const description =
+  'Vasija, la app de Kabbalah de Kevin Jakter para iPhone y Android: recorrés las diez energías del Árbol de la Vida y ves cómo se pinta tu Árbol.';
+
+const nav = [
+  { label: 'Cómo funciona', href: '#como-funciona' },
+  { label: 'Tu mapa', href: '#mapa' },
+  { label: 'Preguntas', href: '#preguntas' },
+];
+
+// The start of the app, with real screens (public/kabbalah/pantallas/).
+const comienzo = [
+  {
+    pantalla: 'vasija',
+    titulo: 'Somos una vasija',
+    texto: 'Tres preguntas para ver cómo llegás: más completo o más vacío, qué se te desborda, qué querés cambiar.',
+    alt: 'Pantalla "Somos una vasija" de la app, con las respuestas elegidas.',
+    nota: undefined as string | undefined,
+  },
+  {
+    pantalla: 'radar',
+    titulo: 'Dónde estás hoy',
+    texto: 'Puntuás del 1 al 10 las diez áreas de tu vida. El radar se dibuja mientras respondés.',
+    alt: 'Pantalla del radar inicial de la app, con las diez áreas puntuadas.',
+    nota: 'se dibuja mientras respondés',
+  },
+  {
+    pantalla: 'tu-arbol',
+    titulo: 'Tu Árbol, hoy',
+    texto: 'Con el radar y 24 situaciones cotidianas, la app pinta una primera lectura de tu Árbol.',
+    alt: 'Pantalla "Tu Árbol, hoy" de la app: el Árbol pintado y una primera lectura.',
+    nota: 'tu primera lectura',
+  },
+];
+
+const pasos = [
+  {
+    titulo: 'Autodiagnóstico',
+    texto:
+      '¿Esa energía está en exceso, en falta o en equilibrio? La mirás con una situación concreta de tu vida, no en abstracto.',
+  },
+  {
+    titulo: 'Ejercicio',
+    texto:
+      'Cada energía tiene el suyo, con nombre propio: “Qué me controla”, “La máscara”, “Un día limpio”, “La doble balanza”.',
+  },
+  {
+    titulo: 'Compromiso',
+    texto:
+      'Una acción concreta para los próximos días, con recordatorio. Después la app te pregunta cómo te fue: lo hice, a medias o todavía no.',
+  },
+];
+
+const estados = [
+  { clase: 'equilibrio', nombre: 'En equilibrio' },
+  { clase: 'falta', nombre: 'En falta' },
+  { clase: 'exceso', nombre: 'En exceso' },
+  { clase: 'sin', nombre: 'Sin recorrer' },
+];
+
+// The energies in a loop for the moving band under the hero.
+const cinta = [...ENERGIAS, DAAT];
+
+const principios = [
+  {
+    titulo: 'Hacer, no leer',
+    texto: 'Cada pantalla te pide algo: responder, elegir, comprometerte. Lo que hay para leer es corto y va al punto.',
+  },
+  {
+    titulo: 'A tu ritmo y sin culpa',
+    texto: 'No hay rachas que se rompen ni avisos que te retan. Como mucho un recordatorio por día, y lo elegís vos.',
+  },
+  {
+    titulo: 'Lenguaje universal',
+    texto: 'No hace falta saber hebreo, ni conocer los nombres, ni creer en nada en particular para empezar.',
+  },
+  {
+    titulo: 'Tu diario es tuyo',
+    texto:
+      'Lo que escribís lo ves solo vos. No se usa para publicidad ni para entrenar inteligencia artificial, y lo borrás cuando quieras.',
+  },
+];
+
+const extras = [
+  {
+    titulo: 'Radar al principio y al final',
+    texto: 'Del 1 al 10 en cada área, para ver cuánto cambiaste al completar el recorrido.',
+  },
+  {
+    titulo: 'Diario con cierre del día',
+    texto: 'Escribís lo que quieras y, a la noche, dos preguntas para cerrar el día.',
+  },
+  { titulo: 'Inventario de Luz', texto: 'Cinco preguntas una vez por mes, con tu historial a la vista.' },
+];
+
+const preguntas = [
+  {
+    q: '¿Necesito saber de Kabbalah para usarla?',
+    a: 'No. La app no da nada por sabido: no hace falta conocer los nombres de las energías, saber hebreo ni tener una creencia en particular.',
+  },
+  {
+    q: '¿Por qué se llama Vasija?',
+    a: 'En la Kabbalah, la vasija es lo que recibe la luz. El recorrido empieza ahí: la primera pregunta es si hoy te sentís más completo o más vacío.',
+  },
+  { q: '¿Cuánto cuesta?', a: 'La app es gratis.' },
+  {
+    q: '¿Tengo que seguir un orden?',
+    a: 'Te sugerimos ir de abajo hacia arriba, empezando por Maljut, como en el cuaderno de trabajo. Pero todo está abierto: podés ir a la energía que más te llame.',
+  },
+  {
+    q: '¿Quién puede leer lo que escribo?',
+    a: 'Solo vos. Tus respuestas y tu diario se guardan en tu cuenta y nunca se mandan a herramientas de análisis. Podés borrar tu cuenta y todo lo que escribiste desde la app.',
+  },
+  {
+    q: '¿Cuándo sale y para qué teléfonos?',
+    a: 'Sale para iPhone y Android. Estamos en las últimas pruebas: anotate en la lista de espera y te avisamos el día que esté en las tiendas.',
+  },
+];
+
+// Example radar: where someone starts and where they end the first walk through the tree.
+const RADAR_INICIAL = [6, 4, 5, 7, 3, 5, 4, 6, 5, 3];
+const RADAR_FINAL = [7, 6, 6, 7, 5, 6, 6, 7, 6, 5];
+const R = 92;
+const punto = (i: number, valor: number) => {
+  const angulo = -Math.PI / 2 + (i * 2 * Math.PI) / 10;
+  const r = (R * valor) / 10;
+  return `${(120 + r * Math.cos(angulo)).toFixed(1)},${(120 + r * Math.sin(angulo)).toFixed(1)}`;
+};
+const poligono = (valores: number[]) => valores.map((v, i) => punto(i, v)).join(' ');
+const anillos = [2, 4, 6, 8, 10].map((v) => poligono(Array(10).fill(v)));
+const ejes = ENERGIAS.map((_, i) => punto(i, 10));
+const etiquetas = ENERGIAS.map((e, i) => {
+  const [x, y] = punto(i, 12.4).split(',').map(Number);
+  return { nombre: e.nombre, x, y };
+});
+---
+
+<KabbalahLayout title={title} description={description} nav={nav}>
+  <a slot="cta" class="k-boton k-boton-chico" href="#lista">
+    Lista de espera
+  </a>
+
+  <section class="banda banda-gris banda-hero">
+    <div class="hero k-envoltura">
+      <div class="hero-texto">
+        <p class="k-etiqueta hero-kicker">
+          <span class="pastilla">
+            <span class="pastilla-punto" aria-hidden="true"></span>Muy pronto
+          </span>{' '}
+          App para iPhone y Android
+        </p>
+        <h1>
+          Kabbalah para <mark class="k-resalte">hacer</mark>, no para leer.
+        </h1>
+        <p class="hero-lede">
+          El cuaderno de trabajo de {APP.teacher}, vivo en tu teléfono. Recorrés las diez energías del Árbol de la Vida,
+          te autodiagnosticás, hacés un ejercicio y asumís un compromiso. A medida que respondés, tu Árbol se pinta.
+        </p>
+        <div class="hero-acciones" data-hero-cta>
+          <a class="k-boton" href="#lista">
+            Sumarme a la lista{' '}
+            <span class="k-flecha" aria-hidden="true">
+              →
+            </span>
+          </a>
+          <a class="k-boton k-boton-secundario" href="#como-funciona">
+            Ver cómo funciona
+          </a>
+        </div>
+        <ul class="hero-sellos">
+          <li>Gratis</li>
+          <li>Sin rachas que se rompen</li>
+          <li>No hace falta creer en nada</li>
+        </ul>
+      </div>
+
+      <div class="hero-visual" data-parallax>
+        <figure class="hero-hoja" aria-label="Así se ve tu Árbol a medida que avanzás">
+          <Arbol animated note class="hero-arbol" />
+          <figcaption class="k-etiqueta">Tu Árbol, en el recorrido</figcaption>
+        </figure>
+        <Telefono
+          pantalla="bienvenida"
+          oscura
+          eager
+          class="hero-telefono"
+          alt="Pantalla de bienvenida de Vasija: el Árbol de la Vida, un mensaje de Kevin y el botón para empezar."
+        />
+        <div class="postit" aria-hidden="true">
+          <span class="k-etiqueta">La pregunta que abre</span>
+          <span class="k-mano">¿Qué parte de tu vida te está pidiendo atención?</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="cinta" aria-hidden="true">
+    <div class="cinta-pista">
+      {[0, 1].map(() => (
+        <ul>
+          {cinta.map((e) => (
+            <li>
+              <span class="cinta-nombre">{e.nombre}</span>
+              <span class="cinta-hebreo" lang="he" dir="rtl">
+                {e.hebreo}
+              </span>
+              <span class="cinta-luz" />
+            </li>
+          ))}
+        </ul>
+      ))}
+    </div>
+  </div>
+
+  <section class="banda banda-celeste" id="como-funciona" aria-labelledby="como-funciona-h">
+    <div class="k-envoltura">
+      <div class="seccion-cabeza" data-revelar>
+        <p class="k-etiqueta">Cómo funciona</p>
+        <h2 id="como-funciona-h">
+          Diez minutos y tu Árbol <mark class="k-resalte">ya tiene color</mark>.
+        </h2>
+        <p>Así empieza la app. Son las pantallas reales, con las respuestas de alguien que recién arranca.</p>
+      </div>
+      <ol class="comienzo" data-revelar-grupo>
+        {comienzo.map((c, i) => (
+          <li>
+            {c.nota && (
+              <span class:list={['anota', `anota-${i + 1}`]} aria-hidden="true">
+                <span class="k-mano">{c.nota}</span>
+                <svg viewBox="0 0 60 40" width="60" height="40">
+                  <path d="M4 6 C 24 4, 44 14, 52 32" />
+                  <path d="M44 30 L 53 34 L 54 24" />
+                </svg>
+              </span>
+            )}
+            <Telefono pantalla={c.pantalla} alt={c.alt} class="comienzo-telefono" />
+            <div class="comienzo-texto">
+              <span class="paso-n">{String(i + 1).padStart(2, '0')}</span>
+              <h3>{c.titulo}</h3>
+              <p>{c.texto}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+
+      <div class="despues" data-revelar>
+        <p class="k-mano despues-titulo">y después, en cada energía:</p>
+        <ol class="pasos" data-revelar-grupo>
+          {pasos.map((p, i) => (
+            <li class="k-tarjeta paso">
+              <span class="paso-n">{String(i + 1).padStart(2, '0')}</span>
+              <h3>{p.titulo}</h3>
+              <p>{p.texto}</p>
+            </li>
+          ))}
+        </ol>
+        <ul class="estados-lista">
+          {estados.map((e) => (
+            <li>
+              <span class:list={['estado-punto', e.clase]} aria-hidden="true" />
+              {e.nombre}
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="k-llamado" data-revelar>
+        <p class="k-llamado-texto">¿Querés ver tu Árbol pintarse?</p>
+        <a class="k-boton" href="#lista">
+          Quiero probarla{' '}
+          <span class="k-flecha" aria-hidden="true">
+            →
+          </span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="banda banda-blanca" id="mapa" aria-labelledby="mapa-h">
+    <div class="k-envoltura">
+      <div class="seccion-cabeza" data-revelar>
+        <p class="k-etiqueta">Tu mapa</p>
+        <h2 id="mapa-h">Tres zonas, diez energías y un hilo.</h2>
+        <p>
+          El Árbol de la Vida ordena tu vida en tres zonas. Se recorre desde los cimientos, lo material, hasta el
+          sentido.
+        </p>
+      </div>
+      <ul class="cifras" data-revelar-grupo>
+        <li>
+          <span class="cifra" data-contar="10">
+            10
+          </span>{' '}
+          energías
+        </li>
+        <li>
+          <span class="cifra" data-contar="3">
+            3
+          </span>{' '}
+          zonas
+        </li>
+        <li>
+          <span class="cifra" data-contar="22">
+            22
+          </span>{' '}
+          senderos
+        </li>
+        <li>
+          <span class="cifra">1</span> Árbol, el tuyo
+        </li>
+      </ul>
+      <div class="zonas" data-revelar-grupo>
+        {ZONAS.map((z) => (
+          <div class:list={['zona', `zona-${z.n}`]}>
+            <p class="k-etiqueta">Zona {z.n}</p>
+            <h3>{z.nombre}</h3>
+            <ul>
+              {ENERGIAS.filter((e) => e.zona === z.n).map((e) => (
+                <li>
+                  <span class="zona-nombre">{e.nombre}</span>
+                  <span class="zona-hebreo" lang="he" dir="rtl">
+                    {e.hebreo}
+                  </span>
+                  <span class="zona-area">{e.area}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+      <p class="daat">
+        <span class="zona-hebreo" lang="he" dir="rtl">
+          {DAAT.hebreo}
+        </span>
+        <span>
+          <strong>{DAAT.nombre}</strong> no se trabaja: es el hilo que une todo. Te espera con una sola pregunta.
+        </span>
+      </p>
+      <div class="k-llamado" data-revelar>
+        <p class="k-llamado-texto">Se empieza por los cimientos: Maljut.</p>
+        <a class="k-boton" href="#lista">
+          Guardame un lugar{' '}
+          <span class="k-flecha" aria-hidden="true">
+            →
+          </span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="banda banda-sol voz" aria-labelledby="voz-h">
+    <div class="k-envoltura voz-in">
+      <div class="voz-foto">
+        <span class="voz-rayos" aria-hidden="true"></span>
+        <Image
+          src={fotoCuenco}
+          alt="Un cuenco de cerámica blanca, vacío, sobre una mesa gris."
+          widths={[360, 560, 800]}
+          sizes="(min-width: 760px) 280px, 70vw"
+          loading="lazy"
+        />
+        <span class="voz-sello" aria-hidden="true">
+          <LogoVasija size={54} />
+        </span>
+      </div>
+      <figure class="voz-cita" data-revelar>
+        <h2 id="voz-h" class="k-etiqueta">
+          La voz de {APP.teacher}
+        </h2>
+        <blockquote>
+          <p class="voz-lema">
+            {VOZ_DE_KEVIN.lema[0]}
+            <span>{VOZ_DE_KEVIN.lema[1]}</span>
+          </p>
+          <p class="voz-texto">“{VOZ_DE_KEVIN.vasija}”</p>
+        </blockquote>
+        <figcaption>
+          <strong>{APP.teacher}</strong>, maestro de Kabbalah. En la app, sus textos y sus audios te acompañan en cada
+          energía.
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section class="banda banda-noche principios" aria-labelledby="principios-h">
+    <div class="k-envoltura">
+      <div class="principios-cabeza">
+        <div data-revelar>
+          <p class="k-etiqueta">Cómo está pensada</p>
+          <h2 id="principios-h">Hecha para acompañarte, no para engancharte.</h2>
+        </div>
+        <div class="principios-foto" data-revelar>
+          <Image
+            src={fotoCuaderno}
+            alt="Una persona escribe a mano en un cuaderno, con el teléfono boca abajo sobre la mesa."
+            widths={[480, 760, 1100]}
+            sizes="(min-width: 960px) 520px, 92vw"
+            loading="lazy"
+          />
+        </div>
+      </div>
+      <ul class="principios-lista" data-revelar-grupo>
+        {principios.map((p, i) => (
+          <li>
+            <span class="principio-n">{String(i + 1).padStart(2, '0')}</span>
+            <h3>{p.titulo}</h3>
+            <p>{p.texto}</p>
+          </li>
+        ))}
+      </ul>
+      <div class="k-llamado" data-revelar>
+        <p class="k-llamado-texto">Gratis, a tu ritmo y sin culpa.</p>
+        <a class="k-boton" href="#lista">
+          Anotarme gratis{' '}
+          <span class="k-flecha" aria-hidden="true">
+            →
+          </span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="banda banda-gris" aria-labelledby="seguir-h">
+    <div class="k-envoltura seguir">
+      <div class="seguir-texto" data-revelar>
+        <p class="k-etiqueta">Con {APP.teacher}</p>
+        <h2 id="seguir-h">Lo que el cuaderno en papel no puede hacer.</h2>
+        <p>
+          {APP.teacher} es maestro de Kabbalah uruguayo. Su cuaderno de trabajo, “{APP.workbook}”, propone recorrer el
+          Árbol de la Vida escribiendo, no leyendo. La app es ese cuaderno, vivo: te recuerda tus compromisos, mide cómo
+          cambiás con el tiempo y te muestra tu Árbol completo.
+        </p>
+        <ul class="extras" data-revelar-grupo>
+          {extras.map((e) => (
+            <li>
+              <h3>{e.titulo}</h3>
+              <p>{e.texto}</p>
+            </li>
+          ))}
+        </ul>
+        <div class="k-llamado">
+          <a class="k-boton" href="#lista">
+            Quiero el cuaderno vivo{' '}
+            <span class="k-flecha" aria-hidden="true">
+              →
+            </span>
+          </a>
+        </div>
+      </div>
+      <div class="seguir-visual">
+        <figure class="radar k-tarjeta" data-revelar>
+          <svg
+            viewBox="-40 -24 320 288"
+            role="img"
+            aria-label="Ejemplo de radar: al final del recorrido, el área cubierta es más grande que al principio."
+          >
+            {anillos.map((a) => (
+              <polygon class="radar-anillo" points={a} />
+            ))}
+            {ejes.map((e) => (
+              <line class="radar-eje" x1="120" y1="120" x2={e.split(',')[0]} y2={e.split(',')[1]} />
+            ))}
+            <polygon class="radar-inicial" points={poligono(RADAR_INICIAL)} />
+            <polygon class="radar-final" points={poligono(RADAR_FINAL)} />
+            {etiquetas.map((t) => (
+              <text x={t.x} y={t.y + 3} text-anchor={t.x < 115 ? 'end' : t.x > 125 ? 'start' : 'middle'}>
+                {t.nombre}
+              </text>
+            ))}
+          </svg>
+          <figcaption class="radar-leyenda">
+            <span>
+              <i class="radar-muestra inicial" aria-hidden="true"></i> Radar inicial
+            </span>
+            <span>
+              <i class="radar-muestra final" aria-hidden="true"></i> Radar final
+            </span>
+          </figcaption>
+        </figure>
+        <Telefono
+          pantalla="diagnostico"
+          class="seguir-telefono"
+          alt="Pantalla del diagnóstico de la app: una situación cotidiana con tres respuestas posibles."
+        />
+      </div>
+    </div>
+  </section>
+
+  {TESTIMONIOS.length > 0 && (
+    <section class="banda banda-blanca" aria-labelledby="testimonios-h">
+      <div class="k-envoltura">
+        <div class="seccion-cabeza" data-revelar>
+          <p class="k-etiqueta">Quienes ya la probaron</p>
+          <h2 id="testimonios-h">Lo que cuentan.</h2>
+        </div>
+        <ul class="testimonios" data-revelar-grupo>
+          {TESTIMONIOS.map((t) => (
+            <li class="k-tarjeta">
+              <blockquote>
+                <p>“{t.texto}”</p>
+              </blockquote>
+              <p class="testimonio-quien">
+                <strong>{t.nombre}</strong>
+                <span>{t.contexto}</span>
+              </p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+
+  <section class="banda banda-pizarra" id="lista" aria-labelledby="lista-h">
+    <div class="k-envoltura">
+      <div class="lista-in">
+        <div class="lista-texto">
+          <p class="k-etiqueta">Lista de espera</p>
+          <h2 id="lista-h">
+            Enterate <mark class="k-resalte">primero</mark>.
+          </h2>
+          <p>
+            La app está en las últimas pruebas para iPhone y Android. Dejanos tu correo y te avisamos el día que esté en
+            las tiendas.
+          </p>
+          <ul class="lista-tiendas" aria-label="Sale para">
+            <li>
+              <span class="lista-tienda-n">iPhone</span> App Store, muy pronto
+            </li>
+            <li>
+              <span class="lista-tienda-n">Android</span> Google Play, muy pronto
+            </li>
+          </ul>
+          <p class="k-mano lista-mano">un solo correo, cuando salga</p>
+          <div class="lista-foto">
+            <Image
+              src={fotoEscribir}
+              alt="Una mujer escribe en su cuaderno junto a una ventana."
+              widths={[420, 640, 900]}
+              sizes="(min-width: 860px) 400px, 92vw"
+              loading="lazy"
+            />
+          </div>
+        </div>
+        <div class="k-tarjeta lista-tarjeta">
+          <ListaDeEspera />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="banda banda-celeste" id="preguntas" aria-labelledby="preguntas-h">
+    <div class="k-envoltura preguntas">
+      <div class="seccion-cabeza" data-revelar>
+        <p class="k-etiqueta">Preguntas</p>
+        <h2 id="preguntas-h">Lo que suelen preguntar.</h2>
+      </div>
+      <div class="k-preguntas">
+        {preguntas.map((p) => (
+          <details>
+            <summary>{p.q}</summary>
+            <div>
+              <p>{p.a}</p>
+            </div>
+          </details>
+        ))}
+      </div>
+      <p class="preguntas-mas">
+        ¿Algo más? Mirá la página de <a href={url(KABBALAH_PATHS.support)}>soporte</a> o escribinos a{' '}
+        <a href={`mailto:${APP.email}`}>{APP.email}</a>.
+      </p>
+    </div>
+  </section>
+
+  <section class="banda cierre" aria-labelledby="final-h">
+    <Image src={fotoAmanecer} alt="" class="final-fondo" widths={[800, 1400, 2000]} sizes="100vw" loading="lazy" />
+    <div class="k-envoltura final-in" data-revelar>
+      <LogoVasija size={64} tono="oscuro" />
+      <h2 id="final-h">Tu Árbol te espera.</h2>
+      <p>Empezá por los cimientos. Lo demás se va pintando.</p>
+      <a class="k-boton" href="#lista">
+        Quiero empezar{' '}
+        <span class="k-flecha" aria-hidden="true">
+          →
+        </span>
+      </a>
+    </div>
+  </section>
+
+  <VasijaProgreso />
+
+  <div class="k-barra" data-barra>
+    <a class="k-boton" href="#lista">
+      Avisame cuando salga{' '}
+      <span class="k-flecha" aria-hidden="true">
+        →
+      </span>
+    </a>
+  </div>
+</KabbalahLayout>
+
+<style>
+  /* Hero */
+  .hero {
+    display: grid;
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    gap: clamp(36px, 6vw, 88px);
+    align-items: center;
+    padding-top: clamp(32px, 6vw, 72px);
+    padding-bottom: clamp(56px, 8vw, 110px);
+  }
+
+  .hero-texto {
+    display: grid;
+    gap: 24px;
+  }
+
+  .hero-kicker {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .pastilla {
+    display: inline-flex;
+    align-items: center;
+    min-height: 26px;
+    padding: 0 12px;
+    border-radius: 999px;
+    background: var(--k-sol);
+    color: var(--k-tinta);
+    font-size: 0.6875rem;
+  }
+
+  h1 {
+    font-size: clamp(3rem, 1.6rem + 5.4vw, 5.75rem);
+    line-height: 0.95;
+    letter-spacing: -0.025em;
+  }
+
+  .hero-lede {
+    font-size: clamp(1.25rem, 1.1rem + 0.5vw, 1.5rem);
+    line-height: 1.4;
+    color: var(--k-tinta-cuerpo);
+    max-width: 34ch;
+  }
+
+  .hero-acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .hero-sellos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 22px;
+    list-style: none;
+    padding: 0;
+    color: var(--k-tinta-suave);
+    font-size: 1.0625rem;
+  }
+
+  .hero-sellos li {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .hero-sellos li::before {
+    content: '';
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--k-sol);
+    box-shadow: 0 0 0 3px rgba(244, 220, 99, 0.3);
+  }
+
+  /* The paper tree behind, the phone with the real welcome screen in front. */
+  .hero-visual {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr;
+    min-height: 600px;
+    align-items: center;
+  }
+
+  .hero-hoja {
+    position: relative;
+    margin: 0;
+    padding: clamp(28px, 4vw, 44px) clamp(18px, 3vw, 34px) 22px;
+    background: var(--k-papel-tarjeta);
+    border: 1px solid rgba(30, 37, 48, 0.08);
+    border-radius: 3px;
+    box-shadow:
+      var(--k-sombra),
+      0 40px 60px -50px rgba(30, 37, 48, 0.55);
+    transform: rotate(1.2deg);
+    display: grid;
+    gap: 6px;
+    justify-items: center;
+  }
+
+  .hero-hoja :global(.hero-arbol) {
+    max-width: 400px;
+  }
+
+  .hero-visual .hero-hoja {
+    width: min(100%, 400px);
+    justify-self: start;
+    transform: rotate(-3deg);
+  }
+
+  .hero-visual :global(.hero-telefono) {
+    --ancho: 240px;
+    position: absolute;
+    right: -24px;
+    bottom: -30px;
+    transform: rotate(4deg);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-visual :global(.hero-telefono) {
+      animation:
+        entrar-telefono 1s cubic-bezier(0.22, 1, 0.36, 1) 0.2s backwards,
+        flotar 7s ease-in-out 1.4s infinite;
+    }
+  }
+
+  @keyframes entrar-telefono {
+    from {
+      opacity: 0;
+      transform: translateY(40px) rotate(8deg);
+    }
+  }
+
+  @keyframes flotar {
+    0%,
+    100% {
+      transform: rotate(4deg) translateY(0);
+    }
+
+    50% {
+      transform: rotate(4deg) translateY(-10px);
+    }
+  }
+
+  .hero-hoja figcaption {
+    font-size: 0.6875rem;
+  }
+
+  .postit {
+    position: absolute;
+    top: -34px;
+    left: -26px;
+    width: 196px;
+    display: grid;
+    gap: 6px;
+    padding: 14px 16px 18px;
+    background: var(--k-postit);
+    color: var(--k-postit-tinta);
+    transform: rotate(-6deg);
+    box-shadow: 0 16px 24px -18px rgba(58, 31, 42, 0.8);
+    z-index: 2;
+  }
+
+  .postit .k-etiqueta {
+    color: var(--k-postit-tinta);
+    font-size: 0.625rem;
+  }
+
+  .postit .k-mano {
+    color: var(--k-postit-tinta);
+    font-size: 1.5rem;
+    line-height: 1;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .postit {
+      animation: pegar 0.7s cubic-bezier(0.22, 1, 0.36, 1) 2.4s backwards;
+    }
+  }
+
+  @keyframes pegar {
+    from {
+      opacity: 0;
+      transform: translateY(-10px) rotate(-9deg);
+    }
+  }
+
+  @media (max-width: 900px) {
+    .hero {
+      grid-template-columns: 1fr;
+    }
+
+    .hero-hoja {
+      margin-top: 24px;
+    }
+
+    .hero-visual {
+      min-height: 0;
+      margin-top: 48px;
+      padding-bottom: 40px;
+    }
+
+    .hero-visual .hero-hoja {
+      width: 88%;
+    }
+
+    .hero-visual :global(.hero-telefono) {
+      --ancho: min(46vw, 230px);
+      bottom: 0;
+      right: -4px;
+    }
+
+    .postit {
+      top: -40px;
+      left: -6px;
+      width: 150px;
+      padding: 10px 12px 14px;
+    }
+
+    .postit .k-mano {
+      font-size: 1.25rem;
+    }
+  }
+
+  /* Sections: each one on its own color band, light and dark in turn. */
+  .banda {
+    padding: clamp(64px, 9vw, 120px) 0;
+    scroll-margin-top: 72px;
+  }
+
+  .banda-hero {
+    padding: 0;
+  }
+
+  .banda-gris {
+    background: var(--k-papel);
+  }
+
+  .banda-celeste {
+    background: #e3ecf4;
+  }
+
+  .banda-blanca {
+    background: var(--k-papel-claro);
+  }
+
+  .banda-noche {
+    background: var(--k-noche);
+    color: var(--k-papel);
+  }
+
+  .banda-pizarra {
+    background: var(--k-pizarra-oscura);
+    color: var(--k-papel);
+  }
+
+  .seccion-cabeza {
+    display: grid;
+    gap: 16px;
+    max-width: 640px;
+    margin-bottom: clamp(32px, 4vw, 52px);
+  }
+
+  .seccion-cabeza > p:not(.k-etiqueta) {
+    color: var(--k-tinta-cuerpo);
+    font-size: 1.25rem;
+  }
+
+  h2 {
+    font-size: clamp(2.25rem, 1.6rem + 2.6vw, 3.5rem);
+    line-height: 1;
+  }
+
+  /* How it works */
+  .pasos {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .paso {
+    display: grid;
+    align-content: start;
+    gap: 10px;
+  }
+
+  .paso-n {
+    font: 500 0.8125rem/1 var(--k-mono);
+    letter-spacing: 0.12em;
+    color: var(--k-acento);
+  }
+
+  .paso h3 {
+    font-size: 1.625rem;
+    line-height: 1.1;
+  }
+
+  .paso p {
+    color: var(--k-tinta-cuerpo);
+  }
+
+  @media (max-width: 820px) {
+    .pasos {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .estados-lista {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 22px;
+    list-style: none;
+    padding: 0;
+    font: 500 0.75rem/1 var(--k-mono);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--k-tinta-suave);
+  }
+
+  .estados-lista li {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .estado-punto {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    flex: none;
+  }
+
+  .estado-punto.equilibrio {
+    background: var(--k-zona1);
+    border: 1.5px solid var(--k-tinta);
+  }
+
+  .estado-punto.falta {
+    background: var(--k-papel);
+    border: 1.5px dashed var(--k-pizarra);
+  }
+
+  .estado-punto.exceso {
+    background: var(--k-pizarra);
+    box-shadow:
+      0 0 0 4px rgba(47, 69, 96, 0.16),
+      0 0 0 8px rgba(47, 69, 96, 0.07);
+  }
+
+  .estado-punto.sin {
+    background: var(--k-papel-claro);
+    border: 1px solid rgba(30, 37, 48, 0.45);
+  }
+
+  /* Map */
+  .zonas {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    border-top: 1px solid var(--k-tinta);
+  }
+
+  .zona {
+    display: grid;
+    align-content: start;
+    gap: 10px;
+    padding: 24px clamp(16px, 2.4vw, 30px) 28px;
+    border-right: 1px solid var(--k-borde);
+  }
+
+  .zona:first-child {
+    padding-left: 0;
+  }
+
+  .zona:last-child {
+    border-right: 0;
+  }
+
+  .zona h3 {
+    font-size: 1.5rem;
+    line-height: 1.15;
+    margin-bottom: 8px;
+  }
+
+  .zona ul {
+    list-style: none;
+    padding: 0;
+    display: grid;
+  }
+
+  .zona li {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      'nombre hebreo'
+      'area area';
+    column-gap: 12px;
+    padding: 12px 0;
+    border-top: 1px solid var(--k-borde);
+  }
+
+  .zona-nombre {
+    grid-area: nombre;
+    font-size: 1.375rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .zona-nombre::before {
+    content: '';
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 1px solid var(--k-tinta);
+  }
+
+  .zona-1 .zona-nombre::before {
+    background: var(--k-zona1);
+  }
+
+  .zona-2 .zona-nombre::before {
+    background: var(--k-zona2);
+  }
+
+  .zona-3 .zona-nombre::before {
+    background: var(--k-zona3);
+  }
+
+  .zona-hebreo {
+    grid-area: hebreo;
+    font: 400 1.375rem/1.2 var(--k-hebreo);
+    color: var(--k-tinta-suave);
+  }
+
+  .zona-area {
+    grid-area: area;
+    padding-left: 22px;
+    font: 400 0.75rem/1.6 var(--k-mono);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--k-tinta-secundaria);
+  }
+
+  @media (max-width: 820px) {
+    .zonas {
+      grid-template-columns: 1fr;
+    }
+
+    .zona {
+      padding-left: 0;
+      padding-right: 0;
+      border-right: 0;
+      border-bottom: 1px solid var(--k-borde);
+    }
+  }
+
+  .daat {
+    display: flex;
+    align-items: baseline;
+    gap: 14px;
+    margin-top: 22px;
+    color: var(--k-tinta-suave);
+  }
+
+  .daat strong {
+    font-weight: 500;
+    color: var(--k-tinta);
+  }
+
+  /* Principles: the dark night blue of the welcome screen. */
+  .principios .k-etiqueta {
+    color: var(--k-acento-noche);
+  }
+
+  .principios h2 {
+    margin-top: 16px;
+    max-width: 16ch;
+  }
+
+  .principios-lista {
+    list-style: none;
+    padding: 0;
+    margin-top: clamp(36px, 5vw, 60px);
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 28px;
+  }
+
+  .principios-lista li {
+    display: grid;
+    align-content: start;
+    gap: 10px;
+    padding-top: 18px;
+    border-top: 1px solid rgba(242, 243, 243, 0.3);
+  }
+
+  .principios-lista h3 {
+    font-size: 1.5rem;
+    line-height: 1.1;
+  }
+
+  .principios-lista p {
+    color: rgba(242, 243, 243, 0.82);
+  }
+
+  @media (max-width: 960px) {
+    .principios-lista {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 560px) {
+    .principios-lista {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* What the paper cannot do */
+  .seguir {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.85fr);
+    gap: clamp(36px, 6vw, 88px);
+    align-items: center;
+  }
+
+  .seguir-texto {
+    display: grid;
+    gap: 18px;
+  }
+
+  .seguir-texto > p:not(.k-etiqueta) {
+    font-size: 1.25rem;
+    color: var(--k-tinta-cuerpo);
+  }
+
+  .extras {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 0;
+    margin-top: 8px;
+  }
+
+  .extras li {
+    display: grid;
+    gap: 4px;
+    padding: 14px 0;
+    border-top: 1px solid var(--k-borde);
+  }
+
+  .extras h3 {
+    font-size: 1.25rem;
+    font-weight: 500;
+  }
+
+  .extras p {
+    color: var(--k-tinta-suave);
+  }
+
+  .radar {
+    margin: 0;
+    display: grid;
+    gap: 12px;
+  }
+
+  .radar svg {
+    width: 100%;
+    height: auto;
+  }
+
+  .radar-anillo {
+    fill: none;
+    stroke: rgba(30, 37, 48, 0.12);
+  }
+
+  .radar-eje {
+    stroke: rgba(30, 37, 48, 0.12);
+  }
+
+  .radar-inicial {
+    fill: none;
+    stroke: var(--k-pizarra);
+    stroke-width: 1.5;
+    stroke-dasharray: 4 3;
+  }
+
+  .radar-final {
+    fill: rgba(169, 196, 222, 0.55);
+    stroke: var(--k-tinta);
+    stroke-width: 1.5;
+  }
+
+  .radar text {
+    font: 500 8.5px/1 var(--k-mono);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    fill: var(--k-tinta-suave);
+  }
+
+  .radar-leyenda {
+    display: flex;
+    gap: 22px;
+    justify-content: center;
+    font: 500 0.6875rem/1 var(--k-mono);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--k-tinta-suave);
+  }
+
+  .radar-leyenda span {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .radar-muestra {
+    width: 18px;
+    height: 10px;
+  }
+
+  .radar-muestra.inicial {
+    border: 1.5px dashed var(--k-pizarra);
+  }
+
+  .radar-muestra.final {
+    background: rgba(169, 196, 222, 0.7);
+    border: 1.5px solid var(--k-tinta);
+  }
+
+  @media (max-width: 860px) {
+    .seguir {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Waitlist */
+  .lista-in {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1fr);
+    gap: clamp(32px, 6vw, 88px);
+    align-items: start;
+  }
+
+  /* On the dark band the highlighted word turns yellow instead of carrying a marker. */
+  .lista-texto .k-resalte {
+    background: none;
+    color: var(--k-sol);
+    animation: none;
+  }
+
+  .lista-texto .k-etiqueta,
+  .lista-mano {
+    color: var(--k-acento-noche);
+  }
+
+  /* The form card is light paper on the dark band: its text goes back to ink. */
+  .lista-tarjeta {
+    color: var(--k-tinta);
+  }
+
+  .lista-texto {
+    display: grid;
+    gap: 18px;
+    position: sticky;
+    top: 110px;
+  }
+
+  .lista-texto > p:not(.k-etiqueta):not(.k-mano) {
+    font-size: 1.25rem;
+    color: rgba(242, 243, 243, 0.85);
+    max-width: 34ch;
+  }
+
+  .lista-mano {
+    font-size: 1.75rem;
+    transform: rotate(-2deg);
+    transform-origin: left;
+  }
+
+  @media (max-width: 860px) {
+    .lista-in {
+      grid-template-columns: 1fr;
+    }
+
+    .lista-texto {
+      position: static;
+    }
+  }
+
+  /* FAQ */
+  .preguntas .k-preguntas {
+    max-width: 820px;
+  }
+
+  .preguntas-mas {
+    margin-top: 26px;
+    color: var(--k-tinta-suave);
+  }
+
+  .preguntas-mas a {
+    color: var(--k-acento);
+    text-underline-offset: 3px;
+  }
+
+  /* Moving band of the energies under the hero. */
+  .cinta {
+    overflow: hidden;
+    background: var(--k-pizarra-oscura);
+    color: var(--k-papel);
+    padding: 16px 0;
+  }
+
+  .cinta-pista {
+    display: flex;
+    width: max-content;
+  }
+
+  .cinta ul {
+    display: flex;
+    flex: none;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .cinta li {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 12px;
+    padding: 0 22px;
+    white-space: nowrap;
+  }
+
+  .cinta-nombre {
+    font: 500 1.375rem/1 var(--k-serif);
+  }
+
+  .cinta-hebreo {
+    font: 400 1.25rem/1 var(--k-hebreo);
+    color: var(--k-sol);
+  }
+
+  .cinta-luz {
+    align-self: center;
+    width: 7px;
+    height: 7px;
+    margin-left: 22px;
+    border-radius: 50%;
+    background: var(--k-sol);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .cinta-pista {
+      animation: cinta 46s linear infinite;
+    }
+
+    .cinta:hover .cinta-pista {
+      animation-play-state: paused;
+    }
+  }
+
+  @keyframes cinta {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  /* How it starts: three real screens. */
+  .comienzo {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(20px, 3vw, 40px);
+  }
+
+  .comienzo li {
+    display: grid;
+    gap: 22px;
+    justify-items: center;
+    align-content: start;
+  }
+
+  .comienzo :global(.comienzo-telefono) {
+    --ancho: min(100%, 250px);
+    transition: transform 0.4s var(--k-ease);
+  }
+
+  .comienzo li:nth-child(2) :global(.comienzo-telefono) {
+    margin-top: 36px;
+  }
+
+  .comienzo li:hover :global(.comienzo-telefono) {
+    transform: translateY(-8px);
+  }
+
+  .comienzo-texto {
+    display: grid;
+    gap: 8px;
+    max-width: 290px;
+    text-align: center;
+    justify-items: center;
+  }
+
+  .comienzo-texto h3 {
+    font-size: 1.625rem;
+    line-height: 1.1;
+  }
+
+  .comienzo-texto p {
+    color: var(--k-tinta-cuerpo);
+  }
+
+  @media (max-width: 860px) {
+    .comienzo {
+      grid-template-columns: 1fr;
+      gap: 48px;
+    }
+
+    .comienzo li:nth-child(2) :global(.comienzo-telefono) {
+      margin-top: 0;
+    }
+
+    .comienzo :global(.comienzo-telefono) {
+      --ancho: min(70vw, 260px);
+    }
+  }
+
+  .despues {
+    margin-top: clamp(56px, 7vw, 88px);
+    display: grid;
+    gap: 20px;
+  }
+
+  .despues-titulo {
+    font-size: 2.125rem;
+    line-height: 1;
+  }
+
+  /* Yellow band: Kevin's voice and the closing call. */
+  .banda-sol {
+    background: var(--k-sol);
+    color: var(--k-tinta);
+  }
+
+  .banda-sol .k-etiqueta {
+    color: var(--k-tinta-suave);
+  }
+
+  .voz-in {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: clamp(28px, 6vw, 80px);
+    align-items: center;
+  }
+
+  .voz-foto {
+    position: relative;
+    width: clamp(200px, 24vw, 300px);
+    aspect-ratio: 1;
+  }
+
+  .voz-foto :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    box-shadow: 0 30px 50px -30px rgba(30, 37, 48, 0.7);
+  }
+
+  .voz-sello {
+    position: absolute;
+    right: 0;
+    bottom: 6%;
+    display: grid;
+    place-items: center;
+    width: 88px;
+    height: 88px;
+    border-radius: 50%;
+    background: var(--k-papel-claro);
+    box-shadow: 0 14px 24px -14px rgba(30, 37, 48, 0.6);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .voz-sello :global(circle) {
+      animation: latir 3.6s ease-in-out infinite;
+      transform-origin: 16px 8px;
+      transform-box: view-box;
+    }
+  }
+
+  @keyframes latir {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+
+    50% {
+      transform: scale(1.18);
+    }
+  }
+
+  .voz-cita h2.k-etiqueta {
+    font-size: 0.75rem;
+    line-height: 1.3;
+    letter-spacing: 0.14em;
+  }
+
+  .voz-cita {
+    margin: 0;
+    display: grid;
+    gap: 22px;
+  }
+
+  .voz-cita blockquote {
+    margin: 0;
+    display: grid;
+    gap: 18px;
+  }
+
+  .voz-lema {
+    font: 400 clamp(2.5rem, 1.6rem + 3.6vw, 4.25rem) / 1 var(--k-serif);
+    letter-spacing: -0.02em;
+  }
+
+  .voz-lema span {
+    display: block;
+    font-family: var(--k-mano);
+    color: var(--k-acento);
+    font-size: 1.05em;
+    margin-top: 6px;
+  }
+
+  .voz-texto {
+    font-size: 1.375rem;
+    line-height: 1.35;
+    max-width: 40ch;
+    color: var(--k-tinta-cuerpo);
+  }
+
+  .voz-cita figcaption {
+    font-size: 1.0625rem;
+    color: var(--k-tinta-suave);
+    max-width: 52ch;
+  }
+
+  .voz-cita figcaption strong {
+    color: var(--k-tinta);
+    font-weight: 500;
+  }
+
+  @media (max-width: 760px) {
+    .voz-in {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .principio-n {
+    font: 500 0.8125rem/1 var(--k-mono);
+    letter-spacing: 0.12em;
+    color: var(--k-sol);
+  }
+
+  .principios .k-llamado-texto {
+    color: var(--k-papel);
+  }
+
+  /* Radar card and a phone, overlapped. */
+  .seguir-visual {
+    position: relative;
+    padding-bottom: 60px;
+  }
+
+  .seguir-visual .radar {
+    width: 88%;
+  }
+
+  .seguir-visual :global(.seguir-telefono) {
+    --ancho: 200px;
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    transform: rotate(5deg);
+  }
+
+  @media (max-width: 560px) {
+    .seguir-visual .radar {
+      width: 100%;
+    }
+
+    .seguir-visual :global(.seguir-telefono) {
+      display: none;
+    }
+  }
+
+  /* The final polygon grows from the center when the radar comes into view. */
+  .radar-final {
+    transform-box: view-box;
+    transform-origin: 120px 120px;
+    transition: transform 1.3s cubic-bezier(0.22, 1, 0.36, 1) 0.35s;
+  }
+
+  .radar:global(.k-revelar) .radar-final {
+    transform: scale(0.55);
+  }
+
+  .radar:global(.k-visible) .radar-final {
+    transform: none;
+  }
+
+  .testimonios {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+  }
+
+  .testimonios li {
+    display: grid;
+    gap: 18px;
+    align-content: space-between;
+  }
+
+  .testimonios blockquote {
+    margin: 0;
+    font-size: 1.25rem;
+    line-height: 1.4;
+  }
+
+  .testimonio-quien {
+    display: grid;
+    gap: 2px;
+    font-size: 1rem;
+  }
+
+  .testimonio-quien strong {
+    font-weight: 500;
+  }
+
+  .testimonio-quien span {
+    font: 400 0.75rem/1.4 var(--k-mono);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--k-tinta-secundaria);
+  }
+
+  .lista-tiendas {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .lista-tiendas li {
+    display: grid;
+    gap: 4px;
+    padding: 12px 18px;
+    border: 1px solid rgba(242, 243, 243, 0.3);
+    border-radius: 10px;
+    font: 400 0.6875rem/1.2 var(--k-mono);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgba(242, 243, 243, 0.75);
+  }
+
+  .lista-tienda-n {
+    font: 500 1.25rem/1 var(--k-serif);
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--k-papel);
+  }
+
+  .cierre {
+    position: relative;
+    overflow: hidden;
+    background: var(--k-noche);
+    color: var(--k-papel);
+    padding: clamp(96px, 14vw, 180px) 0;
+  }
+
+  .cierre :global(.final-fondo) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 40%;
+  }
+
+  .cierre::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(42, 61, 85, 0.55), rgba(30, 37, 48, 0.75));
+  }
+
+  .final-in {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    justify-items: center;
+    text-align: center;
+    gap: 18px;
+  }
+
+  .final-in h2 {
+    font-size: clamp(2.75rem, 1.8rem + 4vw, 4.75rem);
+  }
+
+  .final-in p {
+    font-size: 1.375rem;
+    color: rgba(242, 243, 243, 0.88);
+  }
+
+  .principios-cabeza {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(28px, 5vw, 72px);
+    align-items: center;
+  }
+
+  .principios-foto :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    border-radius: 6px;
+    box-shadow: 0 30px 50px -30px rgba(0, 0, 0, 0.6);
+  }
+
+  @media (max-width: 860px) {
+    .principios-cabeza {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .lista-foto {
+    margin-top: 10px;
+  }
+
+  .lista-foto :global(img) {
+    display: block;
+    width: 100%;
+    max-width: 420px;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    object-position: center 30%;
+    border-radius: 6px;
+    opacity: 0.95;
+  }
+
+  .final-in .k-boton {
+    margin-top: 8px;
+  }
+
+  /* Patterns behind the color bands. They sit on a pseudo-element so the band's content stays on top. */
+  .banda {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .banda-celeste::before,
+  .banda-blanca::before,
+  .banda-noche::before,
+  .banda-noche::after,
+  .banda-pizarra::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  /* Light blue: the Tree as a faint constellation, drifting very slowly. */
+  .banda-celeste::before {
+    background: var(--k-patron-arbol) 0 0 / 240px 300px;
+    opacity: 0.09;
+  }
+
+  /* White: the lines of the paper workbook. */
+  .banda-blanca::before {
+    background: repeating-linear-gradient(180deg, transparent 0 35px, rgba(43, 79, 179, 0.07) 35px 36px);
+    mask-image: linear-gradient(180deg, transparent, #000 12%, #000 88%, transparent);
+  }
+
+  /* Night blue: stars, and a large Tikún mark rising in the corner. */
+  .banda-noche::before {
+    background: var(--k-patron-estrellas) 0 0 / 400px 400px;
+  }
+
+  .banda-noche {
+    overflow: hidden;
+  }
+
+  .banda-noche::after {
+    inset: auto 2% -6% auto;
+    width: min(340px, 50vw);
+    aspect-ratio: 26 / 22;
+    background: var(--k-patron-tikun) center / contain no-repeat;
+    opacity: 0.09;
+  }
+
+  /* Dark slate: concentric bowls, like ripples. */
+  .banda-pizarra::before {
+    background: var(--k-patron-arcos) left -120px bottom -40px / 900px auto no-repeat;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .banda-celeste::before {
+      animation: deriva 90s linear infinite;
+    }
+
+    .banda-noche::before {
+      animation: titilar 7s ease-in-out infinite alternate;
+    }
+
+    .banda-noche::after {
+      animation: elevar 14s ease-in-out infinite alternate;
+    }
+  }
+
+  @keyframes deriva {
+    to {
+      background-position: 240px 300px;
+    }
+  }
+
+  @keyframes titilar {
+    from {
+      opacity: 0.55;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes elevar {
+    to {
+      transform: translateY(-24px) rotate(-3deg);
+    }
+  }
+
+  /* Hero: the sheet and the phone follow the pointer a little (src/scripts/kabbalah/efectos.ts). */
+  .hero-visual {
+    --mx: 0;
+    --my: 0;
+  }
+
+  .hero-visual .hero-hoja {
+    translate: calc(var(--mx) * -14px) calc(var(--my) * -10px);
+    transition: translate 0.6s var(--k-ease);
+  }
+
+  .hero-visual :global(.hero-telefono) {
+    translate: calc(var(--mx) * 18px) calc(var(--my) * 14px);
+    transition: translate 0.6s var(--k-ease);
+  }
+
+  .postit {
+    translate: calc(var(--mx) * 26px) calc(var(--my) * 20px);
+    transition: translate 0.6s var(--k-ease);
+  }
+
+  /* "Muy pronto": a small dot, still. */
+  .pastilla {
+    gap: 8px;
+  }
+
+  .pastilla-punto {
+    position: relative;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--k-tinta);
+  }
+
+  /* Numbers of the map, counting up. */
+  .cifras {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    margin-bottom: clamp(32px, 4vw, 48px);
+  }
+
+  .cifras li {
+    display: grid;
+    gap: 6px;
+    padding: 18px 20px;
+    border-radius: 6px;
+    background: var(--k-papel);
+    font: 500 0.75rem/1.2 var(--k-mono);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--k-tinta-suave);
+  }
+
+  .cifra {
+    font: 400 clamp(2.75rem, 2rem + 2.5vw, 4rem) / 1 var(--k-serif);
+    letter-spacing: -0.02em;
+    text-transform: none;
+    color: var(--k-tinta);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .cifras li:last-child {
+    background: var(--k-sol);
+    color: var(--k-tinta);
+  }
+
+  @media (max-width: 760px) {
+    .cifras {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  /* Hand-written notes pointing at the phones. */
+  .comienzo li {
+    position: relative;
+  }
+
+  .anota {
+    position: absolute;
+    z-index: 2;
+    display: grid;
+    justify-items: end;
+    pointer-events: none;
+  }
+
+  .anota .k-mano {
+    font-size: 1.5rem;
+    line-height: 1;
+    white-space: nowrap;
+    transform: rotate(-4deg);
+  }
+
+  .anota svg {
+    fill: none;
+    stroke: var(--k-acento);
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .anota-2 {
+    top: -38px;
+    right: -64px;
+  }
+
+  .anota-3 {
+    top: -38px;
+    right: -84px;
+  }
+
+  @media (max-width: 1180px) {
+    .anota {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .anota svg path {
+      stroke-dasharray: 120;
+      stroke-dashoffset: 120;
+      transition: stroke-dashoffset 1.2s var(--k-ease) 0.6s;
+    }
+
+    .comienzo li:global(.k-visible) .anota svg path,
+    .comienzo li:not(:global(.k-revelar)) .anota svg path {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  /* Rays of light turning slowly behind the bowl. */
+  .voz {
+    overflow: hidden;
+  }
+
+  .voz-rayos {
+    position: absolute;
+    inset: -38%;
+    z-index: -1;
+    border-radius: 50%;
+    background: repeating-conic-gradient(from 0deg, rgba(255, 255, 255, 0.5) 0deg 6deg, transparent 6deg 22deg);
+    mask-image: radial-gradient(circle, #000 30%, transparent 68%);
+  }
+
+  .voz-foto {
+    isolation: isolate;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .voz-rayos {
+      animation: girar 60s linear infinite;
+    }
+  }
+
+  @keyframes girar {
+    to {
+      transform: rotate(1turn);
+    }
+  }
+
+  /* Micro-interactions on hover. */
+  .paso {
+    border-top: 3px solid transparent;
+    transition:
+      transform 0.35s var(--k-ease),
+      border-color 0.35s,
+      box-shadow 0.35s;
+  }
+
+  .paso:hover {
+    transform: translateY(-6px);
+    border-top-color: var(--k-sol);
+    box-shadow: 0 26px 36px -26px rgba(30, 37, 48, 0.6);
+  }
+
+  .zona li {
+    transition:
+      background 0.25s,
+      padding 0.25s var(--k-ease);
+  }
+
+  .zona li:hover {
+    background: var(--k-papel);
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  .zona-nombre::before {
+    transition:
+      transform 0.3s var(--k-ease),
+      background 0.3s;
+  }
+
+  .zona li:hover .zona-nombre::before {
+    transform: scale(1.5);
+    background: var(--k-sol);
+  }
+
+  .principios-lista li {
+    transition: border-color 0.3s;
+  }
+
+  .principios-lista li:hover {
+    border-top-color: var(--k-sol);
+  }
+
+  .extras li {
+    transition: padding 0.25s var(--k-ease);
+  }
+
+  .extras li:hover {
+    padding-left: 10px;
+    box-shadow: inset 3px 0 0 var(--k-sol);
+  }
+
+  .k-preguntas details[open] > div {
+    animation: abrir 0.4s var(--k-ease);
+  }
+
+  @keyframes abrir {
+    from {
+      opacity: 0;
+      transform: translateY(-6px);
+    }
+  }
+
+  /* Closing: the light drops into the bowl when the band comes into view. */
+  .final-in:global(.k-revelar) :global(.luz) {
+    transform: translateY(-14px);
+    opacity: 0;
+    transition:
+      transform 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s,
+      opacity 0.4s 0.4s;
+    transform-box: fill-box;
+  }
+
+  .final-in:global(.k-visible) :global(.luz) {
+    transform: none;
+    opacity: 1;
+  }
+
+  /* Phones: headings, paragraphs and calls to action centered. Lists, cards and the form stay left-aligned. */
+  @media (max-width: 760px) {
+    .hero-texto,
+    .seccion-cabeza,
+    .seguir-texto,
+    .lista-texto,
+    .voz-cita,
+    .principios-cabeza > div:first-child,
+    .final-in {
+      text-align: center;
+      justify-items: center;
+    }
+
+    .hero-lede,
+    .seccion-cabeza > p,
+    .lista-texto > p,
+    .voz-texto,
+    .voz-cita figcaption {
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero-kicker,
+    .hero-acciones,
+    .hero-sellos,
+    .estados-lista,
+    .lista-tiendas,
+    .k-llamado {
+      justify-content: center;
+    }
+
+    .k-llamado {
+      flex-direction: column;
+      text-align: center;
+    }
+
+    .despues-titulo,
+    .daat {
+      text-align: center;
+      justify-content: center;
+    }
+
+    .lista-mano {
+      transform-origin: center;
+    }
+
+    .lista-foto :global(img) {
+      margin: 0 auto;
+    }
+
+    .voz-in {
+      justify-items: center;
+    }
+
+    .principios h2 {
+      max-width: none;
+    }
+  }
+</style>

@@ -98,6 +98,9 @@ Spanish, under `/es/`: `/es/`, `/es/trabajo/`, `/es/trabajo/[slug]/`, `/es/playg
 `fintech`), `/es/nosotros/`, `/es/nosotros/dani-bottaro/`, `/es/blog/`, `/es/auditoria-ux-gratis/`, `/es/contacto/`, `/es/trabaja-con-nosotros/`,
 `/es/terminos/`, `/es/privacidad/`, `/es/accesibilidad/`, `/es/404/`.
 
+Vasija, the Kabbalah app (published by delbueno SAS), has its own Spanish-only section: `/kabbalah/` (landing with the waitlist),
+`/kabbalah/privacidad/`, `/kabbalah/soporte/` and `/kabbalah/borrar-cuenta/`. See "Kabbalah app pages" below.
+
 Journal posts are served from the site root as `/[slug]/` so they keep their old WordPress URLs. The slug is the file
 name in `src/content/journal/`. The build fails if a post slug equals a built-in route such as `contact`. Spanish
 translations of posts are served at `/es/blog/[slug]/` with a Spanish slug.
@@ -249,6 +252,37 @@ To run it by hand on your computer, use `DRIBBBLE_TOKEN=your_token npm run sync:
 The branch is never force-pushed. If `dribbble-sync` already has commits that are not on `main` (an open review, maybe with your edits to `imageAlt` or `featured`), the next run adds a commit on top of it. If `main` cannot be merged into the branch cleanly, the run uses a new branch called `dribbble-sync-<date>` instead and the job summary says so.
 
 **Run CI on the branch.** Pushes made by a workflow with the built-in token do not start other workflows, so the pull request shows no checks until you run them: open the Actions tab, choose CI in the left list, press Run workflow, pick the `dribbble-sync` branch (or the dated one), and run it. The result attaches to the branch head, so the pull request gets its checks. Closing and reopening the pull request also starts CI.
+
+## Kabbalah app pages
+
+The pages of the Kabbalah app (iOS and Android, code in the private repo `dbottaro-star1/app-kabbalah`) live under
+`/kabbalah/`. The App Store and Google Play link to them: the privacy policy, the support page and the account deletion
+page that Google Play requires. The landing collects a waitlist through Web3Forms (same inbox as the audit form).
+
+- They have the app's look, not the studio's (on a light grey page, not the app's warm paper):
+  `src/layouts/KabbalahLayout.astro` and `src/styles/kabbalah.css`, with EB Garamond, IBM Plex Mono, Nanum Pen Script and Frank Ruhl Libre from `@fontsource`. No analytics or ads pixels load
+  on these pages.
+- Copy is Rioplatense Spanish ("vos"), like the app. `check:seo` treats `/kabbalah/` as Spanish (titles up to 60,
+  descriptions 140 to 155) and the titles carry no " | delbueno" suffix.
+- The app name (Vasija: Kabbalah cotidiana), the support email and the date of the legal pages are in
+  `src/kabbalah/app.ts`. The logo, the same as the app icon, is `src/components/kabbalah/LogoVasija.astro` (favicon:
+  `public/kabbalah/icono.svg`).
+- The social card `/kabbalah/og.png` is drawn at build time by `src/kabbalah/og.ts`.
+- The phones show real screens of the app (`public/kabbalah/pantallas/*.webp`, 780 by 1688), captured from its
+  onboarding with answers filled in. Refresh them when the app's screens change.
+- Photos (`src/assets/kabbalah/`) are from Unsplash, free for commercial use without credit: cuenco
+  `photo-1519916478825-b1d7aef08f54`, escribir-ventana `photo-1517971129774-8a2b38fa128e`, cuaderno
+  `photo-1789724919872-00dc3c222e3d`, amanecer `photo-1646343966913-7383b3a0c2e2`. Astro serves them as WebP.
+- Kevin's quotes come from texts he approved for the app (`VOZ_DE_KEVIN` in `src/kabbalah/app.ts`). Testimonials
+  (`TESTIMONIOS`) must be real and published with permission; while the list is empty the section does not show.
+- Background patterns are inline SVG tokens in `src/styles/kabbalah.css` (`--k-patron-*`): the Tree as a
+  constellation, stars, the Tikún mark and concentric bowls. The header logo draws itself, a small Vasija in the corner
+  fills with light as the page scrolls (`VasijaProgreso.astro`), numbers count up and the hero follows the pointer
+  (`src/scripts/kabbalah/efectos.ts`).
+- Scroll reveals and the sticky phone call to action live in `src/scripts/kabbalah/revelar.ts`; every animation stops
+  with prefers-reduced-motion.
+- When the app changes what it stores, which providers it uses or how an account is deleted, update
+  `src/pages/kabbalah/privacidad.astro` and `borrar-cuenta.astro`, and `legalUpdated` in `src/kabbalah/app.ts`.
 
 ## Structured data
 
