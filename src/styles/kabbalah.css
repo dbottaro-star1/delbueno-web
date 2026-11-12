@@ -28,6 +28,12 @@
   --k-sol: #f4dc63;
   --k-sol-hover: #eccd3c;
   --k-sol-suave: #f8eeb4;
+
+  /* Background patterns (inline SVG): the Tree as a constellation, stars, the Tikún mark and concentric bowls. */
+  --k-patron-arbol: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='300'%3E%3Cpath d='M43.2 17.5L63.0 32.9M43.2 17.5L23.4 32.9M43.2 17.5L43.2 69.4M63.0 32.9L23.4 32.9M63.0 32.9L43.2 69.4M63.0 32.9L63.0 57.1M23.4 32.9L43.2 69.4M23.4 32.9L23.4 57.1M63.0 57.1L23.4 57.1M63.0 57.1L43.2 69.4M63.0 57.1L63.0 83.5M23.4 57.1L43.2 69.4M23.4 57.1L23.4 83.5M43.2 69.4L63.0 83.5M43.2 69.4L43.2 94.0M43.2 69.4L23.4 83.5M63.0 83.5L23.4 83.5M63.0 83.5L43.2 94.0M63.0 83.5L43.2 104.2M23.4 83.5L43.2 94.0M23.4 83.5L43.2 104.2M43.2 94.0L43.2 104.2' stroke='%232F4560' stroke-width='1' fill='none'/%3E%3Cg fill='%23E3ECF4' stroke='%232F4560'%3E%3Ccircle cx='43.2' cy='17.5' r='3.4'/%3E%3Ccircle cx='23.4' cy='32.9' r='3.4'/%3E%3Ccircle cx='63.0' cy='32.9' r='3.4'/%3E%3Ccircle cx='23.4' cy='57.1' r='3.4'/%3E%3Ccircle cx='63.0' cy='57.1' r='3.4'/%3E%3Ccircle cx='43.2' cy='69.4' r='3.4'/%3E%3Ccircle cx='23.4' cy='83.5' r='3.4'/%3E%3Ccircle cx='63.0' cy='83.5' r='3.4'/%3E%3Ccircle cx='43.2' cy='94.0' r='3.4'/%3E%3Ccircle cx='43.2' cy='104.2' r='3.4'/%3E%3C/g%3E%3Cpath d='M163.2 167.5L183.0 182.9M163.2 167.5L143.4 182.9M163.2 167.5L163.2 219.4M183.0 182.9L143.4 182.9M183.0 182.9L163.2 219.4M183.0 182.9L183.0 207.1M143.4 182.9L163.2 219.4M143.4 182.9L143.4 207.1M183.0 207.1L143.4 207.1M183.0 207.1L163.2 219.4M183.0 207.1L183.0 233.5M143.4 207.1L163.2 219.4M143.4 207.1L143.4 233.5M163.2 219.4L183.0 233.5M163.2 219.4L163.2 244.0M163.2 219.4L143.4 233.5M183.0 233.5L143.4 233.5M183.0 233.5L163.2 244.0M183.0 233.5L163.2 254.2M143.4 233.5L163.2 244.0M143.4 233.5L163.2 254.2M163.2 244.0L163.2 254.2' stroke='%232F4560' stroke-width='1' fill='none'/%3E%3Cg fill='%23E3ECF4' stroke='%232F4560'%3E%3Ccircle cx='163.2' cy='167.5' r='3.4'/%3E%3Ccircle cx='143.4' cy='182.9' r='3.4'/%3E%3Ccircle cx='183.0' cy='182.9' r='3.4'/%3E%3Ccircle cx='143.4' cy='207.1' r='3.4'/%3E%3Ccircle cx='183.0' cy='207.1' r='3.4'/%3E%3Ccircle cx='163.2' cy='219.4' r='3.4'/%3E%3Ccircle cx='143.4' cy='233.5' r='3.4'/%3E%3Ccircle cx='183.0' cy='233.5' r='3.4'/%3E%3Ccircle cx='163.2' cy='244.0' r='3.4'/%3E%3Ccircle cx='163.2' cy='254.2' r='3.4'/%3E%3C/g%3E%3C/svg%3E");
+  --k-patron-estrellas: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Ccircle cx='165' cy='77' r='1.3' fill='%23F4DC63' opacity='0.25'/%3E%3Ccircle cx='37' cy='274' r='0.6' fill='%23F2F3F3' opacity='0.25'/%3E%3Ccircle cx='259' cy='109' r='0.6' fill='%23F2F3F3' opacity='0.7'/%3E%3Ccircle cx='214' cy='35' r='0.8' fill='%23F2F3F3' opacity='0.7'/%3E%3Ccircle cx='30' cy='289' r='0.6' fill='%23F2F3F3' opacity='0.25'/%3E%3Ccircle cx='295' cy='299' r='1.3' fill='%23F2F3F3' opacity='0.35'/%3E%3Ccircle cx='23' cy='285' r='0.8' fill='%23F2F3F3' opacity='0.7'/%3E%3Ccircle cx='73' cy='276' r='0.6' fill='%23F4DC63' opacity='0.5'/%3E%3Ccircle cx='286' cy='349' r='0.8' fill='%23F2F3F3' opacity='0.35'/%3E%3Ccircle cx='190' cy='49' r='0.6' fill='%23F4DC63' opacity='0.25'/%3E%3Ccircle cx='316' cy='105' r='1.3' fill='%23F4DC63' opacity='0.7'/%3E%3Ccircle cx='397' cy='160' r='1.3' fill='%23F4DC63' opacity='0.7'/%3E%3Ccircle cx='185' cy='153' r='0.8' fill='%23F2F3F3' opacity='0.35'/%3E%3Ccircle cx='41' cy='294' r='1' fill='%23F4DC63' opacity='0.7'/%3E%3Ccircle cx='175' cy='373' r='1.3' fill='%23F2F3F3' opacity='0.25'/%3E%3Ccircle cx='60' cy='262' r='1.3' fill='%23F2F3F3' opacity='0.5'/%3E%3Ccircle cx='77' cy='250' r='1.3' fill='%23F2F3F3' opacity='0.25'/%3E%3Ccircle cx='391' cy='285' r='1' fill='%23F2F3F3' opacity='0.5'/%3E%3Ccircle cx='304' cy='254' r='1.3' fill='%23F2F3F3' opacity='0.25'/%3E%3Ccircle cx='138' cy='242' r='0.6' fill='%23F2F3F3' opacity='0.5'/%3E%3Ccircle cx='331' cy='295' r='1.3' fill='%23F2F3F3' opacity='0.7'/%3E%3Ccircle cx='342' cy='177' r='0.6' fill='%23F2F3F3' opacity='0.5'/%3E%3Ccircle cx='86' cy='312' r='0.6' fill='%23F2F3F3' opacity='0.25'/%3E%3Ccircle cx='111' cy='393' r='1' fill='%23F2F3F3' opacity='0.35'/%3E%3Ccircle cx='203' cy='200' r='1.3' fill='%23F2F3F3' opacity='0.35'/%3E%3Ccircle cx='229' cy='205' r='1' fill='%23F2F3F3' opacity='0.7'/%3E%3Ccircle cx='281' cy='142' r='1.3' fill='%23F2F3F3' opacity='0.7'/%3E%3Ccircle cx='118' cy='77' r='0.6' fill='%23F2F3F3' opacity='0.35'/%3E%3Ccircle cx='118' cy='337' r='0.8' fill='%23F2F3F3' opacity='0.7'/%3E%3Ccircle cx='301' cy='93' r='1' fill='%23F2F3F3' opacity='0.25'/%3E%3Ccircle cx='74' cy='214' r='1' fill='%23F4DC63' opacity='0.5'/%3E%3Ccircle cx='64' cy='353' r='0.6' fill='%23F2F3F3' opacity='0.7'/%3E%3Ccircle cx='203' cy='204' r='1.3' fill='%23F2F3F3' opacity='0.7'/%3E%3Ccircle cx='324' cy='205' r='0.6' fill='%23F2F3F3' opacity='0.25'/%3E%3Ccircle cx='106' cy='225' r='0.8' fill='%23F2F3F3' opacity='0.5'/%3E%3Ccircle cx='307' cy='26' r='0.6' fill='%23F2F3F3' opacity='0.35'/%3E%3Ccircle cx='274' cy='51' r='1' fill='%23F4DC63' opacity='0.25'/%3E%3Ccircle cx='36' cy='106' r='1.3' fill='%23F2F3F3' opacity='0.5'/%3E%3Ccircle cx='177' cy='308' r='1' fill='%23F2F3F3' opacity='0.25'/%3E%3Ccircle cx='59' cy='249' r='1.3' fill='%23F2F3F3' opacity='0.7'/%3E%3Ccircle cx='159' cy='43' r='0.8' fill='%23F2F3F3' opacity='0.5'/%3E%3Ccircle cx='379' cy='135' r='1.3' fill='%23F4DC63' opacity='0.35'/%3E%3Ccircle cx='264' cy='11' r='0.8' fill='%23F4DC63' opacity='0.5'/%3E%3Ccircle cx='75' cy='353' r='0.6' fill='%23F4DC63' opacity='0.5'/%3E%3Ccircle cx='329' cy='46' r='1' fill='%23F4DC63' opacity='0.5'/%3E%3Ccircle cx='85' cy='182' r='0.8' fill='%23F4DC63' opacity='0.5'/%3E%3C/svg%3E");
+  --k-patron-tikun: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='3 3 26 22'%3E%3Cg fill='none' stroke-linecap='round'%3E%3Cpath d='M6 13 A10 10 0 0 0 10.1 21.1' stroke='%23F2F3F3' stroke-width='1.4'/%3E%3Cpath d='M12.2 22.2 A10 10 0 0 0 26 13' stroke='%23F2F3F3' stroke-width='1.4'/%3E%3Cpath d='M10.1 21.1 L12.2 22.2' stroke='%23F4DC63' stroke-width='2'/%3E%3C/g%3E%3Ccircle cx='16' cy='8' r='2.4' fill='%23F4DC63'/%3E%3C/svg%3E");
+  --k-patron-arcos: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Cpath d='M160 40 A40 40 0 0 0 240 40' fill='none' stroke='%23F2F3F3' stroke-opacity='0.090' stroke-width='1.2'/%3E%3Cpath d='M120 40 A80 80 0 0 0 280 40' fill='none' stroke='%23F2F3F3' stroke-opacity='0.078' stroke-width='1.2'/%3E%3Cpath d='M80 40 A120 120 0 0 0 320 40' fill='none' stroke='%23F2F3F3' stroke-opacity='0.066' stroke-width='1.2'/%3E%3Cpath d='M40 40 A160 160 0 0 0 360 40' fill='none' stroke='%23F2F3F3' stroke-opacity='0.054' stroke-width='1.2'/%3E%3Cpath d='M0 40 A200 200 0 0 0 400 40' fill='none' stroke='%23F2F3F3' stroke-opacity='0.042' stroke-width='1.2'/%3E%3Cpath d='M-40 40 A240 240 0 0 0 440 40' fill='none' stroke='%23F2F3F3' stroke-opacity='0.030' stroke-width='1.2'/%3E%3C/svg%3E");
   --k-zona1: #a9c4de;
   --k-zona2: #d8c29e;
   --k-zona3: #cfe2f1;
@@ -171,6 +177,9 @@ main:focus {
 }
 
 .k-boton {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -192,6 +201,24 @@ main:focus {
     border-color 0.2s,
     box-shadow 0.25s var(--k-ease),
     transform 0.25s var(--k-ease);
+}
+
+/* A soft glint crosses the button on hover. */
+.k-boton::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(110deg, transparent 30%, rgba(255, 255, 255, 0.55) 50%, transparent 70%);
+  transform: translateX(-120%);
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .k-boton:hover::after {
+    transform: translateX(120%);
+    transition: transform 0.75s var(--k-ease);
+  }
 }
 
 .k-boton:hover {

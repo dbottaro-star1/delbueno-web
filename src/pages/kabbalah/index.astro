@@ -8,6 +8,7 @@ import Arbol from '../../components/kabbalah/Arbol.astro';
 import ListaDeEspera from '../../components/kabbalah/ListaDeEspera.astro';
 import LogoVasija from '../../components/kabbalah/LogoVasija.astro';
 import Telefono from '../../components/kabbalah/Telefono.astro';
+import VasijaProgreso from '../../components/kabbalah/VasijaProgreso.astro';
 import KabbalahLayout from '../../layouts/KabbalahLayout.astro';
 import { APP, DAAT, ENERGIAS, KABBALAH_PATHS, TESTIMONIOS, VOZ_DE_KEVIN, ZONAS } from '../../kabbalah/app';
 import { url } from '../../lib/url';
@@ -29,18 +30,21 @@ const comienzo = [
     titulo: 'Somos una vasija',
     texto: 'Tres preguntas para ver cómo llegás: más completo o más vacío, qué se te desborda, qué querés cambiar.',
     alt: 'Pantalla "Somos una vasija" de la app, con las respuestas elegidas.',
+    nota: undefined as string | undefined,
   },
   {
     pantalla: 'radar',
     titulo: 'Dónde estás hoy',
     texto: 'Puntuás del 1 al 10 las diez áreas de tu vida. El radar se dibuja mientras respondés.',
     alt: 'Pantalla del radar inicial de la app, con las diez áreas puntuadas.',
+    nota: 'se dibuja mientras respondés',
   },
   {
     pantalla: 'tu-arbol',
     titulo: 'Tu Árbol, hoy',
     texto: 'Con el radar y 24 situaciones cotidianas, la app pinta una primera lectura de tu Árbol.',
     alt: 'Pantalla "Tu Árbol, hoy" de la app: el Árbol pintado y una primera lectura.',
+    nota: 'tu primera lectura',
   },
 ];
 
@@ -155,7 +159,10 @@ const etiquetas = ENERGIAS.map((e, i) => {
     <div class="hero k-envoltura">
       <div class="hero-texto">
         <p class="k-etiqueta hero-kicker">
-          <span class="pastilla">Muy pronto</span> App para iPhone y Android
+          <span class="pastilla">
+            <span class="pastilla-punto" aria-hidden="true"></span>Muy pronto
+          </span>{' '}
+          App para iPhone y Android
         </p>
         <h1>
           Kabbalah para <mark class="k-resalte">hacer</mark>, no para leer.
@@ -182,7 +189,7 @@ const etiquetas = ENERGIAS.map((e, i) => {
         </ul>
       </div>
 
-      <div class="hero-visual">
+      <div class="hero-visual" data-parallax>
         <figure class="hero-hoja" aria-label="Así se ve tu Árbol a medida que avanzás">
           <Arbol animated note class="hero-arbol" />
           <figcaption class="k-etiqueta">Tu Árbol, en el recorrido</figcaption>
@@ -232,6 +239,15 @@ const etiquetas = ENERGIAS.map((e, i) => {
       <ol class="comienzo" data-revelar-grupo>
         {comienzo.map((c, i) => (
           <li>
+            {c.nota && (
+              <span class:list={['anota', `anota-${i + 1}`]} aria-hidden="true">
+                <span class="k-mano">{c.nota}</span>
+                <svg viewBox="0 0 60 40" width="60" height="40">
+                  <path d="M4 6 C 24 4, 44 14, 52 32" />
+                  <path d="M44 30 L 53 34 L 54 24" />
+                </svg>
+              </span>
+            )}
             <Telefono pantalla={c.pantalla} alt={c.alt} class="comienzo-telefono" />
             <div class="comienzo-texto">
               <span class="paso-n">{String(i + 1).padStart(2, '0')}</span>
@@ -285,6 +301,29 @@ const etiquetas = ENERGIAS.map((e, i) => {
           sentido.
         </p>
       </div>
+      <ul class="cifras" data-revelar-grupo>
+        <li>
+          <span class="cifra" data-contar="10">
+            10
+          </span>{' '}
+          energías
+        </li>
+        <li>
+          <span class="cifra" data-contar="3">
+            3
+          </span>{' '}
+          zonas
+        </li>
+        <li>
+          <span class="cifra" data-contar="22">
+            22
+          </span>{' '}
+          senderos
+        </li>
+        <li>
+          <span class="cifra">1</span> Árbol, el tuyo
+        </li>
+      </ul>
       <div class="zonas" data-revelar-grupo>
         {ZONAS.map((z) => (
           <div class:list={['zona', `zona-${z.n}`]}>
@@ -327,6 +366,7 @@ const etiquetas = ENERGIAS.map((e, i) => {
   <section class="banda banda-sol voz" aria-labelledby="voz-h">
     <div class="k-envoltura voz-in">
       <div class="voz-foto">
+        <span class="voz-rayos" aria-hidden="true"></span>
         <Image
           src={fotoCuenco}
           alt="Un cuenco de cerámica blanca, vacío, sobre una mesa gris."
@@ -560,6 +600,8 @@ const etiquetas = ENERGIAS.map((e, i) => {
       </a>
     </div>
   </section>
+
+  <VasijaProgreso />
 
   <div class="k-barra" data-barra>
     <a class="k-boton" href="#lista">
@@ -1733,5 +1775,351 @@ const etiquetas = ENERGIAS.map((e, i) => {
 
   .final-in .k-boton {
     margin-top: 8px;
+  }
+
+  /* Patterns behind the color bands. They sit on a pseudo-element so the band's content stays on top. */
+  .banda {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .banda-celeste::before,
+  .banda-blanca::before,
+  .banda-noche::before,
+  .banda-noche::after,
+  .banda-pizarra::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  /* Light blue: the Tree as a faint constellation, drifting very slowly. */
+  .banda-celeste::before {
+    background: var(--k-patron-arbol) 0 0 / 240px 300px;
+    opacity: 0.09;
+  }
+
+  /* White: the lines of the paper workbook. */
+  .banda-blanca::before {
+    background: repeating-linear-gradient(180deg, transparent 0 35px, rgba(43, 79, 179, 0.07) 35px 36px);
+    mask-image: linear-gradient(180deg, transparent, #000 12%, #000 88%, transparent);
+  }
+
+  /* Night blue: stars, and a large Tikún mark rising in the corner. */
+  .banda-noche::before {
+    background: var(--k-patron-estrellas) 0 0 / 400px 400px;
+  }
+
+  .banda-noche {
+    overflow: hidden;
+  }
+
+  .banda-noche::after {
+    inset: auto 2% -6% auto;
+    width: min(340px, 50vw);
+    aspect-ratio: 26 / 22;
+    background: var(--k-patron-tikun) center / contain no-repeat;
+    opacity: 0.09;
+  }
+
+  /* Dark slate: concentric bowls, like ripples. */
+  .banda-pizarra::before {
+    background: var(--k-patron-arcos) left -120px bottom -40px / 900px auto no-repeat;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .banda-celeste::before {
+      animation: deriva 90s linear infinite;
+    }
+
+    .banda-noche::before {
+      animation: titilar 7s ease-in-out infinite alternate;
+    }
+
+    .banda-noche::after {
+      animation: elevar 14s ease-in-out infinite alternate;
+    }
+  }
+
+  @keyframes deriva {
+    to {
+      background-position: 240px 300px;
+    }
+  }
+
+  @keyframes titilar {
+    from {
+      opacity: 0.55;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes elevar {
+    to {
+      transform: translateY(-24px) rotate(-3deg);
+    }
+  }
+
+  /* Hero: the sheet and the phone follow the pointer a little (src/scripts/kabbalah/efectos.ts). */
+  .hero-visual {
+    --mx: 0;
+    --my: 0;
+  }
+
+  .hero-visual .hero-hoja {
+    translate: calc(var(--mx) * -14px) calc(var(--my) * -10px);
+    transition: translate 0.6s var(--k-ease);
+  }
+
+  .hero-visual :global(.hero-telefono) {
+    translate: calc(var(--mx) * 18px) calc(var(--my) * 14px);
+    transition: translate 0.6s var(--k-ease);
+  }
+
+  .postit {
+    translate: calc(var(--mx) * 26px) calc(var(--my) * 20px);
+    transition: translate 0.6s var(--k-ease);
+  }
+
+  /* "Muy pronto": a small yellow light that pings. */
+  .pastilla {
+    gap: 8px;
+  }
+
+  .pastilla-punto {
+    position: relative;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--k-tinta);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .pastilla-punto::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      background: var(--k-tinta);
+      animation: ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+    }
+  }
+
+  @keyframes ping {
+    75%,
+    100% {
+      transform: scale(2.6);
+      opacity: 0;
+    }
+  }
+
+  /* Numbers of the map, counting up. */
+  .cifras {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    margin-bottom: clamp(32px, 4vw, 48px);
+  }
+
+  .cifras li {
+    display: grid;
+    gap: 6px;
+    padding: 18px 20px;
+    border-radius: 6px;
+    background: var(--k-papel);
+    font: 500 0.75rem/1.2 var(--k-mono);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--k-tinta-suave);
+  }
+
+  .cifra {
+    font: 400 clamp(2.75rem, 2rem + 2.5vw, 4rem) / 1 var(--k-serif);
+    letter-spacing: -0.02em;
+    text-transform: none;
+    color: var(--k-tinta);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .cifras li:last-child {
+    background: var(--k-sol);
+    color: var(--k-tinta);
+  }
+
+  @media (max-width: 760px) {
+    .cifras {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  /* Hand-written notes pointing at the phones. */
+  .comienzo li {
+    position: relative;
+  }
+
+  .anota {
+    position: absolute;
+    z-index: 2;
+    display: grid;
+    justify-items: end;
+    pointer-events: none;
+  }
+
+  .anota .k-mano {
+    font-size: 1.5rem;
+    line-height: 1;
+    white-space: nowrap;
+    transform: rotate(-4deg);
+  }
+
+  .anota svg {
+    fill: none;
+    stroke: var(--k-acento);
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .anota-2 {
+    top: -38px;
+    right: -64px;
+  }
+
+  .anota-3 {
+    top: -38px;
+    right: -84px;
+  }
+
+  @media (max-width: 1180px) {
+    .anota {
+      display: none;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .anota svg path {
+      stroke-dasharray: 120;
+      stroke-dashoffset: 120;
+      transition: stroke-dashoffset 1.2s var(--k-ease) 0.6s;
+    }
+
+    .comienzo li:global(.k-visible) .anota svg path,
+    .comienzo li:not(:global(.k-revelar)) .anota svg path {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  /* Rays of light turning slowly behind the bowl. */
+  .voz-rayos {
+    position: absolute;
+    inset: -38%;
+    z-index: -1;
+    border-radius: 50%;
+    background: repeating-conic-gradient(from 0deg, rgba(255, 255, 255, 0.5) 0deg 6deg, transparent 6deg 22deg);
+    mask-image: radial-gradient(circle, #000 30%, transparent 68%);
+  }
+
+  .voz-foto {
+    isolation: isolate;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .voz-rayos {
+      animation: girar 60s linear infinite;
+    }
+  }
+
+  @keyframes girar {
+    to {
+      transform: rotate(1turn);
+    }
+  }
+
+  /* Micro-interactions on hover. */
+  .paso {
+    border-top: 3px solid transparent;
+    transition:
+      transform 0.35s var(--k-ease),
+      border-color 0.35s,
+      box-shadow 0.35s;
+  }
+
+  .paso:hover {
+    transform: translateY(-6px);
+    border-top-color: var(--k-sol);
+    box-shadow: 0 26px 36px -26px rgba(30, 37, 48, 0.6);
+  }
+
+  .zona li {
+    transition:
+      background 0.25s,
+      padding 0.25s var(--k-ease);
+  }
+
+  .zona li:hover {
+    background: var(--k-papel);
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+
+  .zona-nombre::before {
+    transition:
+      transform 0.3s var(--k-ease),
+      background 0.3s;
+  }
+
+  .zona li:hover .zona-nombre::before {
+    transform: scale(1.5);
+    background: var(--k-sol);
+  }
+
+  .principios-lista li {
+    transition: border-color 0.3s;
+  }
+
+  .principios-lista li:hover {
+    border-top-color: var(--k-sol);
+  }
+
+  .extras li {
+    transition: padding 0.25s var(--k-ease);
+  }
+
+  .extras li:hover {
+    padding-left: 10px;
+    box-shadow: inset 3px 0 0 var(--k-sol);
+  }
+
+  .k-preguntas details[open] > div {
+    animation: abrir 0.4s var(--k-ease);
+  }
+
+  @keyframes abrir {
+    from {
+      opacity: 0;
+      transform: translateY(-6px);
+    }
+  }
+
+  /* Closing: the light drops into the bowl when the band comes into view. */
+  .final-in:global(.k-revelar) :global(.luz) {
+    transform: translateY(-14px);
+    opacity: 0;
+    transition:
+      transform 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) 0.4s,
+      opacity 0.4s 0.4s;
+    transform-box: fill-box;
+  }
+
+  .final-in:global(.k-visible) :global(.luz) {
+    transform: none;
+    opacity: 1;
   }
 </style>

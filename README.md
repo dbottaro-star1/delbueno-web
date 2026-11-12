@@ -275,6 +275,10 @@ page that Google Play requires. The landing collects a waitlist through Web3Form
   `photo-1789724919872-00dc3c222e3d`, amanecer `photo-1646343966913-7383b3a0c2e2`. Astro serves them as WebP.
 - Kevin's quotes come from texts he approved for the app (`VOZ_DE_KEVIN` in `src/kabbalah/app.ts`). Testimonials
   (`TESTIMONIOS`) must be real and published with permission; while the list is empty the section does not show.
+- Background patterns are inline SVG tokens in `src/styles/kabbalah.css` (`--k-patron-*`): the Tree as a
+  constellation, stars, the Tikún mark and concentric bowls. The header logo draws itself, a small Vasija in the corner
+  fills with light as the page scrolls (`VasijaProgreso.astro`), numbers count up and the hero follows the pointer
+  (`src/scripts/kabbalah/efectos.ts`).
 - Scroll reveals and the sticky phone call to action live in `src/scripts/kabbalah/revelar.ts`; every animation stops
   with prefers-reduced-motion.
 - When the app changes what it stores, which providers it uses or how an account is deleted, update

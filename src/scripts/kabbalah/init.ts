@@ -2,6 +2,7 @@
  * Scripts for the Kabbalah app pages (src/layouts/KabbalahLayout.astro). Bundled modules, so the CSP needs no new hash.
  */
 import { initLista } from './lista';
+import { initEfectos } from './efectos';
 import { initBarra, initRevelar } from './revelar';
 
 export function initKabbalah(): void {
@@ -15,4 +16,5 @@ export function initKabbalah(): void {
   initLista();
   initRevelar();
   initBarra();
+  initEfectos();
 }

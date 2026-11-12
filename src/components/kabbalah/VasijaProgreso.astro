@@ -1,0 +1,108 @@
+---
+/**
+ * A small Vasija in the corner that fills with light as the page scrolls (src/scripts/kabbalah/efectos.ts sets
+ * --llenado from 0 to 1). It links to the waitlist. Desktop and tablet only; phones have the sticky bar.
+ */
+---
+
+<a class="progreso" href="#lista" data-progreso aria-label="Ir a la lista de espera">
+  <svg viewBox="3 3 26 22" width="44" height="38" aria-hidden="true">
+    <defs>
+      <clipPath id="progreso-cuenco">
+        <path d="M6 13 A10 10 0 0 0 26 13 Z"></path>
+      </clipPath>
+    </defs>
+    <rect class="progreso-luz" x="5" y="13" width="22" height="10.5" clip-path="url(#progreso-cuenco)"></rect>
+    <g fill="none" stroke-linecap="round">
+      <path d="M6 13 A10 10 0 0 0 10.1 21.1" stroke="#2F4560" stroke-width="1.6"></path>
+      <path d="M12.2 22.2 A10 10 0 0 0 26 13" stroke="#2F4560" stroke-width="1.6"></path>
+      <path d="M10.1 21.1 L12.2 22.2" stroke="#C9A75E" stroke-width="2.3"></path>
+    </g>
+    <circle class="progreso-gota" cx="16" cy="8" r="2.4" fill="#2B4FB3"></circle>
+  </svg>
+  <span class="progreso-texto">Llená tu vasija</span>
+</a>
+
+<style>
+  .progreso {
+    --llenado: 0;
+    position: fixed;
+    left: 22px;
+    bottom: 22px;
+    z-index: 44;
+    display: inline-flex;
+    align-items: center;
+    gap: 0;
+    padding: 8px;
+    border-radius: 999px;
+    background: var(--k-papel-claro);
+    color: var(--k-tinta);
+    text-decoration: none;
+    box-shadow: 0 16px 30px -18px rgba(30, 37, 48, 0.6);
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+      opacity 0.4s,
+      transform 0.4s var(--k-ease),
+      gap 0.3s var(--k-ease),
+      padding 0.3s var(--k-ease);
+    pointer-events: none;
+  }
+
+  .progreso:global(.k-mostrar) {
+    opacity: 1;
+    transform: none;
+    pointer-events: auto;
+  }
+
+  .progreso-luz {
+    fill: var(--k-sol);
+    transform-box: fill-box;
+    transform-origin: bottom;
+    transform: scaleY(var(--llenado));
+  }
+
+  .progreso-texto {
+    max-width: 0;
+    overflow: hidden;
+    white-space: nowrap;
+    font: 500 0.6875rem/1 var(--k-mono);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: max-width 0.4s var(--k-ease);
+  }
+
+  .progreso:hover,
+  .progreso:focus-visible {
+    gap: 10px;
+    padding-right: 18px;
+  }
+
+  .progreso:hover .progreso-texto,
+  .progreso:focus-visible .progreso-texto {
+    max-width: 160px;
+  }
+
+  /* Full: the light inside glows. */
+  .progreso:global(.k-llena) .progreso-gota {
+    fill: var(--k-sol-hover);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .progreso:global(.k-llena) svg {
+      animation: latido 1.8s ease-in-out infinite;
+    }
+  }
+
+  @keyframes latido {
+    50% {
+      transform: scale(1.08);
+    }
+  }
+
+  @media (max-width: 760px) {
+    .progreso {
+      display: none;
+    }
+  }
+</style>
