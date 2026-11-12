@@ -420,8 +420,15 @@ main:focus {
   .k-marca-bajada {
     font-size: 1.3125rem;
   }
+}
 
-  .k-nav .k-boton {
+/* Phones: the logo alone, centered. Calls to action live in the page and the sticky bar. */
+@media (max-width: 760px) {
+  .k-cabecera-in {
+    justify-content: center;
+  }
+
+  .k-cabecera .k-nav {
     display: none;
   }
 }
