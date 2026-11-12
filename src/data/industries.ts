@@ -14,6 +14,8 @@ export interface Industry {
   name: string;
   /** Page title and H1. */
   title: string;
+  /** Page title for search results, 60 characters or fewer. Optional: without it `title` is used. */
+  seoTitle?: string;
   /** Meta description, 140 to 155 characters. */
   seoDescription: string;
   summary: string;
@@ -295,7 +297,7 @@ export const industries: Industry[] = [
       {
         title: 'Compliance steps that cause drop-off',
         text: 'Verification and onboarding are where users leave. Clear sequencing and progress keep regulated steps from feeling like walls.',
-        post: 'saas-onboarding-ux-patterns',
+        post: 'ux-design-for-fintech-startups',
       },
       {
         title: 'Dense tables and reports for finance teams',

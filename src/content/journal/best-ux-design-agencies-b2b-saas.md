@@ -20,6 +20,12 @@ This is for founders, heads of product and engineering leaders at B2B SaaS start
 
 If you are still deciding between an agency, a freelancer and a first in-house hire, read our comparison of [UX agency vs freelancer vs in-house by SaaS stage](/ux-agency-vs-freelancer-vs-in-house/) first. This list is for the step after that decision. If you want a partner in Latin America specifically, see our shortlist of [the best UX and product design agencies in Latin America](/best-ux-product-design-agencies-latin-america/).
 
+## What does a B2B UX design agency do?
+
+A B2B UX design agency designs software that businesses buy and their teams use every day. The work starts with research, because in B2B the person who signs the contract is rarely the person who lives in the product, so a good B2B product design agency talks to admins, operators and end users, not only to the buyer. From there it designs the parts that make business software hard: dashboards and data tables, [roles and permissions](/rbac-ux-permissions-design/), settings, integrations, alerts and [onboarding for whole teams](/saas-onboarding-ux-patterns/). Most also deliver prototypes and a design system the engineering team can build from, and stay involved during the build so the shipped product matches the design.
+
+What sets a UX design agency for SaaS apart from a branding or web studio is where it spends its time: inside the logged-in product, on workflows people repeat every day, rather than on the marketing site. That is the lens we used for this list.
+
 ## How did we choose the agencies on this list?
 
 We included an agency only if it met all of these criteria:
@@ -104,6 +110,7 @@ A shortlist is only useful if you test it. Three steps work for most B2B startup
 3. **Run a small paid test** on a real problem before signing anything large.
 
 We go deeper on the criteria, red flags and first-call questions in [how to choose a UX design agency for B2B SaaS](/how-to-choose-ux-design-agency-saas/), and on writing the brief in [how to brief a design agency](/how-to-brief-a-design-agency/). If you are earlier than this and want the full picture of what UX work matters at each stage, start with our [guide to UX design for startups](/ux-design-for-startups/). And if you are weighing a team outside the US, here is [why US startups hire nearshore UX designers in Latin America](/nearshore-ux-design-latin-america/).
+
 ## How much do UX design agencies for B2B SaaS cost?
 
 Most agencies on this list do not publish prices and quote after a scoping call. The two that do: Eleken's subscription starts at $4,599 per month for a part-time designer, and Fuselab Creative's projects start at $25,000. delbueno™ Studio does not publish prices either; it scopes each project, and the engagement models are on the [engagements page](/engagements/). Compare quotes on the same brief, or the numbers will not mean much.

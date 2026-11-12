@@ -204,8 +204,9 @@ export const industriesEs: Record<string, IndustryText> = {
     ],
   },
   fintech: {
+    seoTitle: 'Agencia de diseño UX fintech: primeros conceptos en 48 h',
     seoDescription:
-      'Diseño UX para productos fintech: flujos de pago, dashboards de cuentas, onboarding y pasos de cumplimiento que mantienen claro cada movimiento de dinero.',
+      '¿Buscas una agencia para diseñar tu producto fintech? Diseñamos pagos, dashboards de cuentas, onboarding y cumplimiento. Primeros conceptos en 48 horas.',
     name: 'Fintech',
     title: 'Diseño UX para productos fintech',
     summary: 'Interfaces para pagos, banca, inversión y operaciones financieras.',

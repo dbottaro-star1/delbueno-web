@@ -20,6 +20,12 @@ Para founders, responsables de producto y líderes de ingeniería en startups B2
 
 Si todavía estás decidiendo entre una agencia, un freelancer y una primera contratación interna, lee primero nuestra comparación de [agencia, freelancer o equipo interno según la etapa del SaaS](/ux-agency-vs-freelancer-vs-in-house/) (en inglés). Esta lista es para el paso siguiente a esa decisión. Si buscas un socio en Latinoamérica en particular, mira nuestra lista de [las mejores agencias de UX y diseño de producto en Latinoamérica](/es/blog/mejores-agencias-ux-diseno-producto-latinoamerica/).
 
+## ¿Qué hace una agencia de diseño UX B2B?
+
+Una agencia de diseño UX B2B diseña software que compran las empresas y que sus equipos usan todos los días. El trabajo empieza con investigación, porque en B2B quien firma el contrato rara vez es quien vive dentro del producto, así que una buena agencia de diseño de producto B2B habla con administradores, operadores y usuarios finales, no solo con el comprador. A partir de ahí diseña las partes que hacen difícil al software empresarial: dashboards y tablas de datos, [roles y permisos](/es/blog/diseno-ux-permisos-rbac/), configuración, integraciones, alertas y el [onboarding de equipos completos](/es/blog/onboarding-saas-patrones-ux/). La mayoría también entrega prototipos y un design system a partir del cual el equipo de ingeniería puede construir, y sigue cerca durante el desarrollo para que el producto final coincida con el diseño.
+
+Lo que diferencia a una agencia de UX para SaaS de un estudio de marca o de sitios web es dónde pasa su tiempo: dentro del producto, en los flujos que la gente repite todos los días, más que en el sitio de marketing. Con esa mirada armamos esta lista.
+
 ## ¿Cómo elegimos las agencias de esta lista?
 
 Incluimos una agencia solo si cumplía todos estos criterios:
@@ -104,6 +110,7 @@ Una lista corta solo sirve si la pones a prueba. Tres pasos funcionan para la ma
 3. **Haz una prueba pagada pequeña** sobre un problema real antes de firmar algo grande.
 
 Profundizamos en los criterios, las señales de alerta y las preguntas para la primera llamada en [cómo elegir una agencia de diseño UX para B2B SaaS](/how-to-choose-ux-design-agency-saas/) (en inglés), y en cómo escribir el brief en [cómo hacer el brief para una agencia de diseño](/how-to-brief-a-design-agency/) (en inglés). Si estás en una etapa anterior y quieres el panorama completo de qué trabajo de UX importa en cada etapa, empieza por nuestra [guía de diseño UX para startups](/es/blog/diseno-ux-para-startups/). Y si estás evaluando un equipo fuera de EE. UU., te contamos [por qué las startups de EE. UU. contratan diseñadores UX nearshore en Latinoamérica](/es/blog/diseno-ux-nearshore-latinoamerica/).
+
 ## ¿Cuánto cuestan las agencias de diseño UX para B2B SaaS?
 
 La mayoría de las agencias de esta lista no publica precios y cotiza después de una llamada para definir el alcance. Las dos que sí lo hacen: la suscripción de Eleken empieza en $4,599 al mes por un diseñador a medio tiempo, y los proyectos de Fuselab Creative empiezan en $25,000. delbueno™ Studio tampoco publica precios; define el alcance de cada proyecto, y los modelos de trabajo están en la [página de modelos de trabajo](/es/modelos-de-trabajo/). Compara cotizaciones sobre el mismo brief, o los números no van a decir mucho.

@@ -1,7 +1,7 @@
 ---
 title: "Designing Clarity: UX Principles for Complex SaaS Dashboards"
-seoTitle: "Clarity in SaaS UX Design: A 7-Step Checklist for Dashboards"
-description: "Clarity in SaaS UX design means users see state, drivers and the next action at a glance. Use this 7-step dashboard checklist and test it with 3 users."
+seoTitle: "Why Is Your SaaS Dashboard Confusing? A 7-Step Fix"
+description: "Why do users get lost in complex SaaS dashboards? This 7-step checklist shows state, drivers and the next action at a glance. Then test it with 3 users."
 pubDate: 2025-11-11
 author: "Dani Bottaro"
 category: "UX Strategy"

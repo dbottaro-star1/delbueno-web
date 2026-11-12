@@ -81,7 +81,7 @@ Two signals tell you whether your RBAC UX is working. First, the rate of over-pr
 
 Permissions are where trust in a B2B product gets tested, quietly, by the one person on the customer’s side who’s accountable for security. Get the model right and they barely notice it. Get the interface wrong and they feel it every review cycle, then they start asking whether your product is safe to expand.
 
-If you’re an early-stage team, our [UX design for startups guide](/ux-design-for-startups/) shows where permissions fit in the wider product. And if you’re comparing outside partners, our roundup of [UX design agencies for B2B SaaS](/best-ux-design-agencies-b2b-saas/) lists what to look for.
+If you’re an early-stage team, our [UX design for startups guide](/ux-design-for-startups/) shows where permissions fit in the wider product. And if you’re comparing outside partners, our roundup of [B2B UX design agencies](/best-ux-design-agencies-b2b-saas/) lists what to look for.
 
 If you’re building a platform where access control is getting harder to reason about as you add customers and roles, and you’re weighing whether to untangle it in-house or bring in a partner who has shipped this kind of complex product UX in Cloud, DevOps, and Security, [talk to delbueno™ Studio](/contact/). It’s cheaper to design permissions people understand now than to explain a bad grant to an auditor later.
 
