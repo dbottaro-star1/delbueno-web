@@ -12,6 +12,8 @@ import { APP } from './app';
 
 const W = 1200;
 const H = 630;
+/** Side of the logo tile, bottom left. The text column runs from y 58 to 572. */
+const LOGO = 56;
 
 type Element = Parameters<typeof satori>[0];
 
@@ -25,7 +27,7 @@ const h = (type: string, style: Record<string, unknown>, children?: unknown): un
 
 /**
  * The tree as in src/components/kabbalah/Arbol.astro (320 by 450), with the same example states, as an SVG group
- * placed on the right of the card. It is spliced into satori's output, like the grain of the studio cards.
+ * placed on the right of the card. It and the logo are spliced into satori's output, like the grain of the studio cards.
  */
 function arbol(): string {
   const nodos: Record<string, [number, number, string]> = {
@@ -54,14 +56,14 @@ function arbol(): string {
   const circulos = Object.values(nodos)
     .map(([x, y, estado]) => {
       if (estado === 'falta')
-        return `<circle cx="${x}" cy="${y}" r="17" fill="#F4F1EA" stroke="#2F4560" stroke-width="1.5" stroke-dasharray="4 3"/>`;
+        return `<circle cx="${x}" cy="${y}" r="17" fill="#F2F3F3" stroke="#2F4560" stroke-width="1.5" stroke-dasharray="4 3"/>`;
       if (estado === 'exceso')
         return (
           `<circle cx="${x}" cy="${y}" r="28" fill="rgba(47,69,96,0.07)"/><circle cx="${x}" cy="${y}" r="22" fill="rgba(47,69,96,0.16)"/>` +
           `<circle cx="${x}" cy="${y}" r="17" fill="#2F4560" stroke="#2F4560" stroke-width="1.5"/>`
         );
       if (estado === 'sin')
-        return `<circle cx="${x}" cy="${y}" r="17" fill="#FBFAF6" stroke="rgba(30,37,48,0.45)" stroke-width="1"/>`;
+        return `<circle cx="${x}" cy="${y}" r="17" fill="#FAFAFA" stroke="rgba(30,37,48,0.45)" stroke-width="1"/>`;
       const fill = estado === 'z1' ? '#A9C4DE' : '#D8C29E';
       return `<circle cx="${x}" cy="${y}" r="17" fill="${fill}" stroke="#1E2530" stroke-width="1.5"/>`;
     })
@@ -73,6 +75,16 @@ function arbol(): string {
   );
 }
 
+/** The Vasija mark (src/components/kabbalah/LogoVasija.astro), LOGO px wide at (x, y). */
+function logo(x: number, y: number): string {
+  return (
+    `<g transform="translate(${x}, ${y}) scale(${LOGO / 64})">` +
+    `<rect width="64" height="64" rx="14" fill="#3E5674"/>` +
+    `<path d="M14.5 23.9a17.5 17.5 0 0 0 35 0" fill="none" stroke="#F2F3F3" stroke-width="3.2" stroke-linecap="round"/>` +
+    `<circle cx="32" cy="29.5" r="5.8" fill="#F2EBA0"/></g>`
+  );
+}
+
 function card(): Element {
   return h(
     'div',
@@ -81,7 +93,7 @@ function card(): Element {
       width: W,
       height: H,
       padding: '0 72px',
-      backgroundColor: '#F4F1EA',
+      backgroundColor: '#F2F3F3',
       color: '#1E2530',
       justifyContent: 'space-between',
       alignItems: 'center',
@@ -115,12 +127,22 @@ function card(): Element {
             },
             'Kabbalah para hacer, no para leer.',
           ),
-          h('div', { display: 'flex', alignItems: 'flex-end', gap: 28, width: '100%' }, [
-            h('div', { display: 'flex', fontFamily: 'EB Garamond', fontWeight: 500, fontSize: 44 }, APP.name),
+          h('div', { display: 'flex', alignItems: 'center', gap: 18, width: '100%', height: LOGO }, [
+            // Room for the logo, drawn after layout.
+            h('div', { display: 'flex', width: LOGO, height: LOGO }),
+            h('div', { display: 'flex', fontFamily: 'EB Garamond', fontWeight: 500, fontSize: 50 }, APP.name),
             h(
               'div',
-              { display: 'flex', fontFamily: 'Nanum Pen Script', fontSize: 40, color: '#2B4FB3' },
-              `con ${APP.teacher}`,
+              {
+                display: 'flex',
+                marginLeft: 8,
+                fontFamily: 'IBM Plex Mono',
+                fontSize: 20,
+                letterSpacing: '0.14em',
+                textTransform: 'uppercase',
+                color: '#5C626C',
+              },
+              APP.tagline,
             ),
           ]),
         ],
@@ -148,16 +170,10 @@ export async function renderKabbalahOg(): Promise<Uint8Array<ArrayBuffer>> {
         weight: 500,
         style: 'normal',
       },
-      {
-        name: 'Nanum Pen Script',
-        data: font('nanum-pen-script', 'nanum-pen-script-latin-400-normal.woff'),
-        weight: 400,
-        style: 'normal',
-      },
     ],
   });
-  const withTree = svg.replace(/<\/svg>\s*$/, `${arbol()}</svg>`);
-  const png = new Resvg(withTree, { fitTo: { mode: 'width', value: W } }).render().asPng();
+  const withArt = svg.replace(/<\/svg>\s*$/, `${arbol()}${logo(72, H - 58 - LOGO)}</svg>`);
+  const png = new Resvg(withArt, { fitTo: { mode: 'width', value: W } }).render().asPng();
   return sharp(png)
     .png({ palette: true, quality: 90, effort: 10 })
     .toBuffer()

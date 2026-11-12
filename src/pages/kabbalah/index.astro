@@ -5,9 +5,9 @@ import KabbalahLayout from '../../layouts/KabbalahLayout.astro';
 import { APP, DAAT, ENERGIAS, KABBALAH_PATHS, ZONAS } from '../../kabbalah/app';
 import { url } from '../../lib/url';
 
-const title = `${APP.name}: el cuaderno vivo de ${APP.teacher}`;
+const title = `${APP.storeName}, con ${APP.teacher}`;
 const description =
-  'App de Kabbalah con Kevin Jakter para iPhone y Android: recorrés las diez energías del Árbol de la Vida, hacés ejercicios y ves tu Árbol pintarse.';
+  'Vasija, la app de Kabbalah de Kevin Jakter para iPhone y Android: recorrés las diez energías del Árbol de la Vida y ves cómo se pinta tu Árbol.';
 
 const nav = [
   { label: 'Cómo funciona', href: '#como-funciona' },
@@ -76,6 +76,10 @@ const preguntas = [
   {
     q: '¿Necesito saber de Kabbalah para usarla?',
     a: 'No. La app no da nada por sabido: no hace falta conocer los nombres de las energías, saber hebreo ni tener una creencia en particular.',
+  },
+  {
+    q: '¿Por qué se llama Vasija?',
+    a: 'En la Kabbalah, la vasija es lo que recibe la luz. El recorrido empieza ahí: la primera pregunta es si hoy te sentís más completo o más vacío.',
   },
   { q: '¿Cuánto cuesta?', a: 'La app es gratis.' },
   {
@@ -234,7 +238,7 @@ const etiquetas = ENERGIAS.map((e, i) => {
       <p class="k-etiqueta">Con {APP.teacher}</p>
       <h2 id="seguir-h">Lo que el cuaderno en papel no puede hacer.</h2>
       <p>
-        {APP.teacher} es maestro de Kabbalah uruguayo. Su cuaderno de trabajo, “{APP.tagline}”, propone recorrer el
+        {APP.teacher} es maestro de Kabbalah uruguayo. Su cuaderno de trabajo, “{APP.workbook}”, propone recorrer el
         Árbol de la Vida escribiendo, no leyendo. La app es ese cuaderno, vivo: te recuerda tus compromisos, mide cómo
         cambiás con el tiempo y te muestra tu Árbol completo.
       </p>
@@ -373,7 +377,6 @@ const etiquetas = ENERGIAS.map((e, i) => {
   }
 
   .hero-nota {
-    font-style: italic;
     color: var(--k-tinta-suave);
   }
 
@@ -602,7 +605,6 @@ const etiquetas = ENERGIAS.map((e, i) => {
 
   .zona h3 {
     font-size: 1.5rem;
-    font-style: italic;
     line-height: 1.15;
     margin-bottom: 8px;
   }
@@ -686,11 +688,9 @@ const etiquetas = ENERGIAS.map((e, i) => {
     gap: 14px;
     margin-top: 22px;
     color: var(--k-tinta-suave);
-    font-style: italic;
   }
 
   .daat strong {
-    font-style: normal;
     font-weight: 500;
     color: var(--k-tinta);
   }
@@ -726,7 +726,7 @@ const etiquetas = ENERGIAS.map((e, i) => {
     align-content: start;
     gap: 10px;
     padding-top: 18px;
-    border-top: 1px solid rgba(244, 241, 234, 0.3);
+    border-top: 1px solid rgba(242, 243, 243, 0.3);
   }
 
   .principios-lista h3 {
@@ -735,7 +735,7 @@ const etiquetas = ENERGIAS.map((e, i) => {
   }
 
   .principios-lista p {
-    color: rgba(244, 241, 234, 0.82);
+    color: rgba(242, 243, 243, 0.82);
   }
 
   @media (max-width: 960px) {

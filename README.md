@@ -98,7 +98,7 @@ Spanish, under `/es/`: `/es/`, `/es/trabajo/`, `/es/trabajo/[slug]/`, `/es/playg
 `fintech`), `/es/nosotros/`, `/es/nosotros/dani-bottaro/`, `/es/blog/`, `/es/auditoria-ux-gratis/`, `/es/contacto/`, `/es/trabaja-con-nosotros/`,
 `/es/terminos/`, `/es/privacidad/`, `/es/accesibilidad/`, `/es/404/`.
 
-The Kabbalah app (published by delbueno SAS) has its own Spanish-only section: `/kabbalah/` (landing with the waitlist),
+Vasija, the Kabbalah app (published by delbueno SAS), has its own Spanish-only section: `/kabbalah/` (landing with the waitlist),
 `/kabbalah/privacidad/`, `/kabbalah/soporte/` and `/kabbalah/borrar-cuenta/`. See "Kabbalah app pages" below.
 
 Journal posts are served from the site root as `/[slug]/` so they keep their old WordPress URLs. The slug is the file
@@ -259,13 +259,14 @@ The pages of the Kabbalah app (iOS and Android, code in the private repo `dbotta
 `/kabbalah/`. The App Store and Google Play link to them: the privacy policy, the support page and the account deletion
 page that Google Play requires. The landing collects a waitlist through Web3Forms (same inbox as the audit form).
 
-- They have the app's look, not the studio's: `src/layouts/KabbalahLayout.astro` and `src/styles/kabbalah.css`, with
-  EB Garamond, IBM Plex Mono, Nanum Pen Script and Frank Ruhl Libre from `@fontsource`. No analytics or ads pixels load
+- They have the app's look, not the studio's (on a light grey page, not the app's warm paper):
+  `src/layouts/KabbalahLayout.astro` and `src/styles/kabbalah.css`, with EB Garamond, IBM Plex Mono, Nanum Pen Script and Frank Ruhl Libre from `@fontsource`. No analytics or ads pixels load
   on these pages.
 - Copy is Rioplatense Spanish ("vos"), like the app. `check:seo` treats `/kabbalah/` as Spanish (titles up to 60,
   descriptions 140 to 155) and the titles carry no " | delbueno" suffix.
-- The app name, the support email and the date of the legal pages are in `src/kabbalah/app.ts`. The name is
-  provisional: change it there.
+- The app name (Vasija: Kabbalah cotidiana), the support email and the date of the legal pages are in
+  `src/kabbalah/app.ts`. The logo, the same as the app icon, is `src/components/kabbalah/LogoVasija.astro` (favicon:
+  `public/kabbalah/icono.svg`).
 - The social card `/kabbalah/og.png` is drawn at build time by `src/kabbalah/og.ts`.
 - When the app changes what it stores, which providers it uses or how an account is deleted, update
   `src/pages/kabbalah/privacidad.astro` and `borrar-cuenta.astro`, and `legalUpdated` in `src/kabbalah/app.ts`.

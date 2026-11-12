@@ -1,15 +1,18 @@
 /**
- * The Kabbalah app (iOS and Android), published by delbueno SAS with the method of Kevin Jakter.
+ * Vasija, the Kabbalah app (iOS and Android), published by delbueno SAS with the method of Kevin Jakter.
  * Its pages live under /kabbalah/: a landing with the waitlist, and the privacy, support and account deletion pages
  * that the App Store and Google Play ask for. They are Spanish only (Rioplatense, "vos"), like the app.
  *
- * The app name is provisional. Change it here and every page follows.
+ * Name and logo agreed with Kevin on 12 Nov 2026. The logo is drawn in src/components/kabbalah/LogoVasija.astro.
  */
 
 export const APP = {
-  /** Provisional name, the same as `expo.name` in the app's app.json. */
-  name: 'Kabbalah',
-  tagline: 'Kabbalah aplicada a tu vida cotidiana',
+  name: 'Vasija',
+  tagline: 'Kabbalah cotidiana',
+  /** Name in the stores. */
+  storeName: 'Vasija: Kabbalah cotidiana',
+  /** Title of Kevin's workbook, the method behind the app. */
+  workbook: 'Kabbalah aplicada a tu vida cotidiana',
   teacher: 'Kevin Jakter',
   /** Legal publisher of the app in the stores. */
   publisher: 'delbueno SAS',

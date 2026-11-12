@@ -1,0 +1,30 @@
+---
+/**
+ * The Vasija mark, the same as the app icon (assets/images/marca in the app repo): the bowl in paper and the light
+ * inside, on night blue. Decorative next to the name, so it is hidden from screen readers.
+ */
+interface Props {
+  size?: number;
+  class?: string;
+}
+const { size = 32, class: className } = Astro.props;
+---
+
+<svg class:list={['logo-vasija', className]} viewBox="0 0 64 64" width={size} height={size} aria-hidden="true">
+  <rect width="64" height="64" rx="14" fill="#3E5674"></rect>
+  <path
+    d="M14.5 23.9a17.5 17.5 0 0 0 35 0"
+    fill="none"
+    stroke="#F2F3F3"
+    stroke-width="3.2"
+    stroke-linecap="round"
+  ></path>
+  <circle cx="32" cy="29.5" r="5.8" fill="#F2EBA0"></circle>
+</svg>
+
+<style>
+  .logo-vasija {
+    flex: none;
+    display: block;
+  }
+</style>
