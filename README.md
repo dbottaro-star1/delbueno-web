@@ -270,6 +270,9 @@ page that Google Play requires. The landing collects a waitlist through Web3Form
 - The social card `/kabbalah/og.png` is drawn at build time by `src/kabbalah/og.ts`.
 - The phones show real screens of the app (`public/kabbalah/pantallas/*.webp`, 780 by 1688), captured from its
   onboarding with answers filled in. Refresh them when the app's screens change.
+- Photos (`src/assets/kabbalah/`) are from Unsplash, free for commercial use without credit: cuenco
+  `photo-1519916478825-b1d7aef08f54`, escribir-ventana `photo-1517971129774-8a2b38fa128e`, cuaderno
+  `photo-1789724919872-00dc3c222e3d`, amanecer `photo-1646343966913-7383b3a0c2e2`. Astro serves them as WebP.
 - Kevin's quotes come from texts he approved for the app (`VOZ_DE_KEVIN` in `src/kabbalah/app.ts`). Testimonials
   (`TESTIMONIOS`) must be real and published with permission; while the list is empty the section does not show.
 - Scroll reveals and the sticky phone call to action live in `src/scripts/kabbalah/revelar.ts`; every animation stops

@@ -1,4 +1,9 @@
 ---
+import { Image } from 'astro:assets';
+import fotoAmanecer from '../../assets/kabbalah/amanecer.jpg';
+import fotoCuaderno from '../../assets/kabbalah/cuaderno.jpg';
+import fotoCuenco from '../../assets/kabbalah/cuenco.jpg';
+import fotoEscribir from '../../assets/kabbalah/escribir-ventana.jpg';
 import Arbol from '../../components/kabbalah/Arbol.astro';
 import ListaDeEspera from '../../components/kabbalah/ListaDeEspera.astro';
 import LogoVasija from '../../components/kabbalah/LogoVasija.astro';
@@ -321,8 +326,17 @@ const etiquetas = ENERGIAS.map((e, i) => {
 
   <section class="banda banda-sol voz" aria-labelledby="voz-h">
     <div class="k-envoltura voz-in">
-      <div class="voz-marca" aria-hidden="true">
-        <LogoVasija size={150} />
+      <div class="voz-foto">
+        <Image
+          src={fotoCuenco}
+          alt="Un cuenco de cerámica blanca, vacío, sobre una mesa gris."
+          widths={[360, 560, 800]}
+          sizes="(min-width: 760px) 280px, 70vw"
+          loading="lazy"
+        />
+        <span class="voz-sello" aria-hidden="true">
+          <LogoVasija size={54} />
+        </span>
       </div>
       <figure class="voz-cita" data-revelar>
         <h2 id="voz-h" class="k-etiqueta">
@@ -345,9 +359,20 @@ const etiquetas = ENERGIAS.map((e, i) => {
 
   <section class="banda banda-noche principios" aria-labelledby="principios-h">
     <div class="k-envoltura">
-      <div data-revelar>
-        <p class="k-etiqueta">Cómo está pensada</p>
-        <h2 id="principios-h">Hecha para acompañarte, no para engancharte.</h2>
+      <div class="principios-cabeza">
+        <div data-revelar>
+          <p class="k-etiqueta">Cómo está pensada</p>
+          <h2 id="principios-h">Hecha para acompañarte, no para engancharte.</h2>
+        </div>
+        <div class="principios-foto" data-revelar>
+          <Image
+            src={fotoCuaderno}
+            alt="Una persona escribe a mano en un cuaderno, con el teléfono boca abajo sobre la mesa."
+            widths={[480, 760, 1100]}
+            sizes="(min-width: 960px) 520px, 92vw"
+            loading="lazy"
+          />
+        </div>
       </div>
       <ul class="principios-lista" data-revelar-grupo>
         {principios.map((p, i) => (
@@ -481,6 +506,15 @@ const etiquetas = ENERGIAS.map((e, i) => {
             </li>
           </ul>
           <p class="k-mano lista-mano">un solo correo, cuando salga</p>
+          <div class="lista-foto">
+            <Image
+              src={fotoEscribir}
+              alt="Una mujer escribe en su cuaderno junto a una ventana."
+              widths={[420, 640, 900]}
+              sizes="(min-width: 860px) 400px, 92vw"
+              loading="lazy"
+            />
+          </div>
         </div>
         <div class="k-tarjeta lista-tarjeta">
           <ListaDeEspera />
@@ -512,12 +546,13 @@ const etiquetas = ENERGIAS.map((e, i) => {
     </div>
   </section>
 
-  <section class="banda banda-sol final" aria-labelledby="final-h">
+  <section class="banda cierre" aria-labelledby="final-h">
+    <Image src={fotoAmanecer} alt="" class="final-fondo" widths={[800, 1400, 2000]} sizes="100vw" loading="lazy" />
     <div class="k-envoltura final-in" data-revelar>
-      <LogoVasija size={64} />
+      <LogoVasija size={64} tono="oscuro" />
       <h2 id="final-h">Tu Árbol te espera.</h2>
       <p>Empezá por los cimientos. Lo demás se va pintando.</p>
-      <a class="k-boton k-boton-oscuro" href="#lista">
+      <a class="k-boton" href="#lista">
         Sumarme a la lista{' '}
         <span class="k-flecha" aria-hidden="true">
           →
@@ -737,6 +772,7 @@ const etiquetas = ENERGIAS.map((e, i) => {
 
     .hero-visual {
       min-height: 0;
+      margin-top: 48px;
       padding-bottom: 40px;
     }
 
@@ -1396,18 +1432,35 @@ const etiquetas = ENERGIAS.map((e, i) => {
     align-items: center;
   }
 
-  .voz-marca {
+  .voz-foto {
+    position: relative;
+    width: clamp(200px, 24vw, 300px);
+    aspect-ratio: 1;
+  }
+
+  .voz-foto :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    box-shadow: 0 30px 50px -30px rgba(30, 37, 48, 0.7);
+  }
+
+  .voz-sello {
+    position: absolute;
+    right: 0;
+    bottom: 6%;
     display: grid;
     place-items: center;
-    width: clamp(150px, 20vw, 230px);
-    aspect-ratio: 1;
+    width: 88px;
+    height: 88px;
     border-radius: 50%;
     background: var(--k-papel-claro);
-    box-shadow: 0 30px 50px -36px rgba(30, 37, 48, 0.7);
+    box-shadow: 0 14px 24px -14px rgba(30, 37, 48, 0.6);
   }
 
   @media (prefers-reduced-motion: no-preference) {
-    .voz-marca :global(circle) {
+    .voz-sello :global(circle) {
       animation: latir 3.6s ease-in-out infinite;
       transform-origin: 16px 8px;
       transform-box: view-box;
@@ -1597,7 +1650,33 @@ const etiquetas = ENERGIAS.map((e, i) => {
     color: var(--k-papel);
   }
 
+  .cierre {
+    position: relative;
+    overflow: hidden;
+    background: var(--k-noche);
+    color: var(--k-papel);
+    padding: clamp(96px, 14vw, 180px) 0;
+  }
+
+  .cierre :global(.final-fondo) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 40%;
+  }
+
+  .cierre::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(42, 61, 85, 0.55), rgba(30, 37, 48, 0.75));
+  }
+
   .final-in {
+    position: relative;
+    z-index: 1;
     display: grid;
     justify-items: center;
     text-align: center;
@@ -1610,7 +1689,46 @@ const etiquetas = ENERGIAS.map((e, i) => {
 
   .final-in p {
     font-size: 1.375rem;
-    color: var(--k-tinta-cuerpo);
+    color: rgba(242, 243, 243, 0.88);
+  }
+
+  .principios-cabeza {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: clamp(28px, 5vw, 72px);
+    align-items: center;
+  }
+
+  .principios-foto :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+    border-radius: 6px;
+    box-shadow: 0 30px 50px -30px rgba(0, 0, 0, 0.6);
+  }
+
+  @media (max-width: 860px) {
+    .principios-cabeza {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .lista-foto {
+    margin-top: 10px;
+  }
+
+  .lista-foto :global(img) {
+    display: block;
+    width: 100%;
+    max-width: 420px;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    object-position: center 30%;
+    border-radius: 6px;
+    opacity: 0.95;
   }
 
   .final-in .k-boton {
