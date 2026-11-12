@@ -73,6 +73,12 @@ html {
   }
 }
 
+/* Nothing decorative may widen the page sideways on phones. */
+html,
+body {
+  overflow-x: clip;
+}
+
 body {
   margin: 0;
   background: var(--k-papel);

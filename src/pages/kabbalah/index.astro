@@ -354,7 +354,7 @@ const etiquetas = ENERGIAS.map((e, i) => {
       <div class="k-llamado" data-revelar>
         <p class="k-llamado-texto">Se empieza por los cimientos: Maljut.</p>
         <a class="k-boton" href="#lista">
-          Avisame cuando salga{' '}
+          Guardame un lugar{' '}
           <span class="k-flecha" aria-hidden="true">
             →
           </span>
@@ -605,7 +605,7 @@ const etiquetas = ENERGIAS.map((e, i) => {
 
   <div class="k-barra" data-barra>
     <a class="k-boton" href="#lista">
-      Reservar mi lugar{' '}
+      Avisame cuando salga{' '}
       <span class="k-flecha" aria-hidden="true">
         →
       </span>
@@ -1886,7 +1886,7 @@ const etiquetas = ENERGIAS.map((e, i) => {
     transition: translate 0.6s var(--k-ease);
   }
 
-  /* "Muy pronto": a small yellow light that pings. */
+  /* "Muy pronto": a small dot, still. */
   .pastilla {
     gap: 8px;
   }
@@ -1897,25 +1897,6 @@ const etiquetas = ENERGIAS.map((e, i) => {
     height: 7px;
     border-radius: 50%;
     background: var(--k-tinta);
-  }
-
-  @media (prefers-reduced-motion: no-preference) {
-    .pastilla-punto::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      border-radius: 50%;
-      background: var(--k-tinta);
-      animation: ping 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
-    }
-  }
-
-  @keyframes ping {
-    75%,
-    100% {
-      transform: scale(2.6);
-      opacity: 0;
-    }
   }
 
   /* Numbers of the map, counting up. */
@@ -2017,6 +1998,10 @@ const etiquetas = ENERGIAS.map((e, i) => {
   }
 
   /* Rays of light turning slowly behind the bowl. */
+  .voz {
+    overflow: hidden;
+  }
+
   .voz-rayos {
     position: absolute;
     inset: -38%;
