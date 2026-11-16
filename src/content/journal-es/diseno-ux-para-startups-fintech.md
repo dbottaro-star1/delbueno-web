@@ -3,6 +3,7 @@ title: "¿Cuál es la mejor agencia de diseño UX para una startup fintech en 20
 seoTitle: "Agencias de diseño fintech: a quién contratar en 2026"
 description: "¿Qué agencia de diseño UX o de producto conviene a una startup fintech? Comparamos 7 según para qué es ideal cada una y qué UX importa de seed a Serie A."
 pubDate: 2026-11-09
+updatedDate: 2026-11-16
 author: "Dani Bottaro"
 category: "Estrategia de UX"
 heroImage: "../../assets/journal/ux-design-for-fintech-startups/money-transfer-app.jpg"
@@ -39,6 +40,19 @@ Tres cosas que un socio de diseño fintech debería sacar en la primera llamada:
 | Serie A | Escalar el producto y el equipo | Design system, roles y aprobaciones, reportes para equipos de finanzas |
 
 Los productos regulados tardan más en diseñarse porque las revisiones legales suman rondas. En [cuánto tiempo lleva diseñar un MVP SaaS](/es/blog/cuanto-tiempo-lleva-disenar-un-mvp-saas/) contamos dónde se va ese tiempo.
+
+## ¿Qué buscar al contratar diseñadores fintech?
+
+Ya sea que contrates una agencia, un freelancer o tu primer diseñador interno, las mismas señales separan a quienes entregaron productos fintech de quienes solo dibujaron pantallas con aspecto fintech. Busca:
+
+1. **Un flujo de dinero entregado que puedas abrir.** Una transferencia, un pago o una operación desde el primer dato hasta la confirmación, con los estados pendiente, fallido y de error, no solo el camino feliz en un mockup.
+2. **Onboarding con verificación.** La verificación de identidad y los avisos legales ordenados para que los usuarios lleguen a su primera transacción, y una explicación de dónde abandonaba la gente y qué cambió.
+3. **Datos financieros legibles.** Saldos, listas de movimientos, estados de cuenta y reportes donde los montos, las fechas y los estados se leen y se comparan con facilidad.
+4. **Roles y aprobaciones.** Quién puede mover dinero, quién lo aprueba y cómo lo muestra el producto, el mismo criterio que en [los permisos que la gente entiende](/es/blog/diseno-ux-permisos-rbac/).
+5. **Experiencia con revisiones de compliance y del área legal.** Pregunta cómo manejaron textos que el área legal tenía que aprobar y cómo documentaron el porqué de un paso de verificación o de confirmación.
+6. **Un handoff con el que ingeniería pueda construir.** Componentes, estados y especificaciones, más tiempo reservado para revisar el desarrollo, porque una pantalla de confirmación que sale un poco distinta puede cambiar lo que el usuario acepta.
+
+Una prueba práctica: pide que te muestren un flujo de dinero que hayan diseñado, pantalla por pantalla, y que expliquen una decisión que cambiaron después de una prueba de usabilidad o de una revisión de compliance. Si todavía estás decidiendo entre una agencia, un freelancer y una contratación interna, nuestra comparación de [agencia, freelancer o equipo interno según la etapa del SaaS](/ux-agency-vs-freelancer-vs-in-house/) (en inglés) explica qué conviene en cada caso.
 
 ## ¿Cómo elegimos las agencias de esta lista?
 
@@ -100,7 +114,7 @@ delbueno™ Studio, autor de este artículo, es un estudio de diseño de product
 3. **Revisa el ritmo.** Superposición horaria, quién hace el trabajo día a día y qué tan rápido llega el primer entregable.
 4. **Haz una prueba pagada chica** sobre un flujo real antes de firmar algo grande.
 
-Si buscas una agencia de UX/UI B2B en general, mira [las mejores agencias de diseño UX para startups B2B SaaS](/es/blog/mejores-agencias-diseno-ux-b2b-saas/). Si prefieres un socio en tu zona horaria, mira [las mejores agencias de UX y diseño de producto en Latinoamérica](/es/blog/mejores-agencias-ux-diseno-producto-latinoamerica/). Los criterios y las señales de alerta están en [cómo elegir una agencia de diseño UX](/how-to-choose-ux-design-agency-saas/) (en inglés).
+Si buscas una [agencia de diseño UX/UI B2B](/es/blog/mejores-agencias-diseno-ux-b2b-saas/) en general, mira nuestra lista de las mejores agencias de diseño UX para startups B2B SaaS. Si prefieres un socio en tu zona horaria, mira [las mejores agencias de UX y diseño de producto en Latinoamérica](/es/blog/mejores-agencias-ux-diseno-producto-latinoamerica/). Los criterios y las señales de alerta están en [cómo elegir una agencia de diseño UX](/how-to-choose-ux-design-agency-saas/) (en inglés).
 
 ## ¿Cuál es el siguiente paso?
 

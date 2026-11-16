@@ -125,6 +125,8 @@ export const servicesEs: Record<Service['slug'], ServiceText> = {
       title: 'Diseño listo para el handoff',
       text: 'Una función en alta fidelidad suele tomar de 1 a 2 semanas, y seguimos durante la implementación para revisar los builds.',
     },
+    readingNote:
+      '¿Estás eligiendo una [agencia de diseño UX](best-ux-design-agencies-b2b-saas)? Comparamos 11 para B2B SaaS según para qué es ideal cada una. Si tu producto mueve dinero, lee nuestra guía de [diseño UX fintech](ux-design-for-fintech-startups).',
     faqs: [
       {
         q: '¿Qué tan rápido pueden empezar?',

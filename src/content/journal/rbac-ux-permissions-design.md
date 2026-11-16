@@ -3,7 +3,7 @@ title: "RBAC UX: Designing Permissions People Understand"
 seoTitle: "Beyond the RBAC Matrix: Role and Permission Design UX"
 description: "Who can delete production data? Role and permission design beyond the RBAC matrix: effective permissions views, job-based roles and readable audit logs."
 pubDate: 2026-07-22
-updatedDate: 2026-11-02
+updatedDate: 2026-11-16
 author: "Dani Bottaro"
 category: "DevOps & Security"
 heroImage: "../../assets/journal/rbac-ux-permissions-design/pexels-photo-37605911.jpeg"
@@ -56,6 +56,29 @@ The matrix still has a place. Admins who manage dozens of roles need a dense vie
 - **Sensitive actions are flagged** and sorted to the top of their group: deletes, exports, billing and access management.
 - **Inherited and custom permissions look different**, so admins can tell a default from a one-off exception.
 - **Edits stage as a diff.** Changes collect in a review panel that lists who gains and who loses access, then save in one step that writes to the audit log.
+
+## What does an RBAC matrix template look like?
+
+An RBAC matrix template is a grid with actions as rows and roles as columns, where each cell says whether a role can perform an action. Here is a starting template for a B2B SaaS product that follows the rules above: actions written as verbs and grouped by resource, sensitive actions first in each group, roles named like jobs, and a user count in each role header. Swap in your own roles, actions and counts.
+
+| Action | Admin (n users) | Billing Manager (n users) | Support Agent (n users) | Member (n users) | Read-only Auditor (n users) |
+| --- | --- | --- | --- | --- | --- |
+| **Users:** remove users (sensitive) | Yes | No | No | No | No |
+| **Users:** change roles and permissions (sensitive) | Yes | No | No | No | No |
+| **Users:** invite users | Yes | No | No | Request | No |
+| **Billing:** change plan or payment method (sensitive) | Yes | Yes | No | No | No |
+| **Billing:** export invoices (sensitive) | Yes | Yes | No | No | No |
+| **Billing:** view invoices | Yes | Yes | No | No | Yes |
+| **Projects:** delete projects (sensitive) | Yes | No | No | Own only | No |
+| **Projects:** edit projects | Yes | No | No | Yes | No |
+| **Projects:** view projects | Yes | No | Yes | Yes | Yes |
+| **Customer data:** export customer records (sensitive) | Yes | No | Request | No | No |
+| **Customer data:** view customer records | Yes | No | Yes | Own only | Yes |
+| **Audit log:** view the audit log | Yes | No | No | No | Yes |
+
+“Request” means the role can ask for that access through an approval flow, so nobody needs Admin to get one task done. “Own only” means the person can act only on records they own, the kind of rule that attribute or relationship based access control expresses better than another role. Read a row to see everyone who can perform an action, and a column to see what a role allows.
+
+Use the template as the dense view for admins and auditors, not as the default screen. The questions earlier in this post still need their own views: the effective permissions of one person, everyone who can perform a sensitive action, and a preview of who gains or loses access before a role changes.
 
 ## RBAC system design: roles, attributes or relationships?
 

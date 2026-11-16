@@ -26,6 +26,11 @@ export interface Service {
   cases: string[];
   /** Journal post slugs shown as related reading on the service page, at most three. */
   reading?: string[];
+  /**
+   * One line under the related reading heading, written with the inline markup of src/i18n/rich.ts. The link keys are
+   * English journal post slugs, and each link goes to the post in the page's language when it is translated.
+   */
+  readingNote?: string;
   /** Links the service page to the tech stack page. */
   stackLink?: boolean;
   faqs: FaqItem[];
@@ -162,6 +167,8 @@ export const services: Service[] = [
     },
     cases: ['cloudguardia', 'uleadz', '1to1000'],
     reading: ['ux-design-for-startups', 'saas-onboarding-ux-patterns', 'best-ux-design-agencies-b2b-saas'],
+    readingNote:
+      'Choosing a [UX design agency](best-ux-design-agencies-b2b-saas)? We compared 11 for B2B SaaS by what each one is best for. If your product moves money, read our guide to [fintech UX design](ux-design-for-fintech-startups).',
     faqs: [
       {
         q: 'How fast can you start?',
@@ -385,7 +392,13 @@ export function getService(slug: string): Service | undefined {
 
 /** The services with their words in a language. English is the source and Spanish overlays it. */
 export function getServices(lang: Lang): Service[] {
-  return lang === 'en' ? services : services.map((s) => ({ ...s, ...servicesEs[s.slug] }));
+  if (lang === 'en') return services;
+  return services.map((s) => {
+    const text = servicesEs[s.slug];
+    // An optional field missing in Spanish would otherwise fall back to the English words.
+    if (s.readingNote && !text.readingNote) throw new Error(`No Spanish readingNote for service "${s.slug}"`);
+    return { ...s, ...text };
+  });
 }
 
 /** The 48 hour process in a language. */
