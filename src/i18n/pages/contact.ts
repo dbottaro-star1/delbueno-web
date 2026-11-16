@@ -22,9 +22,9 @@ export interface ContactCopy {
 export const contactCopy: Localized<ContactCopy> = {
   en: {
     meta: {
-      title: 'Contact: Book a 15 Minute Call',
+      title: 'Hire a SaaS Design Studio: Book a 15 Minute Call',
       description:
-        'Book a 15 minute call with delbueno™ Studio or write to hello@delbuenostudio.com. Same day kickoff, first concepts in 48 hours, synced with US hours.',
+        'Ready to start your SaaS design project? Book a 15 minute call or write to hello@delbuenostudio.com. Same day kickoff, concepts in 48 hours, in US hours.',
       schemaName: 'Contact {brand}',
     },
     eyebrow: 'Contact / Talk to us',

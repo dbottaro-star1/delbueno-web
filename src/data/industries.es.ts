@@ -204,8 +204,9 @@ export const industriesEs: Record<string, IndustryText> = {
     ],
   },
   fintech: {
+    seoTitle: 'Agencia de diseño UX fintech: primeros conceptos en 48 h',
     seoDescription:
-      'Diseño UX para productos fintech: flujos de pago, dashboards de cuentas, onboarding y pasos de cumplimiento que mantienen claro cada movimiento de dinero.',
+      '¿Buscas una agencia para diseñar tu producto fintech? Diseñamos pagos, dashboards de cuentas, onboarding y cumplimiento. Primeros conceptos en 48 horas.',
     name: 'Fintech',
     title: 'Diseño UX para productos fintech',
     summary: 'Interfaces para pagos, banca, inversión y operaciones financieras.',
@@ -237,6 +238,8 @@ export const industriesEs: Record<string, IndustryText> = {
     ],
     casesNote:
       'Buzz Bunny es nuestro caso de estudio fintech: una app de recomendación de acciones con IA para inversionistas comunes.',
+    readingNote:
+      'Nuestra guía de [diseño UX fintech para startups](ux-design-for-fintech-startups) cubre el trabajo que importa de pre-seed a Serie A y qué buscar al contratar diseñadores fintech.',
     cta: 'Construyamos productos fintech en los que la gente pueda confiar.',
     faqs: [
       {

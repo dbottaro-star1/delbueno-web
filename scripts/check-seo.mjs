@@ -9,6 +9,7 @@
  *   - a missing og:image width, height or alt
  *   - an <h1> count other than 1
  *   - a JSON-LD block that does not parse, or an inner page without a BreadcrumbList
+ *   - a BreadcrumbList without a name, or with an item that has no name, no URL or a position out of order
  *   - a <html lang> that does not match the page's language (Spanish pages live under /es/), or an og:locale that
  *     disagrees with it
  *   - hreflang alternates that are incomplete (en, es and x-default are all required once any is present), that do
@@ -85,6 +86,19 @@ const descriptions = new Map();
 const rows = [];
 const alternates = new Map();
 let jsonLdBlocks = 0;
+
+/** Search Console lists a BreadcrumbList without a name as "Unnamed item", and drops items without a name or URL. */
+function checkBreadcrumbs(page, list) {
+  const nonEmpty = (value) => typeof value === 'string' && value.trim() !== '';
+  if (!nonEmpty(list.name)) fail(page, 'BreadcrumbList has no name');
+  const items = list.itemListElement;
+  if (!Array.isArray(items) || items.length === 0) return fail(page, 'BreadcrumbList has no items');
+  items.forEach((item, i) => {
+    if (item.position !== i + 1) fail(page, `breadcrumb ${i + 1} has position ${item.position}`);
+    if (!nonEmpty(item.name)) fail(page, `breadcrumb ${i + 1} has no name`);
+    if (!nonEmpty(item.item)) fail(page, `breadcrumb ${i + 1} has no URL`);
+  });
+}
 
 /** Legacy-URL redirect stubs from redirects/legacy.mjs: a meta refresh and a link, nothing else. */
 const isRedirectStub = (html) => /<meta http-equiv="refresh"/i.test(html) && !/<script\b|<main\b/i.test(html);
@@ -179,6 +193,7 @@ for (const file of files) {
         if (Array.isArray(node)) return node.forEach(walkNode);
         if (!node || typeof node !== 'object') return;
         for (const type of [].concat(node['@type'] ?? [])) types.add(type);
+        if (node['@type'] === 'BreadcrumbList') checkBreadcrumbs(page, node);
         Object.values(node).forEach(walkNode);
       };
       walkNode(data);

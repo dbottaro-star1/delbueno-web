@@ -14,6 +14,8 @@ export interface Industry {
   name: string;
   /** Page title and H1. */
   title: string;
+  /** Page title for search results, 60 characters or fewer. Optional: without it `title` is used. */
+  seoTitle?: string;
   /** Meta description, 140 to 155 characters. */
   seoDescription: string;
   summary: string;
@@ -30,6 +32,11 @@ export interface Industry {
   casesNote?: string;
   /** Extra journal post slugs, filled in after the posts linked from the problems. */
   posts: string[];
+  /**
+   * One line under the related reading heading, written with the inline markup of src/i18n/rich.ts. The link keys are
+   * English journal post slugs, and each link goes to the post in the page's language when it is translated.
+   */
+  readingNote?: string;
   /** Words used to find more journal posts when fewer than three are linked. */
   keywords: string[];
   /** Closing call to action heading. */
@@ -295,7 +302,7 @@ export const industries: Industry[] = [
       {
         title: 'Compliance steps that cause drop-off',
         text: 'Verification and onboarding are where users leave. Clear sequencing and progress keep regulated steps from feeling like walls.',
-        post: 'saas-onboarding-ux-patterns',
+        post: 'ux-design-for-fintech-startups',
       },
       {
         title: 'Dense tables and reports for finance teams',
@@ -317,6 +324,8 @@ export const industries: Industry[] = [
     cases: ['buzz-bunny'],
     casesNote: 'Buzz Bunny is our fintech case study: an AI-driven stock recommendation app for everyday investors.',
     posts: ['ai-first-product-design'],
+    readingNote:
+      'Our guide to [fintech UX design for startups](ux-design-for-fintech-startups) covers the work that matters from pre-seed to Series A and what to look for when you hire fintech designers.',
     keywords: ['fintech', 'payment', 'financial'],
     cta: 'Let’s build fintech products people can trust.',
     faqs: [
@@ -346,6 +355,10 @@ export function getIndustries(lang: Lang): Industry[] {
   return industries.map((industry) => {
     const text = industriesEs[industry.slug];
     if (!text) throw new Error(`No Spanish copy for industry "${industry.slug}" in industries.es.ts`);
+    // An optional field missing in Spanish would otherwise fall back to the English words.
+    if (industry.readingNote && !text.readingNote) {
+      throw new Error(`No Spanish readingNote for industry "${industry.slug}" in industries.es.ts`);
+    }
     const problems = industry.problems.map((problem, i) => ({ ...problem, ...text.problems[i] }));
     return { ...industry, ...text, problems, challenges: problems.map((p) => p.title) };
   });

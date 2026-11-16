@@ -1,5 +1,7 @@
 /** Look up related case studies and journal posts for the services and industries pages. */
 import type { Lang } from '../../i18n/config';
+import { parseRich } from '../../i18n/rich';
+import { localize, postPath } from '../../i18n/routes';
 import {
   getJournal,
   getWork,
@@ -9,6 +11,7 @@ import {
   type PostEntry,
   type WorkEntry,
 } from '../../lib/content';
+import { url } from '../../lib/url';
 
 /** Case studies in the order given by the slugs. Slugs that do not exist (or are drafts) are skipped. */
 export async function casesFor(slugs: string[], lang: Lang = 'en'): Promise<WorkEntry[]> {
@@ -40,4 +43,19 @@ export async function postsFor(slugs: string[], keywords: string[], max = 3, lan
       .forEach((x) => add(x.post));
   }
   return inLang(picked, lang);
+}
+
+/**
+ * The links of a reading note (`readingNote` on services and industries). Each key is an English journal post slug and
+ * links to the post in the page's language when it is translated. Fails the build when a key is not a published post.
+ */
+export async function readingLinks(text: string, lang: Lang): Promise<Record<string, { href: string }>> {
+  const posts = await getJournal();
+  const slugs = parseRich(text).flatMap((node) => (node.type === 'link' ? [node.key] : []));
+  return Object.fromEntries(
+    slugs.map((slug) => {
+      if (!posts.some((p) => p.id === slug)) throw new Error(`Reading note links to "${slug}", which is not a post`);
+      return [slug, { href: url(localize(postPath(slug, 'en'), lang)) }];
+    }),
+  );
 }

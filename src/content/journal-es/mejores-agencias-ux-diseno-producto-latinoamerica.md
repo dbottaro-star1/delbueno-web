@@ -40,8 +40,8 @@ La lista está en orden alfabético y no es un ranking. Cada agencia tiene una e
 | Blaster | Colombia (Medellín, y Miami) | Diseño de servicios entre lo digital y lo físico | UX/UI, diseño de servicios y diseño industrial; trabajos para EPM, Grupo Sura y Ecopetrol | [blasterdesign.com](https://blasterdesign.com/) |
 | delbueno™ Studio | Uruguay (trabaja en horario de EE. UU.) | Software B2B complejo con diseño y desarrollo con IA en un solo equipo | 10 años, 58 productos, 85% de clientes que vuelven; clientes como BigID, JFrog, NetApp y Palo Alto Networks | [Clutch](https://clutch.co/profile/delbueno-studio) |
 | Light-it | Uruguay (sede en Montevideo, oficinas en Buenos Aires, Nueva York y Florida) | Salud digital | Construye "AI-native healthcare software"; fundada en 2019; trabajos para Roche y Vori Health | [lightit.io](https://lightit.io/) |
-| LoopStudio | Uruguay (fundada en Montevideo, remota) | Productos de ciberseguridad | Una década construyendo software para líderes de ciberseguridad de Norteamérica; sprint de diseño de producto con IA de cinco días | [loopstudio.dev](https://www.loopstudio.dev/) |
-| Qubika | Uruguay (Montevideo, con oficinas en Cali y ciudades de EE. UU.) | Diseño dentro de un equipo grande de ingeniería, datos e IA | Fundada en Uruguay; estudio de Product Design propio; Moove It ahora es Qubika | [qubika.com](https://qubika.com/about/) |
+| LoopStudio | Uruguay (fundada en Montevideo, remota) | Productos de ciberseguridad | Una década construyendo software para líderes de ciberseguridad de Norteamérica; sprint de diseño de producto con IA de cinco días | [loopstudio.dev](https://loopstudio.dev/) |
+| Qubika | Uruguay (Montevideo, con oficinas en Cali y ciudades de EE. UU.) | Diseño dentro de un equipo grande de ingeniería, datos e IA | Fundada en Uruguay; estudio de Product Design propio; Moove It ahora es Qubika | [qubika.com](https://qubika.com/about-us/) |
 | Shortcut | México (Ciudad de México) | Fintech para mercados latinoamericanos | Diseño de producto, marca y frontend; trabajos para Bitso, Konfío, GBM y Conekta | [shortcut.is](https://shortcut.is/) |
 | Uruit | Uruguay y Colombia (oficinas en Montevideo, Medellín, Bogotá y Los Ángeles) | Discovery e investigación antes de un desarrollo nearshore | "Uruit, a Nortal company"; diseño de producto con talleres de discovery e investigación de usuarios | [uruit.com](https://uruit.com/) |
 
@@ -69,11 +69,11 @@ Light-it dice que construye software de salud nativo en IA, con sede en Montevid
 
 ### LoopStudio: ideal para productos de ciberseguridad
 
-LoopStudio se fundó en Montevideo y hoy trabaja de forma remota. Su página principal destaca una década construyendo software para líderes de ciberseguridad de Norteamérica, y ofrece un sprint de diseño de producto con IA de cinco días de investigación, diseño y pruebas con usuarios, además de rediseños de producto. Su [perfil en Clutch](https://clutch.co/profile/loopstudio) muestra una calificación de 5.0 sobre 22 reseñas. Más en [loopstudio.dev](https://www.loopstudio.dev/).
+LoopStudio se fundó en Montevideo y hoy trabaja de forma remota. Su página principal destaca una década construyendo software para líderes de ciberseguridad de Norteamérica, y ofrece un sprint de diseño de producto con IA de cinco días de investigación, diseño y pruebas con usuarios, además de rediseños de producto. Su [perfil en Clutch](https://clutch.co/profile/loopstudio) muestra una calificación de 5.0 sobre 22 reseñas. Más en [loopstudio.dev](https://loopstudio.dev/).
 
 ### Qubika: ideal para diseño dentro de un equipo grande de ingeniería, datos e IA
 
-Qubika se fundó en Uruguay y señala Montevideo como su sede, con oficinas en Cali, Colombia, y en varias ciudades de EE. UU. Su estudio de Product Design cubre investigación de UX, diseño de servicios, design thinking y diseño de UI, junto a equipos de ingeniería, datos e IA. Moove It hoy opera como Qubika, y en 2026 Qubika adquirió Tryolabs. Entre los casos de estudio de su sitio están Shopify, Ripple y OneSignal. Tenla en cuenta cuando el diseño tiene que conectarse con un desarrollo grande. Más en [qubika.com](https://qubika.com/about/).
+Qubika se fundó en Uruguay y señala Montevideo como su sede, con oficinas en Cali, Colombia, y en varias ciudades de EE. UU. Su estudio de Product Design cubre investigación de UX, diseño de servicios, design thinking y diseño de UI, junto a equipos de ingeniería, datos e IA. Moove It hoy opera como Qubika, y en 2026 Qubika adquirió Tryolabs. Entre los casos de estudio de su sitio están Shopify, Ripple y OneSignal. Tenla en cuenta cuando el diseño tiene que conectarse con un desarrollo grande. Más en [qubika.com](https://qubika.com/about-us/).
 
 ### Shortcut: ideal para fintech en mercados latinoamericanos
 

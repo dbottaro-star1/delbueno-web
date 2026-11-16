@@ -3,7 +3,7 @@ title: "RBAC UX: Designing Permissions People Understand"
 seoTitle: "Beyond the RBAC Matrix: Role and Permission Design UX"
 description: "Who can delete production data? Role and permission design beyond the RBAC matrix: effective permissions views, job-based roles and readable audit logs."
 pubDate: 2026-07-22
-updatedDate: 2026-11-02
+updatedDate: 2026-11-16
 author: "Dani Bottaro"
 category: "DevOps & Security"
 heroImage: "../../assets/journal/rbac-ux-permissions-design/pexels-photo-37605911.jpeg"
@@ -57,6 +57,29 @@ The matrix still has a place. Admins who manage dozens of roles need a dense vie
 - **Inherited and custom permissions look different**, so admins can tell a default from a one-off exception.
 - **Edits stage as a diff.** Changes collect in a review panel that lists who gains and who loses access, then save in one step that writes to the audit log.
 
+## What does an RBAC matrix template look like?
+
+An RBAC matrix template is a grid with actions as rows and roles as columns, where each cell says whether a role can perform an action. Here is a starting template for a B2B SaaS product that follows the rules above: actions written as verbs and grouped by resource, sensitive actions first in each group, roles named like jobs, and a user count in each role header. Swap in your own roles, actions and counts.
+
+| Action | Admin (n users) | Billing Manager (n users) | Support Agent (n users) | Member (n users) | Read-only Auditor (n users) |
+| --- | --- | --- | --- | --- | --- |
+| **Users:** remove users (sensitive) | Yes | No | No | No | No |
+| **Users:** change roles and permissions (sensitive) | Yes | No | No | No | No |
+| **Users:** invite users | Yes | No | No | Request | No |
+| **Billing:** change plan or payment method (sensitive) | Yes | Yes | No | No | No |
+| **Billing:** export invoices (sensitive) | Yes | Yes | No | No | No |
+| **Billing:** view invoices | Yes | Yes | No | No | Yes |
+| **Projects:** delete projects (sensitive) | Yes | No | No | Own only | No |
+| **Projects:** edit projects | Yes | No | No | Yes | No |
+| **Projects:** view projects | Yes | No | Yes | Yes | Yes |
+| **Customer data:** export customer records (sensitive) | Yes | No | Request | No | No |
+| **Customer data:** view customer records | Yes | No | Yes | Own only | Yes |
+| **Audit log:** view the audit log | Yes | No | No | No | Yes |
+
+“Request” means the role can ask for that access through an approval flow, so nobody needs Admin to get one task done. “Own only” means the person can act only on records they own, the kind of rule that attribute or relationship based access control expresses better than another role. Read a row to see everyone who can perform an action, and a column to see what a role allows.
+
+Use the template as the dense view for admins and auditors, not as the default screen. The questions earlier in this post still need their own views: the effective permissions of one person, everyone who can perform a sensitive action, and a preview of who gains or loses access before a role changes.
+
 ## RBAC system design: roles, attributes or relationships?
 
 The engine underneath is a separate decision from the interface. OWASP’s [Authorization Cheat Sheet](https://cheatsheetseries.owasp.org/cheatsheets/Authorization_Cheat_Sheet.html) says attribute based (ABAC) and relationship based (ReBAC) access control should typically be preferred over plain RBAC for application development, because they handle rules like “only the owner of this project” without an explosion of roles. Many B2B products end up hybrid: roles for broad access, relationships for ownership and sharing.
@@ -81,7 +104,7 @@ Two signals tell you whether your RBAC UX is working. First, the rate of over-pr
 
 Permissions are where trust in a B2B product gets tested, quietly, by the one person on the customer’s side who’s accountable for security. Get the model right and they barely notice it. Get the interface wrong and they feel it every review cycle, then they start asking whether your product is safe to expand.
 
-If you’re an early-stage team, our [UX design for startups guide](/ux-design-for-startups/) shows where permissions fit in the wider product. And if you’re comparing outside partners, our roundup of [UX design agencies for B2B SaaS](/best-ux-design-agencies-b2b-saas/) lists what to look for.
+If you’re an early-stage team, our [UX design for startups guide](/ux-design-for-startups/) shows where permissions fit in the wider product. And if you’re comparing outside partners, our roundup of [B2B UX design agencies](/best-ux-design-agencies-b2b-saas/) lists what to look for.
 
 If you’re building a platform where access control is getting harder to reason about as you add customers and roles, and you’re weighing whether to untangle it in-house or bring in a partner who has shipped this kind of complex product UX in Cloud, DevOps, and Security, [talk to delbueno™ Studio](/contact/). It’s cheaper to design permissions people understand now than to explain a bad grant to an auditor later.
 

@@ -84,8 +84,9 @@ export const servicesEs: Record<Service['slug'], ServiceText> = {
     ],
   },
   'product-design': {
+    seoTitle: '¿Necesitas diseño de producto B2B SaaS? Conceptos en 48 h',
     seoDescription:
-      'Diseño de producto para B2B SaaS: web y móvil, desde los primeros conceptos hasta un sistema de diseño en producción, con dashboards, permisos y alertas.',
+      '¿Tu producto B2B SaaS necesita un diseño más claro? Diseñamos web, móvil y sistema de diseño, con dashboards y permisos. Primeros conceptos en 48 horas.',
     home: {
       title: 'Diseño de producto',
       kicker: 'Diseño que se lanza',
@@ -124,6 +125,8 @@ export const servicesEs: Record<Service['slug'], ServiceText> = {
       title: 'Diseño listo para el handoff',
       text: 'Una función en alta fidelidad suele tomar de 1 a 2 semanas, y seguimos durante la implementación para revisar los builds.',
     },
+    readingNote:
+      '¿Estás eligiendo una [agencia de diseño UX](best-ux-design-agencies-b2b-saas)? Comparamos 11 para B2B SaaS según para qué es ideal cada una. Si tu producto mueve dinero, lee nuestra guía de [diseño UX fintech](ux-design-for-fintech-startups).',
     faqs: [
       {
         q: '¿Qué tan rápido pueden empezar?',

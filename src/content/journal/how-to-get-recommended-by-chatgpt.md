@@ -24,7 +24,7 @@ When an assistant searches the web to answer a question, it tends to quote pages
 - **llms.txt.** A [proposed standard](https://llmstxt.org/) for summarizing your site for language models. Support is uneven, so treat it as cheap insurance.
 - **Crawlable, fast pages.** In robots.txt, allow the AI crawlers you want reading your site.
 
-Our [startup web design guide](/web-design-for-startups/) covers the rest of what a launch site needs.
+Our [startup web design guide](/web-design-for-startups/) covers the rest of what a launch site needs, and [Webflow vs Framer vs custom code](/webflow-vs-framer-vs-custom-code/) compares how each platform handles these settings.
 
 ## What happens off your website?
 

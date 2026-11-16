@@ -1,5 +1,6 @@
 ---
 import Faq from '../components/Faq.astro';
+import Rich from '../components/info/Rich.astro';
 import Art from '../components/services/Art.astro';
 import CaseCard from '../components/services/CaseCard.astro';
 import InnerCta from '../components/services/InnerCta.astro';
@@ -7,7 +8,7 @@ import InnerHero from '../components/services/InnerHero.astro';
 import NextRows from '../components/services/NextRows.astro';
 import PostLink from '../components/services/PostLink.astro';
 import Process from '../components/services/Process.astro';
-import { casesFor, postsFor } from '../components/services/related';
+import { casesFor, postsFor, readingLinks } from '../components/services/related';
 import '../components/services/inner.css';
 import { getServices, type Service } from '../data/services';
 import type { Lang } from '../i18n/config';
@@ -33,6 +34,7 @@ const trail = crumbs(
 );
 const cases = await casesFor(service.cases, lang);
 const posts = await postsFor(service.reading ?? [], [], 3, lang);
+const noteLinks = service.readingNote ? await readingLinks(service.readingNote, lang) : {};
 // A name with a very long single word (Development) would break mid-word at the large size.
 const heroSize = Math.max(...service.name.split(' ').map((w) => w.length)) > 10 ? 'sm' : 'lg';
 const others = services.filter((s) => s.slug !== service.slug);
@@ -40,7 +42,7 @@ const others = services.filter((s) => s.slug !== service.slug);
 
 <BaseLayout
   lang={lang}
-  title={fill(c.title, { name: service.name })}
+  title={service.seoTitle ?? fill(c.title, { name: service.name })}
   description={service.seoDescription}
   breadcrumbs={trail}
   jsonLd={[serviceSchema({ path, name: service.name, description: service.answer })]}
@@ -142,6 +144,11 @@ const others = services.filter((s) => s.slug !== service.slug);
         <h2 class="in-h2" id="post-h" data-split>
           {c.postsHeading}
         </h2>
+        {service.readingNote && (
+          <p class="in-sub" data-rv>
+            <Rich text={service.readingNote} links={noteLinks} />
+          </p>
+        )}
       </div>
       <div class="in-posts">
         {posts.map((entry) => (

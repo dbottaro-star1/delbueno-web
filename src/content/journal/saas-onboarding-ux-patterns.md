@@ -345,7 +345,7 @@ Then:
 
 If you are an early-stage team, our [UX design for startups guide](/ux-design-for-startups/) shows where onboarding fits next to research, MVP UX and metrics.
 
-If you want outside help with an onboarding redesign tied to activation metrics, our guides on [how to choose a UX design agency for a B2B SaaS product](/how-to-choose-ux-design-agency-saas/) and our [roundup of UX design agencies for B2B SaaS](/best-ux-design-agencies-b2b-saas/) show what to look for.
+If you want outside help with an onboarding redesign tied to activation metrics, our guides on [how to choose a UX design agency for a B2B SaaS product](/how-to-choose-ux-design-agency-saas/) and our [roundup of B2B product design agencies](/best-ux-design-agencies-b2b-saas/) show what to look for.
 
 If you also want your marketing site and onboarding to feel like one continuous journey, it helps to align messaging, design patterns, and calls to action across both. Our [**web design**](/services/web-design/) work supports SaaS teams that want lead capture and onboarding experience to stay consistent.
 

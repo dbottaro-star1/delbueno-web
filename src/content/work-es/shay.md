@@ -1,8 +1,8 @@
 ---
 translationOf: "shay"
 title: "Cómo subimos 37% la retención de clientes de Shay, la app de lealtad de Latinoamérica"
-seoTitle: "Qué es Shay: app de lealtad y CRM para negocios de barrio"
-description: "Shay es una app de lealtad que reemplaza las tarjetas de sellos de papel en negocios de barrio. Diseñamos su CRM con IA y su gestor de promociones."
+seoTitle: "¿Qué es Shay? App de lealtad y CRM para negocios de barrio"
+description: "Shay es una app de lealtad para negocios de barrio que reemplaza las tarjetas de sellos de papel con un CRM con IA. La diseñamos y la retención subió 37%."
 client: "Shay"
 summary: "Diseñamos Shay, una app de lealtad de doble cara que reemplaza las tarjetas de sellos de papel con un CRM impulsado por IA y un gestor de promociones en tiempo real para negocios de barrio. La retención de clientes subió 37% y las ventas crecieron 18%."
 industry: "Retail y lealtad"

@@ -85,7 +85,7 @@ Accessibility overlaps with all of this. Semantic headings and good contrast hel
 | Content at scale | Strong structured collections | Fine for blogs and simple collections | Whatever you build or plug in |
 | Trade-off | Platform rules and plan limits | Less suited to large, complex content models | You maintain everything |
 
-The deciding question is who will change the site every week. If it is marketing, pick the tool they can run alone. Choose custom code when the site is part of the product (docs, interactive demos, pages generated from data) or when speed, security and structured data need full control. This site, for what it is worth, is custom code built on Astro. Our [tech stack](/tech-stack/) lists what we build with.
+The deciding question is who will change the site every week. If it is marketing, pick the tool they can run alone. Choose custom code when the site is part of the product (docs, interactive demos, pages generated from data) or when speed, security and structured data need full control. This site, for what it is worth, is custom code built on Astro. Our [tech stack](/tech-stack/) lists what we build with. For the full decision, with CMS limits, localization, lock-in and team setups, read [Webflow vs Framer vs custom code for a startup website](/webflow-vs-framer-vs-custom-code/).
 
 ## What design quality signals build trust?
 

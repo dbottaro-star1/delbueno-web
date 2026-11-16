@@ -44,7 +44,7 @@ Impact: Predictive alerts in operations tools have shown **40% reduction in issu
 
 AI is infiltrating the design process itself, generating wireframes, layouts, and even production-ready components.
 
-Tools like **[Figma AI](https://help.figma.com/hc/en-us/articles/23870272542231-Get-started-with-Figma-AI)**, **[Stitch](https://stitch.withgoogle.com/)**, and **[Emergent](https://app.emergent.sh/)** are already turning text prompts into interfaces that follow brand logic. Designers move faster, but the key is **governance**, maintaining consistency while letting AI handle repetition.
+Tools like **[Figma AI](https://help.figma.com/hc/en-us/articles/23870272542231-Get-started-with-Figma-AI)**, **[Stitch](https://stitch.google.com/)**, and **[Emergent](https://app.emergent.sh/)** are already turning text prompts into interfaces that follow brand logic. Designers move faster, but the key is **governance**, maintaining consistency while letting AI handle repetition.
 
 Impact: Internal Delbueno tests using AI-assisted design cut **design-to-dev handoff time by 60%**, freeing designers to focus on logic and usability, not pixels.
 
