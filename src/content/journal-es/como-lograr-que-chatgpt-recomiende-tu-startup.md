@@ -24,7 +24,7 @@ Cuando un asistente busca en la web para responder, tiende a citar páginas que 
 - **llms.txt.** Un [estándar propuesto](https://llmstxt.org/) para resumir tu sitio para modelos de lenguaje. El soporte es desparejo, así que tómalo como un seguro barato.
 - **Páginas rápidas y rastreables.** En robots.txt, permite los rastreadores de IA que quieres que lean tu sitio.
 
-Nuestra [guía de diseño web para startups](/es/blog/diseno-web-para-startups/) cubre el resto de lo que necesita un sitio de lanzamiento.
+Nuestra [guía de diseño web para startups](/es/blog/diseno-web-para-startups/) cubre el resto de lo que necesita un sitio de lanzamiento, y [Webflow, Framer o código propio](/es/blog/webflow-vs-framer-vs-codigo-propio/) compara cómo maneja cada plataforma estos ajustes.
 
 ## ¿Qué pasa fuera de tu sitio?
 

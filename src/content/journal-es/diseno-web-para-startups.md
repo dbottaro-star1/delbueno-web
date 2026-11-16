@@ -85,7 +85,7 @@ La accesibilidad se cruza con todo esto. Los encabezados semánticos y un buen c
 | Contenido a escala | Colecciones estructuradas sólidas | Suficiente para blogs y colecciones simples | Lo que construyas o conectes |
 | La contracara | Reglas de la plataforma y límites del plan | Menos pensado para modelos de contenido grandes y complejos | Tú mantienes todo |
 
-La pregunta que decide es quién va a cambiar el sitio cada semana. Si es marketing, elige la herramienta que pueda manejar sin ayuda. Elige código propio cuando el sitio es parte del producto (documentación, demos interactivas, páginas generadas a partir de datos) o cuando la velocidad, la seguridad y los datos estructurados necesitan control total. Este sitio, por si sirve de referencia, es código propio construido con Astro. En nuestras [tecnologías](/es/tecnologias/) está lo que usamos para construir.
+La pregunta que decide es quién va a cambiar el sitio cada semana. Si es marketing, elige la herramienta que pueda manejar sin ayuda. Elige código propio cuando el sitio es parte del producto (documentación, demos interactivas, páginas generadas a partir de datos) o cuando la velocidad, la seguridad y los datos estructurados necesitan control total. Este sitio, por si sirve de referencia, es código propio construido con Astro. En nuestras [tecnologías](/es/tecnologias/) está lo que usamos para construir. Para la decisión completa, con límites del CMS, idiomas, dependencia de la plataforma y formas de organizar al equipo, lee [Webflow, Framer o código propio para el sitio de una startup](/es/blog/webflow-vs-framer-vs-codigo-propio/).
 
 ## ¿Qué señales de calidad en el diseño generan confianza?
 
