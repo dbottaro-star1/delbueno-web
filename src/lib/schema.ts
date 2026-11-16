@@ -121,10 +121,15 @@ export interface Crumb {
   path: string;
 }
 
+/**
+ * BreadcrumbList for a trail. The list is named after the page it leads to, so Search Console does not report it as
+ * "Unnamed item".
+ */
 export function breadcrumbSchema(crumbs: Crumb[]): JsonLdNode {
   return {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
+    name: crumbs.at(-1)?.name,
     itemListElement: crumbs.map((c, i) => ({
       '@type': 'ListItem',
       position: i + 1,

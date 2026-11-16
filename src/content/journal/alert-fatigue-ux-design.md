@@ -22,7 +22,7 @@ Read that as a product requirement and it changes the conversation. “Actionabl
 
 ## Alerts vs. notifications: the line most products blur
 
-PagerDuty’s [alerting principles](https://response.pagerduty.com/oncall/alerting_principles/) draw a clean distinction. An alert needs a human to do something. Everything else is a notification: useful context, but nothing anyone can act on right now.
+PagerDuty’s [alerting principles](https://docs.pagerduty.com/ops-guides/incident-response-guide/alerting-principles) draw a clean distinction. An alert needs a human to do something. Everything else is a notification: useful context, but nothing anyone can act on right now.
 
 Open almost any monitoring or security console and you’ll find both dumped into one feed, styled the same way, ranked by time. A certificate expiring in 60 days sits next to a database refusing connections. Users can’t tell them apart at a glance, so they stop looking at all of it. If your product does one thing about alert fatigue, make it this: give alerts and notifications separate homes, separate visual weight and separate delivery channels.
 

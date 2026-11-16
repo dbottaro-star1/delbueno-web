@@ -41,7 +41,7 @@ The list is in alphabetical order and is not a ranking. Each agency gets a "best
 | delbueno™ Studio | Uruguay (works in US hours) | Complex B2B software with design and AI development in one team | 10 years, 58 products, 85% returning clients; clients include BigID, JFrog, NetApp and Palo Alto Networks | [Clutch](https://clutch.co/profile/delbueno-studio) |
 | Light-it | Uruguay (HQ in Montevideo, offices in Buenos Aires, New York and Florida) | Healthtech | Builds "AI-native healthcare software"; founded 2019; work for Roche and Vori Health | [lightit.io](https://lightit.io/) |
 | LoopStudio | Uruguay (founded in Montevideo, remote-first) | Cybersecurity products | "A decade of building software for North American cybersecurity leaders"; five-day AI product design sprint | [loopstudio.dev](https://loopstudio.dev/) |
-| Qubika | Uruguay (Montevideo, with offices in Cali and US cities) | Design inside a large engineering, data and AI team | Founded in Uruguay; dedicated Product Design studio; Moove It is now Qubika | [qubika.com](https://qubika.com/about/) |
+| Qubika | Uruguay (Montevideo, with offices in Cali and US cities) | Design inside a large engineering, data and AI team | Founded in Uruguay; dedicated Product Design studio; Moove It is now Qubika | [qubika.com](https://qubika.com/about-us/) |
 | Shortcut | Mexico (Mexico City) | Fintech for Latin American markets | Product design, brand and frontend; work for Bitso, Konfío, GBM and Conekta | [shortcut.is](https://shortcut.is/) |
 | Uruit | Uruguay and Colombia (offices in Montevideo, Medellín, Bogotá and Los Angeles) | Discovery and research before a nearshore build | "Uruit, a Nortal company"; product design with discovery workshops and user research | [uruit.com](https://uruit.com/) |
 
@@ -73,7 +73,7 @@ LoopStudio was founded in Montevideo and now works remote-first. Its homepage le
 
 ### Qubika: best for design inside a large engineering, data and AI team
 
-Qubika was founded in Uruguay and lists Montevideo as its headquarters, with offices in Cali, Colombia, and several US cities. Its Product Design studio covers UX research, service design, design thinking and UI design, next to engineering, data and AI teams. Moove It now operates as Qubika, and in 2026 Qubika acquired Tryolabs. Case studies on its site include Shopify, Ripple and OneSignal. Consider it when design has to plug into a big build. See [qubika.com](https://qubika.com/about/).
+Qubika was founded in Uruguay and lists Montevideo as its headquarters, with offices in Cali, Colombia, and several US cities. Its Product Design studio covers UX research, service design, design thinking and UI design, next to engineering, data and AI teams. Moove It now operates as Qubika, and in 2026 Qubika acquired Tryolabs. Case studies on its site include Shopify, Ripple and OneSignal. Consider it when design has to plug into a big build. See [qubika.com](https://qubika.com/about-us/).
 
 ### Shortcut: best for fintech in Latin American markets
 

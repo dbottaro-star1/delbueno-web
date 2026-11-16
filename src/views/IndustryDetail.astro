@@ -1,12 +1,13 @@
 ---
 import Faq from '../components/Faq.astro';
+import Rich from '../components/info/Rich.astro';
 import IndustryArt from '../components/industries/IndustryArt.astro';
 import CaseCard from '../components/services/CaseCard.astro';
 import InnerCta from '../components/services/InnerCta.astro';
 import InnerHero from '../components/services/InnerHero.astro';
 import NextRows from '../components/services/NextRows.astro';
 import PostLink from '../components/services/PostLink.astro';
-import { casesFor, postsFor } from '../components/services/related';
+import { casesFor, postsFor, readingLinks } from '../components/services/related';
 import '../components/services/inner.css';
 import { getIndustries, type Industry } from '../data/industries';
 import type { Lang } from '../i18n/config';
@@ -34,6 +35,7 @@ const trail = crumbs(
 const cases = await casesFor(industry.cases, lang);
 const linked = industry.problems.flatMap((p) => (p.post ? [p.post] : []));
 const posts = await postsFor([...new Set([...linked, ...industry.posts])], industry.keywords, 3, lang);
+const noteLinks = industry.readingNote ? await readingLinks(industry.readingNote, lang) : {};
 const others = industries.filter((i) => i.slug !== industry.slug);
 ---
 
@@ -130,6 +132,11 @@ const others = industries.filter((i) => i.slug !== industry.slug);
         <h2 class="in-h2" id="post-h" data-split>
           {c.postsHeading}
         </h2>
+        {industry.readingNote && (
+          <p class="in-sub" data-rv>
+            <Rich text={industry.readingNote} links={noteLinks} />
+          </p>
+        )}
       </div>
       <div class="in-posts">
         {posts.map((entry) => (

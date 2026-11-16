@@ -2,7 +2,7 @@
 title: "RBAC UX: cómo diseñar permisos que la gente entienda"
 description: "La mayoría de los modelos de permisos B2B confunden a los admins que dependen de ellos. Guía práctica de UX para RBAC: roles, alcances y accesos claros."
 pubDate: 2026-07-22
-updatedDate: 2026-11-02
+updatedDate: 2026-11-16
 author: "Dani Bottaro"
 category: "DevOps y seguridad"
 heroImage: "../../assets/journal/rbac-ux-permissions-design/pexels-photo-37605911.jpeg"
@@ -55,6 +55,29 @@ La matriz sigue teniendo su lugar. Los admins que gestionan decenas de roles nec
 - **Las acciones sensibles están marcadas** y aparecen primero en su grupo: borrados, exportaciones, facturación y gestión de accesos.
 - **Los permisos heredados y los personalizados se ven distintos**, para que el admin distinga un valor por defecto de una excepción puntual.
 - **Los cambios se acumulan como una diferencia.** Se juntan en un panel de revisión que muestra quién gana y quién pierde acceso, y se guardan en un solo paso que queda en el registro de auditoría.
+
+## ¿Cómo es una plantilla de matriz de RBAC?
+
+Una plantilla de matriz de RBAC es una grilla con acciones en las filas y roles en las columnas, donde cada celda dice si un rol puede realizar una acción. Esta es una plantilla inicial para un producto B2B SaaS que sigue las reglas de arriba: acciones escritas como verbos y agrupadas por recurso, acciones sensibles primero en cada grupo, roles con nombres de puestos y la cantidad de usuarios en el encabezado de cada rol. Reemplaza los roles, las acciones y las cantidades por los tuyos.
+
+| Acción | Admin (n usuarios) | Responsable de facturación (n usuarios) | Agente de soporte (n usuarios) | Miembro (n usuarios) | Auditor de solo lectura (n usuarios) |
+| --- | --- | --- | --- | --- | --- |
+| **Usuarios:** eliminar usuarios (sensible) | Sí | No | No | No | No |
+| **Usuarios:** cambiar roles y permisos (sensible) | Sí | No | No | No | No |
+| **Usuarios:** invitar usuarios | Sí | No | No | Solicitud | No |
+| **Facturación:** cambiar el plan o el medio de pago (sensible) | Sí | Sí | No | No | No |
+| **Facturación:** exportar facturas (sensible) | Sí | Sí | No | No | No |
+| **Facturación:** ver facturas | Sí | Sí | No | No | Sí |
+| **Proyectos:** borrar proyectos (sensible) | Sí | No | No | Solo los propios | No |
+| **Proyectos:** editar proyectos | Sí | No | No | Sí | No |
+| **Proyectos:** ver proyectos | Sí | No | Sí | Sí | Sí |
+| **Datos de clientes:** exportar registros de clientes (sensible) | Sí | No | Solicitud | No | No |
+| **Datos de clientes:** ver registros de clientes | Sí | No | Sí | Solo los propios | Sí |
+| **Registro de auditoría:** ver el registro de auditoría | Sí | No | No | No | Sí |
+
+“Solicitud” significa que el rol puede pedir ese acceso mediante un flujo de aprobación, así nadie necesita ser Admin para resolver una tarea puntual. “Solo los propios” significa que la persona solo puede actuar sobre los registros que le pertenecen, el tipo de regla que el control de acceso basado en atributos o en relaciones expresa mejor que un rol más. Lee una fila para ver quiénes pueden realizar una acción, y una columna para ver qué permite un rol.
+
+Usa la plantilla como la vista densa para admins y auditores, no como la pantalla por defecto. Las preguntas del principio de este artículo siguen necesitando sus propias vistas: los permisos efectivos de una persona, quiénes pueden realizar una acción sensible y una vista previa de quién gana o pierde acceso antes de cambiar un rol.
 
 ## Diseño de un sistema RBAC: ¿roles, atributos o relaciones?
 
