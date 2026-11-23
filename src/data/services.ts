@@ -168,7 +168,7 @@ export const services: Service[] = [
     cases: ['cloudguardia', 'uleadz', '1to1000'],
     reading: ['ux-design-for-startups', 'saas-onboarding-ux-patterns', 'best-ux-design-agencies-b2b-saas'],
     readingNote:
-      'Choosing a [UX design agency](best-ux-design-agencies-b2b-saas)? We compared 11 for B2B SaaS by what each one is best for. If your product moves money, read our guide to [fintech UX design](ux-design-for-fintech-startups).',
+      'Choosing a [B2B SaaS UX design agency](best-ux-design-agencies-b2b-saas)? We compared 11 by what each one is best for. If your product moves money, see how to pick a [fintech design agency](ux-design-for-fintech-startups).',
     faqs: [
       {
         q: 'How fast can you start?',

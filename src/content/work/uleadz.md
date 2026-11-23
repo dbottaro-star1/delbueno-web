@@ -1,6 +1,6 @@
 ---
 title: "Lifting conversion 27% for Uleadz's field service software"
-seoTitle: "Uleadz: Field Service Software, Web and App Redesign"
+seoTitle: "Uleadz: Field Service Software Redesign"
 description: "Uleadz is field service software for home service businesses, with scheduling and dispatching. We redesigned its website, dashboard and mobile apps."
 client: "Uleadz"
 summary: "We redesigned the website and the SaaS and mobile UX for Uleadz, a field management platform for home service businesses, around one design system. Conversion rate improved 27% and new users grew 18%."

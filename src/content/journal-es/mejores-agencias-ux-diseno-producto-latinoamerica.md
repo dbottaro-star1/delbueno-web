@@ -65,7 +65,7 @@ delbueno™ Studio, autor de este artículo, es un estudio de diseño de product
 
 ### Light-it: ideal para salud digital
 
-Light-it dice que construye software de salud nativo en IA, con sede en Montevideo, oficinas en Buenos Aires, Nueva York y Florida, y fundación en 2019. Su [servicio de diseño de producto](https://lightit.io/services/product-design) cubre discovery de UX para salud, flujos para pacientes y profesionales clínicos, design systems y pruebas de usabilidad. Entre los trabajos de su sitio están Roche, Vori Health, Little Otter y Felix Health. Más en [lightit.io](https://lightit.io/).
+Light-it dice que construye software de salud nativo en IA, con sede en Montevideo, oficinas en Buenos Aires, Nueva York y Florida, y fundación en 2019. Su [servicio de diseño de producto](https://lightit.io/services/healthcare-software-development/product-design) cubre discovery de UX para salud, flujos para pacientes y profesionales clínicos, design systems y pruebas de usabilidad. Entre los trabajos de su sitio están Roche, Vori Health, Little Otter y Felix Health. Más en [lightit.io](https://lightit.io/).
 
 ### LoopStudio: ideal para productos de ciberseguridad
 

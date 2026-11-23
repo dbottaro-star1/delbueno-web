@@ -64,7 +64,7 @@ Usa los mismos criterios para los tres:
 - **Referencias en EE. UU.** Llama a dos y pregunta qué salió mal y cómo lo resolvieron.
 - **Propiedad.** Los archivos y la documentación viven en tu Figma y en tus herramientas desde el primer día.
 
-Antes de firmar, repasa las señales de alerta en [cómo elegir una agencia de diseño UX para B2B SaaS](/how-to-choose-ux-design-agency-saas/) (en inglés) y compara nombres en nuestra lista de [las mejores agencias de diseño UX para B2B SaaS](/es/blog/mejores-agencias-diseno-ux-b2b-saas/).
+Antes de firmar, repasa las señales de alerta en [cómo elegir una agencia de diseño UX para B2B SaaS](/how-to-choose-ux-design-agency-saas/) (en inglés) y compara nombres en nuestra lista de [las mejores agencias de diseño UX para B2B SaaS](/es/blog/mejores-agencias-diseno-ux-b2b-saas/). Si quieres un socio con sede en la región, empieza por [las mejores agencias de UX y diseño de producto en Latinoamérica](/es/blog/mejores-agencias-ux-diseno-producto-latinoamerica/).
 
 ## ¿Cómo se compara el nearshore en Latinoamérica con las demás opciones?
 

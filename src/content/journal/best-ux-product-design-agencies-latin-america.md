@@ -65,7 +65,7 @@ delbueno™ Studio, the author of this article, is a product design and AI devel
 
 ### Light-it: best for healthtech
 
-Light-it says it builds "AI-native healthcare software", with headquarters in Montevideo and offices in Buenos Aires, New York and Florida, and a founding year of 2019. Its [product design service](https://lightit.io/services/product-design) covers healthcare UX discovery, user flows for patients and clinicians, design systems and usability testing. Client work on its site includes Roche, Vori Health, Little Otter and Felix Health. See [lightit.io](https://lightit.io/).
+Light-it says it builds "AI-native healthcare software", with headquarters in Montevideo and offices in Buenos Aires, New York and Florida, and a founding year of 2019. Its [product design service](https://lightit.io/services/healthcare-software-development/product-design) covers healthcare UX discovery, user flows for patients and clinicians, design systems and usability testing. Client work on its site includes Roche, Vori Health, Little Otter and Felix Health. See [lightit.io](https://lightit.io/).
 
 ### LoopStudio: best for cybersecurity products
 

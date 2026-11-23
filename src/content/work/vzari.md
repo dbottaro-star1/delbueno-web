@@ -1,7 +1,7 @@
 ---
 title: "Cutting prescription returns 45% for Vzari's gaming glasses store"
-seoTitle: "Vzari Gaming Glasses: Store UX Design Case Study"
-description: "Vzari is a gaming glasses brand by Vizo, with lenses tuned for blue light, contrast and focal depth. Our store redesign cut prescription returns 45%."
+seoTitle: "Vzari Gaming Glasses: E-commerce Store UX Redesign"
+description: "Vzari is a gaming glasses brand by Vizo, and our redesign of its online store, with a diagnostic wizard and reaction test, cut prescription returns 45%."
 client: "Vzari"
 summary: "We turned the e-commerce store for Vzari, a gaming glasses brand by Vizo, into an interactive performance lab with a diagnostic wizard and a reaction speed test. Prescription returns fell 45% and orders rose 27%."
 industry: "E-commerce and gaming eyewear"
