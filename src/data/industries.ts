@@ -325,7 +325,7 @@ export const industries: Industry[] = [
     casesNote: 'Buzz Bunny is our fintech case study: an AI-driven stock recommendation app for everyday investors.',
     posts: ['ai-first-product-design'],
     readingNote:
-      'Our guide to [fintech UX design for startups](ux-design-for-fintech-startups) covers the work that matters from pre-seed to Series A and what to look for when you hire fintech designers.',
+      'Choosing a [fintech design agency](ux-design-for-fintech-startups)? Our guide to fintech UX design for startups compares seven, covers the work that matters from pre-seed to Series A and what to look for when you hire fintech designers.',
     keywords: ['fintech', 'payment', 'financial'],
     cta: 'Let’s build fintech products people can trust.',
     faqs: [

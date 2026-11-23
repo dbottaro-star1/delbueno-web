@@ -86,7 +86,7 @@ export const servicesEs: Record<Service['slug'], ServiceText> = {
   'product-design': {
     seoTitle: '¿Necesitas diseño de producto B2B SaaS? Conceptos en 48 h',
     seoDescription:
-      '¿Tu producto B2B SaaS necesita un diseño más claro? Diseñamos web, móvil y sistema de diseño, con dashboards y permisos. Primeros conceptos en 48 horas.',
+      'Diseñamos productos B2B SaaS para web y móvil, del primer concepto al sistema de diseño, con dashboards y permisos claros. Primeros conceptos en 48 horas.',
     home: {
       title: 'Diseño de producto',
       kicker: 'Diseño que se lanza',
@@ -126,7 +126,7 @@ export const servicesEs: Record<Service['slug'], ServiceText> = {
       text: 'Una función en alta fidelidad suele tomar de 1 a 2 semanas, y seguimos durante la implementación para revisar los builds.',
     },
     readingNote:
-      '¿Estás eligiendo una [agencia de diseño UX](best-ux-design-agencies-b2b-saas)? Comparamos 11 para B2B SaaS según para qué es ideal cada una. Si tu producto mueve dinero, lee nuestra guía de [diseño UX fintech](ux-design-for-fintech-startups).',
+      '¿Estás eligiendo una [agencia de diseño UX/UI para B2B SaaS](best-ux-design-agencies-b2b-saas)? Comparamos 11 según para qué es ideal cada una. Si tu producto mueve dinero, mira cómo elegir una [agencia de diseño fintech](ux-design-for-fintech-startups).',
     faqs: [
       {
         q: '¿Qué tan rápido pueden empezar?',

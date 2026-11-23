@@ -20,7 +20,7 @@ Founders, operations leads and engineering leaders at startups and scale-ups who
 
 ## What is the difference between an AI agent and a workflow automation?
 
-Anthropic's guide to [building effective agents](https://www.anthropic.com/engineering/building-effective-agents) draws the line: workflows run models and tools through predefined code paths, while agents direct their own steps and tool use. It recommends the simplest solution that works, because agents trade latency and cost for better task performance, and their errors can compound.
+Anthropic's guide to [building effective agents](https://www.anthropic.com/research/building-effective-agents) draws the line: workflows run models and tools through predefined code paths, while agents direct their own steps and tool use. It recommends the simplest solution that works, because agents trade latency and cost for better task performance, and their errors can compound.
 
 Most internal work needs the first or second column.
 
@@ -69,7 +69,7 @@ The agent does the reading, gathering and drafting, where people lose hours. A p
 
 Approve actions, not thoughts. Let the agent read, search and draft freely, and put approval in front of what changes something outside it: sending, paying, deleting, granting access or bulk edits. The [OWASP guidance on excessive agency](https://genai.owasp.org/llmrisk/llm062025-excessive-agency/) says the same from the security side: limit the agent's tools and permissions, enforce authorization outside the model, and require human approval for high-impact actions.
 
-The tooling has caught up. LangChain's [human-in-the-loop middleware](https://docs.langchain.com/oss/python/langchain/human-in-the-loop) pauses an agent before a tool call so a reviewer can approve, edit or reject it, and n8n can [require human approval before an AI agent runs a specific tool](https://docs.n8n.io/advanced-ai/human-in-the-loop-tools/), sending the request to Slack, Microsoft Teams or email. Picking the platform is the easy part. Deciding which actions need approval, and what the approver sees, is the design work. Our framework for it is in [human-in-the-loop UX for AI agents](/ai-agent-ux-human-in-the-loop/): sort actions by reversibility and blast radius, and add friction only where both are high.
+The tooling has caught up. LangChain's [human-in-the-loop middleware](https://docs.langchain.com/oss/python/langchain/human-in-the-loop) pauses an agent before a tool call so a reviewer can approve, edit or reject it, and n8n can [require human approval before an AI agent runs a specific tool](https://docs.n8n.io/build/integrate-ai/ai-examples/human-in-the-loop-for-tools), sending the request to Slack, Microsoft Teams or email. Picking the platform is the easy part. Deciding which actions need approval, and what the approver sees, is the design work. Our framework for it is in [human-in-the-loop UX for AI agents](/ai-agent-ux-human-in-the-loop/): sort actions by reversibility and blast radius, and add friction only where both are high.
 
 ## What should an approval request show?
 

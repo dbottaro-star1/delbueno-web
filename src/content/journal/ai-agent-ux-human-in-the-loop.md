@@ -39,7 +39,7 @@ Anything long-running needs a stop button you can actually see. If the agent is 
 
 Once the action has already happened, the person’s job shifts to reviewing and cleaning up. Every move the agent makes needs a trail someone can actually read (what it did, when, why, on what input), written for a stressed human scanning fast, not buried in a logs tab nobody opens. If it can be undone, give them a real undo. If it can’t, that’s your tell that it should have asked first.
 
-## A framework: sort actions by reversibility and blast radius
+## When does an AI agent need human approval?
 
 You can’t put a human in front of every step without wrecking the product. So the call you have to make, on purpose, is which actions earn friction and which don’t. Two questions carry most of the weight.
 
