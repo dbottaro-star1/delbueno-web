@@ -64,7 +64,7 @@ Use the same criteria for all three:
 - **US references.** Call two and ask what went wrong and how it was handled.
 - **Ownership.** Files and documentation live in your Figma and your tools from day one.
 
-Before you sign, go through the red flags in [how to choose a UX design agency for B2B SaaS](/how-to-choose-ux-design-agency-saas/), and compare names on our shortlist of [the best UX design agencies for B2B SaaS](/best-ux-design-agencies-b2b-saas/).
+Before you sign, go through the red flags in [how to choose a UX design agency for B2B SaaS](/how-to-choose-ux-design-agency-saas/), and compare names on our shortlist of [the best UX design agencies for B2B SaaS](/best-ux-design-agencies-b2b-saas/). If you want a partner based in the region, start with [the best UX and product design agencies in Latin America](/best-ux-product-design-agencies-latin-america/).
 
 ## How does nearshore Latin America compare with the other options?
 

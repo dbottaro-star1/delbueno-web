@@ -123,7 +123,7 @@ Install analytics before launch, with a consent banner where the law requires on
 
 At launch, usually yes. When messaging, design and build sit with one team, decisions do not get lost in handoffs, and the person who designs a page knows what the platform can do. Split the work when you already have a developer who owns the site, or when the site lives inside the product's codebase.
 
-Whoever you hire, a clear brief saves weeks. Our guide on [how to brief a design agency](/how-to-brief-a-design-agency/) lists what to include, and [agency, freelancer or in-house](/ux-agency-vs-freelancer-vs-in-house/) helps you pick the model. Many US startups also work with nearshore teams for the time zone overlap, which we cover in [why US startups hire nearshore UX designers in Latin America](/nearshore-ux-design-latin-america/).
+Whoever you hire, a clear brief saves weeks. Our guide on [how to brief a design agency](/how-to-brief-a-design-agency/) lists what to include, and [agency, freelancer or in-house](/ux-agency-vs-freelancer-vs-in-house/) helps you pick the model. Many US startups also work with nearshore teams for the time zone overlap, which we cover in [why US startups hire nearshore UX designers in Latin America](/nearshore-ux-design-latin-america/). If what you need is product design, compare names on our shortlists of [B2B SaaS UX design agencies](/best-ux-design-agencies-b2b-saas/) and [UX and product design agencies in Latin America](/best-ux-product-design-agencies-latin-america/).
 
 ## What are the most common startup website mistakes?
 

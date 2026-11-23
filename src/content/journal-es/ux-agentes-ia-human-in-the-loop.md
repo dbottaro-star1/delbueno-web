@@ -39,7 +39,7 @@ Todo lo que tarda en ejecutarse necesita un botón de detener que se vea de verd
 
 Cuando la acción ya ocurrió, el trabajo de la persona pasa a ser revisar y reparar. Cada movimiento del agente necesita un rastro que alguien pueda leer de verdad (qué hizo, cuándo, por qué, con qué entrada), escrito para una persona estresada que lo escanea rápido, no enterrado en una pestaña de logs que nadie abre. Si se puede deshacer, dales un deshacer de verdad. Si no se puede, esa es la señal de que debió preguntar primero.
 
-## Un marco: clasifica las acciones por reversibilidad y radio de impacto
+## ¿Cuándo necesita un agente de IA la aprobación de una persona?
 
 No puedes poner a una persona delante de cada paso sin destruir el producto. Así que la decisión que tienes que tomar, a propósito, es qué acciones merecen fricción y cuáles no. Dos preguntas cargan con casi todo el peso.
 

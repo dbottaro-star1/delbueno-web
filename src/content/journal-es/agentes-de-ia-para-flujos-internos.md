@@ -20,7 +20,7 @@ Para founders, líderes de operaciones y líderes de ingeniería de startups y s
 
 ## ¿Qué diferencia hay entre un agente de IA y una automatización?
 
-La guía de Anthropic sobre [cómo construir agentes efectivos](https://www.anthropic.com/engineering/building-effective-agents) (en inglés) marca la línea: los flujos de trabajo hacen pasar modelos y herramientas por caminos definidos en el código, mientras que los agentes deciden sus propios pasos y qué herramientas usar. Recomienda la solución más simple que funcione, porque los agentes cambian latencia y costo por mejor desempeño, y sus errores se pueden acumular.
+La guía de Anthropic sobre [cómo construir agentes efectivos](https://www.anthropic.com/research/building-effective-agents) (en inglés) marca la línea: los flujos de trabajo hacen pasar modelos y herramientas por caminos definidos en el código, mientras que los agentes deciden sus propios pasos y qué herramientas usar. Recomienda la solución más simple que funcione, porque los agentes cambian latencia y costo por mejor desempeño, y sus errores se pueden acumular.
 
 La mayor parte del trabajo interno necesita la primera o la segunda columna.
 
@@ -69,7 +69,7 @@ El agente lee, junta información y redacta, que es donde se pierden las horas. 
 
 Aprueba acciones, no pensamientos. Deja que el agente lea, busque y redacte libremente, y pon la aprobación delante de lo que cambia algo fuera de él: enviar, pagar, borrar, dar acceso o editar en masa. La [guía de OWASP sobre agencia excesiva](https://genai.owasp.org/llmrisk/llm062025-excessive-agency/) (en inglés) dice lo mismo desde la seguridad: limita las herramientas y los permisos del agente, controla la autorización fuera del modelo y exige aprobación humana para las acciones de alto impacto.
 
-Las herramientas ya lo resuelven. El [middleware de human-in-the-loop de LangChain](https://docs.langchain.com/oss/python/langchain/human-in-the-loop) (en inglés) pausa al agente antes de usar una herramienta para que alguien apruebe, edite o rechace la acción, y n8n permite [exigir aprobación humana antes de que un agente use una herramienta específica](https://docs.n8n.io/advanced-ai/human-in-the-loop-tools/) (en inglés), con el pedido enviado a Slack, Microsoft Teams o correo. Elegir la plataforma es lo fácil. Decidir qué acciones necesitan aprobación, y qué ve quien aprueba, es el trabajo de diseño. Nuestro marco para eso está en [UX de agentes de IA con human-in-the-loop](/es/blog/ux-agentes-ia-human-in-the-loop/): ordena las acciones por reversibilidad y alcance, y agrega fricción solo donde los dos son altos.
+Las herramientas ya lo resuelven. El [middleware de human-in-the-loop de LangChain](https://docs.langchain.com/oss/python/langchain/human-in-the-loop) (en inglés) pausa al agente antes de usar una herramienta para que alguien apruebe, edite o rechace la acción, y n8n permite [exigir aprobación humana antes de que un agente use una herramienta específica](https://docs.n8n.io/build/integrate-ai/ai-examples/human-in-the-loop-for-tools) (en inglés), con el pedido enviado a Slack, Microsoft Teams o correo. Elegir la plataforma es lo fácil. Decidir qué acciones necesitan aprobación, y qué ve quien aprueba, es el trabajo de diseño. Nuestro marco para eso está en [UX de agentes de IA con human-in-the-loop](/es/blog/ux-agentes-ia-human-in-the-loop/): ordena las acciones por reversibilidad y alcance, y agrega fricción solo donde los dos son altos.
 
 ## ¿Qué debería mostrar un pedido de aprobación?
 

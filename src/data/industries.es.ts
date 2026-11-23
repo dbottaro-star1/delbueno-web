@@ -239,7 +239,7 @@ export const industriesEs: Record<string, IndustryText> = {
     casesNote:
       'Buzz Bunny es nuestro caso de estudio fintech: una app de recomendación de acciones con IA para inversionistas comunes.',
     readingNote:
-      'Nuestra guía de [diseño UX fintech para startups](ux-design-for-fintech-startups) cubre el trabajo que importa de pre-seed a Serie A y qué buscar al contratar diseñadores fintech.',
+      '¿Estás eligiendo una [agencia de diseño fintech](ux-design-for-fintech-startups)? Nuestra guía de diseño UX fintech para startups compara siete, cubre el trabajo que importa de pre-seed a Serie A y qué buscar al contratar diseñadores fintech.',
     cta: 'Construyamos productos fintech en los que la gente pueda confiar.',
     faqs: [
       {
