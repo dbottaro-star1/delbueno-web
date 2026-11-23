@@ -71,7 +71,7 @@ Link every claim back to where it came from, and say what the summary left out. 
 
 ## When does an AI feature need human-in-the-loop approval?
 
-When the AI moves from suggesting to doing. Drafts, searches and summaries can run freely because a person decides what happens next. Once a feature sends, deletes, pays, publishes or changes many records at once, add an approval step with the exact action and numbers in front of the user. Our guide to [human-in-the-loop approval workflows for AI agents](/ai-agent-ux-human-in-the-loop/) sorts actions by reversibility and blast radius, so you add friction only where it pays off.
+When the AI moves from suggesting to doing. Drafts, searches and summaries can run freely because a person decides what happens next. Once a feature sends, deletes, pays, publishes or changes many records at once, add an approval step with the exact action and numbers in front of the user. Our guide to [human-in-the-loop approval workflows for AI agents](/ai-agent-ux-human-in-the-loop/) sorts actions by reversibility and blast radius, so you add friction only where it pays off. If the agent will run your own team's operations rather than your customers' work, see [where AI agents pay off in internal workflows](/ai-agents-internal-workflows/).
 
 ## How do you ship and measure an AI feature?
 

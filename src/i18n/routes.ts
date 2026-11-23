@@ -72,6 +72,7 @@ export const POST_SLUGS: Readonly<Record<string, string>> = {
   'how-to-get-recommended-by-chatgpt': 'como-lograr-que-chatgpt-recomiende-tu-startup',
   'ux-design-for-fintech-startups': 'diseno-ux-para-startups-fintech',
   'webflow-vs-framer-vs-custom-code': 'webflow-vs-framer-vs-codigo-propio',
+  'ai-agents-internal-workflows': 'agentes-de-ia-para-flujos-internos',
 };
 
 /** Sections whose pages are `<prefix><slug>/`. Without a `slugs` table the slug is the same in both languages. */

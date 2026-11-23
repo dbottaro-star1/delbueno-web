@@ -71,7 +71,7 @@ Enlaza cada afirmación a su origen y di qué dejó afuera el resumen. Un resume
 
 ## ¿Cuándo necesita una función de IA aprobación humana?
 
-Cuando la IA pasa de sugerir a hacer. Los borradores, las búsquedas y los resúmenes pueden correr libres porque una persona decide qué pasa después. Cuando una función envía, borra, paga, publica o cambia muchos registros a la vez, suma un paso de aprobación con la acción exacta y los números frente al usuario. Nuestra guía sobre [flujos de aprobación human-in-the-loop para agentes de IA](/es/blog/ux-agentes-ia-human-in-the-loop/) ordena las acciones según qué tan reversibles son y a cuánto afectan, para que agregues fricción solo donde vale la pena.
+Cuando la IA pasa de sugerir a hacer. Los borradores, las búsquedas y los resúmenes pueden correr libres porque una persona decide qué pasa después. Cuando una función envía, borra, paga, publica o cambia muchos registros a la vez, suma un paso de aprobación con la acción exacta y los números frente al usuario. Nuestra guía sobre [flujos de aprobación human-in-the-loop para agentes de IA](/es/blog/ux-agentes-ia-human-in-the-loop/) ordena las acciones según qué tan reversibles son y a cuánto afectan, para que agregues fricción solo donde vale la pena. Si el agente va a correr las operaciones de tu propio equipo y no el trabajo de tus clientes, mira [dónde rinden los agentes de IA en procesos internos](/es/blog/agentes-de-ia-para-flujos-internos/).
 
 ## ¿Cómo lanzas y mides una función de IA?
 
