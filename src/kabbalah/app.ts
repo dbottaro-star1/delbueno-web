@@ -1,5 +1,7 @@
 /**
- * Vasija, the Kabbalah app (iOS and Android), published by delbueno SAS with the method of Kevin Jakter.
+ * Vasija, a personal development app inspired by the Kabbalah (iOS and Android), published by delbueno SAS with the
+ * method of Kevin Jakter. Positioning since 26 Nov 2026, after Kevin's feedback: personal development first, the
+ * Kabbalah as inspiration, no religious tone (no "Dios", "Creador", "mística" or "judaísmo" anywhere).
  * Its pages live under /kabbalah/: a landing with the waitlist, and the privacy, support and account deletion pages
  * that the App Store and Google Play ask for. They are Spanish only (Rioplatense, "vos"), like the app.
  *
@@ -9,13 +11,12 @@
 
 export const APP = {
   name: 'Vasija',
-  tagline: 'Kabbalah cotidiana',
+  tagline: 'Crecimiento personal inspirado en la Kabbalah',
   /** Full name next to the logo, on the web and in social media materials. */
-  fullName: 'Vasija - Kabbalah cotidiana',
-  /** Name in the stores (App Store and Google Play). */
-  storeName: 'Vasija: Kabbalah cotidiana',
-  /** Title of Kevin's workbook, the method behind the app. */
-  workbook: 'Kabbalah aplicada a tu vida cotidiana',
+  fullName: 'Vasija: Crecimiento personal inspirado en la Kabbalah',
+  /** Name and subtitle in the stores (App Store and Google Play). Use this form wherever the web names the app there. */
+  storeName: 'Vasija: crecimiento personal',
+  storeSubtitle: 'Inspirado en la Kabbalah',
   teacher: 'Kevin Jakter',
   /** Legal publisher of the app in the stores. */
   publisher: 'delbueno SAS',
@@ -89,3 +90,13 @@ export interface Testimonio {
  * While the list is empty the testimonials section does not show.
  */
 export const TESTIMONIOS: readonly Testimonio[] = [];
+
+/**
+ * Kevin's pack: his course plus the workbook (introduction to the Kabbalah for personal development), pay what you
+ * want. WEB ONLY: never link it from inside the app. App Store and Google Play do not allow pointing to outside
+ * purchases from an app.
+ */
+export const PACK_KEVIN = 'https://kevinjakter.gumroad.com/l/bundle';
+
+/** The Vasija community on WhatsApp. */
+export const COMUNIDAD_WHATSAPP = 'https://chat.whatsapp.com/KS7CNwaLXyuHm5c99BJYGV';

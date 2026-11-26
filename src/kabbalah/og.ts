@@ -14,6 +14,8 @@ const W = 1200;
 const H = 630;
 /** Side of the logo tile, bottom left. The text column runs from y 58 to 572. */
 const LOGO = 60;
+/** Height of the bottom row: the name over the tagline. */
+const FILA = 96;
 
 type Element = Parameters<typeof satori>[0];
 
@@ -43,9 +45,9 @@ function arbol(): string {
     maljut: [160, 428, 'z1'],
   };
   const senderos =
-    'keter-jojma keter-bina keter-tiferet jojma-bina jojma-tiferet jojma-jesed bina-tiferet bina-gevura jesed-gevura ' +
-    'jesed-tiferet jesed-netzaj gevura-tiferet gevura-hod tiferet-netzaj tiferet-yesod tiferet-hod netzaj-hod ' +
-    'netzaj-yesod netzaj-maljut hod-yesod hod-maljut yesod-maljut';
+    'keter-jojma keter-bina keter-tiferet jojma-bina jojma-tiferet jojma-jesed jojma-gevura bina-tiferet bina-gevura ' +
+    'bina-jesed jesed-gevura jesed-tiferet jesed-netzaj gevura-tiferet gevura-hod tiferet-netzaj tiferet-yesod ' +
+    'tiferet-hod netzaj-hod netzaj-yesod hod-yesod yesod-maljut';
   const lineas = senderos
     .split(' ')
     .map((s) => {
@@ -56,14 +58,14 @@ function arbol(): string {
   const circulos = Object.values(nodos)
     .map(([x, y, estado]) => {
       if (estado === 'falta')
-        return `<circle cx="${x}" cy="${y}" r="17" fill="#F2F3F3" stroke="#2F4560" stroke-width="1.5" stroke-dasharray="4 3"/>`;
+        return `<circle cx="${x}" cy="${y}" r="17" fill="#F0F0EE" stroke="#2F4560" stroke-width="1.5"/>`;
       if (estado === 'exceso')
         return (
           `<circle cx="${x}" cy="${y}" r="28" fill="rgba(47,69,96,0.07)"/><circle cx="${x}" cy="${y}" r="22" fill="rgba(47,69,96,0.16)"/>` +
           `<circle cx="${x}" cy="${y}" r="17" fill="#2F4560" stroke="#2F4560" stroke-width="1.5"/>`
         );
       if (estado === 'sin')
-        return `<circle cx="${x}" cy="${y}" r="17" fill="#FAFAFA" stroke="rgba(30,37,48,0.45)" stroke-width="1"/>`;
+        return `<circle cx="${x}" cy="${y}" r="17" fill="#FAFAF9" stroke="rgba(30,37,48,0.45)" stroke-width="1"/>`;
       const fill = estado === 'z1' ? '#A9C4DE' : '#D8C29E';
       return `<circle cx="${x}" cy="${y}" r="17" fill="${fill}" stroke="#1E2530" stroke-width="1.5"/>`;
     })
@@ -95,7 +97,7 @@ function card(): Element {
       width: W,
       height: H,
       padding: '0 72px',
-      backgroundColor: '#F2F3F3',
+      backgroundColor: '#F0F0EE',
       color: '#1E2530',
       justifyContent: 'space-between',
       alignItems: 'center',
@@ -127,24 +129,30 @@ function card(): Element {
               lineHeight: 0.98,
               letterSpacing: '-0.02em',
             },
-            'Kabbalah para hacer, no para leer.',
+            'Un cuaderno para hacer, no para leer.',
           ),
-          h('div', { display: 'flex', alignItems: 'center', gap: 18, width: '100%', height: LOGO }, [
+          h('div', { display: 'flex', alignItems: 'center', gap: 20, width: '100%', height: FILA }, [
             // Room for the logo, drawn after layout.
             h('div', { display: 'flex', width: LOGO, height: (LOGO * 21) / 24 }),
-            h('div', { display: 'flex', fontFamily: 'EB Garamond', fontWeight: 500, fontSize: 46 }, APP.name),
-            h(
-              'div',
-              {
-                display: 'flex',
-                marginLeft: -6,
-                fontFamily: 'EB Garamond',
-                fontWeight: 500,
-                fontSize: 46,
-                color: '#4A5260',
-              },
-              `- ${APP.tagline}`,
-            ),
+            h('div', { display: 'flex', flexDirection: 'column', gap: 8 }, [
+              h(
+                'div',
+                { display: 'flex', fontFamily: 'EB Garamond', fontWeight: 500, fontSize: 52, lineHeight: 1 },
+                APP.name,
+              ),
+              h(
+                'div',
+                {
+                  display: 'flex',
+                  fontFamily: 'EB Garamond',
+                  fontWeight: 500,
+                  fontSize: 28,
+                  lineHeight: 1,
+                  color: '#4A5260',
+                },
+                APP.tagline,
+              ),
+            ]),
           ]),
         ],
       ),
@@ -175,7 +183,7 @@ export async function renderKabbalahOg(): Promise<Uint8Array<ArrayBuffer>> {
   });
   const withArt = svg.replace(
     /<\/svg>\s*$/,
-    `${arbol()}${logo(72, H - 58 - LOGO + (LOGO - (LOGO * 21) / 24) / 2)}</svg>`,
+    `${arbol()}${logo(72, H - 58 - FILA + (FILA - (LOGO * 21) / 24) / 2)}</svg>`,
   );
   const png = new Resvg(withArt, { fitTo: { mode: 'width', value: W } }).render().asPng();
   return sharp(png)

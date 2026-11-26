@@ -1,6 +1,8 @@
 ---
 /**
- * The Tree of Life as the app draws it (design/README.md in the app repo: 320 by 450 canvas, 34 px nodes).
+ * The Tree of Life as the app draws it (design/README.md in the app repo: 320 by 450 canvas, 34 px nodes), with the 22
+ * channels Kevin uses: Maljut joins Yesod only, and Jojmá-Gevurá and Biná-Jesed cross under Daat.
+ * Dashed lines are for Daat alone; "en falta" is a hollow circle with a solid border.
  * Shown as an example of a tree in progress: the first zones painted, the top still to walk.
  * With `animated`, the nodes paint from the bottom up on load (off for prefers-reduced-motion).
  */
@@ -37,8 +39,10 @@ const SENDEROS: [EnergiaId, EnergiaId][] = [
   ['jojma', 'bina'],
   ['jojma', 'tiferet'],
   ['jojma', 'jesed'],
+  ['jojma', 'gevura'],
   ['bina', 'tiferet'],
   ['bina', 'gevura'],
+  ['bina', 'jesed'],
   ['jesed', 'gevura'],
   ['jesed', 'tiferet'],
   ['jesed', 'netzaj'],
@@ -49,9 +53,7 @@ const SENDEROS: [EnergiaId, EnergiaId][] = [
   ['tiferet', 'hod'],
   ['netzaj', 'hod'],
   ['netzaj', 'yesod'],
-  ['netzaj', 'maljut'],
   ['hod', 'yesod'],
-  ['hod', 'maljut'],
   ['yesod', 'maljut'],
 ];
 
@@ -186,11 +188,11 @@ const descripcion = `Árbol de la Vida con sus diez energías. En este ejemplo y
     fill: var(--k-zona3);
   }
 
+  /* Hollow: the fill is the background the tree sits on (--arbol-fondo), so the channels do not show through. */
   .falta .punto {
-    fill: var(--k-papel);
+    fill: var(--arbol-fondo, var(--k-papel));
     stroke: var(--k-pizarra);
     stroke-width: 1.5;
-    stroke-dasharray: 4 3;
   }
 
   .exceso .punto {

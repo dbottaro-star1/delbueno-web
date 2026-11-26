@@ -11,7 +11,7 @@ import plexMono from '@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-500-no
 import JsonLd from '../components/JsonLd.astro';
 import LogoVasija from '../components/kabbalah/LogoVasija.astro';
 import Seo from '../components/Seo.astro';
-import { APP, KABBALAH_PATHS } from '../kabbalah/app';
+import { APP, COMUNIDAD_WHATSAPP, KABBALAH_PATHS } from '../kabbalah/app';
 import { breadcrumbSchema, sitewideSchema, type Crumb, type JsonLdNode } from '../lib/schema';
 import { BRAND, IS_PREVIEW } from '../lib/site';
 import { cspString } from '../../security/csp.mjs';
@@ -31,7 +31,7 @@ const { title, description, trail = [], nav, jsonLd = [] } = Astro.props;
 
 const path = stripBase(Astro.url.pathname);
 const ogImage = absoluteUrl('/kabbalah/og.png', Astro.site);
-const ogAlt = `${APP.fullName}, con el método de ${APP.teacher}. El Árbol de la Vida pintándose.`;
+const ogAlt = `${APP.fullName}. Con el método de ${APP.teacher}: un cuaderno para hacer, no para leer.`;
 const crumbs: Crumb[] = [{ name: BRAND.name, path: '/es/' }, { name: APP.name, path: KABBALAH_PATHS.home }, ...trail];
 const graph: JsonLdNode[] = [sitewideSchema('es'), breadcrumbSchema(crumbs), ...jsonLd];
 
@@ -50,7 +50,7 @@ const copyright = `© ${new Date().getFullYear()} ${APP.publisher}, ${APP.publis
     <meta charset="utf-8" />
     {import.meta.env.PROD && <meta http-equiv="Content-Security-Policy" content={cspString({ meta: true })} />}
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="theme-color" content="#F2F3F3" />
+    <meta name="theme-color" content="#F0F0EE" />
     <meta name="color-scheme" content="light" />
 
     <Seo
@@ -83,8 +83,10 @@ const copyright = `© ${new Date().getFullYear()} ${APP.publisher}, ${APP.publis
       <div class="k-envoltura k-cabecera-in">
         <a class="k-marca" href={url(KABBALAH_PATHS.home)} aria-label={`${APP.fullName}, inicio`}>
           <LogoVasija size={40} animado />
-          <span class="k-marca-nombre">{APP.name}</span>
-          <span class="k-marca-bajada">- {APP.tagline}</span>
+          <span class="k-marca-texto">
+            <span class="k-marca-nombre">{APP.name}</span>
+            <span class="k-marca-bajada">{APP.tagline}</span>
+          </span>
         </a>
         <nav class="k-nav" aria-label="Principal">
           {enlaces.map((l) => (
@@ -104,12 +106,12 @@ const copyright = `© ${new Date().getFullYear()} ${APP.publisher}, ${APP.publis
         <div class="k-pie-marca">
           <span class="k-marca">
             <LogoVasija size={40} />
-            <span class="k-marca-nombre">{APP.name}</span>
-            <span class="k-marca-bajada">- {APP.tagline}</span>
+            <span class="k-marca-texto">
+              <span class="k-marca-nombre">{APP.name}</span>
+              <span class="k-marca-bajada">{APP.tagline}</span>
+            </span>
           </span>
-          <p>
-            {APP.tagline}. El método y los textos son de {APP.teacher}.
-          </p>
+          <p>Una app para crecer haciendo, no leyendo. El método y los textos son de {APP.teacher}.</p>
         </div>
         <ul class="k-pie-links">
           {pie.map((l) => (
@@ -119,6 +121,11 @@ const copyright = `© ${new Date().getFullYear()} ${APP.publisher}, ${APP.publis
               </a>
             </li>
           ))}
+          <li>
+            <a href={COMUNIDAD_WHATSAPP} target="_blank" rel="noopener noreferrer">
+              Comunidad
+            </a>
+          </li>
           <li>
             <a href={`mailto:${APP.email}`}>Contacto</a>
           </li>
