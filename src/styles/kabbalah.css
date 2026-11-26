@@ -397,9 +397,9 @@ main:focus {
   letter-spacing: -0.01em;
 }
 
-/* "Vasija: Crecimiento personal...". The colon is decoration: the aria-label carries the full name. */
-.k-marca-nombre::after {
-  content: ':';
+/* "Vasija - Crecimiento personal...". The dash is decoration: the aria-label carries the full name. */
+.k-marca-bajada::before {
+  content: '- ';
 }
 
 .k-marca-texto {
@@ -415,7 +415,7 @@ main:focus {
   white-space: nowrap;
 }
 
-/* Narrower screens: the tagline goes under the name, smaller, without the colon. */
+/* Narrower screens: the tagline goes under the name, smaller, without the dash. */
 @media (max-width: 1180px) {
   .k-marca-texto {
     flex-direction: column;
@@ -423,7 +423,7 @@ main:focus {
     gap: 5px;
   }
 
-  .k-marca-nombre::after {
+  .k-marca-bajada::before {
     content: none;
   }
 

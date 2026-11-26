@@ -13,7 +13,7 @@ export const APP = {
   name: 'Vasija',
   tagline: 'Crecimiento personal inspirado en la Kabbalah',
   /** Full name next to the logo, on the web and in social media materials. */
-  fullName: 'Vasija: Crecimiento personal inspirado en la Kabbalah',
+  fullName: 'Vasija - Crecimiento personal inspirado en la Kabbalah',
   /** Name and subtitle in the stores (App Store and Google Play). Use this form wherever the web names the app there. */
   storeName: 'Vasija: crecimiento personal',
   storeSubtitle: 'Inspirado en la Kabbalah',
